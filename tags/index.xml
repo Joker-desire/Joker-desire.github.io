@@ -1,16 +1,34 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Tags on Joker desire</title>
+    <title>Tags on Joker-desire</title>
     <link>https://Joker-desire.github.io/tags/</link>
-    <description>Recent content in Tags on Joker desire</description>
+    <description>Recent content in Tags on Joker-desire</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en</language>
-    <lastBuildDate>Wed, 02 Apr 2014 00:00:00 +0000</lastBuildDate><atom:link href="https://Joker-desire.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <language>zh-cn</language>
+    <lastBuildDate>Sun, 12 Jun 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://Joker-desire.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>python</title>
+      <link>https://Joker-desire.github.io/tags/python/</link>
+      <pubDate>Sun, 12 Jun 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://Joker-desire.github.io/tags/python/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>test</title>
+      <link>https://Joker-desire.github.io/tags/test/</link>
+      <pubDate>Sun, 12 Jun 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://Joker-desire.github.io/tags/test/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>development</title>
       <link>https://Joker-desire.github.io/tags/development/</link>
-      <pubDate>Wed, 02 Apr 2014 00:00:00 +0000</pubDate>
+      <pubDate>Sat, 02 Apr 2022 00:00:00 +0000</pubDate>
       
       <guid>https://Joker-desire.github.io/tags/development/</guid>
       <description></description>
@@ -19,7 +37,7 @@
     <item>
       <title>go</title>
       <link>https://Joker-desire.github.io/tags/go/</link>
-      <pubDate>Wed, 02 Apr 2014 00:00:00 +0000</pubDate>
+      <pubDate>Sat, 02 Apr 2022 00:00:00 +0000</pubDate>
       
       <guid>https://Joker-desire.github.io/tags/go/</guid>
       <description></description>
@@ -28,7 +46,7 @@
     <item>
       <title>golang</title>
       <link>https://Joker-desire.github.io/tags/golang/</link>
-      <pubDate>Wed, 02 Apr 2014 00:00:00 +0000</pubDate>
+      <pubDate>Sat, 02 Apr 2022 00:00:00 +0000</pubDate>
       
       <guid>https://Joker-desire.github.io/tags/golang/</guid>
       <description></description>
@@ -37,7 +55,7 @@
     <item>
       <title>hugo</title>
       <link>https://Joker-desire.github.io/tags/hugo/</link>
-      <pubDate>Wed, 02 Apr 2014 00:00:00 +0000</pubDate>
+      <pubDate>Sat, 02 Apr 2022 00:00:00 +0000</pubDate>
       
       <guid>https://Joker-desire.github.io/tags/hugo/</guid>
       <description></description>

@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noodp"/>
+  
+  
+  
+  
+  
+  <link rel="prev" href="https://Joker-desire.github.io/2022/hugoisforlovers/" />
+  <link rel="next" href="https://Joker-desire.github.io/2022/aa/" />
+  <link rel="canonical" href="https://Joker-desire.github.io/2022/%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E9%87%8D%E6%9E%84/" />
+  <link rel='shortcut icon' type='image/x-icon' href='/favicon.ico' />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="theme-color" content="#ffffff">
+  <title>
+       
+       
+           配置文件重构 | Joker-desire
+       
+  </title>
+  <meta name="title" content="配置文件重构 | Joker-desire">
+    
+  
+  <link rel="stylesheet" href="/font/iconfont.css">
+  <link rel="stylesheet" href="/css/main.min.css">
+
+
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="配置文件重构"/>
+<meta name="twitter:description" content="配置文件重构"/>
+
+  <script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "BlogPosting",
+  "headline": "配置文件重构",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https:\/\/Joker-desire.github.io\/2022\/%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E9%87%8D%E6%9E%84\/"
+  },
+  "image": {
+    "@type": "ImageObject",
+    "url": "https:\/\/Joker-desire.github.io\/cover.png",
+    "width":  800 ,
+    "height":  600 
+  },
+  "genre": "posts",
+  "keywords": "python",
+  "wordcount":  309 ,
+  "url": "https:\/\/Joker-desire.github.io\/2022\/%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E9%87%8D%E6%9E%84\/",
+  "datePublished": "2022-06-12T00:00:00\u002b00:00",
+  "dateModified": "2022-06-12T00:00:00\u002b00:00",
+  
+  "publisher": {
+    "@type": "Organization",
+    "name": "Fastbyte01",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https:\/\/Joker-desire.github.io\/logo.png",
+      "width":  127 ,
+      "height":  40 
+    }
+  },
+  "author": {
+    "@type": "Person",
+    "name": "map[name:Joker desire]"
+  },
+  "description": "配置文件重构"
+}
+</script>
+</head>
+
+  
+
+
+
+  <body class="">
+    <div class="wrapper">
+        <nav class="navbar">
+    <div class="container">
+        <div class="navbar-header header-logo">
+        	<a href="https://Joker-desire.github.io">Joker-desire</a>
+        </div>
+        <div class="menu navbar-right">
+                
+                
+                <a class="menu-item" href="/posts/" title="">博客</a>
+                
+                <a class="menu-item" href="/tags/" title="">标签</a>
+                
+                <a class="menu-item" href="/categories/" title="">分类</a>
+                
+                <a class="menu-item" href="/about" title="">关于</a>
+                
+                <a href="javascript:void(0);" class="theme-switch"><i class="iconfont icon-sun"></i></a>&nbsp;
+        </div>
+    </div>
+</nav>
+<nav class="navbar-mobile" id="nav-mobile" style="display: none">
+     <div class="container">
+        <div class="navbar-header">
+            <div>  <a href="javascript:void(0);" class="theme-switch"><i class="iconfont icon-sun"></i></a>&nbsp;<a href="https://Joker-desire.github.io">Joker-desire</a></div>
+            <div class="menu-toggle">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+     
+          <div class="menu" id="mobile-menu">
+                
+                
+                <a class="menu-item" href="/posts/" title="">博客</a>
+                
+                <a class="menu-item" href="/tags/" title="">标签</a>
+                
+                <a class="menu-item" href="/categories/" title="">分类</a>
+                
+                <a class="menu-item" href="/about" title="">关于</a>
+                
+        </div>
+    </div>
+</nav>
+
+    	 <main class="main">
+          <div class="container">
+      		
+<article class="post-warp">
+    <header class="post-header">
+        <h1 class="post-title">配置文件重构</h1>
+        <div class="post-meta">
+            Written by <a href="https://Joker-desire.github.io" rel="author">map[name:Joker desire]</a> with ♥ 
+                <span class="post-time">
+                    on <time datetime=2022-06-12 >12 June 2022</time>
+                </span>
+                in
+                <i class="iconfont icon-folder"></i>
+                <span class="post-category">
+                        <a href="https://Joker-desire.github.io/categories/python/"> Python </a>
+                        
+                </span>
+                <i class="iconfont icon-timer"></i>
+                2 min
+        </div>
+    </header>
+    <div class="post-content">
+        
+
+        
+            
+        
+
+        
+        
+     
+          
+          
+          
+
+          
+          
+          
+
+          <h1 id="一为什么要重构">一、为什么要重构</h1>
+<p><strong>之前的方式，比较low</strong></p>
+<p><figure><img src="/images/ring.svg" data-sizes="auto" data-src="https://cdn.nlark.com/yuque/0/2022/png/1485677/1642760389594-d6910795-21d1-4356-831b-dad7b94e0c00.png" alt="" class="lazyload"><figcaption class="image-caption"></figcaption></figure></p>
+<h1 id="二dynaconf是什么">二、Dynaconf是什么</h1>
+<p><a href="https://www.dynaconf.com/"><figure><img src="/images/ring.svg" data-sizes="auto" data-src="https://cdn.nlark.com/yuque/0/2022/png/1485677/1642757551223-37ad98ad-73a4-4ccd-93d6-2dcc954b8d74.png" alt="" class="lazyload"><figcaption class="image-caption"></figcaption></figure></a></p>
+<ul>
+<li><strong>Dynaconf 是一个旨在成为 Python 中管理配置的最佳选择的库。</strong></li>
+<li><strong>它可以从各种来源读取设置，包括环境变量、文件、配置服务器、保险库等。</strong></li>
+<li><strong>它适用于任何类型的 Python 程序，包括 Flask 和 Django 扩展。</strong></li>
+<li><strong>它是高度可定制且经过大量测试的。</strong></li>
+</ul>
+<h1 id="三怎么使用dynaconf">三、怎么使用Dynaconf</h1>
+<h2 id="31安装dynaconf">3.1、安装Dynaconf</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>pip install dynaconf
+</span></span></code></pre></div><h2 id="32dynaconf初始化文档说明">3.2、Dynaconf初始化文档说明</h2>
+<p><figure><img src="/images/ring.svg" data-sizes="auto" data-src="https://cdn.nlark.com/yuque/0/2022/png/1485677/1643078851091-86456957-2f63-4dc7-9aaa-9172ae2a76d4.png" alt="" class="lazyload"><figcaption class="image-caption"></figcaption></figure></p>
+<h2 id="33初始化一个配置">3.3、初始化一个配置</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>dynaconf init -f toml
+</span></span></code></pre></div><p><strong>自动生成文件↓</strong></p>
+<p><figure><img src="/images/ring.svg" data-sizes="auto" data-src="https://cdn.nlark.com/yuque/0/2022/png/1485677/1643078710203-20df8653-449e-4d4d-bd66-51768320d5da.png" alt="" class="lazyload"><figcaption class="image-caption"></figcaption></figure></p>
+<h2 id="34文件说明">3.4、文件说明</h2>
+<ul>
+<li><code>&lt;span class=&quot;ne-text&quot;&gt;.gitignore&lt;/span&gt;</code>: git <strong>要忽略的文件模式</strong></li>
+</ul>
+<pre tabindex="0"><code class="language-.gitignore" data-lang=".gitignore"># Ignore dynaconf secret files
+.secrets.*
+</code></pre><ul>
+<li><code>&lt;span class=&quot;ne-text&quot;&gt;.secrets.toml&lt;/span&gt;</code>: 密码和令牌等敏感数据(可选)</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-plaintext" data-lang="plaintext"><span style="display:flex;"><span>TOKEN = xxxx
+</span></span></code></pre></div><ul>
+<li><code>&lt;span class=&quot;ne-text&quot;&gt;config.py&lt;/span&gt;</code>: 导入设置对象的地方(必需的)</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> dynaconf <span style="color:#f92672">import</span> Dynaconf
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>settings <span style="color:#f92672">=</span> Dynaconf(
+</span></span><span style="display:flex;"><span>    envvar_prefix<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;DYNACONF&#34;</span>,
+</span></span><span style="display:flex;"><span>    settings_files<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;settings.toml&#39;</span>, <span style="color:#e6db74">&#39;.secrets.toml&#39;</span>], <span style="color:#75715e"># 在项目中此列表元素要填写文件基于项目的相对路径</span>
+</span></span><span style="display:flex;"><span>    environments<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>,
+</span></span><span style="display:flex;"><span>    ENV_FOR_DYNACONF<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;develop&#34;</span>  <span style="color:#75715e"># 修改默认使用的环境，默认为：[development]</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># `envvar_prefix` = export envvars with `export DYNACONF_FOO=bar`.</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># `settings_files` = Load these files in the order.</span>
+</span></span></code></pre></div><ul>
+<li><code>&lt;span class=&quot;ne-text&quot;&gt;settings.toml&lt;/span&gt;</code> : 应用setttings(可选)</li>
+<li><strong>分为三部分：</strong><code>&lt;span class=&quot;ne-text&quot;&gt;[default]&lt;/span&gt;``&lt;span class=&quot;ne-text&quot;&gt;[develop]&lt;/span&gt;``&lt;span class=&quot;ne-text&quot;&gt;[master]&lt;/span&gt;</code></li>
+<li><strong>通过设置环境变量</strong> <code>&lt;span class=&quot;ne-text&quot;&gt;【ENV_FOR_DYNACONF】&lt;/span&gt;</code>进行控制 <code>&lt;span class=&quot;ne-text&quot;&gt;[develop]&lt;/span&gt;``&lt;span class=&quot;ne-text&quot;&gt;[master]&lt;/span&gt;</code></li>
+<li><strong>如果没有设置环境变量，则根据</strong> <code>&lt;span class=&quot;ne-text&quot;&gt;config.py&lt;/span&gt;</code>文件中设置的默认使用环境进行使用</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-plaintext" data-lang="plaintext"><span style="display:flex;"><span>[default]
+</span></span><span style="display:flex;"><span>ALGORITHM = &#34;HS256&#34;
+</span></span><span style="display:flex;"><span>ACCESS_TOKEN_EXPIRE_MINUTES = 44640  # 一个月过期
+</span></span><span style="display:flex;"><span>SQLALCHEMY_DATABASE_URL_1 = &#34;@format mysql+pymysql://{this.DB_USER}:{this.DB_PASSWORD}@{this.DB_HOST}:3306/xxx?charset=utf8&#34;
+</span></span><span style="display:flex;"><span>SQLALCHEMY_DATABASE_URL_2 = &#34;@format mysql+pymysql://{this.DB_USER}:{this.DB_PASSWORD}@{this.DB_HOST}:3306/xxx_ddd?charset=utf8&#34;
+</span></span><span style="display:flex;"><span>SQLALCHEMY_DATABASE_URL_3 = &#34;@format mysql+pymysql://{this.DB_USER}:{this.DB_PASSWORD}@{this.DB_HOST}:3306/xxx_lll?charset=utf8&#34;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>[develop]
+</span></span><span style="display:flex;"><span>BASE_URL = &#34;https://fastapi.debug.com.hk/&#34;
+</span></span><span style="display:flex;"><span>SECRET_KEY = &#34;xxxxxx&#34;
+</span></span><span style="display:flex;"><span>DB_HOST = &#34;192.00.00.00&#34;
+</span></span><span style="display:flex;"><span>DB_USER = &#34;xxxx&#34;
+</span></span><span style="display:flex;"><span>DB_PASSWORD = &#34;xxxxxxxx&#34;
+</span></span><span style="display:flex;"><span>REDIS_HOST = &#39;192.22.22.22&#39;
+</span></span><span style="display:flex;"><span>REDIS_PORT = 6380
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>[master]
+</span></span><span style="display:flex;"><span>BASE_URL = &#34;https://fastapi.com.hk/&#34;
+</span></span><span style="display:flex;"><span>SECRET_KEY = &#34;zzzzzzzzz&#34;
+</span></span><span style="display:flex;"><span>DB_HOST = &#34;192.00.1.12&#34;
+</span></span><span style="display:flex;"><span>DB_USER = &#34;eeee&#34;
+</span></span><span style="display:flex;"><span>DB_PASSWORD = &#34;ddxrrr&#34;
+</span></span><span style="display:flex;"><span>REDIS_HOST = &#39;192.00.00.100&#39;
+</span></span><span style="display:flex;"><span>REDIS_PORT = 6381
+</span></span></code></pre></div><h2 id="35简单使用">3.5、简单使用</h2>
+<h3 id="351-导包">3.5.1. 导包</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> config.config <span style="color:#f92672">import</span> settings
+</span></span></code></pre></div><h3 id="352-获取配置项">3.5.2. 获取配置项</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># default</span>
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">{</span><span style="color:#e6db74">&#39;*&#39;</span><span style="color:#f92672">*</span><span style="color:#ae81ff">10</span><span style="color:#e6db74">}</span><span style="color:#e6db74">==&gt;&gt;default&#34;</span>)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">{</span>settings<span style="color:#f92672">.</span>ALGORITHM<span style="color:#e6db74">=}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">{</span>settings<span style="color:#f92672">.</span>ACCESS_TOKEN_EXPIRE_MINUTES<span style="color:#e6db74">=}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 环境区分</span>
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">{</span><span style="color:#e6db74">&#39;*&#39;</span><span style="color:#f92672">*</span><span style="color:#ae81ff">10</span><span style="color:#e6db74">}</span><span style="color:#e6db74">==&gt;&gt;环境区分: </span><span style="color:#e6db74">{</span>settings<span style="color:#f92672">.</span>ENV_FOR_DYNACONF<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">{</span>settings<span style="color:#f92672">.</span>BASE_URL<span style="color:#e6db74">=}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">{</span>settings<span style="color:#f92672">.</span>SECRET_KEY<span style="color:#e6db74">=}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">{</span>settings<span style="color:#f92672">.</span>DB_HOST<span style="color:#e6db74">=}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">{</span>settings<span style="color:#f92672">.</span>DB_USER<span style="color:#e6db74">=}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">{</span>settings<span style="color:#f92672">.</span>DB_PASSWORD<span style="color:#e6db74">=}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">{</span>settings<span style="color:#f92672">.</span>REDIS_HOST<span style="color:#e6db74">=}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">{</span>settings<span style="color:#f92672">.</span>REDIS_PORT<span style="color:#e6db74">=}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 在default中使用通过环境区分的变量</span>
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">{</span><span style="color:#e6db74">&#39;*&#39;</span><span style="color:#f92672">*</span><span style="color:#ae81ff">10</span><span style="color:#e6db74">}</span><span style="color:#e6db74">==&gt;&gt;在default中使用通过环境区分的变量&#34;</span>)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">{</span>settings<span style="color:#f92672">.</span>SQLALCHEMY_DATABASE_URL_1<span style="color:#e6db74">=}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">{</span>settings<span style="color:#f92672">.</span>SQLALCHEMY_DATABASE_URL_2<span style="color:#e6db74">=}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">{</span>settings<span style="color:#f92672">.</span>SQLALCHEMY_DATABASE_URL_3<span style="color:#e6db74">=}</span><span style="color:#e6db74">&#34;</span>)
+</span></span></code></pre></div><h4 id="1使用默认情况或者-span-classne-textenv_for_dynaconfdevelopspan的配置项">1）使用默认情况（或者 <code>&lt;span class=&quot;ne-text&quot;&gt;ENV_FOR_DYNACONF=develop&lt;/span&gt;</code>）的配置项</h4>
+<p><figure><img src="/images/ring.svg" data-sizes="auto" data-src="https://cdn.nlark.com/yuque/0/2022/png/1485677/1643089492763-5d0121f0-005f-487a-9712-6982770ad733.png" alt="" class="lazyload"><figcaption class="image-caption"></figcaption></figure></p>
+<h4 id="2使用-span-classne-textenv_for_dynaconfmasterspan的自定义配置项">2）使用 <code>&lt;span class=&quot;ne-text&quot;&gt;ENV_FOR_DYNACONF=master&lt;/span&gt;</code>的自定义配置项</h4>
+<p><strong>① 设置环境变量</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>export ENV_FOR_DYNACONF<span style="color:#f92672">=</span>master
+</span></span></code></pre></div><p><strong>② 结果</strong></p>
+<p><figure><img src="/images/ring.svg" data-sizes="auto" data-src="https://cdn.nlark.com/yuque/0/2022/png/1485677/1643089554359-5dada26e-7cc3-4861-8c6f-b278e2f7d807.png" alt="" class="lazyload"><figcaption class="image-caption"></figcaption></figure></p>
+<h2 id="36使用系统环境变量值">3.6、使用系统环境变量值</h2>
+<h3 id="361-自定义系统环境变量前缀">3.6.1. 自定义系统环境变量前缀</h3>
+<p><strong>设置的系统环境变量需要以指定的前缀命名</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>settings <span style="color:#f92672">=</span> Dynaconf(
+</span></span><span style="display:flex;"><span>    envvar_prefix<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;DYNACONF&#34;</span>, <span style="color:#75715e"># 读取系统环境变量的前缀（可自定义）</span>
+</span></span><span style="display:flex;"><span>    settings_files<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;settings.toml&#39;</span>, <span style="color:#e6db74">&#39;.secrets.toml&#39;</span>],
+</span></span><span style="display:flex;"><span>    environments<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>,
+</span></span><span style="display:flex;"><span>    ENV_FOR_DYNACONF<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;develop&#34;</span>  <span style="color:#75715e"># 修改默认使用的环境，默认为：[development]</span>
+</span></span><span style="display:flex;"><span>)
+</span></span></code></pre></div><h3 id="362-设置环境变量">3.6.2. 设置环境变量</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>export DYNACONF_USER<span style="color:#f92672">=</span>Desire
+</span></span><span style="display:flex;"><span>export DYNACONF_PWD<span style="color:#f92672">=</span><span style="color:#ae81ff">123456</span>
+</span></span><span style="display:flex;"><span>export DYNACONF_ACCESS_TOKEN_EXPIRE_MINUTES<span style="color:#f92672">=</span><span style="color:#ae81ff">60</span> <span style="color:#75715e"># 这一个环境变量和配置文件中的名称【ACCESS_TOKEN_EXPIRE_MINUTES】一样</span>
+</span></span></code></pre></div><h3 id="363-读取系统环境变量">3.6.3. 读取系统环境变量</h3>
+<p><strong>按照指定的前缀添加系统环境变量，读取的时候直接忽略前缀即可</strong></p>
+<ul>
+<li><strong>如果读取不存在的系统环境变量则会抛出异常</strong></li>
+<li><strong>如果设置的系统环境变量和配置文件中的同名，则会优先读取系统环境变量的值</strong></li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">{</span>settings<span style="color:#f92672">.</span>USER<span style="color:#e6db74">=}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">{</span>settings<span style="color:#f92672">.</span>PWD<span style="color:#e6db74">=}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">{</span>settings<span style="color:#f92672">.</span>ACCESS_TOKEN_EXPIRE_MINUTES<span style="color:#e6db74">=}</span><span style="color:#e6db74">&#34;</span>)
+</span></span></code></pre></div><p><figure><img src="/images/ring.svg" data-sizes="auto" data-src="https://cdn.nlark.com/yuque/0/2022/png/1485677/1643090515874-2322a863-3ddf-41a4-83ae-492a95d37aba.png" alt="" class="lazyload"><figcaption class="image-caption"></figcaption></figure></p>
+<h1 id="四项目中应用">四、项目中应用</h1>
+<h2 id="41配置文件路径结构span-classne-textfast_apiappcoreconfigspan">4.1、配置文件路径结构（<code>&lt;span class=&quot;ne-text&quot;&gt;fast_api/app/core/config&lt;/span&gt;</code>）</h2>
+<p><figure><img src="/images/ring.svg" data-sizes="auto" data-src="https://cdn.nlark.com/yuque/0/2022/png/1485677/1643091002980-778384d0-deb3-4c7b-8313-a5941614ea11.png" alt="" class="lazyload"><figcaption class="image-caption"></figcaption></figure></p>
+<h2 id="42span-classne-textconfigpyspan配置项中修改-span-classne-textsettings_filesspan使用基于项目的相对路径">4.2、<code>&lt;span class=&quot;ne-text&quot;&gt;config.py&lt;/span&gt;</code>配置项中修改 <code>&lt;span class=&quot;ne-text&quot;&gt;settings_files&lt;/span&gt;</code>使用基于项目的相对路径</h2>
+<p><strong>如果此处直接使用</strong> <code>&lt;span class=&quot;ne-text&quot;&gt;settings_files&lt;/span&gt;&lt;span class=&quot;ne-text&quot;&gt;=['&lt;/span&gt;&lt;span class=&quot;ne-text&quot;&gt;settings.toml&lt;/span&gt;&lt;span class=&quot;ne-text&quot;&gt;','&lt;/span&gt;&lt;span class=&quot;ne-text&quot;&gt;.secrets.toml&lt;/span&gt;&lt;span class=&quot;ne-text&quot;&gt;']&lt;/span&gt;</code>在 <code>&lt;span class=&quot;ne-text&quot;&gt;fast_api/app/core/config&lt;/span&gt;</code>文件夹之外的模块中使用则会报错找不到配置文件位置</p>
+<p><figure><img src="/images/ring.svg" data-sizes="auto" data-src="https://cdn.nlark.com/yuque/0/2022/png/1485677/1643091075421-e2608c21-88ea-44d1-a0a8-91ae4cb5d5c0.png" alt="" class="lazyload"><figcaption class="image-caption"></figcaption></figure></p>
+<h2 id="43添加-span-classne-text__init__pyspan文件">4.3、添加 <code>&lt;span class=&quot;ne-text&quot;&gt;__init__.py&lt;/span&gt;</code>文件</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> app.core.config.config <span style="color:#f92672">import</span> settings
+</span></span></code></pre></div><p><strong>在</strong> <code>&lt;span class=&quot;ne-text&quot;&gt;__init__.py&lt;/span&gt;</code>文件中就一行导包语句，那么我为什么要多此一举呢，是为了在进行配置项导包的时候可以少导一层，这样导包看起来也比较整洁</p>
+<h3 id="添加之前使用配置文件">添加之前使用配置文件</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 导包</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> app.core.config.config <span style="color:#f92672">import</span> settings
+</span></span></code></pre></div><h3 id="添加之后使用配置文件">添加之后使用配置文件</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 导包</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> app.core.config <span style="color:#f92672">import</span> settings
+</span></span></code></pre></div><h2 id="44新增配置项有代码块的配置项">4.4、新增配置项（有代码块的配置项）</h2>
+<p><strong>可以放在</strong> <code>&lt;span class=&quot;ne-text&quot;&gt;__init__.py&lt;/span&gt;</code>文件中，也可以放在 <code>&lt;span class=&quot;ne-text&quot;&gt;settings.py&lt;/span&gt;</code>文件中。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 项目绝对路径配置项</span>
+</span></span><span style="display:flex;"><span>settings<span style="color:#f92672">.</span>BASE_APP_DIR <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>dirname(os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>dirname(os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>dirname(__file__)))
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># or 也可以通过__setattr__()进行添加</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># settings.__setattr__(&#34;BASE_APP_DIR&#34;, os.path.dirname(os.path.dirname(os.path.dirname(__file__))))</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># or 通过字典添加键值对的方式进行添加</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># settings[&#34;BASE_APP_DIR&#34;] = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))</span>
+</span></span></code></pre></div><h1 id="附件">附件</h1>
+<p><strong>【</strong><a href="https://www.dynaconf.com/">Dynaconf官方文档</a>】</p>
+
+    </div>
+
+    <div class="post-copyright">
+             
+            <p class="copyright-item">
+                <span>Author:</span>
+                <span>Joker desire </span>
+                </p>
+            
+           
+            <p class="copyright-item">
+                    <span>Words:</span>
+                   <span>309</span>
+            </p>
+
+            <p class="copyright-item">
+                
+                <span>Share:</span>
+                <span>
+
+      
+        <a href="//twitter.com/share?url=https%3a%2f%2fJoker-desire.github.io%2f2022%2f%25E9%2585%258D%25E7%25BD%25AE%25E6%2596%2587%25E4%25BB%25B6%25E9%2587%258D%25E6%259E%2584%2f&amp;text=%e9%85%8d%e7%bd%ae%e6%96%87%e4%bb%b6%e9%87%8d%e6%9e%84&amp;via=" target="_blank" title="Share on Twitter">
+          <i class="iconfont icon-twitter"></i>
+        </a>
+        
+      
+      
+        <a href="//www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fJoker-desire.github.io%2f2022%2f%25E9%2585%258D%25E7%25BD%25AE%25E6%2596%2587%25E4%25BB%25B6%25E9%2587%258D%25E6%259E%2584%2f" target="_blank" title="Share on Facebook">
+          <i class="iconfont icon-facebook"></i>
+        </a>
+        
+      
+      
+        <a href="//reddit.com/submit?url=https%3a%2f%2fJoker-desire.github.io%2f2022%2f%25E9%2585%258D%25E7%25BD%25AE%25E6%2596%2587%25E4%25BB%25B6%25E9%2587%258D%25E6%259E%2584%2f&amp;title=%e9%85%8d%e7%bd%ae%e6%96%87%e4%bb%b6%e9%87%8d%e6%9e%84" target="_blank" title="Share on Reddit">
+          <i class="iconfont icon-reddit"></i>
+        </a>
+        
+      
+      
+        <a href="//www.linkedin.com/shareArticle?url=https%3a%2f%2fJoker-desire.github.io%2f2022%2f%25E9%2585%258D%25E7%25BD%25AE%25E6%2596%2587%25E4%25BB%25B6%25E9%2587%258D%25E6%259E%2584%2f&amp;title=%e9%85%8d%e7%bd%ae%e6%96%87%e4%bb%b6%e9%87%8d%e6%9e%84" target="_blank" title="Share on LinkedIn">
+          <i class="iconfont icon-linkedin"></i>
+        </a>
+        
+      
+      
+        <a href="//www.pinterest.com/pin/create/button/?url=https%3a%2f%2fJoker-desire.github.io%2f2022%2f%25E9%2585%258D%25E7%25BD%25AE%25E6%2596%2587%25E4%25BB%25B6%25E9%2587%258D%25E6%259E%2584%2f&amp;description=%e9%85%8d%e7%bd%ae%e6%96%87%e4%bb%b6%e9%87%8d%e6%9e%84" target="_blank" title="Share on Pinterest">
+          <i class="iconfont icon-pinterest"></i>
+        </a>
+        
+        
+      
+        <a href="//news.ycombinator.com/submitlink?u=https%3a%2f%2fJoker-desire.github.io%2f2022%2f%25E9%2585%258D%25E7%25BD%25AE%25E6%2596%2587%25E4%25BB%25B6%25E9%2587%258D%25E6%259E%2584%2f&amp;description=%e9%85%8d%e7%bd%ae%e6%96%87%e4%bb%b6%e9%87%8d%e6%9e%84" target="_blank" title="Share on Hacker News">
+          <i class="iconfont icon-ycombinator"></i>
+        </a>
+        
+        
+      
+        <a href="//mix.com/add?url=https%3a%2f%2fJoker-desire.github.io%2f2022%2f%25E9%2585%258D%25E7%25BD%25AE%25E6%2596%2587%25E4%25BB%25B6%25E9%2587%258D%25E6%259E%2584%2f&amp;description=%e9%85%8d%e7%bd%ae%e6%96%87%e4%bb%b6%e9%87%8d%e6%9e%84" target="_blank" title="Share on Mix">
+            <i class="iconfont icon-mix"></i>
+          </a>
+          
+
+          
+        <a href="//www.tumblr.com/widgets/share/tool?canonicalUrl=https%3a%2f%2fJoker-desire.github.io%2f2022%2f%25E9%2585%258D%25E7%25BD%25AE%25E6%2596%2587%25E4%25BB%25B6%25E9%2587%258D%25E6%259E%2584%2f&amp;title=%e9%85%8d%e7%bd%ae%e6%96%87%e4%bb%b6%e9%87%8d%e6%9e%84" target="_blank" title="Share on Tumblr">
+            <i class="iconfont icon-tumblr"></i>
+          </a>
+          
+
+          
+        <a href="//vk.com/share.php?url=https%3a%2f%2fJoker-desire.github.io%2f2022%2f%25E9%2585%258D%25E7%25BD%25AE%25E6%2596%2587%25E4%25BB%25B6%25E9%2587%258D%25E6%259E%2584%2f&amp;title=%e9%85%8d%e7%bd%ae%e6%96%87%e4%bb%b6%e9%87%8d%e6%9e%84" target="_blank" title="Share on VKontakte ">
+            <i class="iconfont icon-vk"></i>
+          </a>
+          
+
+          
+        <a href="//www.douban.com/recommend/?url=https%3a%2f%2fJoker-desire.github.io%2f2022%2f%25E9%2585%258D%25E7%25BD%25AE%25E6%2596%2587%25E4%25BB%25B6%25E9%2587%258D%25E6%259E%2584%2f&amp;title=%e9%85%8d%e7%bd%ae%e6%96%87%e4%bb%b6%e9%87%8d%e6%9e%84" target="_blank" title="Share on Douban ">
+            <i class="iconfont icon-douban"></i>
+          </a>
+          
+
+          
+        <a href="//service.weibo.com/share/share.php?url=https%3a%2f%2fJoker-desire.github.io%2f2022%2f%25E9%2585%258D%25E7%25BD%25AE%25E6%2596%2587%25E4%25BB%25B6%25E9%2587%258D%25E6%259E%2584%2f&amp;appkey=&amp;title=%e9%85%8d%e7%bd%ae%e6%96%87%e4%bb%b6%e9%87%8d%e6%9e%84" target="_blank" title="Share on Douban ">
+            <i class="iconfont icon-weibo"></i>
+          </a>
+          
+
+</span>
+                
+            </p>
+
+             
+            <p class="copyright-item">
+                Released under <a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a>
+            </p>
+            
+    </div>
+
+  
+    <div class="post-tags">
+        
+            <section>
+            <i class="iconfont icon-icon-tag"></i>Tag: 
+            
+            <span class="tag"><a href="https://Joker-desire.github.io/tags/python/">
+                    #python</a></span>
+            
+            </section>
+        
+        <section>
+                <a href="javascript:window.history.back();">Back</a></span> · 
+                <span><a href="https://Joker-desire.github.io">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav">
+        
+        <a href="https://Joker-desire.github.io/2022/hugoisforlovers/" class="prev" rel="prev" title="Getting Started with Hugo"><i class="iconfont icon-dajiantou"></i>&nbsp;Getting Started with Hugo</a>
+         
+        
+        <a href="https://Joker-desire.github.io/2022/aa/" class="next" rel="next" title="测试">测试&nbsp;<i class="iconfont icon-xiaojiantou"></i></a>
+        
+    </div>
+
+    <div class="post-comment">
+          
+          <div id="disqus_thread"></div>
+  <script type="text/javascript">
+      (function() {
+          
+          
+          if (window.location.hostname == "localhost")
+              return;
+          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+          var disqus_shortname = 'desire';
+          dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  <a href="https://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a><span id="/2022/%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E9%87%8D%E6%9E%84/" class="leancloud_visitors" data-flag-title="配置文件重构">
+            <span class="post-meta-item-text"> Visitors: </span>
+            <span class="leancloud-visitors-count">0</span>
+            <p></p>
+        </span><div id="vcomments"></div>
+        <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+        <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+        <script type="text/javascript">
+            new Valine({
+                el: '#vcomments',
+                lang: "zh-cn",
+                appId: "TVeQlqkguTzJm2wN5wRTliSv-gzGzoHsz",
+                appKey: "w8704owiYHo164QFgFgosMvJ",
+                notify:  false ,
+                verify:  false ,
+                avatar: "mm",
+                placeholder: "your comments ...",
+                visitor:  true ,
+            });
+        </script>
+
+ 
+
+          
+    </div>
+</article>
+          </div>
+		   </main>
+      <footer class="footer">
+    <div class="copyright">
+        &copy;
+        
+        <span itemprop="copyrightYear">2022 - 2022</span>
+        
+         
+            <span class="author" itemprop="copyrightHolder"><a href="https://Joker-desire.github.io">Joker desire</a> | </span>
+         
+
+		  <span>Crafted with ❤️ by <a href="https://github.com/Fastbyte01/KeepIt" target="_blank" rel="external nofollow noopener noreffer">KeepIt</a> & <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreffer">Hugo</a></span>
+    </div>
+</footer>
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    <link crossorigin="anonymous" integrity="sha384-yziQACfvCVwLqVFLqkWBYRO3XeA4EqzfXKGwaWnenYn5XzqfJFlFdKEmvutIQdKb" href="https://lib.baomitu.com/lightgallery/1.10.0/css/lightgallery.min.css" rel="stylesheet">
+      
+     <script src="/js/vendor_gallery.min.js" async="" ></script>
+    
+  
+
+
+
+
+
+
+
+     </div>
+  </body>
+</html>
