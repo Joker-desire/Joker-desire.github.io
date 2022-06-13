@@ -1,49 +1,91 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>Joker-desire on Joker-desire</title>
-    <link>https://Joker-desire.github.io/</link>
-    <description>Recent content in Joker-desire on Joker-desire</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>zh-cn</language>
-    <lastBuildDate>Sun, 12 Jun 2022 00:00:00 +0000</lastBuildDate>
-    <atom:link href="https://Joker-desire.github.io/" rel="self" type="application/rss+xml" />
-    
-    <item>
-      <title>About</title>
-      <link>https://Joker-desire.github.io/about/</link>
-      <pubDate>Sun, 12 Jun 2022 00:00:00 +0000</pubDate>
-      
-      <guid>https://Joker-desire.github.io/about/</guid>
-      <description>&lt;p&gt;Hugo is the &lt;strong&gt;world’s fastest framework for building websites&lt;/strong&gt;. It is written in Go.&lt;/p&gt;
-&lt;p&gt;It makes use of a variety of open source projects including:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/russross/blackfriday&#34;&gt;https://github.com/russross/blackfriday&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/alecthomas/chroma&#34;&gt;https://github.com/alecthomas/chroma&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/muesli/smartcrop&#34;&gt;https://github.com/muesli/smartcrop&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/spf13/cobra&#34;&gt;https://github.com/spf13/cobra&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/spf13/viper&#34;&gt;https://github.com/spf13/viper&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;Learn more and contribute on &lt;a href=&#34;https://github.com/gohugoio&#34;&gt;GitHub&lt;/a&gt;.&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Posts</title>
-      <link>https://Joker-desire.github.io/posts/</link>
-      <pubDate>Sun, 12 Jun 2022 00:00:00 +0000</pubDate>
-      
-      <guid>https://Joker-desire.github.io/posts/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Projects</title>
-      <link>https://Joker-desire.github.io/projects/</link>
-      <pubDate>Mon, 10 Mar 2014 00:00:00 +0000</pubDate>
-      
-      <guid>https://Joker-desire.github.io/projects/</guid>
-      <description></description>
-    </item>
-    
-  </channel>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Joker-desire&#39;s Blog</title>
+        <link>https://Joker-desire.github.io/</link>
+        <description>Joker-desire&#39;s blog</description>
+        <generator>Hugo -- gohugo.io</generator><lastBuildDate>Mon, 13 Jun 2022 17:42:43 &#43;0800</lastBuildDate>
+            <atom:link href="https://Joker-desire.github.io/index.xml" rel="self" type="application/rss+xml" />
+        <item>
+    <title>主题文档 - 基本概念</title>
+    <link>https://Joker-desire.github.io/2020/03/theme-documentation-basics/</link>
+    <pubDate>Fri, 06 Mar 2020 21:40:32 &#43;0800</pubDate>
+    <author>Dillon</author>
+    <guid>https://Joker-desire.github.io/2020/03/theme-documentation-basics/</guid>
+    <description><![CDATA[<p>探索 Hugo - <strong>LoveIt</strong> 主题的全部内容和背后的核心概念.</p>]]></description>
+</item>
+<item>
+    <title>主题文档 - 内容</title>
+    <link>https://Joker-desire.github.io/2020/03/theme-documentation-content/</link>
+    <pubDate>Thu, 05 Mar 2020 16:30:05 &#43;0800</pubDate>
+    <author>Dillon</author>
+    <guid>https://Joker-desire.github.io/2020/03/theme-documentation-content/</guid>
+    <description><![CDATA[<p>了解如何在 <strong>LoveIt</strong> 主题中快速, 直观地创建和组织内容.</p>]]></description>
+</item>
+<item>
+    <title>主题文档 - 内置 Shortcodes</title>
+    <link>https://Joker-desire.github.io/2020/03/theme-documentation-built-in-shortcodes/</link>
+    <pubDate>Wed, 04 Mar 2020 16:29:59 &#43;0800</pubDate>
+    <author>Dillon</author>
+    <guid>https://Joker-desire.github.io/2020/03/theme-documentation-built-in-shortcodes/</guid>
+    <description><![CDATA[<p><strong>Hugo</strong> 提供了多个内置的 Shortcodes, 以方便作者保持 Markdown 内容的整洁.</p>]]></description>
+</item>
+<item>
+    <title>主题文档 - 扩展 Shortcodes</title>
+    <link>https://Joker-desire.github.io/2020/03/theme-documentation-extended-shortcodes/</link>
+    <pubDate>Tue, 03 Mar 2020 16:29:59 &#43;0800</pubDate>
+    <author>Dillon</author>
+    <guid>https://Joker-desire.github.io/2020/03/theme-documentation-extended-shortcodes/</guid>
+    <description><![CDATA[<p><strong>LoveIt</strong> 主题在 Hugo 内置的 shortcode 的基础上提供多个扩展的 shortcode.</p>]]></description>
+</item>
+<item>
+    <title>Markdown 基本语法</title>
+    <link>https://Joker-desire.github.io/2019/12/basic-markdown-syntax/</link>
+    <pubDate>Sun, 01 Dec 2019 21:57:40 &#43;0800</pubDate>
+    <author>Dillon</author>
+    <guid>https://Joker-desire.github.io/2019/12/basic-markdown-syntax/</guid>
+    <description><![CDATA[<p>这篇文章提供了可以在 Hugo 的文章中使用的基本 Markdown 语法示例.</p>]]></description>
+</item>
+<item>
+    <title>主题文档 - mermaid Shortcode</title>
+    <link>https://Joker-desire.github.io/2020/03/theme-documentation-mermaid-shortcode/</link>
+    <pubDate>Tue, 03 Mar 2020 15:29:59 &#43;0800</pubDate>
+    <author>Dillon</author>
+    <guid>https://Joker-desire.github.io/2020/03/theme-documentation-mermaid-shortcode/</guid>
+    <description><![CDATA[<a href="https://github.com/dillonzq/LoveIt/releases/tag/v0.2.11" rel="noopener noreffer" target="_blank"></a>
+<p><code>mermaid</code> shortcode 使用 <a href="https://mermaidjs.github.io/" target="_blank" rel="noopener noreffer">Mermaid</a> 库提供绘制图表和流程图的功能.</p>]]></description>
+</item>
+<item>
+    <title>Emoji 支持</title>
+    <link>https://Joker-desire.github.io/2019/10/emoji-support/</link>
+    <pubDate>Tue, 01 Oct 2019 17:55:28 &#43;0800</pubDate>
+    <author>Dillon</author>
+    <guid>https://Joker-desire.github.io/2019/10/emoji-support/</guid>
+    <description><![CDATA[<p>Emoji 可以通过多种方式在 Hugo 项目中启用.</p>]]></description>
+</item>
+<item>
+    <title>主题文档 - echarts Shortcode</title>
+    <link>https://Joker-desire.github.io/2020/03/theme-documentation-echarts-shortcode/</link>
+    <pubDate>Tue, 03 Mar 2020 14:29:59 &#43;0800</pubDate>
+    <author>Dillon</author>
+    <guid>https://Joker-desire.github.io/2020/03/theme-documentation-echarts-shortcode/</guid>
+    <description><![CDATA[<p><code>echarts</code> shortcode 使用 <a href="https://echarts.apache.org/" target="_blank" rel="noopener noreffer">ECharts</a> 库提供数据可视化的功能.</p>]]></description>
+</item>
+<item>
+    <title>主题文档 - mapbox Shortcode</title>
+    <link>https://Joker-desire.github.io/2020/03/theme-documentation-mapbox-shortcode/</link>
+    <pubDate>Tue, 03 Mar 2020 13:29:59 &#43;0800</pubDate>
+    <author>Dillon</author>
+    <guid>https://Joker-desire.github.io/2020/03/theme-documentation-mapbox-shortcode/</guid>
+    <description><![CDATA[<a href="https://github.com/dillonzq/LoveIt/releases/tag/v0.2.0" rel="noopener noreffer" target="_blank"></a>
+<p><code>mapbox</code> shortcode 使用 <a href="https://docs.mapbox.com/mapbox-gl-js" target="_blank" rel="noopener noreffer">Mapbox GL JS</a> 库提供互动式地图的功能.</p>]]></description>
+</item>
+<item>
+    <title>主题文档 - music Shortcode</title>
+    <link>https://Joker-desire.github.io/2020/03/theme-documentation-music-shortcode/</link>
+    <pubDate>Tue, 03 Mar 2020 12:29:59 &#43;0800</pubDate>
+    <author>Dillon</author>
+    <guid>https://Joker-desire.github.io/2020/03/theme-documentation-music-shortcode/</guid>
+    <description><![CDATA[<p><code>music</code> shortcode 基于 <a href="https://github.com/MoePlayer/APlayer" target="_blank" rel="noopener noreffer">APlayer</a> 和 <a href="https://github.com/metowolf/MetingJS" target="_blank" rel="noopener noreffer">MetingJS</a> 库提供了一个内嵌的响应式音乐播放器.</p>]]></description>
+</item>
+</channel>
 </rss>

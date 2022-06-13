@@ -1,86 +1,89 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>Posts on Joker-desire</title>
-    <link>https://Joker-desire.github.io/posts/</link>
-    <description>Recent content in Posts on Joker-desire</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>zh-cn</language>
-    <lastBuildDate>Sun, 12 Jun 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://Joker-desire.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>Creating a New Theme</title>
-      <link>https://Joker-desire.github.io/2014/creating-a-new-theme/</link>
-      <pubDate>Sun, 28 Sep 2014 00:00:00 +0000</pubDate>
-      
-      <guid>https://Joker-desire.github.io/2014/creating-a-new-theme/</guid>
-      <description>Introduction This tutorial will show you how to create a simple theme in Hugo. I assume that you are familiar with HTML, the bash command line, and that you are comfortable using Markdown to format content. I&amp;rsquo;ll explain how Hugo uses templates and how you can organize your templates to create a theme. I won&amp;rsquo;t cover using CSS to style your theme.
-We&amp;rsquo;ll start with creating a new site with a very basic template.</description>
-    </item>
-    
-    <item>
-      <title>Migrate to Hugo from Jekyll</title>
-      <link>https://Joker-desire.github.io/2014/migrate-from-jekyll/</link>
-      <pubDate>Mon, 10 Mar 2014 00:00:00 +0000</pubDate>
-      
-      <guid>https://Joker-desire.github.io/2014/migrate-from-jekyll/</guid>
-      <description>Move static content to static Jekyll has a rule that any directory not starting with _ will be copied as-is to the _site output. Hugo keeps all static content under static. You should therefore move it all there. With Jekyll, something that looked like
-▾ &amp;lt;root&amp;gt;/ ▾ images/ logo.png should become
-▾ &amp;lt;root&amp;gt;/ ▾ static/ ▾ images/ logo.png Additionally, you&amp;rsquo;ll want any files that should reside at the root (such as CNAME) to be moved to static.</description>
-    </item>
-    
-    <item>
-      <title>测试</title>
-      <link>https://Joker-desire.github.io/2022/aa/</link>
-      <pubDate>Sun, 12 Jun 2022 00:00:00 +0000</pubDate>
-      
-      <guid>https://Joker-desire.github.io/2022/aa/</guid>
-      <description>Test 这是一个测试博客，请忽略</description>
-    </item>
-    
-    <item>
-      <title>配置文件重构</title>
-      <link>https://Joker-desire.github.io/2022/%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E9%87%8D%E6%9E%84/</link>
-      <pubDate>Sun, 12 Jun 2022 00:00:00 +0000</pubDate>
-      
-      <guid>https://Joker-desire.github.io/2022/%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E9%87%8D%E6%9E%84/</guid>
-      <description>一、为什么要重构 之前的方式，比较low
-二、Dynaconf是什么 Dynaconf 是一个旨在成为 Python 中管理配置的最佳选择的库。 它可以从各种来源读取设置，包括环境变量、文件、配置服务器、保险库等。 它适用于任何类型的 Python 程序，包括 Flask 和 Django 扩展。 它是高度可定制且经过大量测试的。 三、怎么使用Dynaconf 3.1、安装Dynaconf pip install dynaconf 3.2、Dynaconf初始化文档说明 3.3、初始化一个配置 dynaconf init -f toml 自动生成文件↓
-3.4、文件说明 &amp;lt;span class=&amp;quot;ne-text&amp;quot;&amp;gt;.gitignore&amp;lt;/span&amp;gt;: git 要忽略的文件模式 # Ignore dynaconf secret files .secrets.* &amp;lt;span class=&amp;quot;ne-text&amp;quot;&amp;gt;.secrets.toml&amp;lt;/span&amp;gt;: 密码和令牌等敏感数据(可选) TOKEN = xxxx &amp;lt;span class=&amp;quot;ne-text&amp;quot;&amp;gt;config.py&amp;lt;/span&amp;gt;: 导入设置对象的地方(必需的) from dynaconf import Dynaconf settings = Dynaconf( envvar_prefix=&amp;#34;DYNACONF&amp;#34;, settings_files=[&amp;#39;settings.toml&amp;#39;, &amp;#39;.secrets.toml&amp;#39;], # 在项目中此列表元素要填写文件基于项目的相对路径 environments=True, ENV_FOR_DYNACONF=&amp;#34;develop&amp;#34; # 修改默认使用的环境，默认为：[development] ) # `envvar_prefix` = export envvars with `export DYNACONF_FOO=bar`.</description>
-    </item>
-    
-    <item>
-      <title>Getting Started with Hugo</title>
-      <link>https://Joker-desire.github.io/2022/hugoisforlovers/</link>
-      <pubDate>Sat, 02 Apr 2022 00:00:00 +0000</pubDate>
-      
-      <guid>https://Joker-desire.github.io/2022/hugoisforlovers/</guid>
-      <description>Step 1. Install Hugo Go to Hugo releases and download the appropriate version for your OS and architecture.
-Save it somewhere specific as we will be using it in the next step.
-More complete instructions are available at Install Hugo
-Step 2. Build the Docs Hugo has its own example site which happens to also be the documentation site you are reading right now.
-Follow the following steps:
-Clone the Hugo repository Go into the repo Run hugo in server mode and build the docs Open your browser to http://localhost:1313 Corresponding pseudo commands:</description>
-    </item>
-    
-    <item>
-      <title>(Hu)go Template Primer</title>
-      <link>https://Joker-desire.github.io/2014/goisforlovers/</link>
-      <pubDate>Wed, 02 Apr 2014 00:00:00 +0000</pubDate>
-      
-      <guid>https://Joker-desire.github.io/2014/goisforlovers/</guid>
-      <description>Hugo uses the excellent Go html/template library for its template engine. It is an extremely lightweight engine that provides a very small amount of logic. In our experience that it is just the right amount of logic to be able to create a good static website. If you have used other template systems from different languages or frameworks you will find a lot of similarities in Go templates.
-This document is a brief primer on using Go templates.</description>
-    </item>
-    
-    <item>
-      <title>Introduction aux modèles (Hu)go</title>
-      <link>https://Joker-desire.github.io/2014/goisforlovers.fr/</link>
-      <pubDate>Wed, 02 Apr 2014 00:00:00 +0000</pubDate>
-      
-      <guid>https://Joker-desire.github.io/2014/goisforlovers.fr/</guid>
-      <description>Hugo utilise l&amp;rsquo;excellente librairie go html/template pour son moteur de modèles. c&amp;rsquo;est un moteur extrêmement léger qui offre un très petit nombre de fonctions logiques. À notre expérience, c&amp;rsquo;est juste ce qu&amp;rsquo;il faut pour créer un bon site web statique. Si vous avez déjà utilisé d&amp;rsquo;autre moteurs de modèles pour différents langages ou frameworks, vous allez retrouver beaucoup de similitudes avec les modèles go.
-Ce document est une introduction sur l&amp;rsquo;utilisation de Go templates.</description>
-    </item>
-    
-  </channel>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>所有文章 - Joker-desire&#39;s Blog</title>
+        <link>https://Joker-desire.github.io/posts/</link>
+        <description>所有文章 | Joker-desire&#39;s Blog</description>
+        <generator>Hugo -- gohugo.io</generator><lastBuildDate>Mon, 13 Jun 2022 17:42:43 &#43;0800</lastBuildDate><atom:link href="https://Joker-desire.github.io/posts/" rel="self" type="application/rss+xml" /><item>
+    <title>主题文档 - 基本概念</title>
+    <link>https://Joker-desire.github.io/2020/03/theme-documentation-basics/</link>
+    <pubDate>Fri, 06 Mar 2020 21:40:32 &#43;0800</pubDate>
+    <author>Dillon</author>
+    <guid>https://Joker-desire.github.io/2020/03/theme-documentation-basics/</guid>
+    <description><![CDATA[<p>探索 Hugo - <strong>LoveIt</strong> 主题的全部内容和背后的核心概念.</p>]]></description>
+</item>
+<item>
+    <title>主题文档 - 内容</title>
+    <link>https://Joker-desire.github.io/2020/03/theme-documentation-content/</link>
+    <pubDate>Thu, 05 Mar 2020 16:30:05 &#43;0800</pubDate>
+    <author>Dillon</author>
+    <guid>https://Joker-desire.github.io/2020/03/theme-documentation-content/</guid>
+    <description><![CDATA[<p>了解如何在 <strong>LoveIt</strong> 主题中快速, 直观地创建和组织内容.</p>]]></description>
+</item>
+<item>
+    <title>主题文档 - 内置 Shortcodes</title>
+    <link>https://Joker-desire.github.io/2020/03/theme-documentation-built-in-shortcodes/</link>
+    <pubDate>Wed, 04 Mar 2020 16:29:59 &#43;0800</pubDate>
+    <author>Dillon</author>
+    <guid>https://Joker-desire.github.io/2020/03/theme-documentation-built-in-shortcodes/</guid>
+    <description><![CDATA[<p><strong>Hugo</strong> 提供了多个内置的 Shortcodes, 以方便作者保持 Markdown 内容的整洁.</p>]]></description>
+</item>
+<item>
+    <title>主题文档 - 扩展 Shortcodes</title>
+    <link>https://Joker-desire.github.io/2020/03/theme-documentation-extended-shortcodes/</link>
+    <pubDate>Tue, 03 Mar 2020 16:29:59 &#43;0800</pubDate>
+    <author>Dillon</author>
+    <guid>https://Joker-desire.github.io/2020/03/theme-documentation-extended-shortcodes/</guid>
+    <description><![CDATA[<p><strong>LoveIt</strong> 主题在 Hugo 内置的 shortcode 的基础上提供多个扩展的 shortcode.</p>]]></description>
+</item>
+<item>
+    <title>Markdown 基本语法</title>
+    <link>https://Joker-desire.github.io/2019/12/basic-markdown-syntax/</link>
+    <pubDate>Sun, 01 Dec 2019 21:57:40 &#43;0800</pubDate>
+    <author>Dillon</author>
+    <guid>https://Joker-desire.github.io/2019/12/basic-markdown-syntax/</guid>
+    <description><![CDATA[<p>这篇文章提供了可以在 Hugo 的文章中使用的基本 Markdown 语法示例.</p>]]></description>
+</item>
+<item>
+    <title>主题文档 - mermaid Shortcode</title>
+    <link>https://Joker-desire.github.io/2020/03/theme-documentation-mermaid-shortcode/</link>
+    <pubDate>Tue, 03 Mar 2020 15:29:59 &#43;0800</pubDate>
+    <author>Dillon</author>
+    <guid>https://Joker-desire.github.io/2020/03/theme-documentation-mermaid-shortcode/</guid>
+    <description><![CDATA[<a href="https://github.com/dillonzq/LoveIt/releases/tag/v0.2.11" rel="noopener noreffer" target="_blank"></a>
+<p><code>mermaid</code> shortcode 使用 <a href="https://mermaidjs.github.io/" target="_blank" rel="noopener noreffer">Mermaid</a> 库提供绘制图表和流程图的功能.</p>]]></description>
+</item>
+<item>
+    <title>Emoji 支持</title>
+    <link>https://Joker-desire.github.io/2019/10/emoji-support/</link>
+    <pubDate>Tue, 01 Oct 2019 17:55:28 &#43;0800</pubDate>
+    <author>Dillon</author>
+    <guid>https://Joker-desire.github.io/2019/10/emoji-support/</guid>
+    <description><![CDATA[<p>Emoji 可以通过多种方式在 Hugo 项目中启用.</p>]]></description>
+</item>
+<item>
+    <title>主题文档 - echarts Shortcode</title>
+    <link>https://Joker-desire.github.io/2020/03/theme-documentation-echarts-shortcode/</link>
+    <pubDate>Tue, 03 Mar 2020 14:29:59 &#43;0800</pubDate>
+    <author>Dillon</author>
+    <guid>https://Joker-desire.github.io/2020/03/theme-documentation-echarts-shortcode/</guid>
+    <description><![CDATA[<p><code>echarts</code> shortcode 使用 <a href="https://echarts.apache.org/" target="_blank" rel="noopener noreffer">ECharts</a> 库提供数据可视化的功能.</p>]]></description>
+</item>
+<item>
+    <title>主题文档 - mapbox Shortcode</title>
+    <link>https://Joker-desire.github.io/2020/03/theme-documentation-mapbox-shortcode/</link>
+    <pubDate>Tue, 03 Mar 2020 13:29:59 &#43;0800</pubDate>
+    <author>Dillon</author>
+    <guid>https://Joker-desire.github.io/2020/03/theme-documentation-mapbox-shortcode/</guid>
+    <description><![CDATA[<a href="https://github.com/dillonzq/LoveIt/releases/tag/v0.2.0" rel="noopener noreffer" target="_blank"></a>
+<p><code>mapbox</code> shortcode 使用 <a href="https://docs.mapbox.com/mapbox-gl-js" target="_blank" rel="noopener noreffer">Mapbox GL JS</a> 库提供互动式地图的功能.</p>]]></description>
+</item>
+<item>
+    <title>主题文档 - music Shortcode</title>
+    <link>https://Joker-desire.github.io/2020/03/theme-documentation-music-shortcode/</link>
+    <pubDate>Tue, 03 Mar 2020 12:29:59 &#43;0800</pubDate>
+    <author>Dillon</author>
+    <guid>https://Joker-desire.github.io/2020/03/theme-documentation-music-shortcode/</guid>
+    <description><![CDATA[<p><code>music</code> shortcode 基于 <a href="https://github.com/MoePlayer/APlayer" target="_blank" rel="noopener noreffer">APlayer</a> 和 <a href="https://github.com/metowolf/MetingJS" target="_blank" rel="noopener noreffer">MetingJS</a> 库提供了一个内嵌的响应式音乐播放器.</p>]]></description>
+</item>
+</channel>
 </rss>
