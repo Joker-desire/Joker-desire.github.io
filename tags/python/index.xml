@@ -1,11 +1,9 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
     <channel>
-        <title>Joker-desire&#39;s Blog</title>
-        <link>https://Joker-desire.github.io/</link>
-        <description>Joker-desire&#39;s blog</description>
-        <generator>Hugo -- gohugo.io</generator><lastBuildDate>Wed, 06 Apr 2022 18:29:14 &#43;0800</lastBuildDate>
-            <atom:link href="https://Joker-desire.github.io/index.xml" rel="self" type="application/rss+xml" />
-        <item>
+        <title>Python - 标签 - Joker-desire&#39;s Blog</title>
+        <link>https://Joker-desire.github.io/tags/python/</link>
+        <description>Python - 标签 - Joker-desire&#39;s Blog</description>
+        <generator>Hugo -- gohugo.io</generator><lastBuildDate>Wed, 06 Apr 2022 18:29:14 &#43;0800</lastBuildDate><atom:link href="https://Joker-desire.github.io/tags/python/" rel="self" type="application/rss+xml" /><item>
     <title>配置文件重构</title>
     <link>https://Joker-desire.github.io/2022/04/%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E9%87%8D%E6%9E%84/</link>
     <pubDate>Wed, 06 Apr 2022 18:29:14 &#43;0800</pubDate>
