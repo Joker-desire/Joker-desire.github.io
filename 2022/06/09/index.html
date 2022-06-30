@@ -4,34 +4,34 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="robots" content="noodp" />
-        <title>Go指针 - Joker-desire&#39;s Blog</title><meta name="Description" content="Joker-desire&#39;s blog"><meta property="og:title" content="Go指针" />
-<meta property="og:description" content="Go指针 基本介绍 基本数据类型，变量存的就是值，也叫值类型 获取变量的地址，用&amp; 1 2 var i int = 10 fmt.Println(&#34;i的地址" />
+        <title>Go标识符 - Joker-desire&#39;s Blog</title><meta name="Description" content="Joker-desire&#39;s blog"><meta property="og:title" content="Go标识符" />
+<meta property="og:description" content="Go标识符 Go标识符的命名规范 标识符概念 Go对各种变量、方法、函数等命名时使用的字符序列称为标识符 凡是自己可以起名字的地方都叫标识符 标识符的" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://Joker-desire.github.io/2022/06/07/" /><meta property="og:image" content="https://Joker-desire.github.io/logo.png"/><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2022-06-30T16:34:16+08:00" />
-<meta property="article:modified_time" content="2022-06-30T16:34:16+08:00" /><meta property="og:site_name" content="Joker desire" />
+<meta property="og:url" content="https://Joker-desire.github.io/2022/06/09/" /><meta property="og:image" content="https://Joker-desire.github.io/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-06-30T18:26:05+08:00" />
+<meta property="article:modified_time" content="2022-06-30T18:26:05+08:00" /><meta property="og:site_name" content="Joker desire" />
 
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://Joker-desire.github.io/logo.png"/>
 
-<meta name="twitter:title" content="Go指针"/>
-<meta name="twitter:description" content="Go指针 基本介绍 基本数据类型，变量存的就是值，也叫值类型 获取变量的地址，用&amp; 1 2 var i int = 10 fmt.Println(&#34;i的地址"/>
+<meta name="twitter:title" content="Go标识符"/>
+<meta name="twitter:description" content="Go标识符 Go标识符的命名规范 标识符概念 Go对各种变量、方法、函数等命名时使用的字符序列称为标识符 凡是自己可以起名字的地方都叫标识符 标识符的"/>
 <meta name="application-name" content="Joker-desire">
 <meta name="apple-mobile-web-app-title" content="Joker-desire"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://Joker-desire.github.io/2022/06/07/" /><link rel="prev" href="https://Joker-desire.github.io/2022/06/06/" /><link rel="next" href="https://Joker-desire.github.io/2022/06/08/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://Joker-desire.github.io/2022/06/09/" /><link rel="prev" href="https://Joker-desire.github.io/2022/06/08/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
         <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
         <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
     {
         "@context": "http://schema.org",
         "@type": "BlogPosting",
-        "headline": "Go指针",
+        "headline": "Go标识符",
         "inLanguage": "",
         "mainEntityOfPage": {
             "@type": "WebPage",
-            "@id": "https:\/\/Joker-desire.github.io\/2022\/06\/07\/"
-        },"genre": "posts","keywords": "Go笔记","wordcount":  421 ,
-        "url": "https:\/\/Joker-desire.github.io\/2022\/06\/07\/","datePublished": "2022-06-30T16:34:16+08:00","dateModified": "2022-06-30T16:34:16+08:00","publisher": {
+            "@id": "https:\/\/Joker-desire.github.io\/2022\/06\/09\/"
+        },"genre": "posts","keywords": "Go笔记","wordcount":  554 ,
+        "url": "https:\/\/Joker-desire.github.io\/2022\/06\/09\/","datePublished": "2022-06-30T18:26:05+08:00","dateModified": "2022-06-30T18:26:05+08:00","publisher": {
             "@type": "Organization",
             "name": ""},"author": {
                 "@type": "Person",
@@ -103,10 +103,10 @@
                 <div class="container"><div class="toc" id="toc-auto">
             <h2 class="toc-title">目录</h2>
             <div class="toc-content" id="toc-content-auto"></div>
-        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Go指针</h1><div class="post-meta">
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Go标识符</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Joker-desire</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/go%E7%AC%94%E8%AE%B0/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Go笔记</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2022年06月30日">2022年06月30日</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;约 421 字&nbsp;
-                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;预计阅读 1 分钟&nbsp;</div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2022年06月30日">2022年06月30日</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;约 554 字&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;预计阅读 2 分钟&nbsp;</div>
         </div><div class="details toc" id="toc-static"  data-kept="">
                 <div class="details-summary toc-title">
                     <span>目录</span>
@@ -114,91 +114,157 @@
                 </div>
                 <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
   <ul>
-    <li><a href="#go指针">Go指针</a>
+    <li><a href="#go标识符">Go标识符</a>
       <ul>
-        <li><a href="#基本介绍">基本介绍</a></li>
-        <li><a href="#变量在内存中的分布"><strong>变量在内存中的分布：</strong></a></li>
-        <li><a href="#指针在内存中的分布"><strong>指针在内存中的分布：</strong></a></li>
-        <li><a href="#指针细节说明">指针细节说明</a></li>
+        <li><a href="#go标识符的命名规范">Go标识符的命名规范</a>
+          <ul>
+            <li><a href="#标识符概念">标识符概念</a></li>
+            <li><a href="#标识符的命名规则">标识符的命名规则</a></li>
+            <li><a href="#标识符命名注意事项">标识符命名注意事项</a></li>
+          </ul>
+        </li>
+        <li><a href="#系统保留关键字">系统保留关键字</a></li>
+        <li><a href="#预定义标识符">预定义标识符</a></li>
       </ul>
     </li>
   </ul>
 </nav></div>
-            </div><div class="content" id="content"><h1 id="go指针">Go指针</h1>
-<h2 id="基本介绍">基本介绍</h2>
+            </div><div class="content" id="content"><h1 id="go标识符">Go标识符</h1>
+<h2 id="go标识符的命名规范">Go标识符的命名规范</h2>
+<h3 id="标识符概念">标识符概念</h3>
 <ol>
-<li>
-<p>基本数据类型，变量存的就是值，也叫值类型</p>
-</li>
-<li>
-<p>获取变量的地址，用<code>&amp;</code></p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">var</span> <span class="nx">i</span> <span class="kt">int</span> <span class="p">=</span> <span class="mi">10</span>
-</span></span><span class="line"><span class="cl"><span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;i的地址：&#34;</span><span class="p">,</span> <span class="o">&amp;</span><span class="nx">i</span><span class="p">)</span> <span class="c1">//i的地址： 0xc0000162d8
-</span></span></span></code></pre></td></tr></table>
-</div>
-</div></li>
-<li>
-<p>指针类型，指针变量存的是一个地址，这个地址指向的空间存的才是值</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="c1">// ptr是一个指针变量
-</span></span></span><span class="line"><span class="cl"><span class="c1">// ptr的类型 *int
-</span></span></span><span class="line"><span class="cl"><span class="c1">// ptr本身的值是&amp;i
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">var</span> <span class="nx">ptr</span> <span class="o">*</span><span class="kt">int</span> <span class="p">=</span> <span class="o">&amp;</span><span class="nx">i</span>
-</span></span><span class="line"><span class="cl"><span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;ptr=%v\n&#34;</span><span class="p">,</span> <span class="nx">ptr</span><span class="p">)</span>     <span class="c1">//ptr=0xc00011c1b0
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;ptr的地址：%v\n&#34;</span><span class="p">,</span> <span class="o">&amp;</span><span class="nx">ptr</span><span class="p">)</span> <span class="c1">//ptr的地址：0xc000114028
-</span></span></span></code></pre></td></tr></table>
-</div>
-</div></li>
-<li>
-<p>获取指针类型所指向的值，用<code>*</code></p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;ptr指向的值=%v\n&#34;</span><span class="p">,</span> <span class="o">*</span><span class="nx">ptr</span><span class="p">)</span> <span class="c1">//ptr指向的值=10
-</span></span></span></code></pre></td></tr></table>
-</div>
-</div></li>
+<li>Go对各种变量、方法、函数等命名时使用的字符序列称为标识符</li>
+<li>凡是自己可以起名字的地方都叫标识符</li>
 </ol>
-<h2 id="变量在内存中的分布"><strong>变量在内存中的分布：</strong></h2>
-<p><img
-        class="lazyload"
-        src="/svg/loading.min.svg"
-        data-src="https://raw.githubusercontent.com/XD825/picgo/main/img/202206301706825.png"
-        data-srcset="https://raw.githubusercontent.com/XD825/picgo/main/img/202206301706825.png, https://raw.githubusercontent.com/XD825/picgo/main/img/202206301706825.png 1.5x, https://raw.githubusercontent.com/XD825/picgo/main/img/202206301706825.png 2x"
-        data-sizes="auto"
-        alt="https://raw.githubusercontent.com/XD825/picgo/main/img/202206301706825.png"
-        title="https://raw.githubusercontent.com/XD825/picgo/main/img/202206301706825.png" /></p>
-<h2 id="指针在内存中的分布"><strong>指针在内存中的分布：</strong></h2>
-<p><img
-        class="lazyload"
-        src="/svg/loading.min.svg"
-        data-src="https://raw.githubusercontent.com/XD825/picgo/main/img/202206301707954.png"
-        data-srcset="https://raw.githubusercontent.com/XD825/picgo/main/img/202206301707954.png, https://raw.githubusercontent.com/XD825/picgo/main/img/202206301707954.png 1.5x, https://raw.githubusercontent.com/XD825/picgo/main/img/202206301707954.png 2x"
-        data-sizes="auto"
-        alt="https://raw.githubusercontent.com/XD825/picgo/main/img/202206301707954.png"
-        title="https://raw.githubusercontent.com/XD825/picgo/main/img/202206301707954.png" /></p>
-<h2 id="指针细节说明">指针细节说明</h2>
+<h3 id="标识符的命名规则">标识符的命名规则</h3>
 <ol>
-<li>值类型，都有对应的指针类型，形式为<code>*数据类型</code>,比如：<code>int</code>对应的指针就是<code>*int</code>，<code>float32</code>对应的指针类型就是<code>*float</code></li>
-<li>值类型包括：基本数据类型int系列、float系列、bool、string、数组和结构体struct</li>
+<li>由26个英文字母大小写，0-9，_组成</li>
+<li>数字不可以开头</li>
+<li>Go中严格区分大小写</li>
+<li>标识符不能包含空格</li>
+<li>下划线本身在Go中是一个特殊的标识符，称为<strong>空标识符</strong>。可以代表任何其它的标识符，但是它对应的值会被忽略（比如：忽略某个返回值）。所以仅能被作为占位符使用，不能作为标识符使用</li>
+<li>不能以系统<strong>保留关键字</strong>作为标识符，比如：<code>break, if</code>等……</li>
 </ol>
+<h3 id="标识符命名注意事项">标识符命名注意事项</h3>
+<ol>
+<li>包名：保持<code>package</code>的名字和目录保持一致，尽量采取有意义的包名，简短，有意义，不要和标准库冲突</li>
+<li>变量名、函数名、常量名：采用驼峰法</li>
+<li>如果变量名、函数名、常量名首字母大写，则可以被其他的包访问；如果首字母小写，则只能在本包中使用（注：首字母大写是共有的，首字母小写是私有的</li>
+</ol>
+<h2 id="系统保留关键字">系统保留关键字</h2>
+<p>在Go中，为了简化代码编译过程中对代码的解析，其定义的<strong>保留关键字</strong>只有25个</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">关键字</th>
+<th style="text-align:left">关键字</th>
+<th style="text-align:left">关键字</th>
+<th style="text-align:left">关键字</th>
+<th style="text-align:left">关键字</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>break</strong></td>
+<td style="text-align:left"><strong>default</strong></td>
+<td style="text-align:left"><strong>func</strong></td>
+<td style="text-align:left"><strong>interface</strong></td>
+<td style="text-align:left"><strong>select</strong></td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>case</strong></td>
+<td style="text-align:left"><strong>defer</strong></td>
+<td style="text-align:left"><strong>go</strong></td>
+<td style="text-align:left"><strong>map</strong></td>
+<td style="text-align:left"><strong>struct</strong></td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>chan</strong></td>
+<td style="text-align:left"><strong>else</strong></td>
+<td style="text-align:left"><strong>goto</strong></td>
+<td style="text-align:left"><strong>package</strong></td>
+<td style="text-align:left"><strong>switch</strong></td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>const</strong></td>
+<td style="text-align:left"><strong>fallthrough</strong></td>
+<td style="text-align:left"><strong>if</strong></td>
+<td style="text-align:left"><strong>range</strong></td>
+<td style="text-align:left"><strong>type</strong></td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>continue</strong></td>
+<td style="text-align:left"><strong>for</strong></td>
+<td style="text-align:left"><strong>import</strong></td>
+<td style="text-align:left"><strong>return</strong></td>
+<td style="text-align:left"><strong>var</strong></td>
+</tr>
+</tbody>
+</table>
+<h2 id="预定义标识符">预定义标识符</h2>
+<p>Go提供了36个预定义的标识符，其包括基础数据类型和系统内嵌函数</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">标识符</th>
+<th style="text-align:left">标识符</th>
+<th style="text-align:left">标识符</th>
+<th style="text-align:left">标识符</th>
+<th style="text-align:left">标识符</th>
+<th style="text-align:left">标识符</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">append</td>
+<td style="text-align:left">bool</td>
+<td style="text-align:left">byte</td>
+<td style="text-align:left">cap</td>
+<td style="text-align:left">close</td>
+<td style="text-align:left">complex</td>
+</tr>
+<tr>
+<td style="text-align:left">complex64</td>
+<td style="text-align:left">complex128</td>
+<td style="text-align:left">uint16</td>
+<td style="text-align:left">copy</td>
+<td style="text-align:left">false</td>
+<td style="text-align:left">float32</td>
+</tr>
+<tr>
+<td style="text-align:left">float64</td>
+<td style="text-align:left">imag</td>
+<td style="text-align:left">int</td>
+<td style="text-align:left">int8</td>
+<td style="text-align:left">int16</td>
+<td style="text-align:left">uint32</td>
+</tr>
+<tr>
+<td style="text-align:left">int32</td>
+<td style="text-align:left">int64</td>
+<td style="text-align:left">iota</td>
+<td style="text-align:left">len</td>
+<td style="text-align:left">make</td>
+<td style="text-align:left">new</td>
+</tr>
+<tr>
+<td style="text-align:left">nil</td>
+<td style="text-align:left">panic</td>
+<td style="text-align:left">uint64</td>
+<td style="text-align:left">print</td>
+<td style="text-align:left">println</td>
+<td style="text-align:left">real</td>
+</tr>
+<tr>
+<td style="text-align:left">recover</td>
+<td style="text-align:left">string</td>
+<td style="text-align:left">true</td>
+<td style="text-align:left">uint</td>
+<td style="text-align:left">uint8</td>
+<td style="text-align:left">uintprt</td>
+</tr>
+</tbody>
+</table>
 </div><div class="post-footer" id="post-footer">
     <div class="post-info">
         <div class="post-info-line">
@@ -207,10 +273,10 @@
             </div></div>
         <div class="post-info-line">
             <div class="post-info-md"><span>
-                            <a class="link-to-markdown" href="/2022/06/07/index.md" target="_blank">阅读原始文档</a>
+                            <a class="link-to-markdown" href="/2022/06/09/index.md" target="_blank">阅读原始文档</a>
                         </span></div>
             <div class="post-info-share">
-                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://Joker-desire.github.io/2022/06/07/" data-title="Go指针" data-hashtags="Go笔记"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://Joker-desire.github.io/2022/06/07/" data-hashtag="Go笔记"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Hacker News" data-sharer="hackernews" data-url="https://Joker-desire.github.io/2022/06/07/" data-title="Go指针"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://Joker-desire.github.io/2022/06/07/" data-title="Go指针"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@7.0.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://Joker-desire.github.io/2022/06/07/" data-title="Go指针"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://Joker-desire.github.io/2022/06/09/" data-title="Go标识符" data-hashtags="Go笔记"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://Joker-desire.github.io/2022/06/09/" data-hashtag="Go笔记"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Hacker News" data-sharer="hackernews" data-url="https://Joker-desire.github.io/2022/06/09/" data-title="Go标识符"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://Joker-desire.github.io/2022/06/09/" data-title="Go标识符"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@7.0.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://Joker-desire.github.io/2022/06/09/" data-title="Go标识符"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
             </div>
         </div>
     </div>
@@ -222,8 +288,7 @@
         </section>
     </div>
 
-    <div class="post-nav"><a href="/2022/06/06/" class="prev" rel="prev" title="Go基本数据类型的转换"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Go基本数据类型的转换</a>
-            <a href="/2022/06/08/" class="next" rel="next" title="Go值类型和引用类型">Go值类型和引用类型<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+    <div class="post-nav"><a href="/2022/06/08/" class="prev" rel="prev" title="Go值类型和引用类型"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Go值类型和引用类型</a></div>
 </div>
 <div id="comments"><div id="giscus" class="comment"></div><noscript>
                 Please enable JavaScript to view the comments powered by <a href="https://giscus.app">Giscus</a>.

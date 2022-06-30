@@ -3,9 +3,25 @@
         <title>Joker-desire&#39;s Blog</title>
         <link>https://Joker-desire.github.io/</link>
         <description>Joker-desire&#39;s blog</description>
-        <generator>Hugo -- gohugo.io</generator><lastBuildDate>Thu, 30 Jun 2022 16:34:16 &#43;0800</lastBuildDate>
+        <generator>Hugo -- gohugo.io</generator><lastBuildDate>Thu, 30 Jun 2022 18:26:05 &#43;0800</lastBuildDate>
             <atom:link href="https://Joker-desire.github.io/index.xml" rel="self" type="application/rss+xml" />
         <item>
+    <title>Go标识符</title>
+    <link>https://Joker-desire.github.io/2022/06/09/</link>
+    <pubDate>Thu, 30 Jun 2022 18:26:05 &#43;0800</pubDate>
+    <author>Joker-desire</author>
+    <guid>https://Joker-desire.github.io/2022/06/09/</guid>
+    <description><![CDATA[Go标识符 Go标识符的命名规范 标识符概念 Go对各种变量、方法、函数等命名时使用的字符序列称为标识符 凡是自己可以起名字的地方都叫标识符 标识符的]]></description>
+</item>
+<item>
+    <title>Go值类型和引用类型</title>
+    <link>https://Joker-desire.github.io/2022/06/08/</link>
+    <pubDate>Thu, 30 Jun 2022 17:53:54 &#43;0800</pubDate>
+    <author>Joker-desire</author>
+    <guid>https://Joker-desire.github.io/2022/06/08/</guid>
+    <description><![CDATA[Go值类型和引用类型 说明 值类型：基本数据类型 int系列、float系列、bool、string、数组和结构体struct 引用类型：指针、sl]]></description>
+</item>
+<item>
     <title>Go指针</title>
     <link>https://Joker-desire.github.io/2022/06/07/</link>
     <pubDate>Thu, 30 Jun 2022 16:34:16 &#43;0800</pubDate>
@@ -68,22 +84,6 @@
     <author>Joker-desire</author>
     <guid>https://Joker-desire.github.io/2022/04/05/</guid>
     <description><![CDATA[一、为什么要重构 之前的方式，比较low 二、Dynaconf是什么 Dynaconf 是一个旨在成为 Python 中管理配置的最佳选择的库。 它可以从各种来源读取设置，包括环]]></description>
-</item>
-<item>
-    <title>简洁易用的命令行实践</title>
-    <link>https://Joker-desire.github.io/2022/03/04/</link>
-    <pubDate>Tue, 08 Mar 2022 18:29:40 &#43;0800</pubDate>
-    <author>Joker-desire</author>
-    <guid>https://Joker-desire.github.io/2022/03/04/</guid>
-    <description><![CDATA[之前的命令行编写方式 getopt实现方式（不讨论具体代码实现）👇🏻 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37]]></description>
-</item>
-<item>
-    <title>Python3.10新特性初体验</title>
-    <link>https://Joker-desire.github.io/2021/11/03/</link>
-    <pubDate>Wed, 10 Nov 2021 13:51:18 &#43;0800</pubDate>
-    <author>Joker-desire</author>
-    <guid>https://Joker-desire.github.io/2021/11/03/</guid>
-    <description><![CDATA[一、结构模式匹配（新增PEP 635） 如果你熟悉别的语言，你肯定知道 switch-&gt;case语句，python3.10之前的版本是一直没]]></description>
 </item>
 </channel>
 </rss>

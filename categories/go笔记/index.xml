@@ -3,7 +3,23 @@
         <title>Go笔记 - 分类 - Joker-desire&#39;s Blog</title>
         <link>https://Joker-desire.github.io/categories/go%E7%AC%94%E8%AE%B0/</link>
         <description>Go笔记 - 分类 - Joker-desire&#39;s Blog</description>
-        <generator>Hugo -- gohugo.io</generator><lastBuildDate>Thu, 30 Jun 2022 16:34:16 &#43;0800</lastBuildDate><atom:link href="https://Joker-desire.github.io/categories/go%E7%AC%94%E8%AE%B0/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><lastBuildDate>Thu, 30 Jun 2022 18:26:05 &#43;0800</lastBuildDate><atom:link href="https://Joker-desire.github.io/categories/go%E7%AC%94%E8%AE%B0/" rel="self" type="application/rss+xml" /><item>
+    <title>Go标识符</title>
+    <link>https://Joker-desire.github.io/2022/06/09/</link>
+    <pubDate>Thu, 30 Jun 2022 18:26:05 &#43;0800</pubDate>
+    <author>Joker-desire</author>
+    <guid>https://Joker-desire.github.io/2022/06/09/</guid>
+    <description><![CDATA[Go标识符 Go标识符的命名规范 标识符概念 Go对各种变量、方法、函数等命名时使用的字符序列称为标识符 凡是自己可以起名字的地方都叫标识符 标识符的]]></description>
+</item>
+<item>
+    <title>Go值类型和引用类型</title>
+    <link>https://Joker-desire.github.io/2022/06/08/</link>
+    <pubDate>Thu, 30 Jun 2022 17:53:54 &#43;0800</pubDate>
+    <author>Joker-desire</author>
+    <guid>https://Joker-desire.github.io/2022/06/08/</guid>
+    <description><![CDATA[Go值类型和引用类型 说明 值类型：基本数据类型 int系列、float系列、bool、string、数组和结构体struct 引用类型：指针、sl]]></description>
+</item>
+<item>
     <title>Go指针</title>
     <link>https://Joker-desire.github.io/2022/06/07/</link>
     <pubDate>Thu, 30 Jun 2022 16:34:16 &#43;0800</pubDate>
