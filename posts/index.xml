@@ -3,7 +3,15 @@
         <title>所有博客 - Joker-desire&#39;s Blog</title>
         <link>https://Joker-desire.github.io/posts/</link>
         <description>所有博客 | Joker-desire&#39;s Blog</description>
-        <generator>Hugo -- gohugo.io</generator><lastBuildDate>Thu, 30 Jun 2022 18:26:05 &#43;0800</lastBuildDate><atom:link href="https://Joker-desire.github.io/posts/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><lastBuildDate>Thu, 30 Jun 2022 21:05:48 &#43;0800</lastBuildDate><atom:link href="https://Joker-desire.github.io/posts/" rel="self" type="application/rss+xml" /><item>
+    <title>Go运算符</title>
+    <link>https://Joker-desire.github.io/2022/06/10/</link>
+    <pubDate>Thu, 30 Jun 2022 21:05:48 &#43;0800</pubDate>
+    <author>Joker-desire</author>
+    <guid>https://Joker-desire.github.io/2022/06/10/</guid>
+    <description><![CDATA[Go运算符 运算符分类 运算符是一种特殊的符号，用以表示数据的运算、赋值和比较等。 算术运算符 赋值运算符 比较运算符/关系运算符 逻辑运算符 位运算符 其]]></description>
+</item>
+<item>
     <title>Go标识符</title>
     <link>https://Joker-desire.github.io/2022/06/09/</link>
     <pubDate>Thu, 30 Jun 2022 18:26:05 &#43;0800</pubDate>
@@ -74,14 +82,6 @@
     <author>Joker-desire</author>
     <guid>https://Joker-desire.github.io/2022/06/01/</guid>
     <description><![CDATA[Go执行流程分析 对源码编译后，再执行 Go的执行流程如下 对源码直接执行 使用 go run 源码进行执行 两种执行流程的方式区别 如果我们先编译生成了可执行文件]]></description>
-</item>
-<item>
-    <title>配置文件重构</title>
-    <link>https://Joker-desire.github.io/2022/04/05/</link>
-    <pubDate>Wed, 06 Apr 2022 18:29:14 &#43;0800</pubDate>
-    <author>Joker-desire</author>
-    <guid>https://Joker-desire.github.io/2022/04/05/</guid>
-    <description><![CDATA[一、为什么要重构 之前的方式，比较low 二、Dynaconf是什么 Dynaconf 是一个旨在成为 Python 中管理配置的最佳选择的库。 它可以从各种来源读取设置，包括环]]></description>
 </item>
 </channel>
 </rss>

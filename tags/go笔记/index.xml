@@ -3,7 +3,15 @@
         <title>Go笔记 - 标签 - Joker-desire&#39;s Blog</title>
         <link>https://Joker-desire.github.io/tags/go%E7%AC%94%E8%AE%B0/</link>
         <description>Go笔记 - 标签 - Joker-desire&#39;s Blog</description>
-        <generator>Hugo -- gohugo.io</generator><lastBuildDate>Thu, 30 Jun 2022 18:26:05 &#43;0800</lastBuildDate><atom:link href="https://Joker-desire.github.io/tags/go%E7%AC%94%E8%AE%B0/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><lastBuildDate>Thu, 30 Jun 2022 21:05:48 &#43;0800</lastBuildDate><atom:link href="https://Joker-desire.github.io/tags/go%E7%AC%94%E8%AE%B0/" rel="self" type="application/rss+xml" /><item>
+    <title>Go运算符</title>
+    <link>https://Joker-desire.github.io/2022/06/10/</link>
+    <pubDate>Thu, 30 Jun 2022 21:05:48 &#43;0800</pubDate>
+    <author>Joker-desire</author>
+    <guid>https://Joker-desire.github.io/2022/06/10/</guid>
+    <description><![CDATA[Go运算符 运算符分类 运算符是一种特殊的符号，用以表示数据的运算、赋值和比较等。 算术运算符 赋值运算符 比较运算符/关系运算符 逻辑运算符 位运算符 其]]></description>
+</item>
+<item>
     <title>Go标识符</title>
     <link>https://Joker-desire.github.io/2022/06/09/</link>
     <pubDate>Thu, 30 Jun 2022 18:26:05 &#43;0800</pubDate>
