@@ -3,7 +3,23 @@
         <title>所有博客 - Joker-desire&#39;s Blog</title>
         <link>https://Joker-desire.github.io/posts/</link>
         <description>所有博客 | Joker-desire&#39;s Blog</description>
-        <generator>Hugo -- gohugo.io</generator><lastBuildDate>Thu, 30 Jun 2022 21:05:48 &#43;0800</lastBuildDate><atom:link href="https://Joker-desire.github.io/posts/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><lastBuildDate>Sat, 09 Jul 2022 10:32:28 &#43;0800</lastBuildDate><atom:link href="https://Joker-desire.github.io/posts/" rel="self" type="application/rss+xml" /><item>
+    <title>Go函数和方法</title>
+    <link>https://Joker-desire.github.io/2022/07/12/</link>
+    <pubDate>Sat, 09 Jul 2022 10:32:28 &#43;0800</pubDate>
+    <author>Joker-desire</author>
+    <guid>https://Joker-desire.github.io/2022/07/12/</guid>
+    <description><![CDATA[Go函数和方法 Go包 包的基本概念 go的每一个文件都是属于一个包的，也就是说go是以包的形式来管理文件和项目目录结构的 包的三大作用 区分相同名字]]></description>
+</item>
+<item>
+    <title>Go流程控制</title>
+    <link>https://Joker-desire.github.io/2022/07/11/</link>
+    <pubDate>Sat, 09 Jul 2022 10:10:23 &#43;0800</pubDate>
+    <author>Joker-desire</author>
+    <guid>https://Joker-desire.github.io/2022/07/11/</guid>
+    <description><![CDATA[Go流程控制 顺序控制 程序从上到下逐行地执行，中间没有任何判断和跳转。 分支控制 分支控制有三种：单分支、双分支和多分支 单分支 1 2 3 4 5 6 7 var age int]]></description>
+</item>
+<item>
     <title>Go运算符</title>
     <link>https://Joker-desire.github.io/2022/06/10/</link>
     <pubDate>Thu, 30 Jun 2022 21:05:48 &#43;0800</pubDate>
@@ -66,22 +82,6 @@
     <author>Joker-desire</author>
     <guid>https://Joker-desire.github.io/2022/06/03/</guid>
     <description><![CDATA[Go语言转义字符 Go常用的转义字符（escape char） \t : 一个制表位，实现对齐的功能 \n : 换行符 \\ : 一个\ \&quot; : 一个&quot; \r : 一个回车]]></description>
-</item>
-<item>
-    <title>Go程序编写注意事项</title>
-    <link>https://Joker-desire.github.io/2022/06/02/</link>
-    <pubDate>Wed, 29 Jun 2022 22:11:49 &#43;0800</pubDate>
-    <author>Joker-desire</author>
-    <guid>https://Joker-desire.github.io/2022/06/02/</guid>
-    <description><![CDATA[Go程序编写注意事项 Go源文件以go为扩展名 Go应用程序的执行入口是main()方法 Go语言严格区分大小写 Go方法由一条条语句构成，每个语句]]></description>
-</item>
-<item>
-    <title>Go执行流程分析</title>
-    <link>https://Joker-desire.github.io/2022/06/01/</link>
-    <pubDate>Wed, 29 Jun 2022 21:52:20 &#43;0800</pubDate>
-    <author>Joker-desire</author>
-    <guid>https://Joker-desire.github.io/2022/06/01/</guid>
-    <description><![CDATA[Go执行流程分析 对源码编译后，再执行 Go的执行流程如下 对源码直接执行 使用 go run 源码进行执行 两种执行流程的方式区别 如果我们先编译生成了可执行文件]]></description>
 </item>
 </channel>
 </rss>
