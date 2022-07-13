@@ -1,0 +1,15 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Jenkins - 标签 - Joker-desire&#39;s Blog</title>
+        <link>https://Joker-desire.github.io/tags/jenkins/</link>
+        <description>Jenkins - 标签 - Joker-desire&#39;s Blog</description>
+        <generator>Hugo -- gohugo.io</generator><lastBuildDate>Wed, 13 Jul 2022 22:44:06 &#43;0800</lastBuildDate><atom:link href="https://Joker-desire.github.io/tags/jenkins/" rel="self" type="application/rss+xml" /><item>
+    <title>Jenkins参数化构建与触发</title>
+    <link>https://Joker-desire.github.io/2022/07/01/</link>
+    <pubDate>Wed, 13 Jul 2022 22:44:06 &#43;0800</pubDate>
+    <author>Joker-desire</author>
+    <guid>https://Joker-desire.github.io/2022/07/01/</guid>
+    <description><![CDATA[Jenkins参数化构建与触发 Jenkins参数化构建 创建一个带参数的任务 勾选参数化构建 添加选项参数 字符参数 文本参数 文件参数 获取参数信息 构建]]></description>
+</item>
+</channel>
+</rss>
