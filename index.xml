@@ -3,9 +3,17 @@
         <title>Joker-desire&#39;s Blog</title>
         <link>https://Joker-desire.github.io/</link>
         <description>Joker-desire&#39;s blog</description>
-        <generator>Hugo -- gohugo.io</generator><lastBuildDate>Wed, 13 Jul 2022 22:44:06 &#43;0800</lastBuildDate>
+        <generator>Hugo -- gohugo.io</generator><lastBuildDate>Thu, 14 Jul 2022 08:32:15 &#43;0800</lastBuildDate>
             <atom:link href="https://Joker-desire.github.io/index.xml" rel="self" type="application/rss+xml" />
         <item>
+    <title>Go常用的函数</title>
+    <link>https://Joker-desire.github.io/2022/07/13/</link>
+    <pubDate>Thu, 14 Jul 2022 08:32:15 &#43;0800</pubDate>
+    <author>Joker-desire</author>
+    <guid>https://Joker-desire.github.io/2022/07/13/</guid>
+    <description><![CDATA[Go常用的函数 Go语言标准库文档中文版 字符串中常用的函数 统计字符串的长度，按字节：len(str) 1 2 3 4 5 //统计字符串的长度，按字节 s1 :=]]></description>
+</item>
+<item>
     <title>Jenkins参数化构建与触发</title>
     <link>https://Joker-desire.github.io/2022/07/01/</link>
     <pubDate>Wed, 13 Jul 2022 22:44:06 &#43;0800</pubDate>
@@ -76,14 +84,6 @@
     <author>Joker-desire</author>
     <guid>https://Joker-desire.github.io/2022/06/05/</guid>
     <description><![CDATA[Go变量和基本数据类型 Go变量 概念 变量相当于内存中一个数据存储空间的表示。通过变量名可以访问到变量（值）。 变量使用的基本步骤 声明变量（定义变]]></description>
-</item>
-<item>
-    <title>Go语言注释</title>
-    <link>https://Joker-desire.github.io/2022/06/04/</link>
-    <pubDate>Wed, 29 Jun 2022 23:06:49 &#43;0800</pubDate>
-    <author>Joker-desire</author>
-    <guid>https://Joker-desire.github.io/2022/06/04/</guid>
-    <description><![CDATA[Go语言注释 Go支持C语言风格的/* */块注释，也支持C++风格的//行注释。 行注释更通用，块注释要勇于针对包的详细说明或者屏蔽大块的代码。]]></description>
 </item>
 </channel>
 </rss>
