@@ -3,7 +3,15 @@
         <title>Go笔记 - 分类 - Joker-desire&#39;s Blog</title>
         <link>https://Joker-desire.github.io/categories/go%E7%AC%94%E8%AE%B0/</link>
         <description>Go笔记 - 分类 - Joker-desire&#39;s Blog</description>
-        <generator>Hugo -- gohugo.io</generator><lastBuildDate>Thu, 14 Jul 2022 08:32:15 &#43;0800</lastBuildDate><atom:link href="https://Joker-desire.github.io/categories/go%E7%AC%94%E8%AE%B0/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><lastBuildDate>Fri, 22 Jul 2022 09:28:07 &#43;0800</lastBuildDate><atom:link href="https://Joker-desire.github.io/categories/go%E7%AC%94%E8%AE%B0/" rel="self" type="application/rss+xml" /><item>
+    <title>Go-goroutine协程</title>
+    <link>https://Joker-desire.github.io/2022/07/14/</link>
+    <pubDate>Fri, 22 Jul 2022 09:28:07 &#43;0800</pubDate>
+    <author>Joker-desire</author>
+    <guid>https://Joker-desire.github.io/2022/07/14/</guid>
+    <description><![CDATA[Goroutine协程 进程和线程 进程就是程序在操作系统中的一次执行过程，是系统进行资源分配和调度的基本单位 线程是进程的一个执行实例，是程序执]]></description>
+</item>
+<item>
     <title>Go常用的函数</title>
     <link>https://Joker-desire.github.io/2022/07/13/</link>
     <pubDate>Thu, 14 Jul 2022 08:32:15 &#43;0800</pubDate>
@@ -74,14 +82,6 @@
     <author>Joker-desire</author>
     <guid>https://Joker-desire.github.io/2022/06/05/</guid>
     <description><![CDATA[Go变量和基本数据类型 Go变量 概念 变量相当于内存中一个数据存储空间的表示。通过变量名可以访问到变量（值）。 变量使用的基本步骤 声明变量（定义变]]></description>
-</item>
-<item>
-    <title>Go语言注释</title>
-    <link>https://Joker-desire.github.io/2022/06/04/</link>
-    <pubDate>Wed, 29 Jun 2022 23:06:49 &#43;0800</pubDate>
-    <author>Joker-desire</author>
-    <guid>https://Joker-desire.github.io/2022/06/04/</guid>
-    <description><![CDATA[Go语言注释 Go支持C语言风格的/* */块注释，也支持C++风格的//行注释。 行注释更通用，块注释要勇于针对包的详细说明或者屏蔽大块的代码。]]></description>
 </item>
 </channel>
 </rss>

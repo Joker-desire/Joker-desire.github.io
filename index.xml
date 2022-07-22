@@ -3,9 +3,17 @@
         <title>Joker-desire&#39;s Blog</title>
         <link>https://Joker-desire.github.io/</link>
         <description>Joker-desire&#39;s blog</description>
-        <generator>Hugo -- gohugo.io</generator><lastBuildDate>Fri, 15 Jul 2022 17:58:59 &#43;0800</lastBuildDate>
+        <generator>Hugo -- gohugo.io</generator><lastBuildDate>Fri, 22 Jul 2022 09:28:07 &#43;0800</lastBuildDate>
             <atom:link href="https://Joker-desire.github.io/index.xml" rel="self" type="application/rss+xml" />
         <item>
+    <title>Go-goroutine协程</title>
+    <link>https://Joker-desire.github.io/2022/07/14/</link>
+    <pubDate>Fri, 22 Jul 2022 09:28:07 &#43;0800</pubDate>
+    <author>Joker-desire</author>
+    <guid>https://Joker-desire.github.io/2022/07/14/</guid>
+    <description><![CDATA[Goroutine协程 进程和线程 进程就是程序在操作系统中的一次执行过程，是系统进行资源分配和调度的基本单位 线程是进程的一个执行实例，是程序执]]></description>
+</item>
+<item>
     <title>Jenkins任务中使用Pipenv</title>
     <link>https://Joker-desire.github.io/2022/07/02/</link>
     <pubDate>Fri, 15 Jul 2022 17:58:59 &#43;0800</pubDate>
@@ -76,14 +84,6 @@
     <author>Joker-desire</author>
     <guid>https://Joker-desire.github.io/2022/06/07/</guid>
     <description><![CDATA[Go指针 基本介绍 基本数据类型，变量存的就是值，也叫值类型 获取变量的地址，用&amp; 1 2 var i int = 10 fmt.Println(&#34;i的地址]]></description>
-</item>
-<item>
-    <title>Go基本数据类型的转换</title>
-    <link>https://Joker-desire.github.io/2022/06/06/</link>
-    <pubDate>Thu, 30 Jun 2022 16:26:42 &#43;0800</pubDate>
-    <author>Joker-desire</author>
-    <guid>https://Joker-desire.github.io/2022/06/06/</guid>
-    <description><![CDATA[基本数据类型的转换 介绍 Go在不同类型的变量之间赋值时需要显式转换。Go中数据类型不能自动转换。 基本语法 表达式T(v) 将值v转换为类型T T: 就是]]></description>
 </item>
 </channel>
 </rss>
