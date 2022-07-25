@@ -496,3 +496,101 @@ label:
     ```
 
     
+
+## 任务的取消
+
+```go
+package main
+
+import (
+	"fmt"
+	"time"
+)
+
+func isCancelled(cancelCh chan int) bool {
+
+	select {
+	case <-cancelCh:
+		return true
+	default:
+		return false
+
+	}
+}
+
+// 往管道里添加一个int数据，由于只会被一个任务获取到值，故只会取消一个任务
+func cancel_1(cancelCh chan int) {
+	cancelCh <- 0
+}
+
+// 关闭管道，以达到取消全部任务作用
+func cancel_2(cancelCh chan int) {
+	close(cancelCh)
+}
+
+func main() {
+	cancelChan := make(chan int, 0)
+	for i := 0; i < 5; i++ {
+		go func(i int, cancelCh chan int) {
+			for {
+				if isCancelled(cancelCh) {
+					break
+				}
+				time.Sleep(time.Second * 5)
+			}
+			fmt.Println(i, "Done")
+		}(i, cancelChan)
+	}
+	//cancel_1(cancelChan) // 只会取消一个任务
+	cancel_2(cancelChan) //全部取消
+	time.Sleep(time.Second)
+}
+
+```
+
+## Context上下文
+
+- 根Context：通过`context.Background()`创建
+- 子Context：通过`context.WithChancel(parentContext)`创建
+    - `ctx, cancel := context.WithChancel(context.Baceground())`
+- 当前Context被取消时，基于他的子context都会被取消
+- 接收取消通知`<-ctx.Done()`
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"time"
+)
+
+func isCancelled(ctx context.Context) bool {
+	select {
+	case <-ctx.Done():
+		return true
+	default:
+		return false
+	}
+}
+
+func main() {
+	ctx, cancel := context.WithCancel(context.Background())
+	for i := 0; i < 5; i++ {
+		go func(i int, ctx context.Context) {
+			for {
+				if isCancelled(ctx) {
+					break
+				}
+				time.Sleep(time.Second * 5)
+			}
+			fmt.Println(i, "Cancelled")
+		}(i, ctx)
+	}
+	cancel()
+	time.Sleep(time.Second)
+
+}
+```
+
+
