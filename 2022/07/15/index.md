@@ -143,6 +143,47 @@ channel支持`for-range`的方式进行遍历，需要注意两点：
 
 
 
+## 多路选择和超时
+
+- `select`：进行多路选择
+- `<-time.After(time.Microsecond * 100)`：检测超时
+
+```go
+package main
+
+import (
+	"fmt"
+	"time"
+)
+
+func service() string {
+	return fmt.Sprintf("%d", time.Now())
+}
+
+func AsyncService() chan string {
+	retCh := make(chan string, 1)
+	go func() {
+		ret := service()
+		fmt.Println("returned result.")
+		retCh <- ret
+		fmt.Println("service exited.")
+
+	}()
+	return retCh
+}
+
+func main() {
+	select {
+	case ret := <-AsyncService():
+		fmt.Println(ret)
+	case <-time.After(time.Microsecond * 100):
+		fmt.Println("超时")
+	}
+}
+```
+
+
+
 ## goroutine和channel结合
 
 ### 案例一
