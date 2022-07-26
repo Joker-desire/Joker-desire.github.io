@@ -3,7 +3,15 @@
         <title>Go笔记 - 标签 - Joker-desire&#39;s Blog</title>
         <link>https://Joker-desire.github.io/tags/go%E7%AC%94%E8%AE%B0/</link>
         <description>Go笔记 - 标签 - Joker-desire&#39;s Blog</description>
-        <generator>Hugo -- gohugo.io</generator><lastBuildDate>Sun, 24 Jul 2022 11:40:17 &#43;0800</lastBuildDate><atom:link href="https://Joker-desire.github.io/tags/go%E7%AC%94%E8%AE%B0/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><lastBuildDate>Tue, 26 Jul 2022 15:21:24 &#43;0800</lastBuildDate><atom:link href="https://Joker-desire.github.io/tags/go%E7%AC%94%E8%AE%B0/" rel="self" type="application/rss+xml" /><item>
+    <title>Go错误处理机制</title>
+    <link>https://Joker-desire.github.io/2022/07/17/</link>
+    <pubDate>Tue, 26 Jul 2022 15:21:24 &#43;0800</pubDate>
+    <author>Joker-desire</author>
+    <guid>https://Joker-desire.github.io/2022/07/17/</guid>
+    <description><![CDATA[Go错误处理机制 基本说明 默认情况下，当发生错误（panic），程序就会退出（崩溃） Go语言不支持传统的try……catch……finally]]></description>
+</item>
+<item>
     <title>Go协程并发(并行)资源竞争问题</title>
     <link>https://Joker-desire.github.io/2022/07/16/</link>
     <pubDate>Sun, 24 Jul 2022 11:40:17 &#43;0800</pubDate>
@@ -74,14 +82,6 @@
     <author>Joker-desire</author>
     <guid>https://Joker-desire.github.io/2022/06/08/</guid>
     <description><![CDATA[Go值类型和引用类型 说明 值类型：基本数据类型 int系列、float系列、bool、string、数组和结构体struct 引用类型：指针、sl]]></description>
-</item>
-<item>
-    <title>Go指针</title>
-    <link>https://Joker-desire.github.io/2022/06/07/</link>
-    <pubDate>Thu, 30 Jun 2022 16:34:16 &#43;0800</pubDate>
-    <author>Joker-desire</author>
-    <guid>https://Joker-desire.github.io/2022/06/07/</guid>
-    <description><![CDATA[Go指针 基本介绍 基本数据类型，变量存的就是值，也叫值类型 获取变量的地址，用&amp; 1 2 var i int = 10 fmt.Println(&#34;i的地址]]></description>
 </item>
 </channel>
 </rss>
