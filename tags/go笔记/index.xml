@@ -12,7 +12,7 @@
     <description><![CDATA[Go协程并发(并行)资源竞争问题 并行（并发）问题 使用协程实现求n的阶乘 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 // 定义一个map集]]></description>
 </item>
 <item>
-    <title>Go channel（管道）</title>
+    <title>Go channel（管道）和任务</title>
     <link>https://Joker-desire.github.io/2022/07/15/</link>
     <pubDate>Sat, 23 Jul 2022 10:01:50 &#43;0800</pubDate>
     <author>Joker-desire</author>

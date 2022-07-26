@@ -1,4 +1,4 @@
-# Go channel（管道）
+# Go channel（管道）和任务
 
 
 # Go channel（管道）
@@ -495,7 +495,10 @@ label:
     }
     ```
 
-    
+
+
+
+# 任务
 
 ## 任务的取消
 
@@ -591,6 +594,202 @@ func main() {
 	time.Sleep(time.Second)
 
 }
+```
+
+## 只运行一次（单例）
+
+确保在多线程的情况下，只运行一次
+
+```go
+package main
+
+import (
+	"fmt"
+	"sync"
+	"unsafe"
+)
+
+type Singleton struct {
+}
+
+var singleInstance *Singleton
+var once sync.Once
+
+func GetSingletonObj() *Singleton {
+	once.Do(func() {
+		fmt.Println("Create Obj")
+		singleInstance = new(Singleton)
+	})
+	return singleInstance
+}
+
+func main() {
+	var wg sync.WaitGroup
+	for i := 0; i < 10; i++ {
+		wg.Add(1)
+		go func() {
+			obj := GetSingletonObj()
+			fmt.Printf("%x\n", unsafe.Pointer(obj))
+			wg.Done()
+		}()
+	}
+	wg.Wait()
+}
+
+```
+
+## 仅需任意任务完成
+
+```go
+package main
+
+import (
+	"fmt"
+	"runtime"
+	"time"
+)
+
+func runTask(id int) string {
+	time.Sleep(10 * time.Millisecond)
+	return fmt.Sprintf("The result is from %d", id)
+}
+
+func FirstResponse() string {
+	numOfRunner := 10
+	ch := make(chan string, numOfRunner)// buffChannel防止协程泄漏
+	for i := 0; i < numOfRunner; i++ {
+		go func(i int) {
+			ret := runTask(i)
+			ch <- ret
+		}(i)
+	}
+	return <-ch
+}
+
+func main() {
+	fmt.Println("Before: ", runtime.NumGoroutine())
+	response := FirstResponse()
+	fmt.Println(response)
+	time.Sleep(time.Second)
+	fmt.Println("After: ", runtime.NumGoroutine())
+}
+```
+
+
+
+## 所有任务完成
+
+- 方式一：`sync.WaitGroup`
+- 方式二：利用channel的CSP的机制
+
+```go
+package main
+
+import (
+	"fmt"
+	"runtime"
+	"time"
+)
+
+func runTask(id int) string {
+	time.Sleep(10 * time.Millisecond)
+	return fmt.Sprintf("The result is from %d", id)
+}
+
+func AllResponse() string {
+	numOfRunner := 10
+	ch := make(chan string, numOfRunner) // buffChannel防止协程泄漏
+	for i := 0; i < numOfRunner; i++ {
+		go func(i int) {
+			ret := runTask(i)
+			ch <- ret
+		}(i)
+	}
+	finalRet := ""
+	for j := 0; j < numOfRunner; j++ {
+		finalRet += <-ch + "\n"
+	}
+	return finalRet
+}
+
+func main() {
+	fmt.Println("Before: ", runtime.NumGoroutine())
+	response := AllResponse()
+	fmt.Println(response)
+	time.Sleep(time.Second)
+	fmt.Println("After: ", runtime.NumGoroutine())
+}
+
+```
+
+
+
+# 使用buffered channel 实现对象池
+
+```go
+package main
+
+import (
+	"errors"
+	"fmt"
+	"time"
+)
+
+type ReusableObj struct {
+}
+
+type ObjPool struct {
+	bufChan chan *ReusableObj //用于缓冲可重用对象
+}
+
+func NewObjPool(numOfObj int) *ObjPool {
+	objPool := ObjPool{}
+	objPool.bufChan = make(chan *ReusableObj, numOfObj)
+	for i := 0; i < numOfObj; i++ {
+		objPool.bufChan <- &ReusableObj{}
+	}
+	return &objPool
+
+}
+
+// GetObj 从对象池中获取对象
+func (p *ObjPool) GetObj(timeout time.Duration) (*ReusableObj, error) {
+	select {
+	case ret := <-p.bufChan:
+		return ret, nil
+	case <-time.After(timeout): //超时控制
+		return nil, errors.New("time out")
+	}
+}
+
+// ReleaseObj 放回对象到对象池
+func (p *ObjPool) ReleaseObj(obj *ReusableObj) error {
+	select {
+	case p.bufChan <- obj:
+		return nil
+	default:
+		return errors.New("overflow")
+
+	}
+}
+
+func main() {
+	pool := NewObjPool(10)
+
+	for i := 0; i < 11; i++ {
+		if v, err := pool.GetObj(time.Second); err != nil {
+			panic(err)
+		} else {
+			fmt.Printf("%T\n", v)
+			// 如果不放回，当循环达到10次后，再次获取对象则会超时
+			if err := pool.ReleaseObj(v); err != nil {
+				panic(err)
+			}
+		}
+	}
+	fmt.Println("Done")
+}
+
 ```
 
 
