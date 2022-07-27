@@ -3,9 +3,17 @@
         <title>Joker-desire&#39;s Blog</title>
         <link>https://Joker-desire.github.io/</link>
         <description>为什么要努力？ 因为我喜欢的东西都很贵，我想去的地方都很远，我爱的人超完美。</description>
-        <generator>Hugo -- gohugo.io</generator><lastBuildDate>Tue, 26 Jul 2022 15:21:24 &#43;0800</lastBuildDate>
+        <generator>Hugo -- gohugo.io</generator><lastBuildDate>Wed, 27 Jul 2022 09:23:54 &#43;0800</lastBuildDate>
             <atom:link href="https://Joker-desire.github.io/index.xml" rel="self" type="application/rss+xml" />
         <item>
+    <title>Go数组和切片</title>
+    <link>https://Joker-desire.github.io/2022/07/18/</link>
+    <pubDate>Wed, 27 Jul 2022 09:23:54 &#43;0800</pubDate>
+    <author>Joker-desire</author>
+    <guid>https://Joker-desire.github.io/2022/07/18/</guid>
+    <description><![CDATA[Go数组和切片 数组 数组可以存放多个同一类型数据。数据也是一种数据类型，在Go中，数组是值类型。 数组的定义 语法：var 数组名 [数组大小]数据类]]></description>
+</item>
+<item>
     <title>Go错误处理机制</title>
     <link>https://Joker-desire.github.io/2022/07/17/</link>
     <pubDate>Tue, 26 Jul 2022 15:21:24 &#43;0800</pubDate>
@@ -76,14 +84,6 @@
     <author>Joker-desire</author>
     <guid>https://Joker-desire.github.io/2022/07/11/</guid>
     <description><![CDATA[Go流程控制 顺序控制 程序从上到下逐行地执行，中间没有任何判断和跳转。 分支控制 分支控制有三种：单分支、双分支和多分支 单分支 1 2 3 4 5 6 7 var age int]]></description>
-</item>
-<item>
-    <title>Go运算符</title>
-    <link>https://Joker-desire.github.io/2022/06/10/</link>
-    <pubDate>Thu, 30 Jun 2022 21:05:48 &#43;0800</pubDate>
-    <author>Joker-desire</author>
-    <guid>https://Joker-desire.github.io/2022/06/10/</guid>
-    <description><![CDATA[Go运算符 运算符分类 运算符是一种特殊的符号，用以表示数据的运算、赋值和比较等。 算术运算符 赋值运算符 比较运算符/关系运算符 逻辑运算符 位运算符 其]]></description>
 </item>
 </channel>
 </rss>
