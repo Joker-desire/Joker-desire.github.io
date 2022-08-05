@@ -3,9 +3,17 @@
         <title>Joker-desire&#39;s Blog</title>
         <link>https://Joker-desire.github.io/</link>
         <description>为什么要努力？ 因为我喜欢的东西都很贵，我想去的地方都很远，我爱的人超完美。</description>
-        <generator>Hugo -- gohugo.io</generator><lastBuildDate>Fri, 05 Aug 2022 13:51:14 &#43;0800</lastBuildDate>
+        <generator>Hugo -- gohugo.io</generator><lastBuildDate>Fri, 05 Aug 2022 15:21:26 &#43;0800</lastBuildDate>
             <atom:link href="https://Joker-desire.github.io/index.xml" rel="self" type="application/rss+xml" />
         <item>
+    <title>Jenkins构建失败重试</title>
+    <link>https://Joker-desire.github.io/2022/08/04/</link>
+    <pubDate>Fri, 05 Aug 2022 15:21:26 &#43;0800</pubDate>
+    <author>Joker-desire</author>
+    <guid>https://Joker-desire.github.io/2022/08/04/</guid>
+    <description><![CDATA[Jenkins构建失败重试 有一些构建任务可能会由于某些不可抗因素导致构建失败，但是重新构建一次就构建成功了，针对这种情况，可以使用Jenki]]></description>
+</item>
+<item>
     <title>Jenkins构建后执行脚本</title>
     <link>https://Joker-desire.github.io/2022/08/03/</link>
     <pubDate>Fri, 05 Aug 2022 13:51:14 &#43;0800</pubDate>
@@ -76,14 +84,6 @@
     <author>Joker-desire</author>
     <guid>https://Joker-desire.github.io/2022/07/01/</guid>
     <description><![CDATA[Jenkins参数化构建与触发 Jenkins参数化构建 创建一个带参数的任务 勾选参数化构建 添加选项参数 字符参数 文本参数 文件参数 获取参数信息 构建]]></description>
-</item>
-<item>
-    <title>Go函数和方法</title>
-    <link>https://Joker-desire.github.io/2022/07/12/</link>
-    <pubDate>Sat, 09 Jul 2022 10:32:28 &#43;0800</pubDate>
-    <author>Joker-desire</author>
-    <guid>https://Joker-desire.github.io/2022/07/12/</guid>
-    <description><![CDATA[Go函数和方法 Go包 包的基本概念 go的每一个文件都是属于一个包的，也就是说go是以包的形式来管理文件和项目目录结构的 包的三大作用 区分相同名字]]></description>
 </item>
 </channel>
 </rss>
