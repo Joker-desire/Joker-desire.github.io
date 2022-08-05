@@ -3,9 +3,17 @@
         <title>Joker-desire&#39;s Blog</title>
         <link>https://Joker-desire.github.io/</link>
         <description>为什么要努力？ 因为我喜欢的东西都很贵，我想去的地方都很远，我爱的人超完美。</description>
-        <generator>Hugo -- gohugo.io</generator><lastBuildDate>Wed, 27 Jul 2022 09:23:54 &#43;0800</lastBuildDate>
+        <generator>Hugo -- gohugo.io</generator><lastBuildDate>Fri, 05 Aug 2022 13:51:14 &#43;0800</lastBuildDate>
             <atom:link href="https://Joker-desire.github.io/index.xml" rel="self" type="application/rss+xml" />
         <item>
+    <title>Jenkins构建后执行脚本</title>
+    <link>https://Joker-desire.github.io/2022/08/03/</link>
+    <pubDate>Fri, 05 Aug 2022 13:51:14 &#43;0800</pubDate>
+    <author>Joker-desire</author>
+    <guid>https://Joker-desire.github.io/2022/08/03/</guid>
+    <description><![CDATA[Jenkins构建后执行脚本 构建后执行脚本-PostBuildScript 在执行完Jenkins构建失败时，想发起报警，通过shell脚本进]]></description>
+</item>
+<item>
     <title>Go数组和切片</title>
     <link>https://Joker-desire.github.io/2022/07/18/</link>
     <pubDate>Wed, 27 Jul 2022 09:23:54 &#43;0800</pubDate>
@@ -76,14 +84,6 @@
     <author>Joker-desire</author>
     <guid>https://Joker-desire.github.io/2022/07/12/</guid>
     <description><![CDATA[Go函数和方法 Go包 包的基本概念 go的每一个文件都是属于一个包的，也就是说go是以包的形式来管理文件和项目目录结构的 包的三大作用 区分相同名字]]></description>
-</item>
-<item>
-    <title>Go流程控制</title>
-    <link>https://Joker-desire.github.io/2022/07/11/</link>
-    <pubDate>Sat, 09 Jul 2022 10:10:23 &#43;0800</pubDate>
-    <author>Joker-desire</author>
-    <guid>https://Joker-desire.github.io/2022/07/11/</guid>
-    <description><![CDATA[Go流程控制 顺序控制 程序从上到下逐行地执行，中间没有任何判断和跳转。 分支控制 分支控制有三种：单分支、双分支和多分支 单分支 1 2 3 4 5 6 7 var age int]]></description>
 </item>
 </channel>
 </rss>

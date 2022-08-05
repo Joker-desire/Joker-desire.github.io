@@ -3,7 +3,15 @@
         <title>Jenkins - 标签 - Joker-desire&#39;s Blog</title>
         <link>https://Joker-desire.github.io/tags/jenkins/</link>
         <description>Jenkins - 标签 - Joker-desire&#39;s Blog</description>
-        <generator>Hugo -- gohugo.io</generator><lastBuildDate>Fri, 15 Jul 2022 17:58:59 &#43;0800</lastBuildDate><atom:link href="https://Joker-desire.github.io/tags/jenkins/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><lastBuildDate>Fri, 05 Aug 2022 13:51:14 &#43;0800</lastBuildDate><atom:link href="https://Joker-desire.github.io/tags/jenkins/" rel="self" type="application/rss+xml" /><item>
+    <title>Jenkins构建后执行脚本</title>
+    <link>https://Joker-desire.github.io/2022/08/03/</link>
+    <pubDate>Fri, 05 Aug 2022 13:51:14 &#43;0800</pubDate>
+    <author>Joker-desire</author>
+    <guid>https://Joker-desire.github.io/2022/08/03/</guid>
+    <description><![CDATA[Jenkins构建后执行脚本 构建后执行脚本-PostBuildScript 在执行完Jenkins构建失败时，想发起报警，通过shell脚本进]]></description>
+</item>
+<item>
     <title>Jenkins任务中使用Pipenv</title>
     <link>https://Joker-desire.github.io/2022/07/02/</link>
     <pubDate>Fri, 15 Jul 2022 17:58:59 &#43;0800</pubDate>
