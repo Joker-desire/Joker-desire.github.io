@@ -23,9 +23,9 @@
 
 #### 运行结果
 
-1. 构建历史
+1. 构建历史，如果构建失败，则会重试三次
 
-    ![image-20220805160007736](https://raw.githubusercontent.com/XD825/picgo/main/img/202208051602184.png)
+    ![image-20220805161148705](https://raw.githubusercontent.com/XD825/picgo/main/img/202208051611749.png)
 
 2. 查看最后一次构建历史，可以看到是由Naginator启动的
 
