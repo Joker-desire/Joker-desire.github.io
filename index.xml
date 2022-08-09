@@ -22,6 +22,14 @@
     <description><![CDATA[Jenkins构建后执行脚本 构建后执行脚本-PostBuildScript 在执行完Jenkins构建失败时，想发起报警，通过shell脚本进]]></description>
 </item>
 <item>
+    <title>Go Map</title>
+    <link>https://Joker-desire.github.io/2022/07/19/</link>
+    <pubDate>Wed, 27 Jul 2022 13:55:27 &#43;0800</pubDate>
+    <author>Joker-desire</author>
+    <guid>https://Joker-desire.github.io/2022/07/19/</guid>
+    <description><![CDATA[Map map是key-value数据结构，又称为字段或者关联数组。 基本语法 语法：var map变量名 map[keytype]valuetype 1 2 3 4 var a map[string]string var a map[string]int var a map[int]string var a map[string]map[string]string key的类型]]></description>
+</item>
+<item>
     <title>Go数组和切片</title>
     <link>https://Joker-desire.github.io/2022/07/18/</link>
     <pubDate>Wed, 27 Jul 2022 09:23:54 &#43;0800</pubDate>
@@ -76,14 +84,6 @@
     <author>Joker-desire</author>
     <guid>https://Joker-desire.github.io/2022/07/13/</guid>
     <description><![CDATA[Go常用的函数 Go语言标准库文档中文版 字符串中常用的函数 统计字符串的长度，按字节：len(str) 1 2 3 4 5 //统计字符串的长度，按字节 s1 :=]]></description>
-</item>
-<item>
-    <title>Jenkins参数化构建与触发</title>
-    <link>https://Joker-desire.github.io/2022/07/01/</link>
-    <pubDate>Wed, 13 Jul 2022 22:44:06 &#43;0800</pubDate>
-    <author>Joker-desire</author>
-    <guid>https://Joker-desire.github.io/2022/07/01/</guid>
-    <description><![CDATA[Jenkins参数化构建与触发 Jenkins参数化构建 创建一个带参数的任务 勾选参数化构建 添加选项参数 字符参数 文本参数 文件参数 获取参数信息 构建]]></description>
 </item>
 </channel>
 </rss>
