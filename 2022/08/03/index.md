@@ -21,7 +21,7 @@
 
 ### 3、支持多种方式的脚本执行
 
-![image-20220805142114358](/Users/yinyang/Library/Application Support/typora-user-images/image-20220805142114358.png)
+![image-20220805142114358](https://raw.githubusercontent.com/XD825/picgo/main/img/202208111422974.png)
 
 #### Add generic script file：添加通用的脚本文件
 
