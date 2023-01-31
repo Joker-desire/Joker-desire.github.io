@@ -3,7 +3,15 @@
         <title>Python - 标签 - Joker-desire&#39;s Blog</title>
         <link>https://Joker-desire.github.io/tags/python/</link>
         <description>Python - 标签 - Joker-desire&#39;s Blog</description>
-        <generator>Hugo -- gohugo.io</generator><lastBuildDate>Wed, 06 Apr 2022 18:29:14 &#43;0800</lastBuildDate><atom:link href="https://Joker-desire.github.io/tags/python/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><lastBuildDate>Tue, 31 Jan 2023 15:24:26 &#43;0800</lastBuildDate><atom:link href="https://Joker-desire.github.io/tags/python/" rel="self" type="application/rss+xml" /><item>
+    <title>ImportError: cannot import name &#39;get_distribution&#39; from &#39;pkg_resources&#39;问题解决</title>
+    <link>https://Joker-desire.github.io/2023/01/1/</link>
+    <pubDate>Tue, 31 Jan 2023 15:24:26 &#43;0800</pubDate>
+    <author>Joker-desire</author>
+    <guid>https://Joker-desire.github.io/2023/01/1/</guid>
+    <description><![CDATA[ImportError: cannot import name &lsquo;get_distribution&rsquo; from &lsquo;pkg_resources&rsquo;问题解决 问题 原因 在使用Docker部署的时候，首先进行了更新pip，更新命]]></description>
+</item>
+<item>
     <title>配置文件重构</title>
     <link>https://Joker-desire.github.io/2022/04/05/</link>
     <pubDate>Wed, 06 Apr 2022 18:29:14 &#43;0800</pubDate>
