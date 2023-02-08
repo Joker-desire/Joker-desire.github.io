@@ -1,7 +1,5 @@
 # ImportError: cannot import name 'get_distribution' from 'pkg_resources'问题解决
 
-# ImportError: cannot import name 'get_distribution' from 'pkg_resources'问题解决
-
 ## 问题
 
 ![image-20230131153151384](https://raw.githubusercontent.com/XD825/picgo/main/img/202301311531966.png)
