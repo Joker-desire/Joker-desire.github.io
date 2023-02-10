@@ -21,67 +21,67 @@
 </item>
 <item>
     <title>Jenkins构建失败重试</title>
-    <link>https://Joker-desire.github.io/2022/08/04/</link>
+    <link>https://Joker-desire.github.io/2022/08/jenkins%E6%9E%84%E5%BB%BA%E5%A4%B1%E8%B4%A5%E9%87%8D%E8%AF%95/</link>
     <pubDate>Fri, 05 Aug 2022 15:21:26 &#43;0800</pubDate>
     <author>Joker-desire</author>
-    <guid>https://Joker-desire.github.io/2022/08/04/</guid>
-    <description><![CDATA[Jenkins构建失败重试 有一些构建任务可能会由于某些不可抗因素导致构建失败，但是重新构建一次就构建成功了，针对这种情况，可以使用Jenki]]></description>
+    <guid>https://Joker-desire.github.io/2022/08/jenkins%E6%9E%84%E5%BB%BA%E5%A4%B1%E8%B4%A5%E9%87%8D%E8%AF%95/</guid>
+    <description><![CDATA[有一些构建任务可能会由于某些不可抗因素导致构建失败，但是重新构建一次就构建成功了，针对这种情况，可以使用Jenkins插件Naginator]]></description>
 </item>
 <item>
     <title>Jenkins构建后执行脚本</title>
-    <link>https://Joker-desire.github.io/2022/08/03/</link>
+    <link>https://Joker-desire.github.io/2022/08/jenkins%E6%9E%84%E5%BB%BA%E5%90%8E%E6%89%A7%E8%A1%8C%E8%84%9A%E6%9C%AC/</link>
     <pubDate>Fri, 05 Aug 2022 13:51:14 &#43;0800</pubDate>
     <author>Joker-desire</author>
-    <guid>https://Joker-desire.github.io/2022/08/03/</guid>
-    <description><![CDATA[Jenkins构建后执行脚本 构建后执行脚本-PostBuildScript 在执行完Jenkins构建失败时，想发起报警，通过shell脚本进]]></description>
+    <guid>https://Joker-desire.github.io/2022/08/jenkins%E6%9E%84%E5%BB%BA%E5%90%8E%E6%89%A7%E8%A1%8C%E8%84%9A%E6%9C%AC/</guid>
+    <description><![CDATA[构建后执行脚本-PostBuildScript 在执行完Jenkins构建失败时，想发起报警，通过shell脚本进行编写，然而Jenkins默]]></description>
 </item>
 <item>
     <title>Go Map</title>
-    <link>https://Joker-desire.github.io/2022/07/19/</link>
+    <link>https://Joker-desire.github.io/2022/07/go-map/</link>
     <pubDate>Wed, 27 Jul 2022 13:55:27 &#43;0800</pubDate>
     <author>Joker-desire</author>
-    <guid>https://Joker-desire.github.io/2022/07/19/</guid>
+    <guid>https://Joker-desire.github.io/2022/07/go-map/</guid>
     <description><![CDATA[Map map是key-value数据结构，又称为字段或者关联数组。 基本语法 语法：var map变量名 map[keytype]valuetype 1 2 3 4 var a map[string]string var a map[string]int var a map[int]string var a map[string]map[string]string key的类型]]></description>
 </item>
 <item>
     <title>Go数组和切片</title>
-    <link>https://Joker-desire.github.io/2022/07/18/</link>
+    <link>https://Joker-desire.github.io/2022/07/go%E6%95%B0%E7%BB%84%E5%92%8C%E5%88%87%E7%89%87/</link>
     <pubDate>Wed, 27 Jul 2022 09:23:54 &#43;0800</pubDate>
     <author>Joker-desire</author>
-    <guid>https://Joker-desire.github.io/2022/07/18/</guid>
-    <description><![CDATA[Go数组和切片 数组 数组可以存放多个同一类型数据。数据也是一种数据类型，在Go中，数组是值类型。 数组的定义 语法：var 数组名 [数组大小]数据类]]></description>
+    <guid>https://Joker-desire.github.io/2022/07/go%E6%95%B0%E7%BB%84%E5%92%8C%E5%88%87%E7%89%87/</guid>
+    <description><![CDATA[数组 数组可以存放多个同一类型数据。数据也是一种数据类型，在Go中，数组是值类型。 数组的定义 语法：var 数组名 [数组大小]数据类型 注意：定义完]]></description>
 </item>
 <item>
     <title>Go错误处理机制</title>
-    <link>https://Joker-desire.github.io/2022/07/17/</link>
+    <link>https://Joker-desire.github.io/2022/07/go%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86%E6%9C%BA%E5%88%B6/</link>
     <pubDate>Tue, 26 Jul 2022 15:21:24 &#43;0800</pubDate>
     <author>Joker-desire</author>
-    <guid>https://Joker-desire.github.io/2022/07/17/</guid>
-    <description><![CDATA[Go错误处理机制 基本说明 默认情况下，当发生错误（panic），程序就会退出（崩溃） Go语言不支持传统的try……catch……finally]]></description>
+    <guid>https://Joker-desire.github.io/2022/07/go%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86%E6%9C%BA%E5%88%B6/</guid>
+    <description><![CDATA[基本说明 默认情况下，当发生错误（panic），程序就会退出（崩溃） Go语言不支持传统的try……catch……finally Go中引入的处理]]></description>
 </item>
 <item>
     <title>Go协程并发(并行)资源竞争问题</title>
-    <link>https://Joker-desire.github.io/2022/07/16/</link>
+    <link>https://Joker-desire.github.io/2022/07/go%E5%8D%8F%E7%A8%8B%E5%B9%B6%E5%8F%91%E5%B9%B6%E8%A1%8C%E8%B5%84%E6%BA%90%E7%AB%9E%E4%BA%89%E9%97%AE%E9%A2%98/</link>
     <pubDate>Sun, 24 Jul 2022 11:40:17 &#43;0800</pubDate>
     <author>Joker-desire</author>
-    <guid>https://Joker-desire.github.io/2022/07/16/</guid>
-    <description><![CDATA[Go协程并发(并行)资源竞争问题 并行（并发）问题 使用协程实现求n的阶乘 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 // 定义一个map集]]></description>
+    <guid>https://Joker-desire.github.io/2022/07/go%E5%8D%8F%E7%A8%8B%E5%B9%B6%E5%8F%91%E5%B9%B6%E8%A1%8C%E8%B5%84%E6%BA%90%E7%AB%9E%E4%BA%89%E9%97%AE%E9%A2%98/</guid>
+    <description><![CDATA[并行（并发）问题 使用协程实现求n的阶乘 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 // 定义一个map集合用来存放数据 var MyMap = make(map[int]int, 10) // 求n的]]></description>
 </item>
 <item>
     <title>Go channel（管道）、任务和sync</title>
-    <link>https://Joker-desire.github.io/2022/07/15/</link>
+    <link>https://Joker-desire.github.io/2022/07/go-channel%E7%AE%A1%E9%81%93/</link>
     <pubDate>Sat, 23 Jul 2022 10:01:50 &#43;0800</pubDate>
     <author>Joker-desire</author>
-    <guid>https://Joker-desire.github.io/2022/07/15/</guid>
-    <description><![CDATA[Go channel（管道） channel介绍 channel本质就是一个数据结构-队列 数据是先进先出（FIFO） 线程安全，多goroutine访]]></description>
+    <guid>https://Joker-desire.github.io/2022/07/go-channel%E7%AE%A1%E9%81%93/</guid>
+    <description><![CDATA[channel介绍 channel本质就是一个数据结构-队列 数据是先进先出（FIFO） 线程安全，多goroutine访问时，不需要加锁 chan]]></description>
 </item>
 <item>
     <title>Go-goroutine协程</title>
-    <link>https://Joker-desire.github.io/2022/07/14/</link>
+    <link>https://Joker-desire.github.io/2022/07/goroutine%E5%8D%8F%E7%A8%8B/</link>
     <pubDate>Fri, 22 Jul 2022 09:28:07 &#43;0800</pubDate>
     <author>Joker-desire</author>
-    <guid>https://Joker-desire.github.io/2022/07/14/</guid>
-    <description><![CDATA[Goroutine协程 进程和线程 进程就是程序在操作系统中的一次执行过程，是系统进行资源分配和调度的基本单位 线程是进程的一个执行实例，是程序执]]></description>
+    <guid>https://Joker-desire.github.io/2022/07/goroutine%E5%8D%8F%E7%A8%8B/</guid>
+    <description><![CDATA[进程和线程 进程就是程序在操作系统中的一次执行过程，是系统进行资源分配和调度的基本单位 线程是进程的一个执行实例，是程序执行的最小单位，它是比进]]></description>
 </item>
 </channel>
 </rss>

@@ -5,35 +5,35 @@
         <description>Jenkins - 标签 - Joker-desire&#39;s Blog</description>
         <generator>Hugo -- gohugo.io</generator><lastBuildDate>Fri, 05 Aug 2022 15:21:26 &#43;0800</lastBuildDate><atom:link href="https://Joker-desire.github.io/tags/jenkins/" rel="self" type="application/rss+xml" /><item>
     <title>Jenkins构建失败重试</title>
-    <link>https://Joker-desire.github.io/2022/08/04/</link>
+    <link>https://Joker-desire.github.io/2022/08/jenkins%E6%9E%84%E5%BB%BA%E5%A4%B1%E8%B4%A5%E9%87%8D%E8%AF%95/</link>
     <pubDate>Fri, 05 Aug 2022 15:21:26 &#43;0800</pubDate>
     <author>Joker-desire</author>
-    <guid>https://Joker-desire.github.io/2022/08/04/</guid>
-    <description><![CDATA[Jenkins构建失败重试 有一些构建任务可能会由于某些不可抗因素导致构建失败，但是重新构建一次就构建成功了，针对这种情况，可以使用Jenki]]></description>
+    <guid>https://Joker-desire.github.io/2022/08/jenkins%E6%9E%84%E5%BB%BA%E5%A4%B1%E8%B4%A5%E9%87%8D%E8%AF%95/</guid>
+    <description><![CDATA[有一些构建任务可能会由于某些不可抗因素导致构建失败，但是重新构建一次就构建成功了，针对这种情况，可以使用Jenkins插件Naginator]]></description>
 </item>
 <item>
     <title>Jenkins构建后执行脚本</title>
-    <link>https://Joker-desire.github.io/2022/08/03/</link>
+    <link>https://Joker-desire.github.io/2022/08/jenkins%E6%9E%84%E5%BB%BA%E5%90%8E%E6%89%A7%E8%A1%8C%E8%84%9A%E6%9C%AC/</link>
     <pubDate>Fri, 05 Aug 2022 13:51:14 &#43;0800</pubDate>
     <author>Joker-desire</author>
-    <guid>https://Joker-desire.github.io/2022/08/03/</guid>
-    <description><![CDATA[Jenkins构建后执行脚本 构建后执行脚本-PostBuildScript 在执行完Jenkins构建失败时，想发起报警，通过shell脚本进]]></description>
+    <guid>https://Joker-desire.github.io/2022/08/jenkins%E6%9E%84%E5%BB%BA%E5%90%8E%E6%89%A7%E8%A1%8C%E8%84%9A%E6%9C%AC/</guid>
+    <description><![CDATA[构建后执行脚本-PostBuildScript 在执行完Jenkins构建失败时，想发起报警，通过shell脚本进行编写，然而Jenkins默]]></description>
 </item>
 <item>
     <title>Jenkins任务中使用Pipenv</title>
-    <link>https://Joker-desire.github.io/2022/07/02/</link>
+    <link>https://Joker-desire.github.io/2022/07/jenkins%E4%BB%BB%E5%8A%A1%E4%B8%AD%E4%BD%BF%E7%94%A8pipenv/</link>
     <pubDate>Fri, 15 Jul 2022 17:58:59 &#43;0800</pubDate>
     <author>Joker-desire</author>
-    <guid>https://Joker-desire.github.io/2022/07/02/</guid>
-    <description><![CDATA[Jenkins任务中使用Pipenv 前言 📍pipenv是Python官方推荐的包管理工具。 📍在使用Python环境，基本上都是使用虚拟环境进]]></description>
+    <guid>https://Joker-desire.github.io/2022/07/jenkins%E4%BB%BB%E5%8A%A1%E4%B8%AD%E4%BD%BF%E7%94%A8pipenv/</guid>
+    <description><![CDATA[前言 📍pipenv是Python官方推荐的包管理工具。 📍在使用Python环境，基本上都是使用虚拟环境进行处理的。 📍在Jenkins任务sh]]></description>
 </item>
 <item>
     <title>Jenkins参数化构建与触发</title>
-    <link>https://Joker-desire.github.io/2022/07/01/</link>
+    <link>https://Joker-desire.github.io/2022/07/jenkins%E5%8F%82%E6%95%B0%E5%8C%96%E6%9E%84%E5%BB%BA%E4%B8%8E%E8%A7%A6%E5%8F%91/</link>
     <pubDate>Wed, 13 Jul 2022 22:44:06 &#43;0800</pubDate>
     <author>Joker-desire</author>
-    <guid>https://Joker-desire.github.io/2022/07/01/</guid>
-    <description><![CDATA[Jenkins参数化构建与触发 Jenkins参数化构建 创建一个带参数的任务 勾选参数化构建 添加选项参数 字符参数 文本参数 文件参数 获取参数信息 构建]]></description>
+    <guid>https://Joker-desire.github.io/2022/07/jenkins%E5%8F%82%E6%95%B0%E5%8C%96%E6%9E%84%E5%BB%BA%E4%B8%8E%E8%A7%A6%E5%8F%91/</guid>
+    <description><![CDATA[Jenkins参数化构建 创建一个带参数的任务 勾选参数化构建 添加选项参数 字符参数 文本参数 文件参数 获取参数信息 构建带参数化的任务 构建结果 注：文件]]></description>
 </item>
 </channel>
 </rss>
