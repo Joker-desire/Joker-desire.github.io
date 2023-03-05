@@ -3,9 +3,17 @@
         <title>Joker-desire&#39;s Blog</title>
         <link>https://Joker-desire.github.io/</link>
         <description>为什么要努力？ 因为我喜欢的东西都很贵，我想去的地方都很远，我爱的人超完美。</description>
-        <generator>Hugo -- gohugo.io</generator><lastBuildDate>Wed, 08 Feb 2023 16:16:15 &#43;0800</lastBuildDate>
+        <generator>Hugo -- gohugo.io</generator><lastBuildDate>Sun, 05 Mar 2023 21:02:20 &#43;0800</lastBuildDate>
             <atom:link href="https://Joker-desire.github.io/index.xml" rel="self" type="application/rss+xml" />
         <item>
+    <title>Mixed Content The page at was loaded over HTTPS but requested an insecure resource This request has been blocked the content must be served over HTTPS</title>
+    <link>https://Joker-desire.github.io/2023/03/3/</link>
+    <pubDate>Sun, 05 Mar 2023 21:02:20 &#43;0800</pubDate>
+    <author>Joker-desire</author>
+    <guid>https://Joker-desire.github.io/2023/03/3/</guid>
+    <description><![CDATA[描述 在HTML文件中引用js文件&lt;script src=&quot;{{ url_for('static', path='/js/app.js') }}&quot;&gt;&lt;/script&gt; ，在本地调试正常，上线后发现网页打不开，打开控制台看到了如下报错信息： 原因 由于线]]></description>
+</item>
+<item>
     <title>Selenium设置无头模式，页面自动切换H5模式问题解决</title>
     <link>https://Joker-desire.github.io/2023/02/2/</link>
     <pubDate>Wed, 08 Feb 2023 16:16:15 &#43;0800</pubDate>
@@ -76,14 +84,6 @@
     <author>Joker-desire</author>
     <guid>https://Joker-desire.github.io/2022/07/go-channel%E7%AE%A1%E9%81%93/</guid>
     <description><![CDATA[channel介绍 channel本质就是一个数据结构-队列 数据是先进先出（FIFO） 线程安全，多goroutine访问时，不需要加锁 chan]]></description>
-</item>
-<item>
-    <title>Go-goroutine协程</title>
-    <link>https://Joker-desire.github.io/2022/07/goroutine%E5%8D%8F%E7%A8%8B/</link>
-    <pubDate>Fri, 22 Jul 2022 09:28:07 &#43;0800</pubDate>
-    <author>Joker-desire</author>
-    <guid>https://Joker-desire.github.io/2022/07/goroutine%E5%8D%8F%E7%A8%8B/</guid>
-    <description><![CDATA[进程和线程 进程就是程序在操作系统中的一次执行过程，是系统进行资源分配和调度的基本单位 线程是进程的一个执行实例，是程序执行的最小单位，它是比进]]></description>
 </item>
 </channel>
 </rss>
