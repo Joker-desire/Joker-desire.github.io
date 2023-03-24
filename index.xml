@@ -3,9 +3,17 @@
         <title>Joker-desire&#39;s Blog</title>
         <link>https://Joker-desire.github.io/</link>
         <description>为什么要努力？ 因为我喜欢的东西都很贵，我想去的地方都很远，我爱的人超完美。</description>
-        <generator>Hugo -- gohugo.io</generator><lastBuildDate>Mon, 20 Mar 2023 13:45:19 &#43;0800</lastBuildDate>
+        <generator>Hugo -- gohugo.io</generator><lastBuildDate>Fri, 24 Mar 2023 14:08:32 &#43;0800</lastBuildDate>
             <atom:link href="https://Joker-desire.github.io/index.xml" rel="self" type="application/rss+xml" />
         <item>
+    <title>使用Mixin模式配置Scrapy日志输出</title>
+    <link>https://Joker-desire.github.io/2023/03/%E4%BD%BF%E7%94%A8mixin%E6%A8%A1%E5%BC%8F%E9%85%8D%E7%BD%AEscrapy%E6%97%A5%E5%BF%97%E8%BE%93%E5%87%BA/</link>
+    <pubDate>Fri, 24 Mar 2023 14:08:32 &#43;0800</pubDate>
+    <author>Joker-desire</author>
+    <guid>https://Joker-desire.github.io/2023/03/%E4%BD%BF%E7%94%A8mixin%E6%A8%A1%E5%BC%8F%E9%85%8D%E7%BD%AEscrapy%E6%97%A5%E5%BF%97%E8%BE%93%E5%87%BA/</guid>
+    <description><![CDATA[背景 为什么要重新配置Scrapy日志输出 在使用kafka进行处理爬虫数据后出现了一种现象：日志打印会将整个item数据打印出，由于使用kaf]]></description>
+</item>
+<item>
     <title>Redis-incr计数</title>
     <link>https://Joker-desire.github.io/2023/03/redis-incr%E8%AE%A1%E6%95%B0/</link>
     <pubDate>Mon, 20 Mar 2023 13:45:19 &#43;0800</pubDate>
@@ -76,14 +84,6 @@
     <author>Joker-desire</author>
     <guid>https://Joker-desire.github.io/2022/07/go%E6%95%B0%E7%BB%84%E5%92%8C%E5%88%87%E7%89%87/</guid>
     <description><![CDATA[数组 数组可以存放多个同一类型数据。数据也是一种数据类型，在Go中，数组是值类型。 数组的定义 语法：var 数组名 [数组大小]数据类型 注意：定义完]]></description>
-</item>
-<item>
-    <title>Go错误处理机制</title>
-    <link>https://Joker-desire.github.io/2022/07/go%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86%E6%9C%BA%E5%88%B6/</link>
-    <pubDate>Tue, 26 Jul 2022 15:21:24 &#43;0800</pubDate>
-    <author>Joker-desire</author>
-    <guid>https://Joker-desire.github.io/2022/07/go%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86%E6%9C%BA%E5%88%B6/</guid>
-    <description><![CDATA[基本说明 默认情况下，当发生错误（panic），程序就会退出（崩溃） Go语言不支持传统的try……catch……finally Go中引入的处理]]></description>
 </item>
 </channel>
 </rss>

@@ -3,7 +3,15 @@
         <title>Python - 标签 - Joker-desire&#39;s Blog</title>
         <link>https://Joker-desire.github.io/tags/python/</link>
         <description>Python - 标签 - Joker-desire&#39;s Blog</description>
-        <generator>Hugo -- gohugo.io</generator><lastBuildDate>Mon, 20 Mar 2023 13:45:19 &#43;0800</lastBuildDate><atom:link href="https://Joker-desire.github.io/tags/python/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><lastBuildDate>Fri, 24 Mar 2023 14:08:32 &#43;0800</lastBuildDate><atom:link href="https://Joker-desire.github.io/tags/python/" rel="self" type="application/rss+xml" /><item>
+    <title>使用Mixin模式配置Scrapy日志输出</title>
+    <link>https://Joker-desire.github.io/2023/03/%E4%BD%BF%E7%94%A8mixin%E6%A8%A1%E5%BC%8F%E9%85%8D%E7%BD%AEscrapy%E6%97%A5%E5%BF%97%E8%BE%93%E5%87%BA/</link>
+    <pubDate>Fri, 24 Mar 2023 14:08:32 &#43;0800</pubDate>
+    <author>Joker-desire</author>
+    <guid>https://Joker-desire.github.io/2023/03/%E4%BD%BF%E7%94%A8mixin%E6%A8%A1%E5%BC%8F%E9%85%8D%E7%BD%AEscrapy%E6%97%A5%E5%BF%97%E8%BE%93%E5%87%BA/</guid>
+    <description><![CDATA[背景 为什么要重新配置Scrapy日志输出 在使用kafka进行处理爬虫数据后出现了一种现象：日志打印会将整个item数据打印出，由于使用kaf]]></description>
+</item>
+<item>
     <title>Redis-incr计数</title>
     <link>https://Joker-desire.github.io/2023/03/redis-incr%E8%AE%A1%E6%95%B0/</link>
     <pubDate>Mon, 20 Mar 2023 13:45:19 &#43;0800</pubDate>
@@ -74,14 +82,6 @@
     <author>Joker-desire</author>
     <guid>https://Joker-desire.github.io/2021/07/getattr%E5%92%8Cmethodcaller%E5%89%96%E6%9E%90/</guid>
     <description><![CDATA[一、getattr解析 1.1 getattr是什么？ getattr() 函数获取某个类实例对象中指定属性的值 1.2 语法格式 1 getattr(obj, name[, default]) obj 表示指定的类实例对象 name 表示指定的属性]]></description>
-</item>
-<item>
-    <title>Allure报告趋势图本地显示</title>
-    <link>https://Joker-desire.github.io/2021/05/allure%E6%8A%A5%E5%91%8A%E8%B6%8B%E5%8A%BF%E5%9B%BE%E6%9C%AC%E5%9C%B0%E6%98%BE%E7%A4%BA/</link>
-    <pubDate>Wed, 12 May 2021 16:35:06 &#43;0800</pubDate>
-    <author>Joker-desire</author>
-    <guid>https://Joker-desire.github.io/2021/05/allure%E6%8A%A5%E5%91%8A%E8%B6%8B%E5%8A%BF%E5%9B%BE%E6%9C%AC%E5%9C%B0%E6%98%BE%E7%A4%BA/</guid>
-    <description><![CDATA[众所周知，allure趋势图在本地运行的时候，总是显示的空白，但与Jenkins集成后，生成的报告却显示了整个趋势。 如果不与Jenkins集]]></description>
 </item>
 </channel>
 </rss>
