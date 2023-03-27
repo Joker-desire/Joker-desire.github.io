@@ -3,7 +3,15 @@
         <title>踩坑记录 - 分类 - Joker-desire&#39;s Blog</title>
         <link>https://Joker-desire.github.io/categories/%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/</link>
         <description>踩坑记录 - 分类 - Joker-desire&#39;s Blog</description>
-        <generator>Hugo -- gohugo.io</generator><lastBuildDate>Sun, 05 Mar 2023 21:02:20 &#43;0800</lastBuildDate><atom:link href="https://Joker-desire.github.io/categories/%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><lastBuildDate>Mon, 27 Mar 2023 10:29:12 &#43;0800</lastBuildDate><atom:link href="https://Joker-desire.github.io/categories/%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/" rel="self" type="application/rss+xml" /><item>
+    <title>sqlalchemy新增数据后获取递增ID报错解决</title>
+    <link>https://Joker-desire.github.io/2023/03/4/</link>
+    <pubDate>Mon, 27 Mar 2023 10:29:12 &#43;0800</pubDate>
+    <author>Joker-desire</author>
+    <guid>https://Joker-desire.github.io/2023/03/4/</guid>
+    <description><![CDATA[需求 通过Sqlalchemy ORM进行新增数据，有个新的需求是：新增数据后，需要获取到当前数据自动递增的ID。 处理 通过sqlacodegen]]></description>
+</item>
+<item>
     <title>Mixed Content The page at was loaded over HTTPS but requested an insecure resource This request has been blocked the content must be served over HTTPS</title>
     <link>https://Joker-desire.github.io/2023/03/3/</link>
     <pubDate>Sun, 05 Mar 2023 21:02:20 &#43;0800</pubDate>
