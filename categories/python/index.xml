@@ -3,7 +3,15 @@
         <title>Python - 分类 - Joker-desire&#39;s Blog</title>
         <link>https://Joker-desire.github.io/categories/python/</link>
         <description>Python - 分类 - Joker-desire&#39;s Blog</description>
-        <generator>Hugo -- gohugo.io</generator><lastBuildDate>Fri, 24 Mar 2023 14:08:32 &#43;0800</lastBuildDate><atom:link href="https://Joker-desire.github.io/categories/python/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><lastBuildDate>Sun, 22 Oct 2023 09:50:18 &#43;0800</lastBuildDate><atom:link href="https://Joker-desire.github.io/categories/python/" rel="self" type="application/rss+xml" /><item>
+    <title>Selenium Grid 模拟操作上传操作问题解决方案</title>
+    <link>https://Joker-desire.github.io/2023/10/selenium-grid-%E6%A8%A1%E6%8B%9F%E6%93%8D%E4%BD%9C%E4%B8%8A%E4%BC%A0%E6%93%8D%E4%BD%9C%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/</link>
+    <pubDate>Sun, 22 Oct 2023 09:50:18 &#43;0800</pubDate>
+    <author>Joker-desire</author>
+    <guid>https://Joker-desire.github.io/2023/10/selenium-grid-%E6%A8%A1%E6%8B%9F%E6%93%8D%E4%BD%9C%E4%B8%8A%E4%BC%A0%E6%93%8D%E4%BD%9C%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/</guid>
+    <description><![CDATA[在使用Selenium Grid模拟操作上传文件时，会从浏览器实例的本地文件系统中读取文件。这就导致了一个问题，如果Grid Hub所在的机器上]]></description>
+</item>
+<item>
     <title>使用Mixin模式配置Scrapy日志输出</title>
     <link>https://Joker-desire.github.io/2023/03/%E4%BD%BF%E7%94%A8mixin%E6%A8%A1%E5%BC%8F%E9%85%8D%E7%BD%AEscrapy%E6%97%A5%E5%BF%97%E8%BE%93%E5%87%BA/</link>
     <pubDate>Fri, 24 Mar 2023 14:08:32 &#43;0800</pubDate>
