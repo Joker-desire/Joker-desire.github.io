@@ -30,7 +30,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/Joker-desire.github.io\/2023\/10\/selenium-grid-%E6%A8%A1%E6%8B%9F%E6%93%8D%E4%BD%9C%E4%B8%8A%E4%BC%A0%E6%93%8D%E4%BD%9C%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88\/"
-        },"genre": "posts","keywords": "Python, Selenium, docker","wordcount":  754 ,
+        },"genre": "posts","keywords": "Python, Selenium, docker","wordcount":  881 ,
         "url": "https:\/\/Joker-desire.github.io\/2023\/10\/selenium-grid-%E6%A8%A1%E6%8B%9F%E6%93%8D%E4%BD%9C%E4%B8%8A%E4%BC%A0%E6%93%8D%E4%BD%9C%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88\/","datePublished": "2023-10-22T09:50:18+08:00","dateModified": "2023-10-22T09:50:18+08:00","publisher": {
             "@type": "Organization",
             "name": ""},"author": {
@@ -105,7 +105,7 @@
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Selenium Grid 模拟操作上传操作问题解决方案</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Joker-desire</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/python/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Python</a>&nbsp;<a href="/categories/selenium/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Selenium</a>&nbsp;<a href="/categories/docker/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>docker</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2023年10月22日">2023年10月22日</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;约 754 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2023年10月22日">2023年10月22日</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;约 881 字&nbsp;
                 <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;预计阅读 2 分钟&nbsp;</div>
         </div><div class="details toc" id="toc-static"  data-kept="">
                 <div class="details-summary toc-title">
@@ -126,14 +126,20 @@
             <li><a href="#说明">说明</a></li>
           </ul>
         </li>
-        <li><a href="#部署启动selenium-grid-uploadhttpsgithubcomjoker-desireselenium-grid-upload">部署启动（<a href="https://github.com/Joker-desire/Selenium-Grid-Upload">Selenium-Grid-Upload</a>）</a></li>
+        <li><a href="#部署启动selenium-grid-uploadhttpsgithubcomjoker-desireselenium-grid-upload">部署启动（<a href="https://github.com/Joker-desire/Selenium-Grid-Upload">Selenium-Grid-Upload</a>）</a>
+          <ul>
+            <li><a href="#部署">部署</a></li>
+            <li><a href="#命令行">命令行</a></li>
+          </ul>
+        </li>
         <li><a href="#示例">示例</a></li>
       </ul>
     </li>
   </ul>
 </nav></div>
             </div><div class="content" id="content"><blockquote>
-<p>在使用Selenium Grid模拟操作上传文件时，会从浏览器实例的本地文件系统中读取文件。这就导致了一个问题，如果Grid Hub所在的机器上没有要上传的文件，那么就会出现文件不存在的错误。</p>
+<p>在使用Selenium Grid模拟操作上传文件时，会从浏览器实例的本地文件系统中读取文件。这就导致了一个问题，如果Grid
+Hub所在的机器上没有要上传的文件，那么就会出现文件不存在的错误。</p>
 </blockquote>
 <h2 id="解决">解决</h2>
 <p>将浏览器实例的某一文件夹映射出来，在执行上传操作时，将文件上传到该文件夹中，这样就可以解决文件不存在的问题。</p>
@@ -173,8 +179,8 @@
 </ol>
 <h3 id="说明">说明</h3>
 <ol>
-<li>Selenium Grid ui界面</li>
-</ol>
+<li>
+<p>Selenium Grid ui界面</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -183,9 +189,9 @@
 <pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">http://127.0.0.1:8080/ui
 </span></span></code></pre></td></tr></table>
 </div>
-</div><ol start="2">
-<li>Selenium Grid Hub</li>
-</ol>
+</div></li>
+<li>
+<p>Selenium Grid Hub</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -202,19 +208,21 @@
 </span><span class="lnt">4
 </span><span class="lnt">5
 </span><span class="lnt">6
+</span><span class="lnt">7
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">selenium</span> <span class="kn">import</span> <span class="n">webdriver</span>
 </span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">selenium.webdriver.chrome</span> <span class="kn">import</span> <span class="n">options</span>
+</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1"># from selenium.webdriver.firefox import options</span>
 </span></span><span class="line"><span class="cl"><span class="c1"># from selenium.webdriver.edge import options</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">driver</span> <span class="o">=</span> <span class="n">webdriver</span><span class="o">.</span><span class="n">Remote</span><span class="p">(</span><span class="n">command_executor</span><span class="o">=</span><span class="s2">&#34;http://127.0.0.1:8080/grid/hub&#34;</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="n">options</span><span class="o">.</span><span class="n">Options</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl"><span class="n">driver</span> <span class="o">=</span> <span class="n">webdriver</span><span class="o">.</span><span class="n">Remote</span><span class="p">(</span><span class="n">command_executor</span><span class="o">=</span><span class="s2">&#34;http://admin:admin@127.0.0.1:8080/grid/hub&#34;</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="n">options</span><span class="o">.</span><span class="n">Options</span><span class="p">())</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><ol start="3">
-<li>Selenium Grid 状态</li>
-</ol>
+</div></li>
+<li>
+<p>Selenium Grid 状态</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -223,9 +231,9 @@
 <pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">http://127.0.0.1:8080/grid/hub/status
 </span></span></code></pre></td></tr></table>
 </div>
-</div><ol start="4">
-<li>上传接口</li>
-</ol>
+</div></li>
+<li>
+<p>上传接口</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -255,9 +263,16 @@
 </span><span class="lnt">17
 </span><span class="lnt">18
 </span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">requests</span>
+</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">upload</span><span class="p">(</span><span class="n">pictures</span><span class="p">):</span>
 </span></span><span class="line"><span class="cl">    <span class="s2">&#34;&#34;&#34;
@@ -265,12 +280,17 @@
 </span></span></span><span class="line"><span class="cl"><span class="s2">    :param pictures: 图片路径列表
 </span></span></span><span class="line"><span class="cl"><span class="s2">    :return: 图片上传后在浏览器实例中的路径列表
 </span></span></span><span class="line"><span class="cl"><span class="s2">    &#34;&#34;&#34;</span>
-</span></span><span class="line"><span class="cl">    <span class="n">url</span> <span class="o">=</span> <span class="s2">&#34;http://127.0.0.1:8080/api/upload&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">url</span> <span class="o">=</span> <span class="s2">&#34;http://admin:admin@127.0.0.1:8080/api/upload&#34;</span>
 </span></span><span class="line"><span class="cl">    <span class="n">files</span> <span class="o">=</span> <span class="p">[(</span><span class="s2">&#34;files&#34;</span><span class="p">,</span> <span class="nb">open</span><span class="p">(</span><span class="n">picture</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">))</span> <span class="k">for</span> <span class="n">picture</span> <span class="ow">in</span> <span class="n">pictures</span><span class="p">]</span>
 </span></span><span class="line"><span class="cl">    <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">files</span><span class="o">=</span><span class="n">files</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="n">res</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl">    <span class="n">files_path</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&#34;data&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="p">[</span><span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&#34;browser_file_path&#34;</span><span class="p">)</span> <span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">files_path</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">401</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&#34;Authorization Required&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">elif</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">!=</span> <span class="mi">200</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&#34;Upload Failed&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">else</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">res</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="p">[</span><span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&#34;browser_file_path&#34;</span><span class="p">)</span> <span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">res</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&#34;data&#34;</span><span class="p">,</span> <span class="p">[])]</span>
+</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="n">files_path</span> <span class="o">=</span> <span class="n">upload</span><span class="p">([</span><span class="s2">&#34;/Users/example/Pictures/6.JPG&#34;</span><span class="p">,</span> <span class="s2">&#34;/Users/example/Pictures/7.png&#34;</span><span class="p">])</span>
 </span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">files_path</span><span class="p">)</span>
@@ -278,26 +298,124 @@
 </span></span><span class="line"><span class="cl"><span class="c1"># [&#39;/home/upload/2023/10/22/19676048770179.JPG&#39;, &#39;/home/upload/2023/10/22/19676121458637.png&#39;]</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h2 id="部署启动selenium-grid-uploadhttpsgithubcomjoker-desireselenium-grid-upload">部署启动（<a href="https://github.com/Joker-desire/Selenium-Grid-Upload" target="_blank" rel="noopener noreffer">Selenium-Grid-Upload</a>）</h2>
+</div></li>
+</ol>
+<h2 id="部署启动selenium-grid-uploadhttpsgithubcomjoker-desireselenium-grid-upload">部署启动（<a href="https://github.com/Joker-desire/Selenium-Grid-Upload" target="_blank" rel="noopener noreffer">Selenium-Grid-Upload</a>）</h2>
+<h3 id="部署">部署</h3>
+<ol>
+<li>克隆项目
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git clone https://github.com/Joker-desire/Selenium-Grid-Upload.git
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>进入项目目录
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">cd</span> Selenium-Grid-Upload
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>运行
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sh grid.sh run
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>默认superuser
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">username: admin
+</span></span><span class="line"><span class="cl">password: admin
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+</ol>
+<h3 id="命令行">命令行</h3>
+<ol>
+<li>运行
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 克隆项目</span>
-</span></span><span class="line"><span class="cl">git clone https://github.com/Joker-desire/Selenium-Grid-Upload.git
-</span></span><span class="line"><span class="cl"><span class="c1"># 进入项目目录</span>
-</span></span><span class="line"><span class="cl"><span class="nb">cd</span> Selenium-Grid-Upload
-</span></span><span class="line"><span class="cl"><span class="c1"># 启动</span>
-</span></span><span class="line"><span class="cl">sh start.sh
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sh grid.sh run
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 指定启动多少个浏览器实例</span>
+</span></span><span class="line"><span class="cl">sh grid.sh run --scale <span class="nv">chrome</span><span class="o">=</span><span class="m">5</span> --scale <span class="nv">edge</span><span class="o">=</span><span class="m">1</span> --scale <span class="nv">firefox</span><span class="o">=</span><span class="m">5</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h2 id="示例">示例</h2>
+</div></li>
+<li>启动
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sh grid.sh start
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>重启
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sh grid.sh restart
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>停止
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sh grid.sh stop
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>删除
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sh grid.sh down
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>创建新的superuser
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sh grid.sh superuser &lt;username&gt;
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+</ol>
+<h2 id="示例">示例</h2>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
@@ -333,6 +451,10 @@
 </span><span class="lnt">31
 </span><span class="lnt">32
 </span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">requests</span>
@@ -347,18 +469,22 @@
 </span></span></span><span class="line"><span class="cl"><span class="s2">    :param pictures: 图片路径列表
 </span></span></span><span class="line"><span class="cl"><span class="s2">    :return: 图片上传后在浏览器实例中的路径列表
 </span></span></span><span class="line"><span class="cl"><span class="s2">    &#34;&#34;&#34;</span>
-</span></span><span class="line"><span class="cl">    <span class="n">url</span> <span class="o">=</span> <span class="s2">&#34;http://127.0.0.1:8080/api/upload&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">url</span> <span class="o">=</span> <span class="s2">&#34;http://admin:admin@127.0.0.1:8080/api/upload&#34;</span>
 </span></span><span class="line"><span class="cl">    <span class="n">files</span> <span class="o">=</span> <span class="p">[(</span><span class="s2">&#34;files&#34;</span><span class="p">,</span> <span class="nb">open</span><span class="p">(</span><span class="n">picture</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">))</span> <span class="k">for</span> <span class="n">picture</span> <span class="ow">in</span> <span class="n">pictures</span><span class="p">]</span>
 </span></span><span class="line"><span class="cl">    <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">files</span><span class="o">=</span><span class="n">files</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="n">res</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl">    <span class="n">files_path</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&#34;data&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="p">[</span><span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&#34;browser_file_path&#34;</span><span class="p">)</span> <span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">files_path</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">401</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&#34;Authorization Required&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">elif</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">!=</span> <span class="mi">200</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&#34;Upload Failed&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">else</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">res</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="p">[</span><span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&#34;browser_file_path&#34;</span><span class="p">)</span> <span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">res</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&#34;data&#34;</span><span class="p">,</span> <span class="p">[])]</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1"># 在需要执行上传的模拟程序前，先进行上传需要用到的图片</span>
 </span></span><span class="line"><span class="cl"><span class="n">files_path</span> <span class="o">=</span> <span class="n">upload</span><span class="p">([</span><span class="s2">&#34;/Users/example/Pictures/6.JPG&#34;</span><span class="p">,</span> <span class="s2">&#34;/Users/example/Pictures/7.png&#34;</span><span class="p">])</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">driver</span> <span class="o">=</span> <span class="n">webdriver</span><span class="o">.</span><span class="n">Remote</span><span class="p">(</span><span class="n">command_executor</span><span class="o">=</span><span class="s2">&#34;http://127.0.0.1:8080/grid/hub&#34;</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="n">options</span><span class="o">.</span><span class="n">Options</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl"><span class="n">driver</span> <span class="o">=</span> <span class="n">webdriver</span><span class="o">.</span><span class="n">Remote</span><span class="p">(</span><span class="n">command_executor</span><span class="o">=</span><span class="s2">&#34;http://admin:admin@127.0.0.1:8080/grid/hub&#34;</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="n">options</span><span class="o">.</span><span class="n">Options</span><span class="p">())</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="n">driver</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&#34;https://www.example.com/upload.html&#34;</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">
