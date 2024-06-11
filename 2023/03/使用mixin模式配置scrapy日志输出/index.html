@@ -1,0 +1,233 @@
+<!doctype html><html lang=zh-cn><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><title>使用Mixin模式配置Scrapy日志输出 - Joker-desire's Blog</title><meta name=Description content="为什么要努力？ 因为我喜欢的东西都很贵，我想去的地方都很远，我爱的人超完美。"><meta property="og:url" content="https://Joker-desire.github.io/2023/03/%E4%BD%BF%E7%94%A8mixin%E6%A8%A1%E5%BC%8F%E9%85%8D%E7%BD%AEscrapy%E6%97%A5%E5%BF%97%E8%BE%93%E5%87%BA/">
+<meta property="og:site_name" content="Joker-desire's Blog"><meta property="og:title" content="使用Mixin模式配置Scrapy日志输出"><meta property="og:description" content="背景 为什么要重新配置Scrapy日志输出 在使用kafka进行处理爬虫数据后出现了一种现象：日志打印会将整个item数据打印出，由于使用kaf"><meta property="og:locale" content="zh_cn"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2023-03-24T14:08:32+08:00"><meta property="article:modified_time" content="2023-03-24T14:08:32+08:00"><meta property="article:tag" content="爬虫"><meta property="article:tag" content="Python"><meta property="og:image" content="https://Joker-desire.github.io/logo.png"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://Joker-desire.github.io/logo.png"><meta name=twitter:title content="使用Mixin模式配置Scrapy日志输出"><meta name=twitter:description content="背景 为什么要重新配置Scrapy日志输出 在使用kafka进行处理爬虫数据后出现了一种现象：日志打印会将整个item数据打印出，由于使用kaf"><meta name=application-name content="Joker-desire"><meta name=apple-mobile-web-app-title content="Joker-desire"><meta name=theme-color content="#ffffff"><meta name=msapplication-TileColor content="#da532c"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://Joker-desire.github.io/2023/03/%E4%BD%BF%E7%94%A8mixin%E6%A8%A1%E5%BC%8F%E9%85%8D%E7%BD%AEscrapy%E6%97%A5%E5%BF%97%E8%BE%93%E5%87%BA/><link rel=prev href=https://Joker-desire.github.io/2023/03/redis-incr%E8%AE%A1%E6%95%B0/><link rel=next href=https://Joker-desire.github.io/2023/03/4/><link rel=stylesheet href=/css/style.min.css><link rel=preload href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css></noscript><link rel=preload href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css></noscript><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"使用Mixin模式配置Scrapy日志输出","inLanguage":"zh-cn","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/Joker-desire.github.io\/2023\/03\/%E4%BD%BF%E7%94%A8mixin%E6%A8%A1%E5%BC%8F%E9%85%8D%E7%BD%AEscrapy%E6%97%A5%E5%BF%97%E8%BE%93%E5%87%BA\/"},"genre":"posts","keywords":"爬虫, Python","wordcount":1217,"url":"https:\/\/Joker-desire.github.io\/2023\/03\/%E4%BD%BF%E7%94%A8mixin%E6%A8%A1%E5%BC%8F%E9%85%8D%E7%BD%AEscrapy%E6%97%A5%E5%BF%97%E8%BE%93%E5%87%BA\/","datePublished":"2023-03-24T14:08:32+08:00","dateModified":"2023-03-24T14:08:32+08:00","publisher":{"@type":"Organization","name":""},"author":{"@type":"Person","name":"Joker-desire"},"description":""}</script></head><body data-header-desktop=fixed data-header-mobile=auto><script type=text/javascript>(window.localStorage&&localStorage.getItem("theme")?localStorage.getItem("theme")==="dark":"auto"==="auto"?window.matchMedia("(prefers-color-scheme: dark)").matches:"auto"==="dark")&&document.body.setAttribute("theme","dark")</script><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title="Joker-desire's Blog"><span class=header-title-pre><i class='far fa-kiss-wink-heart fa-fw' aria-hidden=true></i></span>welcome</a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts title=所有文章>所有文章 </a><a class=menu-item href=/categories title=分类>分类 </a><a class=menu-item href=/tags title=标签>标签 </a><a class=menu-item href=/about title=关于>关于 </a><a class=menu-item href=https://github.com/Joker-desire title=GitHub rel="noopener noreffer" target=_blank><i class='fab fa-github fa-fw' aria-hidden=true></i> </a><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop>
+<input type=text placeholder=搜索文章标题或内容... id=search-input-desktop>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-desktop title=搜索><i class="fas fa-search fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-desktop title=清空><i class="fas fa-times-circle fa-fw" aria-hidden=true></i>
+</a><span class="search-button search-loading" id=search-loading-desktop><i class="fas fa-spinner fa-fw fa-spin" aria-hidden=true></i>
+</span></span><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题><i class="fas fa-adjust fa-fw" aria-hidden=true></i></a></div></div></div></header><header class=mobile id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title="Joker-desire's Blog"><span class=header-title-pre><i class='far fa-kiss-wink-heart fa-fw' aria-hidden=true></i></span>welcome</a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><div class=search-wrapper><div class="search mobile" id=search-mobile><input type=text placeholder=搜索文章标题或内容... id=search-input-mobile>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-mobile title=搜索><i class="fas fa-search fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-mobile title=清空><i class="fas fa-times-circle fa-fw" aria-hidden=true></i>
+</a><span class="search-button search-loading" id=search-loading-mobile><i class="fas fa-spinner fa-fw fa-spin" aria-hidden=true></i></span></div><a href=javascript:void(0); class=search-cancel id=search-cancel-mobile>取消</a></div><a class=menu-item href=/posts title=所有文章>所有文章</a><a class=menu-item href=/categories title=分类>分类</a><a class=menu-item href=/tags title=标签>标签</a><a class=menu-item href=/about title=关于>关于</a><a class=menu-item href=https://github.com/Joker-desire title=GitHub rel="noopener noreffer" target=_blank><i class='fab fa-github fa-fw' aria-hidden=true></i></a><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题>
+<i class="fas fa-adjust fa-fw" aria-hidden=true></i></a></div></div></header><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div><main class=main><div class=container><div class=toc id=toc-auto><h2 class=toc-title>目录</h2><div class=toc-content id=toc-content-auto></div></div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">使用Mixin模式配置Scrapy日志输出</h1><div class=post-meta><div class=post-meta-line><span class=post-author><a href=/ title=Author rel=author class=author><i class="fas fa-user-circle fa-fw" aria-hidden=true></i>Joker-desire</a></span>&nbsp;<span class=post-category>收录于 <a href=/categories/%E7%88%AC%E8%99%AB/><i class="far fa-folder fa-fw" aria-hidden=true></i>爬虫</a>&nbsp;<a href=/categories/python/><i class="far fa-folder fa-fw" aria-hidden=true></i>Python</a></span></div><div class=post-meta-line><i class="far fa-calendar-alt fa-fw" aria-hidden=true></i>&nbsp;<time datetime=2023年03月24日>2023年03月24日</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden=true></i>&nbsp;约 1217 字&nbsp;
+<i class="far fa-clock fa-fw" aria-hidden=true></i>&nbsp;预计阅读 3 分钟&nbsp;</div></div><div class="details toc" id=toc-static data-kept><div class="details-summary toc-title"><span>目录</span>
+<span><i class="details-icon fas fa-angle-right" aria-hidden=true></i></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><ul><li><a href=#背景>背景</a><ul><li><a href=#为什么要重新配置scrapy日志输出>为什么要重新配置Scrapy日志输出</a></li></ul></li><li><a href=#mixin模式>Mixin模式</a></li><li><a href=#使用logconfigmixin实现scrapy日志配置>使用LogConfigMixin实现Scrapy日志配置</a></li><li><a href=#在爬虫中进行使用>在爬虫中进行使用</a><ul><li><a href=#自定义spider和redisspider类>自定义<code>Spider</code>和<code>RedisSpider</code>类</a></li><li><a href=#例子>例子</a><ul><li><a href=#原爬虫程序>原爬虫程序</a></li><li><a href=#增加日志配置功能后爬虫程序>增加日志配置功能后爬虫程序</a></li><li><a href=#修改成本极低>修改成本极低</a></li></ul></li></ul></li></ul></li></ul></nav></div></div><div class=content id=content><h2 id=背景>背景</h2><h3 id=为什么要重新配置scrapy日志输出>为什么要重新配置Scrapy日志输出</h3><p>在使用kafka进行处理爬虫数据后出现了一种现象：日志打印会将整个item数据打印出，由于使用kafka处理数据，都是将整个页面数据进行存入item的，每天的日志都将占很大的内存空间。之前的做法是提高整个爬虫的日志等级为<code>LOG_LEVEL = "ERROR"</code> ，这样处理会带来一个问题，如果想要写日志进行排查问题时，就只能往项目中添加<code>logging.error()</code> 级别的日志了，这样会造成日志输出混乱，不易排查问题。所以就需要放弃这种形式，进行重新配置日志输出，将一些不需要的日志输出进行排除掉。</p><h2 id=mixin模式>Mixin模式</h2><p>Mixin模式是一种面向对象编程的设计模式，它允许将一个类的方法和属性混合到另一个类中，从而实现代码的复用和灵活性。</p><p>在Mixin模式中，一个Mixin类通常只包含一组相关的方法和属性，而不是完整的类定义。这些Mixin类可以被多个类引用，从而实现代码的复用。Mixin类通常不会被单独实例化，而是被其他类继承或混合使用。</p><p>在一些编程语言中，如Python和Ruby，Mixin模式可以通过多重继承来实现。在这种情况下，一个类可以继承多个Mixin类，并从中继承方法和属性。在其他编程语言中，如Java和C#，Mixin模式可以通过接口和委托来实现。</p><p>Python中使用Mixin模式的示例代码:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=k>class</span> <span class=nc>SayHiMixin</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=nf>say</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=nb>print</span><span class=p>(</span><span class=sa>f</span><span class=s2>&#34;Hi, </span><span class=si>{</span><span class=bp>self</span><span class=o>.</span><span class=n>name</span><span class=si>}</span><span class=s2>&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>User</span><span class=p>(</span><span class=n>SayHiMixin</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>name</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>name</span> <span class=o>=</span> <span class=n>name</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>user</span> <span class=o>=</span> <span class=n>User</span><span class=p>(</span><span class=s2>&#34;Tommy&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>user</span><span class=o>.</span><span class=n>say</span><span class=p>()</span> <span class=c1># Hi, Tommy</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=使用logconfigmixin实现scrapy日志配置>使用LogConfigMixin实现Scrapy日志配置</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=kn>import</span> <span class=nn>logging</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>LogConfigMixin</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=o>*</span><span class=n>args</span><span class=p>,</span> <span class=o>**</span><span class=n>kwargs</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=nb>super</span><span class=p>(</span><span class=n>LogConfigMixin</span><span class=p>,</span> <span class=bp>self</span><span class=p>)</span><span class=o>.</span><span class=fm>__init__</span><span class=p>(</span><span class=o>*</span><span class=n>args</span><span class=p>,</span> <span class=o>**</span><span class=n>kwargs</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=c1># 去掉不需要的log handler（元组格式）</span>
+</span></span><span class=line><span class=cl>        <span class=n>remove_handlers</span> <span class=o>=</span> <span class=p>(</span><span class=n>logging</span><span class=o>.</span><span class=n>StreamHandler</span><span class=p>,)</span>
+</span></span><span class=line><span class=cl>        <span class=k>for</span> <span class=n>handler</span> <span class=ow>in</span> <span class=n>logging</span><span class=o>.</span><span class=n>root</span><span class=o>.</span><span class=n>handlers</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>            <span class=k>if</span> <span class=nb>isinstance</span><span class=p>(</span><span class=n>handler</span><span class=p>,</span> <span class=n>remove_handlers</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>                <span class=n>logging</span><span class=o>.</span><span class=n>root</span><span class=o>.</span><span class=n>handlers</span><span class=o>.</span><span class=n>remove</span><span class=p>(</span><span class=n>handler</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=c1># 添加自定义 handler</span>
+</span></span><span class=line><span class=cl>        <span class=n>handler</span> <span class=o>=</span> <span class=n>logging</span><span class=o>.</span><span class=n>StreamHandler</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>        <span class=n>handler</span><span class=o>.</span><span class=n>setLevel</span><span class=p>(</span><span class=n>logging</span><span class=o>.</span><span class=n>DEBUG</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=n>logger_fmt</span> <span class=o>=</span> <span class=s1>&#39;</span><span class=si>{asctime}</span><span class=s1>.</span><span class=si>{msecs:03.0f}</span><span class=s1> </span><span class=si>{levelname}</span><span class=s1> 【</span><span class=si>{filename}</span><span class=s1>:</span><span class=si>{funcName}</span><span class=s1>:</span><span class=si>{lineno}</span><span class=s1>】: </span><span class=si>{message}</span><span class=s1>&#39;</span>
+</span></span><span class=line><span class=cl>        <span class=n>_format</span> <span class=o>=</span> <span class=n>logging</span><span class=o>.</span><span class=n>Formatter</span><span class=p>(</span><span class=n>fmt</span><span class=o>=</span><span class=n>logger_fmt</span><span class=p>,</span> <span class=n>style</span><span class=o>=</span><span class=s1>&#39;{&#39;</span><span class=p>,</span> <span class=n>datefmt</span><span class=o>=</span><span class=s1>&#39;%Y-%m-</span><span class=si>%d</span><span class=s1> %H:%M:%S&#39;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=n>handler</span><span class=o>.</span><span class=n>setFormatter</span><span class=p>(</span><span class=n>fmt</span><span class=o>=</span><span class=n>_format</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=n>logging</span><span class=o>.</span><span class=n>root</span><span class=o>.</span><span class=n>addHandler</span><span class=p>(</span><span class=n>handler</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=c1># 设置 scrapy 某些组件的日志级别</span>
+</span></span><span class=line><span class=cl>        <span class=c1># 此日志中包含了item的输出结果，由于是整个页面数据，故需要调整日志级别，防止日志过大</span>
+</span></span><span class=line><span class=cl>        <span class=n>logging</span><span class=o>.</span><span class=n>getLogger</span><span class=p>(</span><span class=s1>&#39;scrapy.core.scraper&#39;</span><span class=p>)</span><span class=o>.</span><span class=n>setLevel</span><span class=p>(</span><span class=n>logging</span><span class=o>.</span><span class=n>WARNING</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=n>logging</span><span class=o>.</span><span class=n>getLogger</span><span class=p>(</span><span class=s1>&#39;scrapy.core.engine&#39;</span><span class=p>)</span><span class=o>.</span><span class=n>setLevel</span><span class=p>(</span><span class=n>logging</span><span class=o>.</span><span class=n>DEBUG</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=n>logging</span><span class=o>.</span><span class=n>getLogger</span><span class=p>(</span><span class=s1>&#39;scrapy.middleware&#39;</span><span class=p>)</span><span class=o>.</span><span class=n>setLevel</span><span class=p>(</span><span class=n>logging</span><span class=o>.</span><span class=n>DEBUG</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=n>logging</span><span class=o>.</span><span class=n>getLogger</span><span class=p>(</span><span class=s1>&#39;scrapy.utils.log&#39;</span><span class=p>)</span><span class=o>.</span><span class=n>setLevel</span><span class=p>(</span><span class=n>logging</span><span class=o>.</span><span class=n>DEBUG</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=c1># kafka相关日志设置级别</span>
+</span></span><span class=line><span class=cl>        <span class=n>logging</span><span class=o>.</span><span class=n>getLogger</span><span class=p>(</span><span class=s2>&#34;kafka.cluster&#34;</span><span class=p>)</span><span class=o>.</span><span class=n>setLevel</span><span class=p>(</span><span class=n>logging</span><span class=o>.</span><span class=n>WARNING</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=n>logging</span><span class=o>.</span><span class=n>getLogger</span><span class=p>(</span><span class=s2>&#34;kafka.producer.sender&#34;</span><span class=p>)</span><span class=o>.</span><span class=n>setLevel</span><span class=p>(</span><span class=n>logging</span><span class=o>.</span><span class=n>WARNING</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=n>logging</span><span class=o>.</span><span class=n>getLogger</span><span class=p>(</span><span class=s2>&#34;kafka.producer.record_accumulator&#34;</span><span class=p>)</span><span class=o>.</span><span class=n>setLevel</span><span class=p>(</span><span class=n>logging</span><span class=o>.</span><span class=n>WARNING</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=n>logging</span><span class=o>.</span><span class=n>getLogger</span><span class=p>(</span><span class=s2>&#34;kafka.protocol.parser&#34;</span><span class=p>)</span><span class=o>.</span><span class=n>setLevel</span><span class=p>(</span><span class=n>logging</span><span class=o>.</span><span class=n>WARNING</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=n>logging</span><span class=o>.</span><span class=n>getLogger</span><span class=p>(</span><span class=s2>&#34;kafka.metrics.metrics&#34;</span><span class=p>)</span><span class=o>.</span><span class=n>setLevel</span><span class=p>(</span><span class=n>logging</span><span class=o>.</span><span class=n>WARNING</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=n>logging</span><span class=o>.</span><span class=n>getLogger</span><span class=p>(</span><span class=s2>&#34;kafka.client&#34;</span><span class=p>)</span><span class=o>.</span><span class=n>setLevel</span><span class=p>(</span><span class=n>logging</span><span class=o>.</span><span class=n>WARNING</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=n>logging</span><span class=o>.</span><span class=n>getLogger</span><span class=p>(</span><span class=s2>&#34;kafka.conn&#34;</span><span class=p>)</span><span class=o>.</span><span class=n>setLevel</span><span class=p>(</span><span class=n>logging</span><span class=o>.</span><span class=n>WARNING</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=n>logging</span><span class=o>.</span><span class=n>getLogger</span><span class=p>(</span><span class=s2>&#34;kafka.send&#34;</span><span class=p>)</span><span class=o>.</span><span class=n>setLevel</span><span class=p>(</span><span class=n>logging</span><span class=o>.</span><span class=n>WARNING</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=n>logging</span><span class=o>.</span><span class=n>getLogger</span><span class=p>(</span><span class=s2>&#34;kafka.close&#34;</span><span class=p>)</span><span class=o>.</span><span class=n>setLevel</span><span class=p>(</span><span class=n>logging</span><span class=o>.</span><span class=n>WARNING</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=在爬虫中进行使用>在爬虫中进行使用</h2><h3 id=自定义spider和redisspider类>自定义<code>Spider</code>和<code>RedisSpider</code>类</h3><p>使用自定义的<code>Spider</code>和<code>RedisSpider</code>为官方的<code>Spider</code>和<code>RedisSpider</code>基础爬虫类增加日志配置功能</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=kn>from</span> <span class=nn>abc</span> <span class=kn>import</span> <span class=n>ABC</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>scrapy</span> <span class=kn>import</span> <span class=n>Spider</span> <span class=k>as</span> <span class=n>_Spider</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>scrapy_redis.spiders</span> <span class=kn>import</span> <span class=n>RedisSpider</span> <span class=k>as</span> <span class=n>_RedisSpider</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>Spider</span><span class=p>(</span><span class=n>LogConfigMixin</span><span class=p>,</span> <span class=n>_Spider</span><span class=p>,</span> <span class=n>ABC</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>    <span class=k>pass</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>RedisSpider</span><span class=p>(</span><span class=n>LogConfigMixin</span><span class=p>,</span> <span class=n>_RedisSpider</span><span class=p>,</span> <span class=n>ABC</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>    <span class=k>pass</span>
+</span></span></code></pre></td></tr></table></div></div><p>这样做的好处：就可以在不改变原有的爬虫程序，只用修改导包路径即可，修改成本极低✌️</p><h3 id=例子>例子</h3><h4 id=原爬虫程序>原爬虫程序</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=kn>from</span> <span class=nn>scrapy</span> <span class=kn>import</span> <span class=n>Spider</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>estate.items</span> <span class=kn>import</span> <span class=n>HuiLvItem</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>DemoSpider</span><span class=p>(</span><span class=n>Spider</span><span class=p>):</span>  
+</span></span><span class=line><span class=cl>    <span class=n>name</span> <span class=o>=</span> <span class=s2>&#34;demo&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>custom_settings</span> <span class=o>=</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=s1>&#39;ITEM_PIPELINES&#39;</span><span class=p>:</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=s1>&#39;estate.pipelines.DemoPipeline&#39;</span><span class=p>:</span> <span class=mi>300</span>
+</span></span><span class=line><span class=cl>        <span class=p>},</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>start_urls</span> <span class=o>=</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>        <span class=s1>&#39;https://www.xxxx.cc/HKD_CNY/&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=p>]</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=nf>parse</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>response</span><span class=p>,</span> <span class=o>**</span><span class=n>kwargs</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=n>rate</span> <span class=o>=</span> <span class=n>response</span><span class=o>.</span><span class=n>xpath</span><span class=p>(</span><span class=s1>&#39;//div[@class=&#34;dollar_two&#34;]/span/text()&#39;</span><span class=p>)</span><span class=o>.</span><span class=n>extract_first</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=n>rate</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>            <span class=n>rate</span> <span class=o>=</span> <span class=n>rate</span>
+</span></span><span class=line><span class=cl>        <span class=k>else</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>            <span class=n>rate</span> <span class=o>=</span> <span class=mf>0.85551</span>
+</span></span><span class=line><span class=cl>        <span class=n>item</span> <span class=o>=</span> <span class=n>HuiLvItem</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>        <span class=n>item</span><span class=p>[</span><span class=s1>&#39;rate&#39;</span><span class=p>]</span> <span class=o>=</span> <span class=n>rate</span>
+</span></span><span class=line><span class=cl>        <span class=k>yield</span> <span class=n>item</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=增加日志配置功能后爬虫程序>增加日志配置功能后爬虫程序</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=kn>from</span> <span class=nn>estate.mixin</span> <span class=kn>import</span> <span class=n>Spider</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>estate.items</span> <span class=kn>import</span> <span class=n>HuiLvItem</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>DemoSpider</span><span class=p>(</span><span class=n>Spider</span><span class=p>):</span>  
+</span></span><span class=line><span class=cl>    <span class=n>name</span> <span class=o>=</span> <span class=s2>&#34;demo&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>custom_settings</span> <span class=o>=</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=s1>&#39;ITEM_PIPELINES&#39;</span><span class=p>:</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=s1>&#39;estate.pipelines.DemoPipeline&#39;</span><span class=p>:</span> <span class=mi>300</span>
+</span></span><span class=line><span class=cl>        <span class=p>},</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>start_urls</span> <span class=o>=</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>        <span class=s1>&#39;https://www.xxxx.cc/HKD_CNY/&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=p>]</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=nf>parse</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>response</span><span class=p>,</span> <span class=o>**</span><span class=n>kwargs</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=n>rate</span> <span class=o>=</span> <span class=n>response</span><span class=o>.</span><span class=n>xpath</span><span class=p>(</span><span class=s1>&#39;//div[@class=&#34;dollar_two&#34;]/span/text()&#39;</span><span class=p>)</span><span class=o>.</span><span class=n>extract_first</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=n>rate</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>            <span class=n>rate</span> <span class=o>=</span> <span class=n>rate</span>
+</span></span><span class=line><span class=cl>        <span class=k>else</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>            <span class=n>rate</span> <span class=o>=</span> <span class=mf>0.85551</span>
+</span></span><span class=line><span class=cl>        <span class=n>item</span> <span class=o>=</span> <span class=n>HuiLvItem</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>        <span class=n>item</span><span class=p>[</span><span class=s1>&#39;rate&#39;</span><span class=p>]</span> <span class=o>=</span> <span class=n>rate</span>
+</span></span><span class=line><span class=cl>        <span class=k>yield</span> <span class=n>item</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=修改成本极低>修改成本极低</h4><p>只需将官方导包<code>from scrapy import Spider</code> 更改为自定义导包路径 <code>from estate.mixin import Spider</code></p></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>更新于 2023年03月24日</span></div></div><div class=post-info-line><div class=post-info-md><span><a class=link-to-markdown href=/2023/03/%E4%BD%BF%E7%94%A8mixin%E6%A8%A1%E5%BC%8F%E9%85%8D%E7%BD%AEscrapy%E6%97%A5%E5%BF%97%E8%BE%93%E5%87%BA/index.md target=_blank>阅读原始文档</a></span></div><div class=post-info-share><span><a href=javascript:void(0); title="分享到 Twitter" data-sharer=twitter data-url=https://Joker-desire.github.io/2023/03/%E4%BD%BF%E7%94%A8mixin%E6%A8%A1%E5%BC%8F%E9%85%8D%E7%BD%AEscrapy%E6%97%A5%E5%BF%97%E8%BE%93%E5%87%BA/ data-title=使用Mixin模式配置Scrapy日志输出 data-hashtags=爬虫,Python><i class="fab fa-twitter fa-fw" aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 Facebook" data-sharer=facebook data-url=https://Joker-desire.github.io/2023/03/%E4%BD%BF%E7%94%A8mixin%E6%A8%A1%E5%BC%8F%E9%85%8D%E7%BD%AEscrapy%E6%97%A5%E5%BF%97%E8%BE%93%E5%87%BA/ data-hashtag=爬虫><i class="fab fa-facebook-square fa-fw" aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 Hacker News" data-sharer=hackernews data-url=https://Joker-desire.github.io/2023/03/%E4%BD%BF%E7%94%A8mixin%E6%A8%A1%E5%BC%8F%E9%85%8D%E7%BD%AEscrapy%E6%97%A5%E5%BF%97%E8%BE%93%E5%87%BA/ data-title=使用Mixin模式配置Scrapy日志输出><i class="fab fa-hacker-news fa-fw" aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 Line" data-sharer=line data-url=https://Joker-desire.github.io/2023/03/%E4%BD%BF%E7%94%A8mixin%E6%A8%A1%E5%BC%8F%E9%85%8D%E7%BD%AEscrapy%E6%97%A5%E5%BF%97%E8%BE%93%E5%87%BA/ data-title=使用Mixin模式配置Scrapy日志输出><i data-svg-src=https://cdn.jsdelivr.net/npm/simple-icons@7.0.0/icons/line.svg aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 微博" data-sharer=weibo data-url=https://Joker-desire.github.io/2023/03/%E4%BD%BF%E7%94%A8mixin%E6%A8%A1%E5%BC%8F%E9%85%8D%E7%BD%AEscrapy%E6%97%A5%E5%BF%97%E8%BE%93%E5%87%BA/ data-title=使用Mixin模式配置Scrapy日志输出><i class="fab fa-weibo fa-fw" aria-hidden=true></i></a></span></div></div></div><div class=post-info-more><section class=post-tags><i class="fas fa-tags fa-fw" aria-hidden=true></i>&nbsp;<a href=/tags/%E7%88%AC%E8%99%AB/>爬虫</a>,&nbsp;<a href=/tags/python/>Python</a></section><section><span><a href=javascript:void(0); onclick=window.history.back()>返回</a></span>&nbsp;|&nbsp;<span><a href=/>主页</a></span></section></div><div class=post-nav><a href=/2023/03/redis-incr%E8%AE%A1%E6%95%B0/ class=prev rel=prev title=Redis-incr计数><i class="fas fa-angle-left fa-fw" aria-hidden=true></i>Redis-incr计数</a>
+<a href=/2023/03/4/ class=next rel=next title=sqlalchemy新增数据后获取递增ID报错解决>sqlalchemy新增数据后获取递增ID报错解决<i class="fas fa-angle-right fa-fw" aria-hidden=true></i></a></div></div><div id=comments><div id=giscus class=comment></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://giscus.app>Giscus</a>.</noscript></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line itemscope itemtype=http://schema.org/CreativeWork><i class="far fa-copyright fa-fw" aria-hidden=true></i><span itemprop=copyrightYear>2022 - 2024</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=/ target=_blank>Joker desire</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div></div></footer></div><div id=fixed-buttons><a href=# id=back-to-top class=fixed-button title=回到顶部><i class="fas fa-arrow-up fa-fw" aria-hidden=true></i>
+</a><a href=# id=view-comments class=fixed-button title=查看评论><i class="fas fa-comment fa-fw" aria-hidden=true></i></a></div><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/lightgallery@2.4.0/css/lightgallery-bundle.min.css><script type=text/javascript src=https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/algoliasearch@4.13.1/dist/algoliasearch-lite.umd.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lazysizes@5.3.1/lazysizes.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lightgallery@2.4.0/lightgallery.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lightgallery@2.4.0/plugins/thumbnail/lg-thumbnail.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lightgallery@2.4.0/plugins/zoom/lg-zoom.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js></script><script type=text/javascript>window.config={code:{copyTitle:"复制到剪贴板",maxShownLines:50},comment:{giscus:{category:"Announcements",categoryId:"DIC_kwDOHfPihs4CPp7X",darkTheme:"dark",emitMetadata:"0",inputPosition:"top",lang:"zh-CN",lazyLoading:!1,lightTheme:"light",mapping:"pathname",reactionsEnabled:"1",repo:"Joker-desire/store-comments",repoId:"R_kgDOHfPihg"}},lightgallery:!0,search:{algoliaAppID:"R6OIVCXBNU",algoliaIndex:"Joker-desire",algoliaSearchKey:"07e68b90760663e43882d4a48e00e932",highlightTag:"em",maxResultLength:10,noResultsFound:"没有找到结果",snippetLength:30,type:"algolia"}}</script><script type=text/javascript src=/js/theme.min.js></script></body></html>

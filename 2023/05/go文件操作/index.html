@@ -1,0 +1,535 @@
+<!doctype html><html lang=zh-cn><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><title>Go文件操作 - Joker-desire's Blog</title><meta name=Description content="为什么要努力？ 因为我喜欢的东西都很贵，我想去的地方都很远，我爱的人超完美。"><meta property="og:url" content="https://Joker-desire.github.io/2023/05/go%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/">
+<meta property="og:site_name" content="Joker-desire's Blog"><meta property="og:title" content="Go文件操作"><meta property="og:description" content="基本介绍 文件再程序中是以流的形式来操作的。 流：数据再数据源（文件）和程序（内存）之间经历的路径 输入流：数据从数据源（文件）到程序（内存）的路"><meta property="og:locale" content="zh_cn"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2023-05-23T18:51:04+08:00"><meta property="article:modified_time" content="2023-05-23T18:51:04+08:00"><meta property="article:tag" content="Go笔记"><meta property="og:image" content="https://Joker-desire.github.io/logo.png"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://Joker-desire.github.io/logo.png"><meta name=twitter:title content="Go文件操作"><meta name=twitter:description content="基本介绍 文件再程序中是以流的形式来操作的。 流：数据再数据源（文件）和程序（内存）之间经历的路径 输入流：数据从数据源（文件）到程序（内存）的路"><meta name=application-name content="Joker-desire"><meta name=apple-mobile-web-app-title content="Joker-desire"><meta name=theme-color content="#ffffff"><meta name=msapplication-TileColor content="#da532c"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://Joker-desire.github.io/2023/05/go%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/><link rel=prev href=https://Joker-desire.github.io/2023/05/go%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E4%B8%89%E5%A4%A7%E7%89%B9%E6%80%A7/><link rel=next href=https://Joker-desire.github.io/2023/05/go%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%8F%82%E6%95%B0/><link rel=stylesheet href=/css/style.min.css><link rel=preload href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css></noscript><link rel=preload href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css></noscript><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"Go文件操作","inLanguage":"zh-cn","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/Joker-desire.github.io\/2023\/05\/go%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C\/"},"genre":"posts","keywords":"Go笔记","wordcount":2272,"url":"https:\/\/Joker-desire.github.io\/2023\/05\/go%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C\/","datePublished":"2023-05-23T18:51:04+08:00","dateModified":"2023-05-23T18:51:04+08:00","publisher":{"@type":"Organization","name":""},"author":{"@type":"Person","name":"Joker-desire"},"description":""}</script></head><body data-header-desktop=fixed data-header-mobile=auto><script type=text/javascript>(window.localStorage&&localStorage.getItem("theme")?localStorage.getItem("theme")==="dark":"auto"==="auto"?window.matchMedia("(prefers-color-scheme: dark)").matches:"auto"==="dark")&&document.body.setAttribute("theme","dark")</script><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title="Joker-desire's Blog"><span class=header-title-pre><i class='far fa-kiss-wink-heart fa-fw' aria-hidden=true></i></span>welcome</a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts title=所有文章>所有文章 </a><a class=menu-item href=/categories title=分类>分类 </a><a class=menu-item href=/tags title=标签>标签 </a><a class=menu-item href=/about title=关于>关于 </a><a class=menu-item href=https://github.com/Joker-desire title=GitHub rel="noopener noreffer" target=_blank><i class='fab fa-github fa-fw' aria-hidden=true></i> </a><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop>
+<input type=text placeholder=搜索文章标题或内容... id=search-input-desktop>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-desktop title=搜索><i class="fas fa-search fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-desktop title=清空><i class="fas fa-times-circle fa-fw" aria-hidden=true></i>
+</a><span class="search-button search-loading" id=search-loading-desktop><i class="fas fa-spinner fa-fw fa-spin" aria-hidden=true></i>
+</span></span><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题><i class="fas fa-adjust fa-fw" aria-hidden=true></i></a></div></div></div></header><header class=mobile id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title="Joker-desire's Blog"><span class=header-title-pre><i class='far fa-kiss-wink-heart fa-fw' aria-hidden=true></i></span>welcome</a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><div class=search-wrapper><div class="search mobile" id=search-mobile><input type=text placeholder=搜索文章标题或内容... id=search-input-mobile>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-mobile title=搜索><i class="fas fa-search fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-mobile title=清空><i class="fas fa-times-circle fa-fw" aria-hidden=true></i>
+</a><span class="search-button search-loading" id=search-loading-mobile><i class="fas fa-spinner fa-fw fa-spin" aria-hidden=true></i></span></div><a href=javascript:void(0); class=search-cancel id=search-cancel-mobile>取消</a></div><a class=menu-item href=/posts title=所有文章>所有文章</a><a class=menu-item href=/categories title=分类>分类</a><a class=menu-item href=/tags title=标签>标签</a><a class=menu-item href=/about title=关于>关于</a><a class=menu-item href=https://github.com/Joker-desire title=GitHub rel="noopener noreffer" target=_blank><i class='fab fa-github fa-fw' aria-hidden=true></i></a><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题>
+<i class="fas fa-adjust fa-fw" aria-hidden=true></i></a></div></div></header><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div><main class=main><div class=container><div class=toc id=toc-auto><h2 class=toc-title>目录</h2><div class=toc-content id=toc-content-auto></div></div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Go文件操作</h1><div class=post-meta><div class=post-meta-line><span class=post-author><a href=/ title=Author rel=author class=author><i class="fas fa-user-circle fa-fw" aria-hidden=true></i>Joker-desire</a></span>&nbsp;<span class=post-category>收录于 <a href=/categories/go%E7%AC%94%E8%AE%B0/><i class="far fa-folder fa-fw" aria-hidden=true></i>Go笔记</a></span></div><div class=post-meta-line><i class="far fa-calendar-alt fa-fw" aria-hidden=true></i>&nbsp;<time datetime=2023年05月23日>2023年05月23日</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden=true></i>&nbsp;约 2272 字&nbsp;
+<i class="far fa-clock fa-fw" aria-hidden=true></i>&nbsp;预计阅读 5 分钟&nbsp;</div></div><div class="details toc" id=toc-static data-kept><div class="details-summary toc-title"><span>目录</span>
+<span><i class="details-icon fas fa-angle-right" aria-hidden=true></i></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><a href=#基本介绍>基本介绍</a></li><li><a href=#文件操作>文件操作</a><ul><li><a href=#文件打开和关闭>文件打开和关闭</a></li><li><a href=#读文件操作应用实例>读文件操作应用实例</a></li><li><a href=#写文件操作应用实例>写文件操作应用实例</a><ul><li><a href=#osopenfile写文件><code>os.OpenFile</code>写文件</a><ul><li><a href=#实例><strong>实例：</strong></a><ul><li><a href=#1创建新文件并写入内容>1、创建新文件并写入内容</a></li><li><a href=#2打开存在的文件将原来的内容进行覆盖>2、打开存在的文件，将原来的内容进行覆盖</a></li><li><a href=#3打开存在的文件在原来的内容中追加内容>3、打开存在的文件，在原来的内容中追加内容</a></li><li><a href=#4打开存在的文件将原来内容输出在终端并且追加内容>4、打开存在的文件，将原来内容输出在终端，并且追加内容</a></li></ul></li></ul></li><li><a href=#ioutilwriterfile写文件><code>ioutil.WriterFile</code>写文件</a><ul><li><a href=#实例-1><strong>实例：</strong></a></li></ul></li></ul></li><li><a href=#判断文件或文件夹是否存在>判断文件或文件夹是否存在</a></li><li><a href=#拷贝文件>拷贝文件</a></li><li><a href=#统计不同类型的字符数量>统计不同类型的字符数量</a></li></ul></li></ul></nav></div></div><div class=content id=content><h1 id=基本介绍>基本介绍</h1><p>文件再程序中是以<strong>流</strong>的形式来操作的。</p><p><img class=lazyload src=/svg/loading.min.svg data-src=https://raw.githubusercontent.com/XD825/picgo/main/img/202305241109115.png data-srcset="https://raw.githubusercontent.com/XD825/picgo/main/img/202305241109115.png, https://raw.githubusercontent.com/XD825/picgo/main/img/202305241109115.png 1.5x, https://raw.githubusercontent.com/XD825/picgo/main/img/202305241109115.png 2x" data-sizes=auto alt=https://raw.githubusercontent.com/XD825/picgo/main/img/202305241109115.png title=image-20230524110947948></p><ul><li><p><strong>流</strong>：数据再数据源（文件）和程序（内存）之间经历的路径</p></li><li><p><strong>输入流</strong>：数据从数据源（文件）到程序（内存）的路径</p></li><li><p><strong>输出流</strong>：数据从程序（内存）到数据源（文件）的路径</p></li></ul><p><code>os.File</code>封装了所有文件相关的操作，<code>File</code>是一个结构体。</p><p><a href=https://pkg.go.dev/os#File target=_blank rel="noopener noreffer">文档</a></p><p><img class=lazyload src=/svg/loading.min.svg data-src=https://raw.githubusercontent.com/XD825/picgo/main/img/202305241116462.png data-srcset="https://raw.githubusercontent.com/XD825/picgo/main/img/202305241116462.png, https://raw.githubusercontent.com/XD825/picgo/main/img/202305241116462.png 1.5x, https://raw.githubusercontent.com/XD825/picgo/main/img/202305241116462.png 2x" data-sizes=auto alt=https://raw.githubusercontent.com/XD825/picgo/main/img/202305241116462.png title=image-20230524111642371></p><h1 id=文件操作>文件操作</h1><h2 id=文件打开和关闭>文件打开和关闭</h2><img src=https://raw.githubusercontent.com/XD825/picgo/main/img/202305241224087.png alt=image-20230524122425940 style=zoom:50%><h2 id=读文件操作应用实例>读文件操作应用实例</h2><p><strong>1、读取文件的内容使用带缓冲区的方式，使用<code>os.Open</code>, <code>file.Close</code>, <code>bufio.NewReader()</code>, <code>reader.ReadString</code>函数和方法</strong></p><img src=https://raw.githubusercontent.com/XD825/picgo/main/img/202305241237793.png alt=image-20230524123743715 style=zoom:50%><p><strong>2、读取文件的内容使用<code>ioutil</code>一次将整个文件读入到内存中，这种方式适用于文件不大的情况。相关方法和函数(<a href=https://pkg.go.dev/io/ioutil#ReadFile target=_blank rel="noopener noreffer"><code>ioutil.ReadFile</code></a>)</strong></p><img src=https://raw.githubusercontent.com/XD825/picgo/main/img/202305241249288.png alt=image-20230524124903190 style=zoom:50%><h2 id=写文件操作应用实例>写文件操作应用实例</h2><h3 id=osopenfile写文件><code>os.OpenFile</code>写文件</h3><p><strong><code>func OpenFile(name string , flag int , perm FileMode ) (* File , error )</code></strong></p><p><strong>说明：</strong></p><p><code>os.OpenFile</code>是一个更一般性的文件打开函数，它会使用指定的选项、指定的模式打开指定名称的文件。如果操作成功，返回文件对象可用于I/O。如果出错，错误底层类型是<code>*PathError</code>。</p><p><strong>参数说明：</strong></p><ul><li><p>第一个参数：文件路径</p></li><li><p>第二个参数：打开文件的<a href=https://pkg.go.dev/os#pkg-constants target=_blank rel="noopener noreffer">选项</a>：</p><img src=https://raw.githubusercontent.com/XD825/picgo/main/img/202305241543191.png alt=image-20230524154319025 style=zoom:50%></li><li><p>第三个参数：<a href=https://pkg.go.dev/io/fs#FileMode target=_blank rel="noopener noreffer">权限控制</a></p><img src=https://raw.githubusercontent.com/XD825/picgo/main/img/202305241549512.png alt=image-20230524154946418 style=zoom:50%></li></ul><h4 id=实例><strong>实例：</strong></h4><h5 id=1创建新文件并写入内容>1、创建新文件并写入内容</h5><p><strong><code>os.O_CREATE|os.O_WRONLY</code>(创建|只写)</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kn>package</span> <span class=nx>main</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;bufio&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;fmt&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;os&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=c1>// 创建新文件，写入内容
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>fileName</span> <span class=o>:=</span> <span class=s>&#34;go-basic/go-file/writer_file/test.txt&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=nx>file</span><span class=p>,</span> <span class=nx>err</span> <span class=o>:=</span> <span class=nx>os</span><span class=p>.</span><span class=nf>OpenFile</span><span class=p>(</span><span class=nx>fileName</span><span class=p>,</span> <span class=nx>os</span><span class=p>.</span><span class=nx>O_CREATE</span><span class=p>|</span><span class=nx>os</span><span class=p>.</span><span class=nx>O_WRONLY</span><span class=p>,</span> <span class=mo>0666</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=s>&#34;open file err=&#34;</span><span class=p>,</span> <span class=nx>err</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>		<span class=k>return</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=k>defer</span> <span class=nx>file</span><span class=p>.</span><span class=nf>Close</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=c1>// 写入内容
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>str</span> <span class=o>:=</span> <span class=s>&#34;Hello Golang\n&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=c1>// 使用带缓存的写入
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>writer</span> <span class=o>:=</span> <span class=nx>bufio</span><span class=p>.</span><span class=nf>NewWriter</span><span class=p>(</span><span class=nx>file</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=k>for</span> <span class=nx>i</span> <span class=o>:=</span> <span class=mi>0</span><span class=p>;</span> <span class=nx>i</span> <span class=p>&lt;</span> <span class=mi>5</span><span class=p>;</span> <span class=nx>i</span><span class=o>++</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>writer</span><span class=p>.</span><span class=nf>WriteString</span><span class=p>(</span><span class=nx>str</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=c1>//因为写入是带缓存的，所以需要调用Flush方法，将缓存的数据真正写入到文件中
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>writer</span><span class=p>.</span><span class=nf>Flush</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h5 id=2打开存在的文件将原来的内容进行覆盖>2、打开存在的文件，将原来的内容进行覆盖</h5><p><strong><code>os.O_TRUNC|os.O_WRONLY</code>(覆盖|只写)</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kn>package</span> <span class=nx>main</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;bufio&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;fmt&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;os&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=c1>// 打开存在的文件，将原来的内容进行覆盖
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>fileName</span> <span class=o>:=</span> <span class=s>&#34;go-basic/go-file/writer_file/test.txt&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=nx>file</span><span class=p>,</span> <span class=nx>err</span> <span class=o>:=</span> <span class=nx>os</span><span class=p>.</span><span class=nf>OpenFile</span><span class=p>(</span><span class=nx>fileName</span><span class=p>,</span> <span class=nx>os</span><span class=p>.</span><span class=nx>O_TRUNC</span><span class=p>|</span><span class=nx>os</span><span class=p>.</span><span class=nx>O_WRONLY</span><span class=p>,</span> <span class=mo>0666</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=s>&#34;open file err=&#34;</span><span class=p>,</span> <span class=nx>err</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>		<span class=k>return</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=k>defer</span> <span class=nx>file</span><span class=p>.</span><span class=nf>Close</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=c1>// 写入内容
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>str</span> <span class=o>:=</span> <span class=s>&#34;Hello New Golang\n&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=c1>// 使用带缓存的写入
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>writer</span> <span class=o>:=</span> <span class=nx>bufio</span><span class=p>.</span><span class=nf>NewWriter</span><span class=p>(</span><span class=nx>file</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=k>for</span> <span class=nx>i</span> <span class=o>:=</span> <span class=mi>0</span><span class=p>;</span> <span class=nx>i</span> <span class=p>&lt;</span> <span class=mi>10</span><span class=p>;</span> <span class=nx>i</span><span class=o>++</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>writer</span><span class=p>.</span><span class=nf>WriteString</span><span class=p>(</span><span class=nx>str</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=c1>//因为写入是带缓存的，所以需要调用Flush方法，将缓存的数据真正写入到文件中
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>writer</span><span class=p>.</span><span class=nf>Flush</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h5 id=3打开存在的文件在原来的内容中追加内容>3、打开存在的文件，在原来的内容中追加内容</h5><p><strong><code>os.O_APPEND|os.O_WRONLY</code>(追加|只写)</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kn>package</span> <span class=nx>main</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;bufio&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;fmt&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;os&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=c1>// 打开存在的文件，在原来的内容中追加内容
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>fileName</span> <span class=o>:=</span> <span class=s>&#34;go-basic/go-file/writer_file/test.txt&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=nx>file</span><span class=p>,</span> <span class=nx>err</span> <span class=o>:=</span> <span class=nx>os</span><span class=p>.</span><span class=nf>OpenFile</span><span class=p>(</span><span class=nx>fileName</span><span class=p>,</span> <span class=nx>os</span><span class=p>.</span><span class=nx>O_APPEND</span><span class=p>|</span><span class=nx>os</span><span class=p>.</span><span class=nx>O_WRONLY</span><span class=p>,</span> <span class=mo>0666</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=s>&#34;open file err=&#34;</span><span class=p>,</span> <span class=nx>err</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>		<span class=k>return</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=k>defer</span> <span class=nx>file</span><span class=p>.</span><span class=nf>Close</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=c1>// 写入内容
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>str</span> <span class=o>:=</span> <span class=s>&#34;APPEND!\n&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=c1>// 使用带缓存的写入
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>writer</span> <span class=o>:=</span> <span class=nx>bufio</span><span class=p>.</span><span class=nf>NewWriter</span><span class=p>(</span><span class=nx>file</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=nx>writer</span><span class=p>.</span><span class=nf>WriteString</span><span class=p>(</span><span class=nx>str</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=c1>//因为写入是带缓存的，所以需要调用Flush方法，将缓存的数据真正写入到文件中
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>writer</span><span class=p>.</span><span class=nf>Flush</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h5 id=4打开存在的文件将原来内容输出在终端并且追加内容>4、打开存在的文件，将原来内容输出在终端，并且追加内容</h5><p><strong><code>os.O_RDWR|os.O_APPEND</code>（只读|追加）</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kn>package</span> <span class=nx>main</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;bufio&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;fmt&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;io&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;os&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=c1>// 打开存在的文件，将原来内容输出在终端，并且追加内容
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>fileName</span> <span class=o>:=</span> <span class=s>&#34;go-basic/go-file/writer_file/test.txt&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=nx>file</span><span class=p>,</span> <span class=nx>err</span> <span class=o>:=</span> <span class=nx>os</span><span class=p>.</span><span class=nf>OpenFile</span><span class=p>(</span><span class=nx>fileName</span><span class=p>,</span> <span class=nx>os</span><span class=p>.</span><span class=nx>O_RDWR</span><span class=p>|</span><span class=nx>os</span><span class=p>.</span><span class=nx>O_APPEND</span><span class=p>,</span> <span class=mo>0666</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=s>&#34;open file err=&#34;</span><span class=p>,</span> <span class=nx>err</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>		<span class=k>return</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=k>defer</span> <span class=nx>file</span><span class=p>.</span><span class=nf>Close</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=c1>// 读内容原内容
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>reader</span> <span class=o>:=</span> <span class=nx>bufio</span><span class=p>.</span><span class=nf>NewReader</span><span class=p>(</span><span class=nx>file</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=k>for</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>readString</span><span class=p>,</span> <span class=nx>err</span> <span class=o>:=</span> <span class=nx>reader</span><span class=p>.</span><span class=nf>ReadString</span><span class=p>(</span><span class=sc>&#39;\n&#39;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>		<span class=k>if</span> <span class=nx>err</span> <span class=o>==</span> <span class=nx>io</span><span class=p>.</span><span class=nx>EOF</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>			<span class=k>break</span>
+</span></span><span class=line><span class=cl>		<span class=p>}</span>
+</span></span><span class=line><span class=cl>		<span class=nx>fmt</span><span class=p>.</span><span class=nf>Print</span><span class=p>(</span><span class=nx>readString</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=c1>// 写入内容
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>str</span> <span class=o>:=</span> <span class=s>&#34;APPEND!\n&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=c1>// 使用带缓存的写入
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>writer</span> <span class=o>:=</span> <span class=nx>bufio</span><span class=p>.</span><span class=nf>NewWriter</span><span class=p>(</span><span class=nx>file</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=nx>writer</span><span class=p>.</span><span class=nf>WriteString</span><span class=p>(</span><span class=nx>str</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=c1>//因为写入是带缓存的，所以需要调用Flush方法，将缓存的数据真正写入到文件中
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>writer</span><span class=p>.</span><span class=nf>Flush</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=ioutilwriterfile写文件><code>ioutil.WriterFile</code>写文件</h3><p><code>func WriteFile(filename string, data []byte, perm fs.FileMode) error</code></p><h4 id=实例-1><strong>实例：</strong></h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kn>package</span> <span class=nx>main</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;fmt&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;io/ioutil&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=nx>fileName</span> <span class=o>:=</span> <span class=s>&#34;go-basic/go-file/writer_file2/test.txt&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=nx>fileName2</span> <span class=o>:=</span> <span class=s>&#34;go-basic/go-file/writer_file2/test2.txt&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=nx>data</span><span class=p>,</span> <span class=nx>err</span> <span class=o>:=</span> <span class=nx>ioutil</span><span class=p>.</span><span class=nf>ReadFile</span><span class=p>(</span><span class=nx>fileName</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=s>&#34;read file err=&#34;</span><span class=p>,</span> <span class=nx>err</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>		<span class=k>return</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=c1>// 将test.txt文件内容写入到test2.txt文件中（如果文件不存在则新建）
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>err</span> <span class=p>=</span> <span class=nx>ioutil</span><span class=p>.</span><span class=nf>WriteFile</span><span class=p>(</span><span class=nx>fileName2</span><span class=p>,</span> <span class=nx>data</span><span class=p>,</span> <span class=mo>0666</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=s>&#34;write file err=&#34;</span><span class=p>,</span> <span class=nx>err</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>		<span class=k>return</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=判断文件或文件夹是否存在>判断文件或文件夹是否存在</h2><p><code>func (f *File) Stat() (FileInfo, error)</code></p><ol><li>如果返回的错误为<code>nil</code>，说明文件或文件夹存在</li><li>如果返回的错误类型使用<code>os.IsNotExist()</code>判断为<code>true</code>，说明文件或文件夹不存在</li><li>如果返回的错误为其他类型，则不确定是否存在</li></ol><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kd>func</span> <span class=nf>PathIsExist</span><span class=p>(</span><span class=nx>path</span> <span class=kt>string</span><span class=p>)</span> <span class=kt>bool</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=nx>_</span><span class=p>,</span> <span class=nx>err</span> <span class=o>:=</span> <span class=nx>os</span><span class=p>.</span><span class=nf>Stat</span><span class=p>(</span><span class=nx>path</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=nx>err</span> <span class=o>==</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=k>return</span> <span class=kc>true</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=nx>os</span><span class=p>.</span><span class=nf>IsExist</span><span class=p>(</span><span class=nx>err</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=k>return</span> <span class=kc>true</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=k>return</span> <span class=kc>false</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=拷贝文件>拷贝文件</h2><p><code>func Copy(dst Writer, src Reader) (written int64, err error)</code></p><p><strong>实例：</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kn>package</span> <span class=nx>main</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;bufio&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;fmt&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;io&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;os&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>FileCopy</span><span class=p>(</span><span class=nx>dstFileName</span> <span class=kt>string</span><span class=p>,</span> <span class=nx>srcFileName</span> <span class=kt>string</span><span class=p>)</span> <span class=p>(</span><span class=nx>written</span> <span class=kt>int64</span><span class=p>,</span> <span class=nx>err</span> <span class=kt>error</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=c1>// 打开需要拷贝的文件
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>srcFile</span><span class=p>,</span> <span class=nx>err</span> <span class=o>:=</span> <span class=nx>os</span><span class=p>.</span><span class=nf>Open</span><span class=p>(</span><span class=nx>srcFileName</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=k>return</span> <span class=mi>0</span><span class=p>,</span> <span class=nx>err</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=c1>// 创建一个reader
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>reader</span> <span class=o>:=</span> <span class=nx>bufio</span><span class=p>.</span><span class=nf>NewReader</span><span class=p>(</span><span class=nx>srcFile</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=c1>// 打开需要写入的文件
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>dstFile</span><span class=p>,</span> <span class=nx>err</span> <span class=o>:=</span> <span class=nx>os</span><span class=p>.</span><span class=nf>OpenFile</span><span class=p>(</span><span class=nx>dstFileName</span><span class=p>,</span> <span class=nx>os</span><span class=p>.</span><span class=nx>O_WRONLY</span><span class=p>|</span><span class=nx>os</span><span class=p>.</span><span class=nx>O_CREATE</span><span class=p>,</span> <span class=mo>0666</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=k>return</span> <span class=mi>0</span><span class=p>,</span> <span class=nx>err</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=c1>// 创建一个writer
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>writer</span> <span class=o>:=</span> <span class=nx>bufio</span><span class=p>.</span><span class=nf>NewWriter</span><span class=p>(</span><span class=nx>dstFile</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=c1>// 关闭文件
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=k>defer</span> <span class=kd>func</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>srcFile</span><span class=p>.</span><span class=nf>Close</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>		<span class=nx>dstFile</span><span class=p>.</span><span class=nf>Close</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>	<span class=p>}()</span>
+</span></span><span class=line><span class=cl>	<span class=c1>// 使用io.Copy开始拷贝
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=k>return</span> <span class=nx>io</span><span class=p>.</span><span class=nf>Copy</span><span class=p>(</span><span class=nx>writer</span><span class=p>,</span> <span class=nx>reader</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=c1>// 将6.JPG文件拷贝到6_copy.JPG
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>srcFile</span> <span class=o>:=</span> <span class=s>&#34;6.JPG&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=nx>dstFile</span> <span class=o>:=</span> <span class=s>&#34;6_copy.JPG&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=nx>fileCopy</span><span class=p>,</span> <span class=nx>err</span> <span class=o>:=</span> <span class=nf>FileCopy</span><span class=p>(</span><span class=nx>dstFile</span><span class=p>,</span> <span class=nx>srcFile</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=k>return</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=s>&#34;拷贝成功，共拷贝了&#34;</span><span class=p>,</span> <span class=nx>fileCopy</span><span class=p>,</span> <span class=s>&#34;字节&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=统计不同类型的字符数量>统计不同类型的字符数量</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span><span class=lnt>56
+</span><span class=lnt>57
+</span><span class=lnt>58
+</span><span class=lnt>59
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kn>package</span> <span class=nx>main</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;bufio&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;fmt&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;io&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;os&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>type</span> <span class=nx>CharCount</span> <span class=kd>struct</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=nx>ChCount</span>    <span class=kt>int</span> <span class=c1>// 记录英文个数
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>NumCount</span>   <span class=kt>int</span> <span class=c1>// 记录数字个数
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>SpaceCount</span> <span class=kt>int</span> <span class=c1>// 记录空格个数
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>OtherCount</span> <span class=kt>int</span> <span class=c1>// 记录其他字符个数
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=c1>// 实例化记录结构体
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>count</span> <span class=o>:=</span> <span class=nx>CharCount</span><span class=p>{}</span>
+</span></span><span class=line><span class=cl>	<span class=c1>// 打开文件
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>fileName</span> <span class=o>:=</span> <span class=s>&#34;go-basic/go-file/file_count/test.txt&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=nx>file</span><span class=p>,</span> <span class=nx>err</span> <span class=o>:=</span> <span class=nx>os</span><span class=p>.</span><span class=nf>Open</span><span class=p>(</span><span class=nx>fileName</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=s>&#34;open file err=&#34;</span><span class=p>,</span> <span class=nx>err</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>		<span class=k>return</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=k>defer</span> <span class=nx>file</span><span class=p>.</span><span class=nf>Close</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>	<span class=c1>//创建一个reader
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>reader</span> <span class=o>:=</span> <span class=nx>bufio</span><span class=p>.</span><span class=nf>NewReader</span><span class=p>(</span><span class=nx>file</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=c1>// 每读取一行，就去统计该行有多少个英文、数字、空格以及其他字符
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=k>for</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>readString</span><span class=p>,</span> <span class=nx>err</span> <span class=o>:=</span> <span class=nx>reader</span><span class=p>.</span><span class=nf>ReadString</span><span class=p>(</span><span class=sc>&#39;\n&#39;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>		<span class=k>if</span> <span class=nx>err</span> <span class=o>==</span> <span class=nx>io</span><span class=p>.</span><span class=nx>EOF</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>			<span class=k>break</span>
+</span></span><span class=line><span class=cl>		<span class=p>}</span>
+</span></span><span class=line><span class=cl>		<span class=c1>// 遍历readString，进行统计
+</span></span></span><span class=line><span class=cl><span class=c1></span>		<span class=k>for</span> <span class=nx>_</span><span class=p>,</span> <span class=nx>v</span> <span class=o>:=</span> <span class=k>range</span> <span class=nx>readString</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>			<span class=k>switch</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>			<span class=k>case</span> <span class=nx>v</span> <span class=o>&gt;=</span> <span class=sc>&#39;a&#39;</span> <span class=o>&amp;&amp;</span> <span class=nx>v</span> <span class=o>&lt;=</span> <span class=sc>&#39;z&#39;</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>				<span class=k>fallthrough</span> <span class=c1>// 穿透
+</span></span></span><span class=line><span class=cl><span class=c1></span>			<span class=k>case</span> <span class=nx>v</span> <span class=o>&gt;=</span> <span class=sc>&#39;A&#39;</span> <span class=o>&amp;&amp;</span> <span class=nx>v</span> <span class=o>&lt;=</span> <span class=sc>&#39;Z&#39;</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>				<span class=nx>count</span><span class=p>.</span><span class=nx>ChCount</span><span class=o>++</span>
+</span></span><span class=line><span class=cl>			<span class=k>case</span> <span class=nx>v</span> <span class=o>==</span> <span class=sc>&#39; &#39;</span> <span class=o>||</span> <span class=nx>v</span> <span class=o>==</span> <span class=sc>&#39;\t&#39;</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>				<span class=nx>count</span><span class=p>.</span><span class=nx>SpaceCount</span><span class=o>++</span>
+</span></span><span class=line><span class=cl>			<span class=k>case</span> <span class=nx>v</span> <span class=o>&gt;=</span> <span class=sc>&#39;0&#39;</span> <span class=o>&amp;&amp;</span> <span class=nx>v</span> <span class=o>&lt;=</span> <span class=sc>&#39;9&#39;</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>				<span class=nx>count</span><span class=p>.</span><span class=nx>NumCount</span><span class=o>++</span>
+</span></span><span class=line><span class=cl>			<span class=k>default</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>				<span class=nx>count</span><span class=p>.</span><span class=nx>OtherCount</span><span class=o>++</span>
+</span></span><span class=line><span class=cl>			<span class=p>}</span>
+</span></span><span class=line><span class=cl>		<span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=c1>// 然后将结果保存在一个结构体中
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=s>&#34;字符的个数为：&#34;</span><span class=p>,</span> <span class=nx>count</span><span class=p>.</span><span class=nx>ChCount</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=s>&#34;数字的个数为：&#34;</span><span class=p>,</span> <span class=nx>count</span><span class=p>.</span><span class=nx>NumCount</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=s>&#34;空格的个数为：&#34;</span><span class=p>,</span> <span class=nx>count</span><span class=p>.</span><span class=nx>SpaceCount</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=s>&#34;其他字符的个数为：&#34;</span><span class=p>,</span> <span class=nx>count</span><span class=p>.</span><span class=nx>OtherCount</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>更新于 2023年05月23日</span></div></div><div class=post-info-line><div class=post-info-md><span><a class=link-to-markdown href=/2023/05/go%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/index.md target=_blank>阅读原始文档</a></span></div><div class=post-info-share><span><a href=javascript:void(0); title="分享到 Twitter" data-sharer=twitter data-url=https://Joker-desire.github.io/2023/05/go%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/ data-title=Go文件操作 data-hashtags=Go笔记><i class="fab fa-twitter fa-fw" aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 Facebook" data-sharer=facebook data-url=https://Joker-desire.github.io/2023/05/go%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/ data-hashtag=Go笔记><i class="fab fa-facebook-square fa-fw" aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 Hacker News" data-sharer=hackernews data-url=https://Joker-desire.github.io/2023/05/go%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/ data-title=Go文件操作><i class="fab fa-hacker-news fa-fw" aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 Line" data-sharer=line data-url=https://Joker-desire.github.io/2023/05/go%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/ data-title=Go文件操作><i data-svg-src=https://cdn.jsdelivr.net/npm/simple-icons@7.0.0/icons/line.svg aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 微博" data-sharer=weibo data-url=https://Joker-desire.github.io/2023/05/go%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/ data-title=Go文件操作><i class="fab fa-weibo fa-fw" aria-hidden=true></i></a></span></div></div></div><div class=post-info-more><section class=post-tags><i class="fas fa-tags fa-fw" aria-hidden=true></i>&nbsp;<a href=/tags/go%E7%AC%94%E8%AE%B0/>Go笔记</a></section><section><span><a href=javascript:void(0); onclick=window.history.back()>返回</a></span>&nbsp;|&nbsp;<span><a href=/>主页</a></span></section></div><div class=post-nav><a href=/2023/05/go%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E4%B8%89%E5%A4%A7%E7%89%B9%E6%80%A7/ class=prev rel=prev title=Go面向对象三大特性><i class="fas fa-angle-left fa-fw" aria-hidden=true></i>Go面向对象三大特性</a>
+<a href=/2023/05/go%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%8F%82%E6%95%B0/ class=next rel=next title="Go 命令行参数">Go 命令行参数<i class="fas fa-angle-right fa-fw" aria-hidden=true></i></a></div></div><div id=comments><div id=giscus class=comment></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://giscus.app>Giscus</a>.</noscript></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line itemscope itemtype=http://schema.org/CreativeWork><i class="far fa-copyright fa-fw" aria-hidden=true></i><span itemprop=copyrightYear>2022 - 2024</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=/ target=_blank>Joker desire</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div></div></footer></div><div id=fixed-buttons><a href=# id=back-to-top class=fixed-button title=回到顶部><i class="fas fa-arrow-up fa-fw" aria-hidden=true></i>
+</a><a href=# id=view-comments class=fixed-button title=查看评论><i class="fas fa-comment fa-fw" aria-hidden=true></i></a></div><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/lightgallery@2.4.0/css/lightgallery-bundle.min.css><script type=text/javascript src=https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/algoliasearch@4.13.1/dist/algoliasearch-lite.umd.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lazysizes@5.3.1/lazysizes.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lightgallery@2.4.0/lightgallery.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lightgallery@2.4.0/plugins/thumbnail/lg-thumbnail.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lightgallery@2.4.0/plugins/zoom/lg-zoom.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js></script><script type=text/javascript>window.config={code:{copyTitle:"复制到剪贴板",maxShownLines:50},comment:{giscus:{category:"Announcements",categoryId:"DIC_kwDOHfPihs4CPp7X",darkTheme:"dark",emitMetadata:"0",inputPosition:"top",lang:"zh-CN",lazyLoading:!1,lightTheme:"light",mapping:"pathname",reactionsEnabled:"1",repo:"Joker-desire/store-comments",repoId:"R_kgDOHfPihg"}},lightgallery:!0,search:{algoliaAppID:"R6OIVCXBNU",algoliaIndex:"Joker-desire",algoliaSearchKey:"07e68b90760663e43882d4a48e00e932",highlightTag:"em",maxResultLength:10,noResultsFound:"没有找到结果",snippetLength:30,type:"algolia"}}</script><script type=text/javascript src=/js/theme.min.js></script></body></html>

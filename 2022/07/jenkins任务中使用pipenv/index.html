@@ -1,0 +1,163 @@
+<!doctype html><html lang=zh-cn><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><title>Jenkins任务中使用Pipenv - Joker-desire's Blog</title><meta name=Description content="为什么要努力？ 因为我喜欢的东西都很贵，我想去的地方都很远，我爱的人超完美。"><meta property="og:url" content="https://Joker-desire.github.io/2022/07/jenkins%E4%BB%BB%E5%8A%A1%E4%B8%AD%E4%BD%BF%E7%94%A8pipenv/">
+<meta property="og:site_name" content="Joker-desire's Blog"><meta property="og:title" content="Jenkins任务中使用Pipenv"><meta property="og:description" content="前言 📍pipenv是Python官方推荐的包管理工具。 📍在使用Python环境，基本上都是使用虚拟环境进行处理的。 📍在Jenkins任务sh"><meta property="og:locale" content="zh_cn"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2022-07-15T17:58:59+08:00"><meta property="article:modified_time" content="2022-07-15T17:58:59+08:00"><meta property="article:tag" content="Jenkins"><meta property="og:image" content="https://Joker-desire.github.io/logo.png"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://Joker-desire.github.io/logo.png"><meta name=twitter:title content="Jenkins任务中使用Pipenv"><meta name=twitter:description content="前言 📍pipenv是Python官方推荐的包管理工具。 📍在使用Python环境，基本上都是使用虚拟环境进行处理的。 📍在Jenkins任务sh"><meta name=application-name content="Joker-desire"><meta name=apple-mobile-web-app-title content="Joker-desire"><meta name=theme-color content="#ffffff"><meta name=msapplication-TileColor content="#da532c"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://Joker-desire.github.io/2022/07/jenkins%E4%BB%BB%E5%8A%A1%E4%B8%AD%E4%BD%BF%E7%94%A8pipenv/><link rel=prev href=https://Joker-desire.github.io/2022/07/go%E5%B8%B8%E7%94%A8%E7%9A%84%E5%87%BD%E6%95%B0/><link rel=next href=https://Joker-desire.github.io/2022/07/goroutine%E5%8D%8F%E7%A8%8B/><link rel=stylesheet href=/css/style.min.css><link rel=preload href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css></noscript><link rel=preload href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css></noscript><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"Jenkins任务中使用Pipenv","inLanguage":"zh-cn","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/Joker-desire.github.io\/2022\/07\/jenkins%E4%BB%BB%E5%8A%A1%E4%B8%AD%E4%BD%BF%E7%94%A8pipenv\/"},"genre":"posts","keywords":"Jenkins","wordcount":1362,"url":"https:\/\/Joker-desire.github.io\/2022\/07\/jenkins%E4%BB%BB%E5%8A%A1%E4%B8%AD%E4%BD%BF%E7%94%A8pipenv\/","datePublished":"2022-07-15T17:58:59+08:00","dateModified":"2022-07-15T17:58:59+08:00","publisher":{"@type":"Organization","name":""},"author":{"@type":"Person","name":"Joker-desire"},"description":""}</script></head><body data-header-desktop=fixed data-header-mobile=auto><script type=text/javascript>(window.localStorage&&localStorage.getItem("theme")?localStorage.getItem("theme")==="dark":"auto"==="auto"?window.matchMedia("(prefers-color-scheme: dark)").matches:"auto"==="dark")&&document.body.setAttribute("theme","dark")</script><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title="Joker-desire's Blog"><span class=header-title-pre><i class='far fa-kiss-wink-heart fa-fw' aria-hidden=true></i></span>welcome</a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts title=所有文章>所有文章 </a><a class=menu-item href=/categories title=分类>分类 </a><a class=menu-item href=/tags title=标签>标签 </a><a class=menu-item href=/about title=关于>关于 </a><a class=menu-item href=https://github.com/Joker-desire title=GitHub rel="noopener noreffer" target=_blank><i class='fab fa-github fa-fw' aria-hidden=true></i> </a><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop>
+<input type=text placeholder=搜索文章标题或内容... id=search-input-desktop>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-desktop title=搜索><i class="fas fa-search fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-desktop title=清空><i class="fas fa-times-circle fa-fw" aria-hidden=true></i>
+</a><span class="search-button search-loading" id=search-loading-desktop><i class="fas fa-spinner fa-fw fa-spin" aria-hidden=true></i>
+</span></span><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题><i class="fas fa-adjust fa-fw" aria-hidden=true></i></a></div></div></div></header><header class=mobile id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title="Joker-desire's Blog"><span class=header-title-pre><i class='far fa-kiss-wink-heart fa-fw' aria-hidden=true></i></span>welcome</a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><div class=search-wrapper><div class="search mobile" id=search-mobile><input type=text placeholder=搜索文章标题或内容... id=search-input-mobile>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-mobile title=搜索><i class="fas fa-search fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-mobile title=清空><i class="fas fa-times-circle fa-fw" aria-hidden=true></i>
+</a><span class="search-button search-loading" id=search-loading-mobile><i class="fas fa-spinner fa-fw fa-spin" aria-hidden=true></i></span></div><a href=javascript:void(0); class=search-cancel id=search-cancel-mobile>取消</a></div><a class=menu-item href=/posts title=所有文章>所有文章</a><a class=menu-item href=/categories title=分类>分类</a><a class=menu-item href=/tags title=标签>标签</a><a class=menu-item href=/about title=关于>关于</a><a class=menu-item href=https://github.com/Joker-desire title=GitHub rel="noopener noreffer" target=_blank><i class='fab fa-github fa-fw' aria-hidden=true></i></a><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题>
+<i class="fas fa-adjust fa-fw" aria-hidden=true></i></a></div></div></header><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div><main class=main><div class=container><div class=toc id=toc-auto><h2 class=toc-title>目录</h2><div class=toc-content id=toc-content-auto></div></div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Jenkins任务中使用Pipenv</h1><div class=post-meta><div class=post-meta-line><span class=post-author><a href=/ title=Author rel=author class=author><i class="fas fa-user-circle fa-fw" aria-hidden=true></i>Joker-desire</a></span>&nbsp;<span class=post-category>收录于 <a href=/categories/jenkins/><i class="far fa-folder fa-fw" aria-hidden=true></i>Jenkins</a></span></div><div class=post-meta-line><i class="far fa-calendar-alt fa-fw" aria-hidden=true></i>&nbsp;<time datetime=2022年07月15日>2022年07月15日</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden=true></i>&nbsp;约 1362 字&nbsp;
+<i class="far fa-clock fa-fw" aria-hidden=true></i>&nbsp;预计阅读 3 分钟&nbsp;</div></div><div class="details toc" id=toc-static data-kept><div class="details-summary toc-title"><span>目录</span>
+<span><i class="details-icon fas fa-angle-right" aria-hidden=true></i></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><ul><li><a href=#前言>前言</a></li><li><a href=#探索在本地pipenv使用流程>探索在本地pipenv使用流程</a></li><li><a href=#在jenkins中实践>在Jenkins中实践</a></li><li><a href=#优化构建步骤中的shell>优化构建步骤中的shell</a></li></ul></li></ul></nav></div></div><div class=content id=content><h2 id=前言>前言</h2><p>📍pipenv是Python官方推荐的包管理工具。</p><p>📍在使用Python环境，基本上都是使用虚拟环境进行处理的。</p><p>📍在Jenkins任务shell中使用常用的方式却无法使用pipenv虚拟环境😤</p><p>🩸那么如何解决这个问题呢❓</p><h2 id=探索在本地pipenv使用流程>探索在本地pipenv使用流程</h2><p>✍️<a href=https://crazygit.wiseturtles.com/2018/01/08/pipenv-tour/ target=_blank rel="noopener noreffer">pipenv使用指南</a></p><ol><li><p>安装pipenv包</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>pip3 install pipenv
+</span></span></code></pre></td></tr></table></div></div></li><li><p>创建pipenv虚拟环境</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=c1># 指定Python版本</span>
+</span></span><span class=line><span class=cl>pipenv --python 3.10
+</span></span></code></pre></td></tr></table></div></div></li><li><p>进入虚拟环境</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=c1># 激活当前项目的虚拟环境</span>
+</span></span><span class=line><span class=cl>pipenv shell
+</span></span></code></pre></td></tr></table></div></div></li><li><p>虚拟环境存放路径</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>/Users/<span class=sb>`</span>USER<span class=sb>`</span>/.local/share/virtualenvs/
+</span></span></code></pre></td></tr></table></div></div></li><li><p>虚拟环境文件夹规则</p><ol><li><p>前缀为创建虚拟环境时的文件夹名，后面部分为随机生成：<code>python_file-ZSRTT-ad</code></p></li><li><p>查找此文件夹可使用</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl><span class=c1># 通过当前任务名，查询虚拟环境文件夹名称</span>
+</span></span><span class=line><span class=cl>➜  ~ <span class=nb>echo</span> <span class=k>$(</span>ls <span class=nv>$HOME</span>/.local/share/virtualenvs <span class=p>|</span> grep <span class=s2>&#34;python_file-&#34;</span><span class=k>)</span>
+</span></span><span class=line><span class=cl>python_file-ZSRTT-ad
+</span></span></code></pre></td></tr></table></div></div></li></ol></li><li><p>进入到虚拟环境后，查看当前系统环境变量：<code>env</code></p><ol><li><code>PATH</code>环境变量：<code>PATH=/Users/USER/.local/share/virtualenvs/python_file-ZSRTT-ad/bin:...</code></li><li><code>VIRTUAL_ENV</code>变量（启动虚拟环境变量后新增的）：<code>VIRTUAL_ENV=/Users/USER/.local/share/virtualenvs/python_file-ZSRTT-ad</code></li></ol></li><li><p>通过查看系统环境变量，可以得到结论</p><ol><li><p>使用虚拟环境后，会自动在环境变量中增加一个变量<code>VIRTUAL_ENV</code>，值为虚拟环境变量路径</p></li><li><p>在<code>PATH</code>环境变量中，增加了虚拟环境的<code>bin</code>目录</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=nv>VIRTUAL_ENV</span><span class=o>=</span><span class=s2>&#34;虚拟环境路径&#34;</span>
+</span></span><span class=line><span class=cl><span class=nv>PATH</span><span class=o>=</span><span class=nv>$VIRTUAL_ENV</span>:<span class=nv>$PATH</span>
+</span></span></code></pre></td></tr></table></div></div></li></ol></li></ol><h2 id=在jenkins中实践>在Jenkins中实践</h2><ol><li><p>创建一个名为<code>py3.10</code>的任务</p></li><li><p>在构建步骤中添加shell</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl><span class=c1># 初始化虚拟环境</span>
+</span></span><span class=line><span class=cl>pipenv --python 3.10
+</span></span><span class=line><span class=cl><span class=c1># 获取当前任务的虚拟环境路径</span>
+</span></span><span class=line><span class=cl><span class=nv>virName</span><span class=o>=</span><span class=k>$(</span>ls <span class=nv>$HOME</span>/.local/share/virtualenvs <span class=p>|</span> grep <span class=s2>&#34;</span><span class=nv>$JOB_NAME</span><span class=s2>-&#34;</span><span class=k>)</span>
+</span></span><span class=line><span class=cl><span class=c1># 设置虚拟环境临时环境变量</span>
+</span></span><span class=line><span class=cl><span class=nb>export</span> <span class=nv>VIRTUAL_ENV</span><span class=o>=</span><span class=nv>$HOME</span>/.local/share/virtualenvs/<span class=nv>$virName</span>
+</span></span><span class=line><span class=cl><span class=c1># 把bin加入到path环境变量中</span>
+</span></span><span class=line><span class=cl><span class=nb>export</span> <span class=nv>PATH</span><span class=o>=</span><span class=si>${</span><span class=nv>VIRTUAL_ENV</span><span class=si>}</span>/bin:<span class=nv>$PATH</span>
+</span></span><span class=line><span class=cl><span class=c1># 检查当前python版本</span>
+</span></span><span class=line><span class=cl>python3 --version
+</span></span></code></pre></td></tr></table></div></div></li><li><p>构建，查看打印的python版本是否为3.10</p><p><img class=lazyload src=/svg/loading.min.svg data-src=https://raw.githubusercontent.com/XD825/picgo/main/img/202207181001348.png data-srcset="https://raw.githubusercontent.com/XD825/picgo/main/img/202207181001348.png, https://raw.githubusercontent.com/XD825/picgo/main/img/202207181001348.png 1.5x, https://raw.githubusercontent.com/XD825/picgo/main/img/202207181001348.png 2x" data-sizes=auto alt=https://raw.githubusercontent.com/XD825/picgo/main/img/202207181001348.png title=image-20220718100102272></p></li><li><p>成功了✌️</p></li></ol><p><img class=lazyload src=/svg/loading.min.svg data-src=https://raw.githubusercontent.com/XD825/picgo/main/img/202207181010056.jpeg data-srcset="https://raw.githubusercontent.com/XD825/picgo/main/img/202207181010056.jpeg, https://raw.githubusercontent.com/XD825/picgo/main/img/202207181010056.jpeg 1.5x, https://raw.githubusercontent.com/XD825/picgo/main/img/202207181010056.jpeg 2x" data-sizes=auto alt=https://raw.githubusercontent.com/XD825/picgo/main/img/202207181010056.jpeg title=查看源图像></p><h2 id=优化构建步骤中的shell>优化构建步骤中的shell</h2><p>从上面的shell可以看到，每次构建一个新的项目，都需要写五行shell脚本，总是做重复性的工作，对于这一块进行了优化，如下：</p><ol><li><p>把重复性的shell单独存放在一个文件(<code>initPipenv.sh</code>)中，存放在<code>/tmp</code>文件夹下，通过传递参数执行</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl><span class=cp>#! /bin/bash
+</span></span></span><span class=line><span class=cl><span class=cp></span><span class=c1># Author: Joker-desire</span>
+</span></span><span class=line><span class=cl><span class=c1># Date: 2022-07-15</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>initPipfile<span class=o>()</span>
+</span></span><span class=line><span class=cl><span class=o>{</span>
+</span></span><span class=line><span class=cl>    <span class=nb>echo</span> <span class=s2>&#34;Init python virtual env&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=c1># 参数1：python版本</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=o>[</span> -f <span class=s2>&#34;Pipfile&#34;</span> <span class=o>]</span><span class=p>;</span> <span class=k>then</span>
+</span></span><span class=line><span class=cl>        <span class=nb>echo</span> <span class=s2>&#34;Python virtual env is existed&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=k>else</span>
+</span></span><span class=line><span class=cl>        <span class=nb>echo</span> <span class=s2>&#34;Start build python virtual env&#34;</span>
+</span></span><span class=line><span class=cl>        pipenv --python <span class=nv>$1</span>
+</span></span><span class=line><span class=cl>    <span class=k>fi</span>
+</span></span><span class=line><span class=cl><span class=o>}</span>
+</span></span><span class=line><span class=cl>getVirtName<span class=o>()</span>
+</span></span><span class=line><span class=cl><span class=o>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1># 参数1: 虚拟环境名称，实际就是Jenkins任务名</span>
+</span></span><span class=line><span class=cl>    <span class=c1># 通过当前任务名，查询虚拟环境文件夹名称</span>
+</span></span><span class=line><span class=cl>    <span class=nb>echo</span> <span class=k>$(</span>ls <span class=nv>$HOME</span>/.local/share/virtualenvs <span class=p>|</span> grep <span class=s2>&#34;</span><span class=nv>$1</span><span class=s2>-&#34;</span><span class=k>)</span>
+</span></span><span class=line><span class=cl><span class=o>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>addEnv<span class=o>()</span>
+</span></span><span class=line><span class=cl><span class=o>{</span>
+</span></span><span class=line><span class=cl>    <span class=nb>echo</span> <span class=s2>&#34;Add temporary system env variables&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=c1># 设置虚拟环境临时环境变量</span>
+</span></span><span class=line><span class=cl>    <span class=nb>export</span> <span class=nv>VIRTUAL_ENV</span><span class=o>=</span><span class=nv>$HOME</span>/.local/share/virtualenvs/<span class=nv>$1</span>
+</span></span><span class=line><span class=cl>    <span class=c1># 把bin加入到path环境变量中</span>
+</span></span><span class=line><span class=cl>    <span class=nb>export</span> <span class=nv>PATH</span><span class=o>=</span><span class=si>${</span><span class=nv>VIRTUAL_ENV</span><span class=si>}</span>/bin:<span class=nv>$PATH</span>
+</span></span><span class=line><span class=cl><span class=o>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>main<span class=o>()</span>
+</span></span><span class=line><span class=cl><span class=o>{</span>
+</span></span><span class=line><span class=cl>    <span class=nb>echo</span> <span class=s2>&#34;come into workspace&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=nb>cd</span> <span class=nv>$3</span>
+</span></span><span class=line><span class=cl>    <span class=nv>py</span><span class=o>=</span><span class=nv>$1</span>
+</span></span><span class=line><span class=cl>    <span class=nv>jobName</span><span class=o>=</span><span class=nv>$2</span>
+</span></span><span class=line><span class=cl>    initPipfile <span class=nv>$py</span>
+</span></span><span class=line><span class=cl>    <span class=nv>virtName</span><span class=o>=</span><span class=sb>`</span>getVirtName <span class=nv>$jobName</span><span class=sb>`</span>
+</span></span><span class=line><span class=cl>    addEnv <span class=nv>$virtName</span>
+</span></span><span class=line><span class=cl>    <span class=c1># 检查当前python版本</span>
+</span></span><span class=line><span class=cl>    python3 --version
+</span></span><span class=line><span class=cl><span class=o>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 参数1 python版本</span>
+</span></span><span class=line><span class=cl><span class=c1># 参数2 Jenkins任务名称 $JOB_NAME</span>
+</span></span><span class=line><span class=cl><span class=c1># 参数3 Jenkins Job文件夹路径</span>
+</span></span><span class=line><span class=cl>main <span class=nv>$1</span> <span class=nv>$2</span> <span class=nv>$3</span>
+</span></span></code></pre></td></tr></table></div></div></li><li><p>在构建shell中，直接执行此shell脚本即可</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl><span class=c1># 参数1：python版本</span>
+</span></span><span class=line><span class=cl><span class=c1># 参数2：当前Jenkins任务名称</span>
+</span></span><span class=line><span class=cl><span class=c1># 参数3：当前的路径</span>
+</span></span><span class=line><span class=cl>. /tmp/initPipenv.sh <span class=s2>&#34;3.10&#34;</span> <span class=nv>$JOB_NAME</span> <span class=sb>`</span><span class=nb>pwd</span><span class=sb>`</span>
+</span></span></code></pre></td></tr></table></div></div></li><li><p>构建，输出结果和上面一样</p><p><img class=lazyload src=/svg/loading.min.svg data-src=https://raw.githubusercontent.com/XD825/picgo/main/img/202207181017885.png data-srcset="https://raw.githubusercontent.com/XD825/picgo/main/img/202207181017885.png, https://raw.githubusercontent.com/XD825/picgo/main/img/202207181017885.png 1.5x, https://raw.githubusercontent.com/XD825/picgo/main/img/202207181017885.png 2x" data-sizes=auto alt=https://raw.githubusercontent.com/XD825/picgo/main/img/202207181017885.png title=image-20220718101753841></p></li><li><p>每次如果有新的Jenkins py任务，就可以直接在构建shell中加一行执行<code>initPipenv.sh</code>即可使用虚拟环境</p></li></ol><p>‼️<strong>需要注意执行shell脚本的方式，需要使用<code>.</code>执行shell</strong></p></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>更新于 2022年07月15日</span></div></div><div class=post-info-line><div class=post-info-md><span><a class=link-to-markdown href=/2022/07/jenkins%E4%BB%BB%E5%8A%A1%E4%B8%AD%E4%BD%BF%E7%94%A8pipenv/index.md target=_blank>阅读原始文档</a></span></div><div class=post-info-share><span><a href=javascript:void(0); title="分享到 Twitter" data-sharer=twitter data-url=https://Joker-desire.github.io/2022/07/jenkins%E4%BB%BB%E5%8A%A1%E4%B8%AD%E4%BD%BF%E7%94%A8pipenv/ data-title=Jenkins任务中使用Pipenv data-hashtags=Jenkins><i class="fab fa-twitter fa-fw" aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 Facebook" data-sharer=facebook data-url=https://Joker-desire.github.io/2022/07/jenkins%E4%BB%BB%E5%8A%A1%E4%B8%AD%E4%BD%BF%E7%94%A8pipenv/ data-hashtag=Jenkins><i class="fab fa-facebook-square fa-fw" aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 Hacker News" data-sharer=hackernews data-url=https://Joker-desire.github.io/2022/07/jenkins%E4%BB%BB%E5%8A%A1%E4%B8%AD%E4%BD%BF%E7%94%A8pipenv/ data-title=Jenkins任务中使用Pipenv><i class="fab fa-hacker-news fa-fw" aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 Line" data-sharer=line data-url=https://Joker-desire.github.io/2022/07/jenkins%E4%BB%BB%E5%8A%A1%E4%B8%AD%E4%BD%BF%E7%94%A8pipenv/ data-title=Jenkins任务中使用Pipenv><i data-svg-src=https://cdn.jsdelivr.net/npm/simple-icons@7.0.0/icons/line.svg aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 微博" data-sharer=weibo data-url=https://Joker-desire.github.io/2022/07/jenkins%E4%BB%BB%E5%8A%A1%E4%B8%AD%E4%BD%BF%E7%94%A8pipenv/ data-title=Jenkins任务中使用Pipenv><i class="fab fa-weibo fa-fw" aria-hidden=true></i></a></span></div></div></div><div class=post-info-more><section class=post-tags><i class="fas fa-tags fa-fw" aria-hidden=true></i>&nbsp;<a href=/tags/jenkins/>Jenkins</a></section><section><span><a href=javascript:void(0); onclick=window.history.back()>返回</a></span>&nbsp;|&nbsp;<span><a href=/>主页</a></span></section></div><div class=post-nav><a href=/2022/07/go%E5%B8%B8%E7%94%A8%E7%9A%84%E5%87%BD%E6%95%B0/ class=prev rel=prev title=Go常用的函数><i class="fas fa-angle-left fa-fw" aria-hidden=true></i>Go常用的函数</a>
+<a href=/2022/07/goroutine%E5%8D%8F%E7%A8%8B/ class=next rel=next title=Go-goroutine协程>Go-goroutine协程<i class="fas fa-angle-right fa-fw" aria-hidden=true></i></a></div></div><div id=comments><div id=giscus class=comment></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://giscus.app>Giscus</a>.</noscript></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line itemscope itemtype=http://schema.org/CreativeWork><i class="far fa-copyright fa-fw" aria-hidden=true></i><span itemprop=copyrightYear>2022 - 2024</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=/ target=_blank>Joker desire</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div></div></footer></div><div id=fixed-buttons><a href=# id=back-to-top class=fixed-button title=回到顶部><i class="fas fa-arrow-up fa-fw" aria-hidden=true></i>
+</a><a href=# id=view-comments class=fixed-button title=查看评论><i class="fas fa-comment fa-fw" aria-hidden=true></i></a></div><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/lightgallery@2.4.0/css/lightgallery-bundle.min.css><script type=text/javascript src=https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/algoliasearch@4.13.1/dist/algoliasearch-lite.umd.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lazysizes@5.3.1/lazysizes.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lightgallery@2.4.0/lightgallery.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lightgallery@2.4.0/plugins/thumbnail/lg-thumbnail.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lightgallery@2.4.0/plugins/zoom/lg-zoom.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js></script><script type=text/javascript>window.config={code:{copyTitle:"复制到剪贴板",maxShownLines:50},comment:{giscus:{category:"Announcements",categoryId:"DIC_kwDOHfPihs4CPp7X",darkTheme:"dark",emitMetadata:"0",inputPosition:"top",lang:"zh-CN",lazyLoading:!1,lightTheme:"light",mapping:"pathname",reactionsEnabled:"1",repo:"Joker-desire/store-comments",repoId:"R_kgDOHfPihg"}},lightgallery:!0,search:{algoliaAppID:"R6OIVCXBNU",algoliaIndex:"Joker-desire",algoliaSearchKey:"07e68b90760663e43882d4a48e00e932",highlightTag:"em",maxResultLength:10,noResultsFound:"没有找到结果",snippetLength:30,type:"algolia"}}</script><script type=text/javascript src=/js/theme.min.js></script></body></html>

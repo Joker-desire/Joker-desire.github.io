@@ -1,0 +1,198 @@
+<!doctype html><html lang=zh-cn><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><title>Selenium Grid 模拟操作上传操作问题解决方案 - Joker-desire's Blog</title><meta name=Description content="为什么要努力？ 因为我喜欢的东西都很贵，我想去的地方都很远，我爱的人超完美。"><meta property="og:url" content="https://Joker-desire.github.io/2023/10/selenium-grid-%E6%A8%A1%E6%8B%9F%E6%93%8D%E4%BD%9C%E4%B8%8A%E4%BC%A0%E6%93%8D%E4%BD%9C%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/">
+<meta property="og:site_name" content="Joker-desire's Blog"><meta property="og:title" content="Selenium Grid 模拟操作上传操作问题解决方案"><meta property="og:description" content="在使用Selenium Grid模拟操作上传文件时，会从浏览器实例的本地文件系统中读取文件。这就导致了一个问题，如果Grid Hub所在的机器上"><meta property="og:locale" content="zh_cn"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2023-10-22T09:50:18+08:00"><meta property="article:modified_time" content="2023-10-22T09:50:18+08:00"><meta property="article:tag" content="Python"><meta property="article:tag" content="Selenium"><meta property="article:tag" content="Docker"><meta property="og:image" content="https://Joker-desire.github.io/logo.png"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://Joker-desire.github.io/logo.png"><meta name=twitter:title content="Selenium Grid 模拟操作上传操作问题解决方案"><meta name=twitter:description content="在使用Selenium Grid模拟操作上传文件时，会从浏览器实例的本地文件系统中读取文件。这就导致了一个问题，如果Grid Hub所在的机器上"><meta name=application-name content="Joker-desire"><meta name=apple-mobile-web-app-title content="Joker-desire"><meta name=theme-color content="#ffffff"><meta name=msapplication-TileColor content="#da532c"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://Joker-desire.github.io/2023/10/selenium-grid-%E6%A8%A1%E6%8B%9F%E6%93%8D%E4%BD%9C%E4%B8%8A%E4%BC%A0%E6%93%8D%E4%BD%9C%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/><link rel=prev href=https://Joker-desire.github.io/2023/05/casbin/><link rel=next href=https://Joker-desire.github.io/2023/10/chatgpt%E6%8F%90%E9%97%AE%E8%89%BA%E6%9C%AF/><link rel=stylesheet href=/css/style.min.css><link rel=preload href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css></noscript><link rel=preload href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css></noscript><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"Selenium Grid 模拟操作上传操作问题解决方案","inLanguage":"zh-cn","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/Joker-desire.github.io\/2023\/10\/selenium-grid-%E6%A8%A1%E6%8B%9F%E6%93%8D%E4%BD%9C%E4%B8%8A%E4%BC%A0%E6%93%8D%E4%BD%9C%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88\/"},"genre":"posts","keywords":"Python, Selenium, docker","wordcount":881,"url":"https:\/\/Joker-desire.github.io\/2023\/10\/selenium-grid-%E6%A8%A1%E6%8B%9F%E6%93%8D%E4%BD%9C%E4%B8%8A%E4%BC%A0%E6%93%8D%E4%BD%9C%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88\/","datePublished":"2023-10-22T09:50:18+08:00","dateModified":"2023-10-22T09:50:18+08:00","publisher":{"@type":"Organization","name":""},"author":{"@type":"Person","name":"Joker-desire"},"description":""}</script></head><body data-header-desktop=fixed data-header-mobile=auto><script type=text/javascript>(window.localStorage&&localStorage.getItem("theme")?localStorage.getItem("theme")==="dark":"auto"==="auto"?window.matchMedia("(prefers-color-scheme: dark)").matches:"auto"==="dark")&&document.body.setAttribute("theme","dark")</script><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title="Joker-desire's Blog"><span class=header-title-pre><i class='far fa-kiss-wink-heart fa-fw' aria-hidden=true></i></span>welcome</a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts title=所有文章>所有文章 </a><a class=menu-item href=/categories title=分类>分类 </a><a class=menu-item href=/tags title=标签>标签 </a><a class=menu-item href=/about title=关于>关于 </a><a class=menu-item href=https://github.com/Joker-desire title=GitHub rel="noopener noreffer" target=_blank><i class='fab fa-github fa-fw' aria-hidden=true></i> </a><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop>
+<input type=text placeholder=搜索文章标题或内容... id=search-input-desktop>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-desktop title=搜索><i class="fas fa-search fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-desktop title=清空><i class="fas fa-times-circle fa-fw" aria-hidden=true></i>
+</a><span class="search-button search-loading" id=search-loading-desktop><i class="fas fa-spinner fa-fw fa-spin" aria-hidden=true></i>
+</span></span><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题><i class="fas fa-adjust fa-fw" aria-hidden=true></i></a></div></div></div></header><header class=mobile id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title="Joker-desire's Blog"><span class=header-title-pre><i class='far fa-kiss-wink-heart fa-fw' aria-hidden=true></i></span>welcome</a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><div class=search-wrapper><div class="search mobile" id=search-mobile><input type=text placeholder=搜索文章标题或内容... id=search-input-mobile>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-mobile title=搜索><i class="fas fa-search fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-mobile title=清空><i class="fas fa-times-circle fa-fw" aria-hidden=true></i>
+</a><span class="search-button search-loading" id=search-loading-mobile><i class="fas fa-spinner fa-fw fa-spin" aria-hidden=true></i></span></div><a href=javascript:void(0); class=search-cancel id=search-cancel-mobile>取消</a></div><a class=menu-item href=/posts title=所有文章>所有文章</a><a class=menu-item href=/categories title=分类>分类</a><a class=menu-item href=/tags title=标签>标签</a><a class=menu-item href=/about title=关于>关于</a><a class=menu-item href=https://github.com/Joker-desire title=GitHub rel="noopener noreffer" target=_blank><i class='fab fa-github fa-fw' aria-hidden=true></i></a><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题>
+<i class="fas fa-adjust fa-fw" aria-hidden=true></i></a></div></div></header><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div><main class=main><div class=container><div class=toc id=toc-auto><h2 class=toc-title>目录</h2><div class=toc-content id=toc-content-auto></div></div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Selenium Grid 模拟操作上传操作问题解决方案</h1><div class=post-meta><div class=post-meta-line><span class=post-author><a href=/ title=Author rel=author class=author><i class="fas fa-user-circle fa-fw" aria-hidden=true></i>Joker-desire</a></span>&nbsp;<span class=post-category>收录于 <a href=/categories/python/><i class="far fa-folder fa-fw" aria-hidden=true></i>Python</a>&nbsp;<a href=/categories/selenium/><i class="far fa-folder fa-fw" aria-hidden=true></i>Selenium</a>&nbsp;<a href=/categories/docker/><i class="far fa-folder fa-fw" aria-hidden=true></i>Docker</a></span></div><div class=post-meta-line><i class="far fa-calendar-alt fa-fw" aria-hidden=true></i>&nbsp;<time datetime=2023年10月22日>2023年10月22日</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden=true></i>&nbsp;约 881 字&nbsp;
+<i class="far fa-clock fa-fw" aria-hidden=true></i>&nbsp;预计阅读 2 分钟&nbsp;</div></div><div class="details toc" id=toc-static data-kept><div class="details-summary toc-title"><span>目录</span>
+<span><i class="details-icon fas fa-angle-right" aria-hidden=true></i></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><ul><li><a href=#解决>解决</a><ul><li><a href=#步骤>步骤</a></li></ul></li><li><a href=#增强处理>增强处理</a><ul><li><a href=#说明>说明</a></li></ul></li><li><a href=#部署启动selenium-grid-uploadhttpsgithubcomjoker-desireselenium-grid-upload>部署启动（<a href=https://github.com/Joker-desire/Selenium-Grid-Upload>Selenium-Grid-Upload</a>）</a><ul><li><a href=#部署>部署</a></li><li><a href=#命令行>命令行</a></li></ul></li><li><a href=#示例>示例</a></li></ul></li></ul></nav></div></div><div class=content id=content><blockquote><p>在使用Selenium Grid模拟操作上传文件时，会从浏览器实例的本地文件系统中读取文件。这就导致了一个问题，如果Grid
+Hub所在的机器上没有要上传的文件，那么就会出现文件不存在的错误。</p></blockquote><h2 id=解决>解决</h2><p>将浏览器实例的某一文件夹映射出来，在执行上传操作时，将文件上传到该文件夹中，这样就可以解决文件不存在的问题。</p><h3 id=步骤>步骤</h3><ol><li>在每个浏览器镜像中，创建一个文件夹，例如：<code>/home/seluser/upload</code><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-yml data-lang=yml><span class=line><span class=cl><span class=nt>volumes</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>   </span>- <span class=l>./upload:/home/upload</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div></li><li>在执行上传时中，将文件上传到该文件夹（<code>./upload</code>）中, 在代码中就可以使用<code>/home/upload</code>来访问该文件夹下的文件了<div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=n>ele</span> <span class=o>=</span> <span class=n>driver</span><span class=o>.</span><span class=n>find_element</span><span class=p>(</span><span class=n>By</span><span class=o>.</span><span class=n>XPATH</span><span class=p>,</span> <span class=s2>&#34;//input[@type=&#39;file&#39;]&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>ele</span><span class=o>.</span><span class=n>send_keys</span><span class=p>(</span><span class=s2>&#34;/home/upload/xxx.txt&#34;</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div></li></ol><h2 id=增强处理>增强处理</h2><p><em><strong>提供上传接口，可以在执行上传文件模拟操作之前，先使用接口进行上传</strong></em></p><ol><li>起一个fastapi服务，提供上传接口</li><li>将服务中的upload文件夹映射到<code>./upload</code>文件夹中,实现文件共享</li><li>将所有服务使用NGINX进行代理</li></ol><h3 id=说明>说明</h3><ol><li><p>Selenium Grid ui界面</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>http://127.0.0.1:8080/ui
+</span></span></code></pre></td></tr></table></div></div></li><li><p>Selenium Grid Hub</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>http://127.0.0.1:8080/grid/hub
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=kn>from</span> <span class=nn>selenium</span> <span class=kn>import</span> <span class=n>webdriver</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>selenium.webdriver.chrome</span> <span class=kn>import</span> <span class=n>options</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># from selenium.webdriver.firefox import options</span>
+</span></span><span class=line><span class=cl><span class=c1># from selenium.webdriver.edge import options</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>driver</span> <span class=o>=</span> <span class=n>webdriver</span><span class=o>.</span><span class=n>Remote</span><span class=p>(</span><span class=n>command_executor</span><span class=o>=</span><span class=s2>&#34;http://admin:admin@127.0.0.1:8080/grid/hub&#34;</span><span class=p>,</span> <span class=n>options</span><span class=o>=</span><span class=n>options</span><span class=o>.</span><span class=n>Options</span><span class=p>())</span>
+</span></span></code></pre></td></tr></table></div></div></li><li><p>Selenium Grid 状态</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>http://127.0.0.1:8080/grid/hub/status
+</span></span></code></pre></td></tr></table></div></div></li><li><p>上传接口</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>http://127.0.0.1:8080/api/upload
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=kn>import</span> <span class=nn>requests</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>def</span> <span class=nf>upload</span><span class=p>(</span><span class=n>pictures</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;&#34;&#34;
+</span></span></span><span class=line><span class=cl><span class=s2>    上传图片
+</span></span></span><span class=line><span class=cl><span class=s2>    :param pictures: 图片路径列表
+</span></span></span><span class=line><span class=cl><span class=s2>    :return: 图片上传后在浏览器实例中的路径列表
+</span></span></span><span class=line><span class=cl><span class=s2>    &#34;&#34;&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=n>url</span> <span class=o>=</span> <span class=s2>&#34;http://admin:admin@127.0.0.1:8080/api/upload&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=n>files</span> <span class=o>=</span> <span class=p>[(</span><span class=s2>&#34;files&#34;</span><span class=p>,</span> <span class=nb>open</span><span class=p>(</span><span class=n>picture</span><span class=p>,</span> <span class=s1>&#39;rb&#39;</span><span class=p>))</span> <span class=k>for</span> <span class=n>picture</span> <span class=ow>in</span> <span class=n>pictures</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>    <span class=n>response</span> <span class=o>=</span> <span class=n>requests</span><span class=o>.</span><span class=n>post</span><span class=p>(</span><span class=n>url</span><span class=p>,</span> <span class=n>files</span><span class=o>=</span><span class=n>files</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=n>response</span><span class=o>.</span><span class=n>status_code</span> <span class=o>==</span> <span class=mi>401</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>        <span class=k>raise</span> <span class=ne>Exception</span><span class=p>(</span><span class=s2>&#34;Authorization Required&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=k>elif</span> <span class=n>response</span><span class=o>.</span><span class=n>status_code</span> <span class=o>!=</span> <span class=mi>200</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>        <span class=k>raise</span> <span class=ne>Exception</span><span class=p>(</span><span class=s2>&#34;Upload Failed&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=k>else</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>        <span class=n>res</span> <span class=o>=</span> <span class=n>response</span><span class=o>.</span><span class=n>json</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=p>[</span><span class=n>data</span><span class=o>.</span><span class=n>get</span><span class=p>(</span><span class=s2>&#34;browser_file_path&#34;</span><span class=p>)</span> <span class=k>for</span> <span class=n>data</span> <span class=ow>in</span> <span class=n>res</span><span class=o>.</span><span class=n>get</span><span class=p>(</span><span class=s2>&#34;data&#34;</span><span class=p>,</span> <span class=p>[])]</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>files_path</span> <span class=o>=</span> <span class=n>upload</span><span class=p>([</span><span class=s2>&#34;/Users/example/Pictures/6.JPG&#34;</span><span class=p>,</span> <span class=s2>&#34;/Users/example/Pictures/7.png&#34;</span><span class=p>])</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=n>files_path</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># [&#39;/home/upload/2023/10/22/19676048770179.JPG&#39;, &#39;/home/upload/2023/10/22/19676121458637.png&#39;]</span>
+</span></span></code></pre></td></tr></table></div></div></li></ol><h2 id=部署启动selenium-grid-uploadhttpsgithubcomjoker-desireselenium-grid-upload>部署启动（<a href=https://github.com/Joker-desire/Selenium-Grid-Upload target=_blank rel="noopener noreffer">Selenium-Grid-Upload</a>）</h2><h3 id=部署>部署</h3><ol><li>克隆项目<div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>git clone https://github.com/Joker-desire/Selenium-Grid-Upload.git
+</span></span></code></pre></td></tr></table></div></div></li><li>进入项目目录<div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=nb>cd</span> Selenium-Grid-Upload
+</span></span></code></pre></td></tr></table></div></div></li><li>运行<div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>sh grid.sh run
+</span></span></code></pre></td></tr></table></div></div></li><li>默认superuser<div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>username: admin
+</span></span><span class=line><span class=cl>password: admin
+</span></span></code></pre></td></tr></table></div></div></li></ol><h3 id=命令行>命令行</h3><ol><li>运行<div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>sh grid.sh run
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 指定启动多少个浏览器实例</span>
+</span></span><span class=line><span class=cl>sh grid.sh run --scale <span class=nv>chrome</span><span class=o>=</span><span class=m>5</span> --scale <span class=nv>edge</span><span class=o>=</span><span class=m>1</span> --scale <span class=nv>firefox</span><span class=o>=</span><span class=m>5</span>
+</span></span></code></pre></td></tr></table></div></div></li><li>启动<div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>sh grid.sh start
+</span></span></code></pre></td></tr></table></div></div></li><li>重启<div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>sh grid.sh restart
+</span></span></code></pre></td></tr></table></div></div></li><li>停止<div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>sh grid.sh stop
+</span></span></code></pre></td></tr></table></div></div></li><li>删除<div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>sh grid.sh down
+</span></span></code></pre></td></tr></table></div></div></li><li>创建新的superuser<div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>sh grid.sh superuser &lt;username&gt;
+</span></span></code></pre></td></tr></table></div></div></li></ol><h2 id=示例>示例</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=kn>import</span> <span class=nn>requests</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>selenium</span> <span class=kn>import</span> <span class=n>webdriver</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>selenium.webdriver.chrome</span> <span class=kn>import</span> <span class=n>options</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>selenium.webdriver.common.by</span> <span class=kn>import</span> <span class=n>By</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>def</span> <span class=nf>upload</span><span class=p>(</span><span class=n>pictures</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;&#34;&#34;
+</span></span></span><span class=line><span class=cl><span class=s2>    上传图片
+</span></span></span><span class=line><span class=cl><span class=s2>    :param pictures: 图片路径列表
+</span></span></span><span class=line><span class=cl><span class=s2>    :return: 图片上传后在浏览器实例中的路径列表
+</span></span></span><span class=line><span class=cl><span class=s2>    &#34;&#34;&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=n>url</span> <span class=o>=</span> <span class=s2>&#34;http://admin:admin@127.0.0.1:8080/api/upload&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=n>files</span> <span class=o>=</span> <span class=p>[(</span><span class=s2>&#34;files&#34;</span><span class=p>,</span> <span class=nb>open</span><span class=p>(</span><span class=n>picture</span><span class=p>,</span> <span class=s1>&#39;rb&#39;</span><span class=p>))</span> <span class=k>for</span> <span class=n>picture</span> <span class=ow>in</span> <span class=n>pictures</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>    <span class=n>response</span> <span class=o>=</span> <span class=n>requests</span><span class=o>.</span><span class=n>post</span><span class=p>(</span><span class=n>url</span><span class=p>,</span> <span class=n>files</span><span class=o>=</span><span class=n>files</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=n>response</span><span class=o>.</span><span class=n>status_code</span> <span class=o>==</span> <span class=mi>401</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>        <span class=k>raise</span> <span class=ne>Exception</span><span class=p>(</span><span class=s2>&#34;Authorization Required&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=k>elif</span> <span class=n>response</span><span class=o>.</span><span class=n>status_code</span> <span class=o>!=</span> <span class=mi>200</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>        <span class=k>raise</span> <span class=ne>Exception</span><span class=p>(</span><span class=s2>&#34;Upload Failed&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=k>else</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>        <span class=n>res</span> <span class=o>=</span> <span class=n>response</span><span class=o>.</span><span class=n>json</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=p>[</span><span class=n>data</span><span class=o>.</span><span class=n>get</span><span class=p>(</span><span class=s2>&#34;browser_file_path&#34;</span><span class=p>)</span> <span class=k>for</span> <span class=n>data</span> <span class=ow>in</span> <span class=n>res</span><span class=o>.</span><span class=n>get</span><span class=p>(</span><span class=s2>&#34;data&#34;</span><span class=p>,</span> <span class=p>[])]</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 在需要执行上传的模拟程序前，先进行上传需要用到的图片</span>
+</span></span><span class=line><span class=cl><span class=n>files_path</span> <span class=o>=</span> <span class=n>upload</span><span class=p>([</span><span class=s2>&#34;/Users/example/Pictures/6.JPG&#34;</span><span class=p>,</span> <span class=s2>&#34;/Users/example/Pictures/7.png&#34;</span><span class=p>])</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>driver</span> <span class=o>=</span> <span class=n>webdriver</span><span class=o>.</span><span class=n>Remote</span><span class=p>(</span><span class=n>command_executor</span><span class=o>=</span><span class=s2>&#34;http://admin:admin@127.0.0.1:8080/grid/hub&#34;</span><span class=p>,</span> <span class=n>options</span><span class=o>=</span><span class=n>options</span><span class=o>.</span><span class=n>Options</span><span class=p>())</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>driver</span><span class=o>.</span><span class=n>get</span><span class=p>(</span><span class=s2>&#34;https://www.example.com/upload.html&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>ele</span> <span class=o>=</span> <span class=n>driver</span><span class=o>.</span><span class=n>find_element</span><span class=p>(</span><span class=n>By</span><span class=o>.</span><span class=n>XPATH</span><span class=p>,</span> <span class=s2>&#34;//input[@type=&#39;file&#39;]&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=k>for</span> <span class=n>file_path</span> <span class=ow>in</span> <span class=n>files_path</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>    <span class=c1># 通过上传后的图片获取浏览器中的路径进行上传</span>
+</span></span><span class=line><span class=cl>    <span class=n>ele</span><span class=o>.</span><span class=n>send_keys</span><span class=p>(</span><span class=n>file_path</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>driver</span><span class=o>.</span><span class=n>quit</span><span class=p>()</span>
+</span></span></code></pre></td></tr></table></div></div></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>更新于 2023年10月22日</span></div></div><div class=post-info-line><div class=post-info-md><span><a class=link-to-markdown href=/2023/10/selenium-grid-%E6%A8%A1%E6%8B%9F%E6%93%8D%E4%BD%9C%E4%B8%8A%E4%BC%A0%E6%93%8D%E4%BD%9C%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/index.md target=_blank>阅读原始文档</a></span></div><div class=post-info-share><span><a href=javascript:void(0); title="分享到 Twitter" data-sharer=twitter data-url=https://Joker-desire.github.io/2023/10/selenium-grid-%E6%A8%A1%E6%8B%9F%E6%93%8D%E4%BD%9C%E4%B8%8A%E4%BC%A0%E6%93%8D%E4%BD%9C%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/ data-title="Selenium Grid 模拟操作上传操作问题解决方案" data-hashtags=Python,Selenium,docker><i class="fab fa-twitter fa-fw" aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 Facebook" data-sharer=facebook data-url=https://Joker-desire.github.io/2023/10/selenium-grid-%E6%A8%A1%E6%8B%9F%E6%93%8D%E4%BD%9C%E4%B8%8A%E4%BC%A0%E6%93%8D%E4%BD%9C%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/ data-hashtag=Python><i class="fab fa-facebook-square fa-fw" aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 Hacker News" data-sharer=hackernews data-url=https://Joker-desire.github.io/2023/10/selenium-grid-%E6%A8%A1%E6%8B%9F%E6%93%8D%E4%BD%9C%E4%B8%8A%E4%BC%A0%E6%93%8D%E4%BD%9C%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/ data-title="Selenium Grid 模拟操作上传操作问题解决方案"><i class="fab fa-hacker-news fa-fw" aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 Line" data-sharer=line data-url=https://Joker-desire.github.io/2023/10/selenium-grid-%E6%A8%A1%E6%8B%9F%E6%93%8D%E4%BD%9C%E4%B8%8A%E4%BC%A0%E6%93%8D%E4%BD%9C%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/ data-title="Selenium Grid 模拟操作上传操作问题解决方案"><i data-svg-src=https://cdn.jsdelivr.net/npm/simple-icons@7.0.0/icons/line.svg aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 微博" data-sharer=weibo data-url=https://Joker-desire.github.io/2023/10/selenium-grid-%E6%A8%A1%E6%8B%9F%E6%93%8D%E4%BD%9C%E4%B8%8A%E4%BC%A0%E6%93%8D%E4%BD%9C%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/ data-title="Selenium Grid 模拟操作上传操作问题解决方案"><i class="fab fa-weibo fa-fw" aria-hidden=true></i></a></span></div></div></div><div class=post-info-more><section class=post-tags><i class="fas fa-tags fa-fw" aria-hidden=true></i>&nbsp;<a href=/tags/python/>Python</a>,&nbsp;<a href=/tags/selenium/>Selenium</a>,&nbsp;<a href=/tags/docker/>Docker</a></section><section><span><a href=javascript:void(0); onclick=window.history.back()>返回</a></span>&nbsp;|&nbsp;<span><a href=/>主页</a></span></section></div><div class=post-nav><a href=/2023/05/casbin/ class=prev rel=prev title=Casbin><i class="fas fa-angle-left fa-fw" aria-hidden=true></i>Casbin</a>
+<a href=/2023/10/chatgpt%E6%8F%90%E9%97%AE%E8%89%BA%E6%9C%AF/ class=next rel=next title="ChatGPT 提问的艺术">ChatGPT 提问的艺术<i class="fas fa-angle-right fa-fw" aria-hidden=true></i></a></div></div><div id=comments><div id=giscus class=comment></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://giscus.app>Giscus</a>.</noscript></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line itemscope itemtype=http://schema.org/CreativeWork><i class="far fa-copyright fa-fw" aria-hidden=true></i><span itemprop=copyrightYear>2022 - 2024</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=/ target=_blank>Joker desire</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div></div></footer></div><div id=fixed-buttons><a href=# id=back-to-top class=fixed-button title=回到顶部><i class="fas fa-arrow-up fa-fw" aria-hidden=true></i>
+</a><a href=# id=view-comments class=fixed-button title=查看评论><i class="fas fa-comment fa-fw" aria-hidden=true></i></a></div><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/lightgallery@2.4.0/css/lightgallery-bundle.min.css><script type=text/javascript src=https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/algoliasearch@4.13.1/dist/algoliasearch-lite.umd.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lazysizes@5.3.1/lazysizes.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lightgallery@2.4.0/lightgallery.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lightgallery@2.4.0/plugins/thumbnail/lg-thumbnail.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lightgallery@2.4.0/plugins/zoom/lg-zoom.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js></script><script type=text/javascript>window.config={code:{copyTitle:"复制到剪贴板",maxShownLines:50},comment:{giscus:{category:"Announcements",categoryId:"DIC_kwDOHfPihs4CPp7X",darkTheme:"dark",emitMetadata:"0",inputPosition:"top",lang:"zh-CN",lazyLoading:!1,lightTheme:"light",mapping:"pathname",reactionsEnabled:"1",repo:"Joker-desire/store-comments",repoId:"R_kgDOHfPihg"}},lightgallery:!0,search:{algoliaAppID:"R6OIVCXBNU",algoliaIndex:"Joker-desire",algoliaSearchKey:"07e68b90760663e43882d4a48e00e932",highlightTag:"em",maxResultLength:10,noResultsFound:"没有找到结果",snippetLength:30,type:"algolia"}}</script><script type=text/javascript src=/js/theme.min.js></script></body></html>

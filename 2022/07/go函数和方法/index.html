@@ -1,0 +1,237 @@
+<!doctype html><html lang=zh-cn><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><title>Go函数和方法 - Joker-desire's Blog</title><meta name=Description content="为什么要努力？ 因为我喜欢的东西都很贵，我想去的地方都很远，我爱的人超完美。"><meta property="og:url" content="https://Joker-desire.github.io/2022/07/go%E5%87%BD%E6%95%B0%E5%92%8C%E6%96%B9%E6%B3%95/">
+<meta property="og:site_name" content="Joker-desire's Blog"><meta property="og:title" content="Go函数和方法"><meta property="og:description" content="Go包 包的基本概念 go的每一个文件都是属于一个包的，也就是说go是以包的形式来管理文件和项目目录结构的 包的三大作用 区分相同名字的函数、变量等"><meta property="og:locale" content="zh_cn"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2022-07-09T10:32:28+08:00"><meta property="article:modified_time" content="2022-07-09T10:32:28+08:00"><meta property="article:tag" content="Go笔记"><meta property="og:image" content="https://Joker-desire.github.io/logo.png"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://Joker-desire.github.io/logo.png"><meta name=twitter:title content="Go函数和方法"><meta name=twitter:description content="Go包 包的基本概念 go的每一个文件都是属于一个包的，也就是说go是以包的形式来管理文件和项目目录结构的 包的三大作用 区分相同名字的函数、变量等"><meta name=application-name content="Joker-desire"><meta name=apple-mobile-web-app-title content="Joker-desire"><meta name=theme-color content="#ffffff"><meta name=msapplication-TileColor content="#da532c"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://Joker-desire.github.io/2022/07/go%E5%87%BD%E6%95%B0%E5%92%8C%E6%96%B9%E6%B3%95/><link rel=prev href=https://Joker-desire.github.io/2022/07/go%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6/><link rel=next href=https://Joker-desire.github.io/2022/07/jenkins%E5%8F%82%E6%95%B0%E5%8C%96%E6%9E%84%E5%BB%BA%E4%B8%8E%E8%A7%A6%E5%8F%91/><link rel=stylesheet href=/css/style.min.css><link rel=preload href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css></noscript><link rel=preload href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css></noscript><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"Go函数和方法","inLanguage":"zh-cn","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/Joker-desire.github.io\/2022\/07\/go%E5%87%BD%E6%95%B0%E5%92%8C%E6%96%B9%E6%B3%95\/"},"genre":"posts","keywords":"Go笔记","wordcount":2396,"url":"https:\/\/Joker-desire.github.io\/2022\/07\/go%E5%87%BD%E6%95%B0%E5%92%8C%E6%96%B9%E6%B3%95\/","datePublished":"2022-07-09T10:32:28+08:00","dateModified":"2022-07-09T10:32:28+08:00","publisher":{"@type":"Organization","name":""},"author":{"@type":"Person","name":"Joker-desire"},"description":""}</script></head><body data-header-desktop=fixed data-header-mobile=auto><script type=text/javascript>(window.localStorage&&localStorage.getItem("theme")?localStorage.getItem("theme")==="dark":"auto"==="auto"?window.matchMedia("(prefers-color-scheme: dark)").matches:"auto"==="dark")&&document.body.setAttribute("theme","dark")</script><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title="Joker-desire's Blog"><span class=header-title-pre><i class='far fa-kiss-wink-heart fa-fw' aria-hidden=true></i></span>welcome</a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts title=所有文章>所有文章 </a><a class=menu-item href=/categories title=分类>分类 </a><a class=menu-item href=/tags title=标签>标签 </a><a class=menu-item href=/about title=关于>关于 </a><a class=menu-item href=https://github.com/Joker-desire title=GitHub rel="noopener noreffer" target=_blank><i class='fab fa-github fa-fw' aria-hidden=true></i> </a><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop>
+<input type=text placeholder=搜索文章标题或内容... id=search-input-desktop>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-desktop title=搜索><i class="fas fa-search fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-desktop title=清空><i class="fas fa-times-circle fa-fw" aria-hidden=true></i>
+</a><span class="search-button search-loading" id=search-loading-desktop><i class="fas fa-spinner fa-fw fa-spin" aria-hidden=true></i>
+</span></span><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题><i class="fas fa-adjust fa-fw" aria-hidden=true></i></a></div></div></div></header><header class=mobile id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title="Joker-desire's Blog"><span class=header-title-pre><i class='far fa-kiss-wink-heart fa-fw' aria-hidden=true></i></span>welcome</a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><div class=search-wrapper><div class="search mobile" id=search-mobile><input type=text placeholder=搜索文章标题或内容... id=search-input-mobile>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-mobile title=搜索><i class="fas fa-search fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-mobile title=清空><i class="fas fa-times-circle fa-fw" aria-hidden=true></i>
+</a><span class="search-button search-loading" id=search-loading-mobile><i class="fas fa-spinner fa-fw fa-spin" aria-hidden=true></i></span></div><a href=javascript:void(0); class=search-cancel id=search-cancel-mobile>取消</a></div><a class=menu-item href=/posts title=所有文章>所有文章</a><a class=menu-item href=/categories title=分类>分类</a><a class=menu-item href=/tags title=标签>标签</a><a class=menu-item href=/about title=关于>关于</a><a class=menu-item href=https://github.com/Joker-desire title=GitHub rel="noopener noreffer" target=_blank><i class='fab fa-github fa-fw' aria-hidden=true></i></a><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题>
+<i class="fas fa-adjust fa-fw" aria-hidden=true></i></a></div></div></header><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div><main class=main><div class=container><div class=toc id=toc-auto><h2 class=toc-title>目录</h2><div class=toc-content id=toc-content-auto></div></div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Go函数和方法</h1><div class=post-meta><div class=post-meta-line><span class=post-author><a href=/ title=Author rel=author class=author><i class="fas fa-user-circle fa-fw" aria-hidden=true></i>Joker-desire</a></span>&nbsp;<span class=post-category>收录于 <a href=/categories/go%E7%AC%94%E8%AE%B0/><i class="far fa-folder fa-fw" aria-hidden=true></i>Go笔记</a></span></div><div class=post-meta-line><i class="far fa-calendar-alt fa-fw" aria-hidden=true></i>&nbsp;<time datetime=2022年07月09日>2022年07月09日</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden=true></i>&nbsp;约 2396 字&nbsp;
+<i class="far fa-clock fa-fw" aria-hidden=true></i>&nbsp;预计阅读 5 分钟&nbsp;</div></div><div class="details toc" id=toc-static data-kept><div class="details-summary toc-title"><span>目录</span>
+<span><i class="details-icon fas fa-angle-right" aria-hidden=true></i></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><ul><li><a href=#go包>Go包</a><ul><li><a href=#包的基本概念>包的基本概念</a></li><li><a href=#包的三大作用>包的三大作用</a></li><li><a href=#包的使用>包的使用</a><ul><li><a href=#打包基本语法>打包基本语法</a></li><li><a href=#导包基本语法>导包基本语法</a></li><li><a href=#注意事项>注意事项</a></li></ul></li></ul></li><li><a href=#go函数>Go函数</a><ul><li><a href=#基本语法>基本语法</a></li><li><a href=#示例>示例</a></li><li><a href=#函数参数的传递方式>函数参数的传递方式</a></li><li><a href=#变量作用域>变量作用域</a></li><li><a href=#函数注意事项>函数注意事项</a></li></ul></li><li><a href=#init函数><code>init</code>函数</a><ul><li><a href=#注意细节>注意细节</a></li></ul></li><li><a href=#匿名函数>匿名函数</a><ul><li><a href=#使用方式1>使用方式1</a></li><li><a href=#使用方式2>使用方式2</a></li><li><a href=#全局匿名函数>全局匿名函数</a></li></ul></li><li><a href=#闭包>闭包</a></li><li><a href=#defer延时机制>defer延时机制</a><ul><li><a href=#细节说明>细节说明</a></li></ul></li></ul></li></ul></nav></div></div><div class=content id=content><h2 id=go包>Go包</h2><h3 id=包的基本概念>包的基本概念</h3><p>go的每一个文件都是属于一个包的，也就是说go是以包的形式来管理文件和项目目录结构的</p><h3 id=包的三大作用>包的三大作用</h3><ol><li>区分相同名字的函数、变量等标识符</li><li>当程序文件很多时，可以很好的管理项目</li><li>控制函数、变量等访问范围，即作用域</li></ol><h3 id=包的使用>包的使用</h3><h4 id=打包基本语法>打包基本语法</h4><p><code>package util</code></p><h4 id=导包基本语法>导包基本语法</h4><p><code>import "包的路径"</code></p><h4 id=注意事项>注意事项</h4><ol><li><p>在给一个文件打包时，该包对应一个文件夹</p></li><li><p>当一个文件要使用其他包函数或变量时，需要先引入对应的包</p></li><li><p>为了让其他包的文件，可以访问到本包的函数，则该函数名的首字母需要大写</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kd>func</span> <span class=nf>Call</span><span class=p>(</span><span class=o>...</span><span class=p>){</span>
+</span></span><span class=line><span class=cl>    <span class=o>...</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div></li><li><p>package指令在文件第一行，然后是import指令</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kn>package</span> <span class=kt>error</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;errors&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;fmt&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;strconv&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;testing&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div></li><li><p>在访问其他包函数变量时，其语法是：包名.函数名</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=nx>m</span> <span class=o>:=</span> <span class=nx>cm</span><span class=p>.</span><span class=nf>CreateConcurrentMap</span><span class=p>(</span><span class=mi>99</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nx>m</span><span class=p>.</span><span class=nf>Set</span><span class=p>(</span><span class=nx>cm</span><span class=p>.</span><span class=nf>StrKey</span><span class=p>(</span><span class=s>&#34;key&#34;</span><span class=p>),</span> <span class=mi>10</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nx>t</span><span class=p>.</span><span class=nf>Log</span><span class=p>(</span><span class=nx>m</span><span class=p>.</span><span class=nf>Get</span><span class=p>(</span><span class=nx>cm</span><span class=p>.</span><span class=nf>StrKey</span><span class=p>(</span><span class=s>&#34;key&#34;</span><span class=p>)))</span>
+</span></span></code></pre></td></tr></table></div></div></li><li><p>如果包名较长，Go支持给包取别名，注意细节：取别名后，原来的包名就不能使用了</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kn>import</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>	<span class=nx>cm</span> <span class=s>&#34;github.com/easierway/concurrent_map&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;testing&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div></li><li><p>在同一包下，不能有相同的函数名。</p></li><li><p>如果要编译成一个可执行程序文件，就需要将这个包声明为<code>main</code>，即<code>package main</code>这个就是一个语法规范，如果是写一个库，包名可以自定义</p></li></ol><h2 id=go函数>Go函数</h2><p>为完成某一功能的程序执行（语句）的集合，称为函数。</p><p>在Go中，函数分为：自定义函数、系统函数</p><h3 id=基本语法>基本语法</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kd>func</span> <span class=nx>函数名</span> <span class=p>(</span><span class=nx>形参列表</span><span class=p>)</span> <span class=p>(</span><span class=nx>返回值列表</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>执行语句</span><span class=o>...</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nx>返回值列表</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><ol><li>形参列表：表示函数的输入</li><li>函数中的语句：表示为了实现某一功能代码块</li><li>函数可以有返回值，也可以没有</li></ol><h3 id=示例>示例</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kd>func</span> <span class=nf>compute</span><span class=p>(</span><span class=nx>a</span> <span class=kt>int</span><span class=p>,</span> <span class=nx>b</span> <span class=kt>int</span><span class=p>,</span> <span class=nx>operator</span> <span class=kt>string</span><span class=p>)</span> <span class=kt>int</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=kd>var</span> <span class=nx>result</span> <span class=kt>int</span>
+</span></span><span class=line><span class=cl>	<span class=k>switch</span> <span class=nx>operator</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=k>case</span> <span class=s>&#34;+&#34;</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>		<span class=nx>result</span> <span class=p>=</span> <span class=nx>a</span> <span class=o>+</span> <span class=nx>b</span>
+</span></span><span class=line><span class=cl>	<span class=k>case</span> <span class=s>&#34;-&#34;</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>		<span class=nx>result</span> <span class=p>=</span> <span class=nx>a</span> <span class=o>-</span> <span class=nx>b</span>
+</span></span><span class=line><span class=cl>	<span class=k>case</span> <span class=s>&#34;*&#34;</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>		<span class=nx>result</span> <span class=p>=</span> <span class=nx>a</span> <span class=o>*</span> <span class=nx>b</span>
+</span></span><span class=line><span class=cl>	<span class=k>case</span> <span class=s>&#34;/&#34;</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>		<span class=nx>result</span> <span class=p>=</span> <span class=nx>a</span> <span class=o>/</span> <span class=nx>b</span>
+</span></span><span class=line><span class=cl>	<span class=k>default</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>		<span class=nb>panic</span><span class=p>(</span><span class=s>&#34;运算符错误&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=k>return</span> <span class=nx>result</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=函数参数的传递方式>函数参数的传递方式</h3><ol><li>值传递：基本数据类型int系列、float系列、bool、string、数组和结构体struct</li><li>引用传递：指针、slice切片、map、管道chan、interface等</li></ol><p>不管是值传递还是引用传递，传递给函数的都是变量的副本，不同的是，值传递的是值的拷贝，引用传递的是地址的拷贝，一般来说，地址拷贝效率高，因为数据量小，而值拷贝决定拷贝的数据大小，数据越大，效率越低。</p><h3 id=变量作用域>变量作用域</h3><ol><li>函数内部声明/定义的变量叫局部变量，作用域仅限于函数内部</li><li>函数外部声明/定义的变量叫全局变量，作用域在整个包都有效，如果其首字母为大写，则作用域在整个程序有效</li><li>如果变量是在一个代码块，比如for/if中，那么这个变量的作用域就在改代码块</li></ol><h3 id=函数注意事项>函数注意事项</h3><ol><li><p>函数的形参列表可以是多个，返回值列表也可以是多个</p></li><li><p>形参列表和返回值列表的数据类型可以是值类型和引用类型</p></li><li><p>函数的命名遵循标识符命名规范，首字母不能是数字，首字母大写该函数可以被本包文件和其他包文件使用，类似public，首字母小写，只能被本包文件使用，其他包文件不能使用，类似private</p></li><li><p>函数中的变量是局部的，函数外不生效</p></li><li><p>基本数据类型和数组默认都是值传递的，即进行值拷贝。在函数内修改，不会影响到原来的值</p></li><li><p>如果希望函数内的变量能修改函数外的变量，可以传入变量的地址&，函数内以指针的方式操作变量。从效果上看类似引用。</p></li><li><p>Go函数不支持重载</p></li><li><p>在Go中，函数也是一种数据类型，可以赋值给一个变阿玲，则该变量就是一个函数类型的变量了。通过该变量可以对函数调用。</p></li><li><p>函数既然是一种数据类型，因此在Go中，函数可以作为形参，并且调用</p></li><li><p>为了简化数据类型定义，Go支持自定义数据类型</p><ol><li>基本语法：<code>type 自定义数据类型名 数据类型 // 相当于一个别名</code></li></ol></li><li><p>支持函数返回值命名</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kd>func</span> <span class=nf>call</span><span class=p>(</span><span class=nx>n1</span> <span class=kt>int</span><span class=p>,</span> <span class=nx>n2</span> <span class=kt>int</span><span class=p>)</span> <span class=p>(</span><span class=nx>sum</span> <span class=kt>int</span><span class=p>,</span> <span class=nx>sub</span> <span class=kt>int</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=nx>sum</span> <span class=p>=</span> <span class=nx>n1</span> <span class=o>+</span> <span class=nx>n2</span>
+</span></span><span class=line><span class=cl>	<span class=nx>sub</span> <span class=p>=</span> <span class=nx>n1</span> <span class=o>-</span> <span class=nx>n2</span>
+</span></span><span class=line><span class=cl>	<span class=k>return</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div></li><li><p>使用<code>_</code>表示符，忽略返回值</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kd>func</span> <span class=nf>TestFunc</span><span class=p>(</span><span class=nx>t</span> <span class=o>*</span><span class=nx>testing</span><span class=p>.</span><span class=nx>T</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=nx>sum</span><span class=p>,</span> <span class=nx>_</span> <span class=o>:=</span> <span class=nf>call</span><span class=p>(</span><span class=mi>1</span><span class=p>,</span> <span class=mi>2</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=nx>sum</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div></li><li><p>Go支持可变参数</p><ol><li>args是slice，通过args[index]可以访问到各个值</li><li>如果一个函数的形参列表中有可变参数，则可变参数需要放在形参列表最后</li></ol><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=c1>// 支持0到多个参数
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kd>func</span> <span class=nf>call2</span><span class=p>(</span><span class=nx>args</span> <span class=o>...</span><span class=kt>int</span><span class=p>)</span> <span class=kt>int</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=nx>sum</span> <span class=o>:=</span> <span class=mi>0</span>
+</span></span><span class=line><span class=cl>	<span class=k>for</span> <span class=nx>_</span><span class=p>,</span> <span class=nx>arg</span> <span class=o>:=</span> <span class=k>range</span> <span class=nx>args</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>sum</span> <span class=o>+=</span> <span class=nx>arg</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=k>return</span> <span class=nx>sum</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=c1>// 支持1到多个参数
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kd>func</span> <span class=nf>call3</span><span class=p>(</span><span class=nx>n1</span> <span class=kt>int</span><span class=p>,</span> <span class=nx>args</span> <span class=o>...</span><span class=kt>int</span><span class=p>)</span> <span class=kt>int</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=nx>sum</span> <span class=o>:=</span> <span class=nx>n1</span>
+</span></span><span class=line><span class=cl>	<span class=k>for</span> <span class=nx>_</span><span class=p>,</span> <span class=nx>arg</span> <span class=o>:=</span> <span class=k>range</span> <span class=nx>args</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>sum</span> <span class=o>+=</span> <span class=nx>arg</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=k>return</span> <span class=nx>sum</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>TestFunc</span><span class=p>(</span><span class=nx>t</span> <span class=o>*</span><span class=nx>testing</span><span class=p>.</span><span class=nx>T</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=nb>println</span><span class=p>(</span><span class=nf>call2</span><span class=p>(</span><span class=mi>1</span><span class=p>,</span> <span class=mi>2</span><span class=p>,</span> <span class=mi>3</span><span class=p>,</span> <span class=mi>4</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>	<span class=nb>println</span><span class=p>(</span><span class=nf>call3</span><span class=p>(</span><span class=mi>10</span><span class=p>,</span> <span class=mi>1</span><span class=p>,</span> <span class=mi>2</span><span class=p>,</span> <span class=mi>3</span><span class=p>,</span> <span class=mi>4</span><span class=p>))</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div></li></ol><h2 id=init函数><code>init</code>函数</h2><p>每一个源文件都可以包含一个<code>init</code>函数，该函数会在main函数执行前，被Go运行框架调用，也就是说<code>init</code>会在<code>main</code>函数前被调用</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kn>package</span> <span class=nx>main</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=s>&#34;fmt&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>init</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=s>&#34;main init...&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=s>&#34;main ...&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=注意细节>注意细节</h3><ol><li>如果一个文件同时包含全局变量定义，<code>init</code>函数和<code>main</code>函数，则执行的流程是变量定义->init函数->main函数</li><li>init函数最主要的作用，就是完成一些初始化的工作</li></ol><h2 id=匿名函数>匿名函数</h2><p>Go支持匿名函数，如果我们某个函数只是希望使用一次，可以考虑使用匿名函数，匿名函数也可以实现多次调用。</p><h3 id=使用方式1>使用方式1</h3><p>在定义匿名函数时就直接调用</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=nx>result</span> <span class=o>:=</span> <span class=kd>func</span><span class=p>(</span><span class=nx>a</span> <span class=kt>int</span><span class=p>,</span> <span class=nx>b</span> <span class=kt>int</span><span class=p>)</span> <span class=kt>int</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nx>a</span> <span class=o>+</span> <span class=nx>b</span>
+</span></span><span class=line><span class=cl><span class=p>}(</span><span class=mi>1</span><span class=p>,</span> <span class=mi>2</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=nx>result</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=使用方式2>使用方式2</h3><p>将匿名函数赋给一个变量（函数变量），在通过该变量来调用匿名函数</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=nx>sum</span> <span class=o>:=</span> <span class=kd>func</span><span class=p>(</span><span class=nx>a</span> <span class=kt>int</span><span class=p>,</span> <span class=nx>b</span> <span class=kt>int</span><span class=p>)</span> <span class=kt>int</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nx>a</span> <span class=o>+</span> <span class=nx>b</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=nf>sum</span><span class=p>(</span><span class=mi>1</span><span class=p>,</span> <span class=mi>2</span><span class=p>))</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=全局匿名函数>全局匿名函数</h3><p>如果将匿名函数赋给一个全局变量，那么这个匿名函数，就成为一个全局匿名函数，可以在程序有效</p><h2 id=闭包>闭包</h2><p>闭包就是一个函数和与其相关的引用环境组合的一个整体（实体）</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kd>func</span> <span class=nf>AddUpper</span><span class=p>()</span> <span class=kd>func</span><span class=p>(</span><span class=kt>int</span><span class=p>)</span> <span class=kt>int</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=kd>var</span> <span class=nx>n</span> <span class=kt>int</span> <span class=p>=</span> <span class=mi>30</span>
+</span></span><span class=line><span class=cl>	<span class=k>return</span> <span class=kd>func</span><span class=p>(</span><span class=nx>x</span> <span class=kt>int</span><span class=p>)</span> <span class=kt>int</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>n</span> <span class=p>=</span> <span class=nx>n</span> <span class=o>+</span> <span class=nx>x</span>
+</span></span><span class=line><span class=cl>		<span class=k>return</span> <span class=nx>n</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=nx>f</span> <span class=o>:=</span> <span class=nf>AddUpper</span><span class=p>()</span>   <span class=c1>//返回一个闭包
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=nf>f</span><span class=p>(</span><span class=mi>1</span><span class=p>))</span> <span class=c1>//31
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=nf>f</span><span class=p>(</span><span class=mi>2</span><span class=p>))</span> <span class=c1>//33
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=nf>f</span><span class=p>(</span><span class=mi>3</span><span class=p>))</span> <span class=c1>//36
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=defer延时机制>defer延时机制</h2><p>在函数中，程序员经常需要创建资源（比如：数据库连接、文件句柄、锁等），为了在函数执行完毕后，及时的释放资源，Go的设计者提供了<code>defer</code>（延时机制），类似于finally。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kd>func</span> <span class=nf>TestDefer</span><span class=p>(</span><span class=nx>t</span> <span class=o>*</span><span class=nx>testing</span><span class=p>.</span><span class=nx>T</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=k>defer</span> <span class=kd>func</span><span class=p>()</span> <span class=p>{</span> <span class=c1>//匿名函数
+</span></span></span><span class=line><span class=cl><span class=c1></span>		<span class=nx>t</span><span class=p>.</span><span class=nf>Log</span><span class=p>(</span><span class=s>&#34;Clear resources.&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=p>}()</span>
+</span></span><span class=line><span class=cl>	<span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=s>&#34;Started&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=nb>panic</span><span class=p>(</span><span class=s>&#34;Fatal error&#34;</span><span class=p>)</span> <span class=c1>//抛出异常，defer仍会执行
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=细节说明>细节说明</h3><ol><li>当go执行到一个defer时，不会立即执行defer后的语句，而是将defer后的语句压入到一个栈中，然后继续执行函数下一个语句</li><li>当函数执行完毕后（或者抛出异常后），在从defer栈中，一次从栈顶取出语句执行（注：遵守栈先入后出的机制）</li><li>在defer将语句放入到栈时，也会将相关的值拷贝同时入栈</li></ol></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>更新于 2022年07月09日</span></div></div><div class=post-info-line><div class=post-info-md><span><a class=link-to-markdown href=/2022/07/go%E5%87%BD%E6%95%B0%E5%92%8C%E6%96%B9%E6%B3%95/index.md target=_blank>阅读原始文档</a></span></div><div class=post-info-share><span><a href=javascript:void(0); title="分享到 Twitter" data-sharer=twitter data-url=https://Joker-desire.github.io/2022/07/go%E5%87%BD%E6%95%B0%E5%92%8C%E6%96%B9%E6%B3%95/ data-title=Go函数和方法 data-hashtags=Go笔记><i class="fab fa-twitter fa-fw" aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 Facebook" data-sharer=facebook data-url=https://Joker-desire.github.io/2022/07/go%E5%87%BD%E6%95%B0%E5%92%8C%E6%96%B9%E6%B3%95/ data-hashtag=Go笔记><i class="fab fa-facebook-square fa-fw" aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 Hacker News" data-sharer=hackernews data-url=https://Joker-desire.github.io/2022/07/go%E5%87%BD%E6%95%B0%E5%92%8C%E6%96%B9%E6%B3%95/ data-title=Go函数和方法><i class="fab fa-hacker-news fa-fw" aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 Line" data-sharer=line data-url=https://Joker-desire.github.io/2022/07/go%E5%87%BD%E6%95%B0%E5%92%8C%E6%96%B9%E6%B3%95/ data-title=Go函数和方法><i data-svg-src=https://cdn.jsdelivr.net/npm/simple-icons@7.0.0/icons/line.svg aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 微博" data-sharer=weibo data-url=https://Joker-desire.github.io/2022/07/go%E5%87%BD%E6%95%B0%E5%92%8C%E6%96%B9%E6%B3%95/ data-title=Go函数和方法><i class="fab fa-weibo fa-fw" aria-hidden=true></i></a></span></div></div></div><div class=post-info-more><section class=post-tags><i class="fas fa-tags fa-fw" aria-hidden=true></i>&nbsp;<a href=/tags/go%E7%AC%94%E8%AE%B0/>Go笔记</a></section><section><span><a href=javascript:void(0); onclick=window.history.back()>返回</a></span>&nbsp;|&nbsp;<span><a href=/>主页</a></span></section></div><div class=post-nav><a href=/2022/07/go%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6/ class=prev rel=prev title=Go流程控制><i class="fas fa-angle-left fa-fw" aria-hidden=true></i>Go流程控制</a>
+<a href=/2022/07/jenkins%E5%8F%82%E6%95%B0%E5%8C%96%E6%9E%84%E5%BB%BA%E4%B8%8E%E8%A7%A6%E5%8F%91/ class=next rel=next title=Jenkins参数化构建与触发>Jenkins参数化构建与触发<i class="fas fa-angle-right fa-fw" aria-hidden=true></i></a></div></div><div id=comments><div id=giscus class=comment></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://giscus.app>Giscus</a>.</noscript></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line itemscope itemtype=http://schema.org/CreativeWork><i class="far fa-copyright fa-fw" aria-hidden=true></i><span itemprop=copyrightYear>2022 - 2024</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=/ target=_blank>Joker desire</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div></div></footer></div><div id=fixed-buttons><a href=# id=back-to-top class=fixed-button title=回到顶部><i class="fas fa-arrow-up fa-fw" aria-hidden=true></i>
+</a><a href=# id=view-comments class=fixed-button title=查看评论><i class="fas fa-comment fa-fw" aria-hidden=true></i></a></div><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/lightgallery@2.4.0/css/lightgallery-bundle.min.css><script type=text/javascript src=https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/algoliasearch@4.13.1/dist/algoliasearch-lite.umd.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lazysizes@5.3.1/lazysizes.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lightgallery@2.4.0/lightgallery.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lightgallery@2.4.0/plugins/thumbnail/lg-thumbnail.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lightgallery@2.4.0/plugins/zoom/lg-zoom.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js></script><script type=text/javascript>window.config={code:{copyTitle:"复制到剪贴板",maxShownLines:50},comment:{giscus:{category:"Announcements",categoryId:"DIC_kwDOHfPihs4CPp7X",darkTheme:"dark",emitMetadata:"0",inputPosition:"top",lang:"zh-CN",lazyLoading:!1,lightTheme:"light",mapping:"pathname",reactionsEnabled:"1",repo:"Joker-desire/store-comments",repoId:"R_kgDOHfPihg"}},lightgallery:!0,search:{algoliaAppID:"R6OIVCXBNU",algoliaIndex:"Joker-desire",algoliaSearchKey:"07e68b90760663e43882d4a48e00e932",highlightTag:"em",maxResultLength:10,noResultsFound:"没有找到结果",snippetLength:30,type:"algolia"}}</script><script type=text/javascript src=/js/theme.min.js></script></body></html>

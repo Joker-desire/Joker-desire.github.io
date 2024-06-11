@@ -1,0 +1,487 @@
+<!doctype html><html lang=zh-cn><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><title>Go 反射 - Joker-desire's Blog</title><meta name=Description content="为什么要努力？ 因为我喜欢的东西都很贵，我想去的地方都很远，我爱的人超完美。"><meta property="og:url" content="https://Joker-desire.github.io/2023/05/go%E5%8F%8D%E5%B0%84/">
+<meta property="og:site_name" content="Joker-desire's Blog"><meta property="og:title" content="Go 反射"><meta property="og:description" content="基本介绍 反射可以在运行时动态获取变量的各种信息，比如变量的类型（type），类别（kind） 如果是结构体变量，还可以获取到结构体本身的信息（"><meta property="og:locale" content="zh_cn"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2023-05-27T14:02:42+08:00"><meta property="article:modified_time" content="2023-05-27T14:02:42+08:00"><meta property="article:tag" content="Go笔记"><meta property="og:image" content="https://Joker-desire.github.io/logo.png"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://Joker-desire.github.io/logo.png"><meta name=twitter:title content="Go 反射"><meta name=twitter:description content="基本介绍 反射可以在运行时动态获取变量的各种信息，比如变量的类型（type），类别（kind） 如果是结构体变量，还可以获取到结构体本身的信息（"><meta name=application-name content="Joker-desire"><meta name=apple-mobile-web-app-title content="Joker-desire"><meta name=theme-color content="#ffffff"><meta name=msapplication-TileColor content="#da532c"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://Joker-desire.github.io/2023/05/go%E5%8F%8D%E5%B0%84/><link rel=prev href=https://Joker-desire.github.io/2023/05/go%E5%BA%8F%E5%88%97%E5%8C%96/><link rel=next href=https://Joker-desire.github.io/2023/05/go-%E6%B3%9B%E5%9E%8B/><link rel=stylesheet href=/css/style.min.css><link rel=preload href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css></noscript><link rel=preload href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css></noscript><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"Go 反射","inLanguage":"zh-cn","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/Joker-desire.github.io\/2023\/05\/go%E5%8F%8D%E5%B0%84\/"},"genre":"posts","keywords":"Go笔记","wordcount":2883,"url":"https:\/\/Joker-desire.github.io\/2023\/05\/go%E5%8F%8D%E5%B0%84\/","datePublished":"2023-05-27T14:02:42+08:00","dateModified":"2023-05-27T14:02:42+08:00","publisher":{"@type":"Organization","name":""},"author":{"@type":"Person","name":"Joker-desire"},"description":""}</script></head><body data-header-desktop=fixed data-header-mobile=auto><script type=text/javascript>(window.localStorage&&localStorage.getItem("theme")?localStorage.getItem("theme")==="dark":"auto"==="auto"?window.matchMedia("(prefers-color-scheme: dark)").matches:"auto"==="dark")&&document.body.setAttribute("theme","dark")</script><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title="Joker-desire's Blog"><span class=header-title-pre><i class='far fa-kiss-wink-heart fa-fw' aria-hidden=true></i></span>welcome</a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts title=所有文章>所有文章 </a><a class=menu-item href=/categories title=分类>分类 </a><a class=menu-item href=/tags title=标签>标签 </a><a class=menu-item href=/about title=关于>关于 </a><a class=menu-item href=https://github.com/Joker-desire title=GitHub rel="noopener noreffer" target=_blank><i class='fab fa-github fa-fw' aria-hidden=true></i> </a><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop>
+<input type=text placeholder=搜索文章标题或内容... id=search-input-desktop>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-desktop title=搜索><i class="fas fa-search fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-desktop title=清空><i class="fas fa-times-circle fa-fw" aria-hidden=true></i>
+</a><span class="search-button search-loading" id=search-loading-desktop><i class="fas fa-spinner fa-fw fa-spin" aria-hidden=true></i>
+</span></span><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题><i class="fas fa-adjust fa-fw" aria-hidden=true></i></a></div></div></div></header><header class=mobile id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title="Joker-desire's Blog"><span class=header-title-pre><i class='far fa-kiss-wink-heart fa-fw' aria-hidden=true></i></span>welcome</a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><div class=search-wrapper><div class="search mobile" id=search-mobile><input type=text placeholder=搜索文章标题或内容... id=search-input-mobile>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-mobile title=搜索><i class="fas fa-search fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-mobile title=清空><i class="fas fa-times-circle fa-fw" aria-hidden=true></i>
+</a><span class="search-button search-loading" id=search-loading-mobile><i class="fas fa-spinner fa-fw fa-spin" aria-hidden=true></i></span></div><a href=javascript:void(0); class=search-cancel id=search-cancel-mobile>取消</a></div><a class=menu-item href=/posts title=所有文章>所有文章</a><a class=menu-item href=/categories title=分类>分类</a><a class=menu-item href=/tags title=标签>标签</a><a class=menu-item href=/about title=关于>关于</a><a class=menu-item href=https://github.com/Joker-desire title=GitHub rel="noopener noreffer" target=_blank><i class='fab fa-github fa-fw' aria-hidden=true></i></a><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题>
+<i class="fas fa-adjust fa-fw" aria-hidden=true></i></a></div></div></header><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div><main class=main><div class=container><div class=toc id=toc-auto><h2 class=toc-title>目录</h2><div class=toc-content id=toc-content-auto></div></div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Go 反射</h1><div class=post-meta><div class=post-meta-line><span class=post-author><a href=/ title=Author rel=author class=author><i class="fas fa-user-circle fa-fw" aria-hidden=true></i>Joker-desire</a></span>&nbsp;<span class=post-category>收录于 <a href=/categories/go%E7%AC%94%E8%AE%B0/><i class="far fa-folder fa-fw" aria-hidden=true></i>Go笔记</a></span></div><div class=post-meta-line><i class="far fa-calendar-alt fa-fw" aria-hidden=true></i>&nbsp;<time datetime=2023年05月27日>2023年05月27日</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden=true></i>&nbsp;约 2883 字&nbsp;
+<i class="far fa-clock fa-fw" aria-hidden=true></i>&nbsp;预计阅读 6 分钟&nbsp;</div></div><div class="details toc" id=toc-static data-kept><div class="details-summary toc-title"><span>目录</span>
+<span><i class="details-icon fas fa-angle-right" aria-hidden=true></i></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><a href=#基本介绍>基本介绍</a></li><li><a href=#应用场景>应用场景</a></li><li><a href=#重要的函数和概念>重要的函数和概念</a></li><li><a href=#快速入门>快速入门</a></li><li><a href=#注意事项和细节说明>注意事项和细节说明</a></li><li><a href=#最佳实践>最佳实践</a></li></ul></nav></div></div><div class=content id=content><h1 id=基本介绍>基本介绍</h1><ol><li>反射可以在运行时动态获取变量的各种信息，比如变量的类型（type），类别（kind）</li><li>如果是结构体变量，还可以获取到结构体本身的信息（包括结构体的字段、方法）</li><li>通过反射，可以修改变量的值，可以调用关联的方法</li><li>使用反射，需要引入<code>reflect</code>包</li></ol><h1 id=应用场景>应用场景</h1><ol><li>不知道接口调用哪个函数，根据传入参数在运行时确定调用的具体接口，这种需要对函数或方法反射。</li><li>对结构体序列化时，如果结构体有指定Tag，也会使用到反射生成对应的字符串。</li></ol><h1 id=重要的函数和概念>重要的函数和概念</h1><ol><li><p><code>reflect.TypeOf(变量名)</code> 获取变量的属性，返回<code>reflect.Type</code>类型</p></li><li><p><code>reflect.ValueOf(变量名)</code> 获取变量的值，返回<code>reflect.Value</code>类型（结构体类型），通过<code>reflect.Value</code>，可以获取到关于该变量的很多信息。</p></li><li><p>变量、Interface{} 和reflect.Value是可以相互转换的，这点在实际开发中会经常使用到。</p><p><img class=lazyload src=/svg/loading.min.svg data-src=https://raw.githubusercontent.com/XD825/picgo/main/img/202305271451452.png data-srcset="https://raw.githubusercontent.com/XD825/picgo/main/img/202305271451452.png, https://raw.githubusercontent.com/XD825/picgo/main/img/202305271451452.png 1.5x, https://raw.githubusercontent.com/XD825/picgo/main/img/202305271451452.png 2x" data-sizes=auto alt=https://raw.githubusercontent.com/XD825/picgo/main/img/202305271451452.png title=image-20230527145100403></p></li></ol><h1 id=快速入门>快速入门</h1><p><strong>案例1：演示对（基本数据类型、Interface{}、reflect.Value）进行反射的基本操作</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kn>package</span> <span class=nx>main</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;fmt&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;reflect&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>reflectTest</span><span class=p>(</span><span class=nx>b</span> <span class=nx>any</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=c1>// 通过反射获取到传入的变量的type，kind,值
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=c1>// 1.先获取到reflect.Type
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>rType</span> <span class=o>:=</span> <span class=nx>reflect</span><span class=p>.</span><span class=nf>TypeOf</span><span class=p>(</span><span class=nx>b</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=s>&#34;rType = &#34;</span><span class=p>,</span> <span class=nx>rType</span><span class=p>)</span> <span class=c1>//rType =  int
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=c1>// 2.获取到reflect.Value
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>rValue</span> <span class=o>:=</span> <span class=nx>reflect</span><span class=p>.</span><span class=nf>ValueOf</span><span class=p>(</span><span class=nx>b</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=nx>fmt</span><span class=p>.</span><span class=nf>Printf</span><span class=p>(</span><span class=s>&#34;rValue = %v, rValue Type = %T\n&#34;</span><span class=p>,</span> <span class=nx>rValue</span><span class=p>,</span> <span class=nx>rValue</span><span class=p>)</span> <span class=c1>//rValue = 100, rValue Type = reflect.Value
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=c1>// n2 := 2 + rValue //rValue并不是真正的值，直接使用会报错：2 + rValue (mismatched types untyped int and Value)
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>n2</span> <span class=o>:=</span> <span class=mi>2</span> <span class=o>+</span> <span class=nx>rValue</span><span class=p>.</span><span class=nf>Int</span><span class=p>()</span>   <span class=c1>// 通过rValue.Int()获取到真正的值
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=s>&#34;n2 = &#34;</span><span class=p>,</span> <span class=nx>n2</span><span class=p>)</span> <span class=c1>//n2 =  102
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl>	<span class=c1>// 3. 将rValue转换成interface{}
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>iV</span> <span class=o>:=</span> <span class=nx>rValue</span><span class=p>.</span><span class=nf>Interface</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>	<span class=c1>// 将interface{}通过断言转换成需要的类型
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>num2</span> <span class=o>:=</span> <span class=nx>iV</span><span class=p>.(</span><span class=kt>int</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=s>&#34;num2 = &#34;</span><span class=p>,</span> <span class=nx>num2</span><span class=p>)</span> <span class=c1>//num2 =  100
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=kd>var</span> <span class=nx>num</span> <span class=kt>int</span> <span class=p>=</span> <span class=mi>100</span>
+</span></span><span class=line><span class=cl>	<span class=nf>reflectTest</span><span class=p>(</span><span class=nx>num</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p><strong>案例2：演示对（结构体类型、Interface{}、reflect.Value）进行反射的基本操作</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kd>func</span> <span class=nf>reflectTest2</span><span class=p>(</span><span class=nx>b</span> <span class=nx>any</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=c1>// 1.先获取到reflect.Type
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>rType</span> <span class=o>:=</span> <span class=nx>reflect</span><span class=p>.</span><span class=nf>TypeOf</span><span class=p>(</span><span class=nx>b</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=s>&#34;rType = &#34;</span><span class=p>,</span> <span class=nx>rType</span><span class=p>)</span> <span class=c1>//rType =  main.Student
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=c1>// 2.获取到reflect.Value
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>rValue</span> <span class=o>:=</span> <span class=nx>reflect</span><span class=p>.</span><span class=nf>ValueOf</span><span class=p>(</span><span class=nx>b</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=nx>fmt</span><span class=p>.</span><span class=nf>Printf</span><span class=p>(</span><span class=s>&#34;rValue = %v, rValue Type = %T\n&#34;</span><span class=p>,</span> <span class=nx>rValue</span><span class=p>,</span> <span class=nx>rValue</span><span class=p>)</span> <span class=c1>//rValue = {Joker 18}, rValue Type = reflect.Value
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=c1>// 3. 将rValue转换成interface{}
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>iV</span> <span class=o>:=</span> <span class=nx>rValue</span><span class=p>.</span><span class=nf>Interface</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>	<span class=c1>// 将interface{}通过断言转换成需要的类型
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>stu</span><span class=p>,</span> <span class=nx>ok</span> <span class=o>:=</span> <span class=nx>iV</span><span class=p>.(</span><span class=nx>Student</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=nx>ok</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>fmt</span><span class=p>.</span><span class=nf>Printf</span><span class=p>(</span><span class=s>&#34;stu.Name = %v, stu.Age = %v\n&#34;</span><span class=p>,</span> <span class=nx>stu</span><span class=p>.</span><span class=nx>Name</span><span class=p>,</span> <span class=nx>stu</span><span class=p>.</span><span class=nx>Age</span><span class=p>)</span> <span class=c1>//stu.Name = Joker, stu.Age = 18
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>type</span> <span class=nx>Student</span> <span class=kd>struct</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=nx>Name</span> <span class=kt>string</span>
+</span></span><span class=line><span class=cl>	<span class=nx>Age</span>  <span class=kt>int</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=nx>stu</span> <span class=o>:=</span> <span class=nx>Student</span><span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>Name</span><span class=p>:</span> <span class=s>&#34;Joker&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>		<span class=nx>Age</span><span class=p>:</span>  <span class=mi>18</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=nf>reflectTest2</span><span class=p>(</span><span class=nx>stu</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h1 id=注意事项和细节说明>注意事项和细节说明</h1><blockquote><p>1、<code>reflect.Value.Kind</code> 获取变量的类别，返回的是一个常量。<a href=https://pkg.go.dev/reflect#Kind target=_blank rel="noopener noreffer">文档</a></p></blockquote><p><img class=lazyload src=/svg/loading.min.svg data-src=https://raw.githubusercontent.com/XD825/picgo/main/img/202305271550344.png data-srcset="https://raw.githubusercontent.com/XD825/picgo/main/img/202305271550344.png, https://raw.githubusercontent.com/XD825/picgo/main/img/202305271550344.png 1.5x, https://raw.githubusercontent.com/XD825/picgo/main/img/202305271550344.png 2x" data-sizes=auto alt=https://raw.githubusercontent.com/XD825/picgo/main/img/202305271550344.png title=image-20230527155037303></p><blockquote><p>2、<code>Type</code>是类型，<code>Kind</code>是类别，它们可能是相同的，也可能是不同的</p></blockquote><p><code>Var num int = 100 num的Type是int，Kind也是int</code></p><p><code>Var sty Student stu的Type是 pkg.Student，Kind是struct</code></p><blockquote><p>3、通过反射可以让<strong>变量</strong>在<code>interface{}</code>和<code>Reflect.Value</code>之间互相转换</p></blockquote><blockquote><p>4、使用反射的方式来获取变量的值（并返回对应的类型），要求数据类型匹配，比如x是int，那么就应该使用reflect.Value(x).Int()获取值，否则将会在执行时报panic</p></blockquote><blockquote><p>5、通过反射来修改变量，注意当使用SetXX方法来设置需要通过对应的指针类型来完成，这样才能改变传入的变量的值，通过需要使用到<code>reflect.Value.Elem()</code>方法</p></blockquote><img src=https://raw.githubusercontent.com/XD825/picgo/main/img/202305271607370.png alt=image-20230527160712319 style=zoom:50%><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kd>func</span> <span class=nf>reflectTest3</span><span class=p>(</span><span class=nx>b</span> <span class=nx>any</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=nx>rValue</span> <span class=o>:=</span> <span class=nx>reflect</span><span class=p>.</span><span class=nf>ValueOf</span><span class=p>(</span><span class=nx>b</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=c1>//rValue.SetInt(200) // 错误用法
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>rValue</span><span class=p>.</span><span class=nf>Elem</span><span class=p>().</span><span class=nf>SetInt</span><span class=p>(</span><span class=mi>200</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=kd>var</span> <span class=nx>num</span> <span class=p>=</span> <span class=mi>100</span>
+</span></span><span class=line><span class=cl>	<span class=c1>//reflectTest3(num) //如果要修改值，必须传递指针类型，否则报错：reflect.Value.SetInt using unaddressable value
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nf>reflectTest3</span><span class=p>(</span><span class=o>&amp;</span><span class=nx>num</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=s>&#34;num = &#34;</span><span class=p>,</span> <span class=nx>num</span><span class=p>)</span> <span class=c1>//num =  200
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><blockquote><p>6、<code>reflect.Value.Elem()</code>理解</p></blockquote><p><img class=lazyload src=/svg/loading.min.svg data-src=https://raw.githubusercontent.com/XD825/picgo/main/img/202305271608397.png data-srcset="https://raw.githubusercontent.com/XD825/picgo/main/img/202305271608397.png, https://raw.githubusercontent.com/XD825/picgo/main/img/202305271608397.png 1.5x, https://raw.githubusercontent.com/XD825/picgo/main/img/202305271608397.png 2x" data-sizes=auto alt=https://raw.githubusercontent.com/XD825/picgo/main/img/202305271608397.png title=image-20230527160845364></p><p>Elem 返回接口 v 包含的值或指针 v 指向的值。如果 v 的种类不是接口或指针，它会发生panics。如果 v 为 nil，则返回零值。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=c1>// rValue.Elem()用于获取指针指向变量，类似以下代码示例：
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=nx>num2</span> <span class=o>:=</span> <span class=mi>9</span>
+</span></span><span class=line><span class=cl><span class=kd>var</span> <span class=nx>ptr</span> <span class=o>*</span><span class=kt>int</span> <span class=p>=</span> <span class=o>&amp;</span><span class=nx>num2</span>
+</span></span><span class=line><span class=cl><span class=o>*</span><span class=nx>ptr</span> <span class=p>=</span> <span class=mi>3</span>
+</span></span><span class=line><span class=cl><span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=s>&#34;num2 = &#34;</span><span class=p>,</span> <span class=nx>num2</span><span class=p>)</span> <span class=c1>//num =  3
+</span></span></span></code></pre></td></tr></table></div></div><h1 id=最佳实践>最佳实践</h1><blockquote><p>1、使用反射来遍历结构体的字段，调用结构体的方法，并获取结构体标签的值</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kd>func</span> <span class=nf>TestReflect01</span><span class=p>(</span><span class=nx>t</span> <span class=o>*</span><span class=nx>testing</span><span class=p>.</span><span class=nx>T</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=nx>model</span> <span class=o>:=</span> <span class=nx>User</span><span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>Name</span><span class=p>:</span> <span class=s>&#34;Joker&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>		<span class=nx>Age</span><span class=p>:</span>  <span class=mi>18</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=c1>// 获取reflect.type类型
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>iType</span> <span class=o>:=</span> <span class=nx>reflect</span><span class=p>.</span><span class=nf>TypeOf</span><span class=p>(</span><span class=nx>model</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=c1>// 获取reflect.value类型
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>iValue</span> <span class=o>:=</span> <span class=nx>reflect</span><span class=p>.</span><span class=nf>ValueOf</span><span class=p>(</span><span class=nx>model</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=c1>// 如果类型不是结构体类型，就退出
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=k>if</span> <span class=nx>iValue</span><span class=p>.</span><span class=nf>Kind</span><span class=p>()</span> <span class=o>!=</span> <span class=nx>reflect</span><span class=p>.</span><span class=nx>Struct</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>t</span><span class=p>.</span><span class=nf>Error</span><span class=p>(</span><span class=s>&#34;type is not struct&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>		<span class=k>return</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=c1>// 获取结构体字段数量
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>num</span> <span class=o>:=</span> <span class=nx>iValue</span><span class=p>.</span><span class=nf>NumField</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>	<span class=nx>t</span><span class=p>.</span><span class=nf>Log</span><span class=p>(</span><span class=s>&#34;num = &#34;</span><span class=p>,</span> <span class=nx>num</span><span class=p>)</span> <span class=c1>// num =  2
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=c1>// 遍历结构体字段
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=k>for</span> <span class=nx>i</span> <span class=o>:=</span> <span class=mi>0</span><span class=p>;</span> <span class=nx>i</span> <span class=p>&lt;</span> <span class=nx>num</span><span class=p>;</span> <span class=nx>i</span><span class=o>++</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=c1>// 获取字段名需要使用reflect.Type
+</span></span></span><span class=line><span class=cl><span class=c1></span>		<span class=nx>name</span> <span class=o>:=</span> <span class=nx>iType</span><span class=p>.</span><span class=nf>Field</span><span class=p>(</span><span class=nx>i</span><span class=p>).</span><span class=nx>Name</span>
+</span></span><span class=line><span class=cl>		<span class=nx>t</span><span class=p>.</span><span class=nf>Logf</span><span class=p>(</span><span class=s>&#34;Field[%d] name: %v, 值: %v\n&#34;</span><span class=p>,</span> <span class=nx>i</span><span class=p>,</span> <span class=nx>name</span><span class=p>,</span> <span class=nx>iValue</span><span class=p>.</span><span class=nf>Field</span><span class=p>(</span><span class=nx>i</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>		<span class=c1>//获取到结构体字段的标签值，需要通过reflect.Type来获取
+</span></span></span><span class=line><span class=cl><span class=c1></span>		<span class=nx>tagVal</span> <span class=o>:=</span> <span class=nx>iType</span><span class=p>.</span><span class=nf>Field</span><span class=p>(</span><span class=nx>i</span><span class=p>).</span><span class=nx>Tag</span><span class=p>.</span><span class=nf>Get</span><span class=p>(</span><span class=s>&#34;json&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>		<span class=k>if</span> <span class=nx>tagVal</span> <span class=o>!=</span> <span class=s>&#34;&#34;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>			<span class=nx>t</span><span class=p>.</span><span class=nf>Logf</span><span class=p>(</span><span class=s>&#34;Field[%d],Tag: %v\n&#34;</span><span class=p>,</span> <span class=nx>i</span><span class=p>,</span> <span class=nx>tagVal</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>		<span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=c1>// 获取结构体方法数量
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>numMethod</span> <span class=o>:=</span> <span class=nx>iValue</span><span class=p>.</span><span class=nf>NumMethod</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>	<span class=nx>t</span><span class=p>.</span><span class=nf>Log</span><span class=p>(</span><span class=s>&#34;numMethod = &#34;</span><span class=p>,</span> <span class=nx>numMethod</span><span class=p>)</span> <span class=c1>// numMethod =  2
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=c1>// 遍历结构体方法
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=k>for</span> <span class=nx>i</span> <span class=o>:=</span> <span class=mi>0</span><span class=p>;</span> <span class=nx>i</span> <span class=p>&lt;</span> <span class=nx>numMethod</span><span class=p>;</span> <span class=nx>i</span><span class=o>++</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=c1>// 获取方法名需要使用reflect.Type，可以看到这里获取的方法顺序是按照方法名的ASCII码顺序来的
+</span></span></span><span class=line><span class=cl><span class=c1></span>		<span class=nx>t</span><span class=p>.</span><span class=nf>Logf</span><span class=p>(</span><span class=s>&#34;Method[%d] name: %v\n&#34;</span><span class=p>,</span> <span class=nx>i</span><span class=p>,</span> <span class=nx>iType</span><span class=p>.</span><span class=nf>Method</span><span class=p>(</span><span class=nx>i</span><span class=p>).</span><span class=nx>Name</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=c1>// 调用方法，需要使用reflect.Value
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>res</span> <span class=o>:=</span> <span class=nx>iValue</span><span class=p>.</span><span class=nf>Method</span><span class=p>(</span><span class=mi>0</span><span class=p>).</span><span class=nf>Call</span><span class=p>(</span><span class=kc>nil</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=nx>t</span><span class=p>.</span><span class=nf>Log</span><span class=p>(</span><span class=s>&#34;res = &#34;</span><span class=p>,</span> <span class=nx>res</span><span class=p>[</span><span class=mi>0</span><span class=p>].</span><span class=nf>Int</span><span class=p>())</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=nx>res</span> <span class=p>=</span> <span class=nx>iValue</span><span class=p>.</span><span class=nf>Method</span><span class=p>(</span><span class=mi>1</span><span class=p>).</span><span class=nf>Call</span><span class=p>(</span><span class=kc>nil</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=nx>t</span><span class=p>.</span><span class=nf>Log</span><span class=p>(</span><span class=s>&#34;res = &#34;</span><span class=p>,</span> <span class=nx>res</span><span class=p>[</span><span class=mi>0</span><span class=p>].</span><span class=nf>String</span><span class=p>())</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=nx>params</span> <span class=o>:=</span> <span class=p>[]</span><span class=nx>reflect</span><span class=p>.</span><span class=nx>Value</span><span class=p>{</span><span class=nx>reflect</span><span class=p>.</span><span class=nf>ValueOf</span><span class=p>(</span><span class=s>&#34;yy&#34;</span><span class=p>)}</span>
+</span></span><span class=line><span class=cl>	<span class=nx>res</span> <span class=p>=</span> <span class=nx>iValue</span><span class=p>.</span><span class=nf>Method</span><span class=p>(</span><span class=mi>2</span><span class=p>).</span><span class=nf>Call</span><span class=p>(</span><span class=nx>params</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=nx>t</span><span class=p>.</span><span class=nf>Log</span><span class=p>(</span><span class=s>&#34;res = &#34;</span><span class=p>,</span> <span class=nx>res</span><span class=p>[</span><span class=mi>0</span><span class=p>].</span><span class=nf>String</span><span class=p>())</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=c1>// 可以使用方法名进行调用
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>res</span> <span class=p>=</span> <span class=nx>iValue</span><span class=p>.</span><span class=nf>MethodByName</span><span class=p>(</span><span class=s>&#34;GetName&#34;</span><span class=p>).</span><span class=nf>Call</span><span class=p>(</span><span class=kc>nil</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=nx>t</span><span class=p>.</span><span class=nf>Log</span><span class=p>(</span><span class=s>&#34;res = &#34;</span><span class=p>,</span> <span class=nx>res</span><span class=p>[</span><span class=mi>0</span><span class=p>].</span><span class=nf>String</span><span class=p>())</span>
+</span></span><span class=line><span class=cl>	<span class=nx>res</span> <span class=p>=</span> <span class=nx>iValue</span><span class=p>.</span><span class=nf>MethodByName</span><span class=p>(</span><span class=s>&#34;GetAge&#34;</span><span class=p>).</span><span class=nf>Call</span><span class=p>(</span><span class=kc>nil</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=nx>t</span><span class=p>.</span><span class=nf>Log</span><span class=p>(</span><span class=s>&#34;res = &#34;</span><span class=p>,</span> <span class=nx>res</span><span class=p>[</span><span class=mi>0</span><span class=p>].</span><span class=nf>Int</span><span class=p>())</span>
+</span></span><span class=line><span class=cl>	<span class=nx>res</span> <span class=p>=</span> <span class=nx>iValue</span><span class=p>.</span><span class=nf>MethodByName</span><span class=p>(</span><span class=s>&#34;Say&#34;</span><span class=p>).</span><span class=nf>Call</span><span class=p>(</span><span class=nx>params</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=nx>t</span><span class=p>.</span><span class=nf>Log</span><span class=p>(</span><span class=s>&#34;res = &#34;</span><span class=p>,</span> <span class=nx>res</span><span class=p>[</span><span class=mi>0</span><span class=p>].</span><span class=nf>String</span><span class=p>())</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><blockquote><p>2、使用反射的方法来获取结构体的tag标签，遍历字段的值，修改字段值，调用结构体方法（要求：通过传递地址的方式完成）</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kd>func</span> <span class=nf>TestReflect02</span><span class=p>(</span><span class=nx>t</span> <span class=o>*</span><span class=nx>testing</span><span class=p>.</span><span class=nx>T</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=nx>model</span> <span class=o>:=</span> <span class=o>&amp;</span><span class=nx>User2</span><span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>Name</span><span class=p>:</span> <span class=s>&#34;Joker&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>		<span class=nx>Age</span><span class=p>:</span>  <span class=mi>18</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=c1>// 获取reflect.type类型
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=c1>// 获取reflect.type类型
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>iType</span> <span class=o>:=</span> <span class=nx>reflect</span><span class=p>.</span><span class=nf>TypeOf</span><span class=p>(</span><span class=nx>model</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=c1>// 获取reflect.value类型
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>iValue1</span> <span class=o>:=</span> <span class=nx>reflect</span><span class=p>.</span><span class=nf>ValueOf</span><span class=p>(</span><span class=nx>model</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=nx>iValue</span> <span class=o>:=</span> <span class=nx>iValue1</span><span class=p>.</span><span class=nf>Elem</span><span class=p>()</span> <span class=c1>// 获取指针指向的值
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=c1>// 如果类型不是结构体类型，就退出
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=k>if</span> <span class=nx>iValue</span><span class=p>.</span><span class=nf>Kind</span><span class=p>()</span> <span class=o>!=</span> <span class=nx>reflect</span><span class=p>.</span><span class=nx>Struct</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>t</span><span class=p>.</span><span class=nf>Error</span><span class=p>(</span><span class=s>&#34;type is not struct&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>		<span class=k>return</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=c1>// 获取结构体字段数量
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>num</span> <span class=o>:=</span> <span class=nx>iValue</span><span class=p>.</span><span class=nf>NumField</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>	<span class=nx>t</span><span class=p>.</span><span class=nf>Log</span><span class=p>(</span><span class=s>&#34;num = &#34;</span><span class=p>,</span> <span class=nx>num</span><span class=p>)</span> <span class=c1>// num =  2
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=c1>// 遍历结构体字段
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=k>for</span> <span class=nx>i</span> <span class=o>:=</span> <span class=mi>0</span><span class=p>;</span> <span class=nx>i</span> <span class=p>&lt;</span> <span class=nx>num</span><span class=p>;</span> <span class=nx>i</span><span class=o>++</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=c1>// 获取字段名需要使用reflect.Type
+</span></span></span><span class=line><span class=cl><span class=c1></span>		<span class=nx>name</span> <span class=o>:=</span> <span class=nx>iType</span><span class=p>.</span><span class=nf>Elem</span><span class=p>().</span><span class=nf>Field</span><span class=p>(</span><span class=nx>i</span><span class=p>).</span><span class=nx>Name</span>
+</span></span><span class=line><span class=cl>		<span class=nx>t</span><span class=p>.</span><span class=nf>Logf</span><span class=p>(</span><span class=s>&#34;Field[%d] name: %v, 值: %v\n&#34;</span><span class=p>,</span> <span class=nx>i</span><span class=p>,</span> <span class=nx>name</span><span class=p>,</span> <span class=nx>iValue</span><span class=p>.</span><span class=nf>Field</span><span class=p>(</span><span class=nx>i</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>		<span class=c1>//获取到结构体字段的标签值，需要通过reflect.Type来获取
+</span></span></span><span class=line><span class=cl><span class=c1></span>		<span class=nx>tagVal</span> <span class=o>:=</span> <span class=nx>iType</span><span class=p>.</span><span class=nf>Elem</span><span class=p>().</span><span class=nf>Field</span><span class=p>(</span><span class=nx>i</span><span class=p>).</span><span class=nx>Tag</span><span class=p>.</span><span class=nf>Get</span><span class=p>(</span><span class=s>&#34;json&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>		<span class=k>if</span> <span class=nx>tagVal</span> <span class=o>!=</span> <span class=s>&#34;&#34;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>			<span class=nx>t</span><span class=p>.</span><span class=nf>Logf</span><span class=p>(</span><span class=s>&#34;Field[%d],Tag: %v\n&#34;</span><span class=p>,</span> <span class=nx>i</span><span class=p>,</span> <span class=nx>tagVal</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>		<span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=c1>// 获取结构体方法数量
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>numMethod</span> <span class=o>:=</span> <span class=nx>iType</span><span class=p>.</span><span class=nf>NumMethod</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>	<span class=nx>t</span><span class=p>.</span><span class=nf>Log</span><span class=p>(</span><span class=s>&#34;numMethod = &#34;</span><span class=p>,</span> <span class=nx>numMethod</span><span class=p>)</span> <span class=c1>// numMethod =  3
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=c1>// 遍历结构体方法
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=k>for</span> <span class=nx>i</span> <span class=o>:=</span> <span class=mi>0</span><span class=p>;</span> <span class=nx>i</span> <span class=p>&lt;</span> <span class=nx>numMethod</span><span class=p>;</span> <span class=nx>i</span><span class=o>++</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=c1>// 获取方法名需要使用reflect.Type，可以看到这里获取的方法顺序是按照方法名的ASCII码顺序来的
+</span></span></span><span class=line><span class=cl><span class=c1></span>		<span class=nx>t</span><span class=p>.</span><span class=nf>Logf</span><span class=p>(</span><span class=s>&#34;Method[%d] name: %v\n&#34;</span><span class=p>,</span> <span class=nx>i</span><span class=p>,</span> <span class=nx>iType</span><span class=p>.</span><span class=nf>Method</span><span class=p>(</span><span class=nx>i</span><span class=p>).</span><span class=nx>Name</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=nx>t</span><span class=p>.</span><span class=nf>Logf</span><span class=p>(</span><span class=s>&#34;model: %v,%p\n&#34;</span><span class=p>,</span> <span class=nx>model</span><span class=p>,</span> <span class=nx>model</span><span class=p>)</span> <span class=c1>// model: &amp;{Joker 18},0x1400000c0a8
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>iValue1</span><span class=p>.</span><span class=nf>MethodByName</span><span class=p>(</span><span class=s>&#34;SetName&#34;</span><span class=p>).</span><span class=nf>Call</span><span class=p>([]</span><span class=nx>reflect</span><span class=p>.</span><span class=nx>Value</span><span class=p>{</span><span class=nx>reflect</span><span class=p>.</span><span class=nf>ValueOf</span><span class=p>(</span><span class=s>&#34;yy&#34;</span><span class=p>)})</span>
+</span></span><span class=line><span class=cl>	<span class=nx>t</span><span class=p>.</span><span class=nf>Log</span><span class=p>(</span><span class=s>&#34;newType = &#34;</span><span class=p>,</span> <span class=nx>iValue</span><span class=p>.</span><span class=nf>Field</span><span class=p>(</span><span class=mi>0</span><span class=p>).</span><span class=nf>String</span><span class=p>())</span>
+</span></span><span class=line><span class=cl>	<span class=nx>iValue1</span><span class=p>.</span><span class=nf>MethodByName</span><span class=p>(</span><span class=s>&#34;SetAge&#34;</span><span class=p>).</span><span class=nf>Call</span><span class=p>([]</span><span class=nx>reflect</span><span class=p>.</span><span class=nx>Value</span><span class=p>{</span><span class=nx>reflect</span><span class=p>.</span><span class=nf>ValueOf</span><span class=p>(</span><span class=mi>20</span><span class=p>)})</span>
+</span></span><span class=line><span class=cl>	<span class=nx>t</span><span class=p>.</span><span class=nf>Log</span><span class=p>(</span><span class=s>&#34;newType = &#34;</span><span class=p>,</span> <span class=nx>iValue</span><span class=p>.</span><span class=nf>Field</span><span class=p>(</span><span class=mi>1</span><span class=p>).</span><span class=nf>Int</span><span class=p>())</span>
+</span></span><span class=line><span class=cl>	<span class=nx>iValue1</span><span class=p>.</span><span class=nf>MethodByName</span><span class=p>(</span><span class=s>&#34;Print&#34;</span><span class=p>).</span><span class=nf>Call</span><span class=p>(</span><span class=kc>nil</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=nx>t</span><span class=p>.</span><span class=nf>Logf</span><span class=p>(</span><span class=s>&#34;model: %v,%p\n&#34;</span><span class=p>,</span> <span class=nx>model</span><span class=p>,</span> <span class=nx>model</span><span class=p>)</span> <span class=c1>// model: &amp;{yy 20},0x1400000c0a8
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><blockquote><p>3、定义了两个函数test1和test2，定义一个适配器函数用作统一处理接口</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kd>func</span> <span class=nf>TestReflect03</span><span class=p>(</span><span class=nx>t</span> <span class=o>*</span><span class=nx>testing</span><span class=p>.</span><span class=nx>T</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=nx>test1</span> <span class=o>:=</span> <span class=kd>func</span><span class=p>(</span><span class=nx>v1</span> <span class=kt>int</span><span class=p>,</span> <span class=nx>v2</span> <span class=kt>int</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>t</span><span class=p>.</span><span class=nf>Log</span><span class=p>(</span><span class=s>&#34;test1 :&#34;</span><span class=p>,</span> <span class=nx>v1</span><span class=p>,</span> <span class=nx>v2</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=nx>test2</span> <span class=o>:=</span> <span class=kd>func</span><span class=p>(</span><span class=nx>v1</span> <span class=kt>int</span><span class=p>,</span> <span class=nx>v2</span> <span class=kt>int</span><span class=p>,</span> <span class=nx>s</span> <span class=kt>string</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>t</span><span class=p>.</span><span class=nf>Log</span><span class=p>(</span><span class=s>&#34;test2 :&#34;</span><span class=p>,</span> <span class=nx>v1</span><span class=p>,</span> <span class=nx>v2</span><span class=p>,</span> <span class=nx>s</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=nx>bridge</span> <span class=o>:=</span> <span class=kd>func</span><span class=p>(</span><span class=nx>any</span> <span class=kd>interface</span><span class=p>{},</span> <span class=nx>args</span> <span class=o>...</span><span class=kd>interface</span><span class=p>{})</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=c1>// 解析传递的参数值数量，并定义一个切片用于存储参数值
+</span></span></span><span class=line><span class=cl><span class=c1></span>		<span class=nx>params</span> <span class=o>:=</span> <span class=nb>make</span><span class=p>([]</span><span class=nx>reflect</span><span class=p>.</span><span class=nx>Value</span><span class=p>,</span> <span class=nb>len</span><span class=p>(</span><span class=nx>args</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>		<span class=c1>// 遍历参数值，将参数值存入切片
+</span></span></span><span class=line><span class=cl><span class=c1></span>		<span class=k>for</span> <span class=nx>i</span><span class=p>,</span> <span class=nx>v</span> <span class=o>:=</span> <span class=k>range</span> <span class=nx>args</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>			<span class=nx>params</span><span class=p>[</span><span class=nx>i</span><span class=p>]</span> <span class=p>=</span> <span class=nx>reflect</span><span class=p>.</span><span class=nf>ValueOf</span><span class=p>(</span><span class=nx>v</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>		<span class=p>}</span>
+</span></span><span class=line><span class=cl>		<span class=c1>// 通过反射调用函数
+</span></span></span><span class=line><span class=cl><span class=c1></span>		<span class=nx>rValue</span> <span class=o>:=</span> <span class=nx>reflect</span><span class=p>.</span><span class=nf>ValueOf</span><span class=p>(</span><span class=nx>any</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>		<span class=nx>rValue</span><span class=p>.</span><span class=nf>Call</span><span class=p>(</span><span class=nx>params</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=nf>bridge</span><span class=p>(</span><span class=nx>test1</span><span class=p>,</span> <span class=mi>1</span><span class=p>,</span> <span class=mi>2</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=nf>bridge</span><span class=p>(</span><span class=nx>test2</span><span class=p>,</span> <span class=mi>1</span><span class=p>,</span> <span class=mi>2</span><span class=p>,</span> <span class=s>&#34;yy&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><blockquote><p>4、使用反射操作任意结构体类型</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kd>func</span> <span class=nf>TestReflect04</span><span class=p>(</span><span class=nx>t</span> <span class=o>*</span><span class=nx>testing</span><span class=p>.</span><span class=nx>T</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=kd>var</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>		<span class=nx>model</span>  <span class=o>*</span><span class=nx>User</span>
+</span></span><span class=line><span class=cl>		<span class=nx>rValue</span> <span class=nx>reflect</span><span class=p>.</span><span class=nx>Value</span>
+</span></span><span class=line><span class=cl>	<span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=nx>model</span> <span class=p>=</span> <span class=o>&amp;</span><span class=nx>User</span><span class=p>{}</span>
+</span></span><span class=line><span class=cl>	<span class=nx>rValue</span> <span class=p>=</span> <span class=nx>reflect</span><span class=p>.</span><span class=nf>ValueOf</span><span class=p>(</span><span class=nx>model</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=nx>t</span><span class=p>.</span><span class=nf>Log</span><span class=p>(</span><span class=s>&#34;reflect.ValueOf&#34;</span><span class=p>,</span> <span class=nx>rValue</span><span class=p>.</span><span class=nf>Kind</span><span class=p>().</span><span class=nf>String</span><span class=p>())</span> <span class=c1>//reflect.ValueOf ptr
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl>	<span class=nx>rValue</span> <span class=p>=</span> <span class=nx>rValue</span><span class=p>.</span><span class=nf>Elem</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>	<span class=nx>t</span><span class=p>.</span><span class=nf>Log</span><span class=p>(</span><span class=s>&#34;reflect.ValueOf.Elem&#34;</span><span class=p>,</span> <span class=nx>rValue</span><span class=p>.</span><span class=nf>Kind</span><span class=p>().</span><span class=nf>String</span><span class=p>())</span> <span class=c1>//reflect.ValueOf.Elem struct
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl>	<span class=c1>// 设置字段的值
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>rValue</span><span class=p>.</span><span class=nf>FieldByName</span><span class=p>(</span><span class=s>&#34;Name&#34;</span><span class=p>).</span><span class=nf>SetString</span><span class=p>(</span><span class=s>&#34;yy&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=nx>rValue</span><span class=p>.</span><span class=nf>FieldByName</span><span class=p>(</span><span class=s>&#34;Age&#34;</span><span class=p>).</span><span class=nf>SetInt</span><span class=p>(</span><span class=mi>18</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=nx>t</span><span class=p>.</span><span class=nf>Log</span><span class=p>(</span><span class=s>&#34;model&#34;</span><span class=p>,</span> <span class=nx>model</span><span class=p>)</span> <span class=c1>//model &amp;{yy 18}
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><blockquote><p>5、使用反射创建并操作结构体</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kd>func</span> <span class=nf>TestReflect05</span><span class=p>(</span><span class=nx>t</span> <span class=o>*</span><span class=nx>testing</span><span class=p>.</span><span class=nx>T</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=kd>var</span> <span class=nx>model</span> <span class=o>*</span><span class=nx>User</span>
+</span></span><span class=line><span class=cl>	<span class=c1>// 获取类型
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>iType</span> <span class=o>:=</span> <span class=nx>reflect</span><span class=p>.</span><span class=nf>TypeOf</span><span class=p>(</span><span class=nx>model</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=nx>t</span><span class=p>.</span><span class=nf>Log</span><span class=p>(</span><span class=s>&#34;reflect.TypeOf&#34;</span><span class=p>,</span> <span class=nx>iType</span><span class=p>.</span><span class=nf>Kind</span><span class=p>().</span><span class=nf>String</span><span class=p>())</span>      <span class=c1>//reflect.TypeOf ptr
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>iType</span> <span class=p>=</span> <span class=nx>iType</span><span class=p>.</span><span class=nf>Elem</span><span class=p>()</span>                                <span class=c1>// 获取指针指向的类型
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>t</span><span class=p>.</span><span class=nf>Log</span><span class=p>(</span><span class=s>&#34;reflect.TypeOf.Elem&#34;</span><span class=p>,</span> <span class=nx>iType</span><span class=p>.</span><span class=nf>Kind</span><span class=p>().</span><span class=nf>String</span><span class=p>())</span> <span class=c1>//reflect.TypeOf.Elem struct
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=c1>// 创建实例
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>obj</span> <span class=o>:=</span> <span class=nx>reflect</span><span class=p>.</span><span class=nf>New</span><span class=p>(</span><span class=nx>iType</span><span class=p>)</span>                 <span class=c1>// 创建一个指定类型的实例
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>t</span><span class=p>.</span><span class=nf>Log</span><span class=p>(</span><span class=s>&#34;reflect.New&#34;</span><span class=p>,</span> <span class=nx>obj</span><span class=p>.</span><span class=nf>Kind</span><span class=p>().</span><span class=nf>String</span><span class=p>())</span> <span class=c1>//reflect.New ptr
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>elem</span> <span class=o>:=</span> <span class=nx>obj</span><span class=p>.</span><span class=nf>Elem</span><span class=p>()</span>                        <span class=c1>// 获取指针指向的值
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=c1>// 设置字段的值
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>elem</span><span class=p>.</span><span class=nf>FieldByName</span><span class=p>(</span><span class=s>&#34;Name&#34;</span><span class=p>).</span><span class=nf>SetString</span><span class=p>(</span><span class=s>&#34;yy&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=nx>elem</span><span class=p>.</span><span class=nf>FieldByName</span><span class=p>(</span><span class=s>&#34;Age&#34;</span><span class=p>).</span><span class=nf>SetInt</span><span class=p>(</span><span class=mi>18</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=nx>model</span> <span class=p>=</span> <span class=nx>obj</span><span class=p>.</span><span class=nf>Interface</span><span class=p>().(</span><span class=o>*</span><span class=nx>User</span><span class=p>)</span> <span class=c1>// 将反射对象转换为接口类型
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>t</span><span class=p>.</span><span class=nf>Log</span><span class=p>(</span><span class=s>&#34;model:&#34;</span><span class=p>,</span> <span class=nx>model</span><span class=p>)</span>          <span class=c1>//model: &amp;{yy 18}
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>更新于 2023年05月27日</span></div></div><div class=post-info-line><div class=post-info-md><span><a class=link-to-markdown href=/2023/05/go%E5%8F%8D%E5%B0%84/index.md target=_blank>阅读原始文档</a></span></div><div class=post-info-share><span><a href=javascript:void(0); title="分享到 Twitter" data-sharer=twitter data-url=https://Joker-desire.github.io/2023/05/go%E5%8F%8D%E5%B0%84/ data-title="Go 反射" data-hashtags=Go笔记><i class="fab fa-twitter fa-fw" aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 Facebook" data-sharer=facebook data-url=https://Joker-desire.github.io/2023/05/go%E5%8F%8D%E5%B0%84/ data-hashtag=Go笔记><i class="fab fa-facebook-square fa-fw" aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 Hacker News" data-sharer=hackernews data-url=https://Joker-desire.github.io/2023/05/go%E5%8F%8D%E5%B0%84/ data-title="Go 反射"><i class="fab fa-hacker-news fa-fw" aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 Line" data-sharer=line data-url=https://Joker-desire.github.io/2023/05/go%E5%8F%8D%E5%B0%84/ data-title="Go 反射"><i data-svg-src=https://cdn.jsdelivr.net/npm/simple-icons@7.0.0/icons/line.svg aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 微博" data-sharer=weibo data-url=https://Joker-desire.github.io/2023/05/go%E5%8F%8D%E5%B0%84/ data-title="Go 反射"><i class="fab fa-weibo fa-fw" aria-hidden=true></i></a></span></div></div></div><div class=post-info-more><section class=post-tags><i class="fas fa-tags fa-fw" aria-hidden=true></i>&nbsp;<a href=/tags/go%E7%AC%94%E8%AE%B0/>Go笔记</a></section><section><span><a href=javascript:void(0); onclick=window.history.back()>返回</a></span>&nbsp;|&nbsp;<span><a href=/>主页</a></span></section></div><div class=post-nav><a href=/2023/05/go%E5%BA%8F%E5%88%97%E5%8C%96/ class=prev rel=prev title="Go 序列化"><i class="fas fa-angle-left fa-fw" aria-hidden=true></i>Go 序列化</a>
+<a href=/2023/05/go-%E6%B3%9B%E5%9E%8B/ class=next rel=next title="Go 泛型（1.18+）">Go 泛型（1.18+）<i class="fas fa-angle-right fa-fw" aria-hidden=true></i></a></div></div><div id=comments><div id=giscus class=comment></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://giscus.app>Giscus</a>.</noscript></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line itemscope itemtype=http://schema.org/CreativeWork><i class="far fa-copyright fa-fw" aria-hidden=true></i><span itemprop=copyrightYear>2022 - 2024</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=/ target=_blank>Joker desire</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div></div></footer></div><div id=fixed-buttons><a href=# id=back-to-top class=fixed-button title=回到顶部><i class="fas fa-arrow-up fa-fw" aria-hidden=true></i>
+</a><a href=# id=view-comments class=fixed-button title=查看评论><i class="fas fa-comment fa-fw" aria-hidden=true></i></a></div><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/lightgallery@2.4.0/css/lightgallery-bundle.min.css><script type=text/javascript src=https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/algoliasearch@4.13.1/dist/algoliasearch-lite.umd.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lazysizes@5.3.1/lazysizes.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lightgallery@2.4.0/lightgallery.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lightgallery@2.4.0/plugins/thumbnail/lg-thumbnail.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lightgallery@2.4.0/plugins/zoom/lg-zoom.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js></script><script type=text/javascript>window.config={code:{copyTitle:"复制到剪贴板",maxShownLines:50},comment:{giscus:{category:"Announcements",categoryId:"DIC_kwDOHfPihs4CPp7X",darkTheme:"dark",emitMetadata:"0",inputPosition:"top",lang:"zh-CN",lazyLoading:!1,lightTheme:"light",mapping:"pathname",reactionsEnabled:"1",repo:"Joker-desire/store-comments",repoId:"R_kgDOHfPihg"}},lightgallery:!0,search:{algoliaAppID:"R6OIVCXBNU",algoliaIndex:"Joker-desire",algoliaSearchKey:"07e68b90760663e43882d4a48e00e932",highlightTag:"em",maxResultLength:10,noResultsFound:"没有找到结果",snippetLength:30,type:"algolia"}}</script><script type=text/javascript src=/js/theme.min.js></script></body></html>

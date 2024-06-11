@@ -1,0 +1,219 @@
+<!doctype html><html lang=zh-cn><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><title>Scrapy-Redis初始化数据处理 - Joker-desire's Blog</title><meta name=Description content="为什么要努力？ 因为我喜欢的东西都很贵，我想去的地方都很远，我爱的人超完美。"><meta property="og:url" content="https://Joker-desire.github.io/2023/03/scrapy-redis%E5%88%9D%E5%A7%8B%E5%8C%96%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86/">
+<meta property="og:site_name" content="Joker-desire's Blog"><meta property="og:title" content="Scrapy-Redis初始化数据处理"><meta property="og:description" content="一、思考 在使用Scrapy-Redis进行数据初始化时，你是如何进行数据写入Redis队列的？ 数据写入的格式如果是JSON，你是如何进行处理"><meta property="og:locale" content="zh_cn"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2023-03-20T10:13:49+08:00"><meta property="article:modified_time" content="2023-03-20T10:13:49+08:00"><meta property="article:tag" content="爬虫"><meta property="article:tag" content="Python"><meta property="og:image" content="https://Joker-desire.github.io/logo.png"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://Joker-desire.github.io/logo.png"><meta name=twitter:title content="Scrapy-Redis初始化数据处理"><meta name=twitter:description content="一、思考 在使用Scrapy-Redis进行数据初始化时，你是如何进行数据写入Redis队列的？ 数据写入的格式如果是JSON，你是如何进行处理"><meta name=application-name content="Joker-desire"><meta name=apple-mobile-web-app-title content="Joker-desire"><meta name=theme-color content="#ffffff"><meta name=msapplication-TileColor content="#da532c"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://Joker-desire.github.io/2023/03/scrapy-redis%E5%88%9D%E5%A7%8B%E5%8C%96%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86/><link rel=prev href=https://Joker-desire.github.io/2023/03/3/><link rel=next href=https://Joker-desire.github.io/2023/03/redis-incr%E8%AE%A1%E6%95%B0/><link rel=stylesheet href=/css/style.min.css><link rel=preload href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css></noscript><link rel=preload href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css></noscript><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"Scrapy-Redis初始化数据处理","inLanguage":"zh-cn","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/Joker-desire.github.io\/2023\/03\/scrapy-redis%E5%88%9D%E5%A7%8B%E5%8C%96%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86\/"},"genre":"posts","keywords":"爬虫, Python","wordcount":1091,"url":"https:\/\/Joker-desire.github.io\/2023\/03\/scrapy-redis%E5%88%9D%E5%A7%8B%E5%8C%96%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86\/","datePublished":"2023-03-20T10:13:49+08:00","dateModified":"2023-03-20T10:13:49+08:00","publisher":{"@type":"Organization","name":""},"author":{"@type":"Person","name":"Joker-desire"},"description":""}</script></head><body data-header-desktop=fixed data-header-mobile=auto><script type=text/javascript>(window.localStorage&&localStorage.getItem("theme")?localStorage.getItem("theme")==="dark":"auto"==="auto"?window.matchMedia("(prefers-color-scheme: dark)").matches:"auto"==="dark")&&document.body.setAttribute("theme","dark")</script><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title="Joker-desire's Blog"><span class=header-title-pre><i class='far fa-kiss-wink-heart fa-fw' aria-hidden=true></i></span>welcome</a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts title=所有文章>所有文章 </a><a class=menu-item href=/categories title=分类>分类 </a><a class=menu-item href=/tags title=标签>标签 </a><a class=menu-item href=/about title=关于>关于 </a><a class=menu-item href=https://github.com/Joker-desire title=GitHub rel="noopener noreffer" target=_blank><i class='fab fa-github fa-fw' aria-hidden=true></i> </a><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop>
+<input type=text placeholder=搜索文章标题或内容... id=search-input-desktop>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-desktop title=搜索><i class="fas fa-search fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-desktop title=清空><i class="fas fa-times-circle fa-fw" aria-hidden=true></i>
+</a><span class="search-button search-loading" id=search-loading-desktop><i class="fas fa-spinner fa-fw fa-spin" aria-hidden=true></i>
+</span></span><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题><i class="fas fa-adjust fa-fw" aria-hidden=true></i></a></div></div></div></header><header class=mobile id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title="Joker-desire's Blog"><span class=header-title-pre><i class='far fa-kiss-wink-heart fa-fw' aria-hidden=true></i></span>welcome</a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><div class=search-wrapper><div class="search mobile" id=search-mobile><input type=text placeholder=搜索文章标题或内容... id=search-input-mobile>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-mobile title=搜索><i class="fas fa-search fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-mobile title=清空><i class="fas fa-times-circle fa-fw" aria-hidden=true></i>
+</a><span class="search-button search-loading" id=search-loading-mobile><i class="fas fa-spinner fa-fw fa-spin" aria-hidden=true></i></span></div><a href=javascript:void(0); class=search-cancel id=search-cancel-mobile>取消</a></div><a class=menu-item href=/posts title=所有文章>所有文章</a><a class=menu-item href=/categories title=分类>分类</a><a class=menu-item href=/tags title=标签>标签</a><a class=menu-item href=/about title=关于>关于</a><a class=menu-item href=https://github.com/Joker-desire title=GitHub rel="noopener noreffer" target=_blank><i class='fab fa-github fa-fw' aria-hidden=true></i></a><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题>
+<i class="fas fa-adjust fa-fw" aria-hidden=true></i></a></div></div></header><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div><main class=main><div class=container><div class=toc id=toc-auto><h2 class=toc-title>目录</h2><div class=toc-content id=toc-content-auto></div></div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Scrapy-Redis初始化数据处理</h1><div class=post-meta><div class=post-meta-line><span class=post-author><a href=/ title=Author rel=author class=author><i class="fas fa-user-circle fa-fw" aria-hidden=true></i>Joker-desire</a></span>&nbsp;<span class=post-category>收录于 <a href=/categories/%E7%88%AC%E8%99%AB/><i class="far fa-folder fa-fw" aria-hidden=true></i>爬虫</a>&nbsp;<a href=/categories/python/><i class="far fa-folder fa-fw" aria-hidden=true></i>Python</a></span></div><div class=post-meta-line><i class="far fa-calendar-alt fa-fw" aria-hidden=true></i>&nbsp;<time datetime=2023年03月20日>2023年03月20日</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden=true></i>&nbsp;约 1091 字&nbsp;
+<i class="far fa-clock fa-fw" aria-hidden=true></i>&nbsp;预计阅读 3 分钟&nbsp;</div></div><div class="details toc" id=toc-static data-kept><div class="details-summary toc-title"><span>目录</span>
+<span><i class="details-icon fas fa-angle-right" aria-hidden=true></i></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><ul><li><a href=#一思考>一、思考</a></li><li><a href=#二数据初始化>二、数据初始化</a><ul><li><a href=#21-之前的写法>2.1 之前的写法</a><ul><li><a href=#211-在scrapy文件头部进行redis初始化写入>2.1.1 在Scrapy文件头部进行Redis初始化写入</a></li><li><a href=#212-存在的问题>2.1.2 存在的问题</a></li></ul></li><li><a href=#22-现在的写法>2.2 现在的写法</a><ul><li><a href=#221-使用类的初始化方法进行redis数据初始化>2.2.1 使用类的初始化方法进行Redis数据初始化</a></li><li><a href=#222-执行出现的问题>2.2.2 执行出现的问题</a></li><li><a href=#223-解决意外关键字参数_job>2.2.3 解决意外关键字参数<code>_job</code></a></li></ul></li></ul></li><li><a href=#三数据json格式处理>三、数据JSON格式处理</a><ul><li><a href=#31-查询源码找到对应的处理逻辑>3.1 查询源码，找到对应的处理逻辑</a><ul><li><a href=#scrapy-redis--make_request_from_data->Scrapy-Redis &#187; <code>make_request_from_data</code> :</a></li><li><a href=#scrapy--make_requests_from_url>Scrapy &#187; <code>make_requests_from_url</code></a></li></ul></li><li><a href=#32-进行重写>3.2 进行重写</a></li></ul></li></ul></li></ul></nav></div></div><div class=content id=content><h2 id=一思考>一、思考</h2><ol><li>在使用Scrapy-Redis进行数据初始化时，你是如何进行数据写入Redis队列的？</li><li>数据写入的格式如果是JSON，你是如何进行处理的？</li></ol><h2 id=二数据初始化>二、数据初始化</h2><h3 id=21-之前的写法>2.1 之前的写法</h3><h4 id=211-在scrapy文件头部进行redis初始化写入>2.1.1 在Scrapy文件头部进行Redis初始化写入</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=kn>import</span> <span class=nn>redis</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>scrapy.utils.project</span> <span class=kn>import</span> <span class=n>get_project_settings</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 从配置文件中获取Redis配置</span>
+</span></span><span class=line><span class=cl><span class=n>redis_host</span> <span class=o>=</span> <span class=n>get_project_settings</span><span class=p>()</span><span class=o>.</span><span class=n>get</span><span class=p>(</span><span class=s1>&#39;REDIS_HOST&#39;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>redis_port</span> <span class=o>=</span> <span class=n>get_project_settings</span><span class=p>()</span><span class=o>.</span><span class=n>get</span><span class=p>(</span><span class=s1>&#39;REDIS_PORT&#39;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>conn</span> <span class=o>=</span> <span class=n>redis</span><span class=o>.</span><span class=n>Redis</span><span class=p>(</span><span class=n>host</span><span class=o>=</span><span class=n>redis_host</span><span class=p>,</span> <span class=n>port</span><span class=o>=</span><span class=n>redis_port</span><span class=p>,</span> <span class=n>db</span><span class=o>=</span><span class=mi>0</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>conn</span><span class=o>.</span><span class=n>sadd</span><span class=p>(</span><span class=s1>&#39;scrapy:start_urls&#39;</span><span class=p>,</span> <span class=s1>&#39;https://www.xxxx.com/page01&#39;</span><span class=p>,</span> <span class=s1>&#39;https://www.xxxx.com/page02&#39;</span><span class=p>,</span> <span class=s1>&#39;https://www.xxxx.com/page03&#39;</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=212-存在的问题>2.1.2 存在的问题</h4><ol><li><p>会在爬虫部署时就开始执行Redis数据初始化</p></li><li><p>如果此处的处理耗时比较长，则会导致部署超时失败</p><p><img class=lazyload src=/svg/loading.min.svg data-src=https://raw.githubusercontent.com/XD825/picgo/main/img/202303201133036.png data-srcset="https://raw.githubusercontent.com/XD825/picgo/main/img/202303201133036.png, https://raw.githubusercontent.com/XD825/picgo/main/img/202303201133036.png 1.5x, https://raw.githubusercontent.com/XD825/picgo/main/img/202303201133036.png 2x" data-sizes=auto alt=https://raw.githubusercontent.com/XD825/picgo/main/img/202303201133036.png title=https://raw.githubusercontent.com/XD825/picgo/main/img/202303201133036.png></p></li></ol><p>注：部署使用的是<code>scrapydweb</code></p><h3 id=22-现在的写法>2.2 现在的写法</h3><h4 id=221-使用类的初始化方法进行redis数据初始化>2.2.1 使用类的初始化方法进行Redis数据初始化</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=k>class</span> <span class=nc>ScrapySpider</span><span class=p>(</span><span class=n>RedisSpider</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>name</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span> <span class=o>**</span><span class=n>kwargs</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=n>redis_host</span> <span class=o>=</span> <span class=n>get_project_settings</span><span class=p>()</span><span class=o>.</span><span class=n>get</span><span class=p>(</span><span class=s1>&#39;REDIS_HOST&#39;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=n>redis_port</span> <span class=o>=</span> <span class=n>get_project_settings</span><span class=p>()</span><span class=o>.</span><span class=n>get</span><span class=p>(</span><span class=s1>&#39;REDIS_PORT&#39;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=n>conn</span> <span class=o>=</span> <span class=n>redis</span><span class=o>.</span><span class=n>Redis</span><span class=p>(</span><span class=n>host</span><span class=o>=</span><span class=n>redis_host</span><span class=p>,</span> <span class=n>port</span><span class=o>=</span><span class=n>redis_port</span><span class=p>,</span> <span class=n>db</span><span class=o>=</span><span class=mi>0</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=n>conn</span><span class=o>.</span><span class=n>sadd</span><span class=p>(</span><span class=s1>&#39;scrapy:start_urls&#39;</span><span class=p>,</span> <span class=s1>&#39;https://www.xxxx.com/page01&#39;</span><span class=p>,</span> <span class=s1>&#39;https://www.xxxx.com/page02&#39;</span><span class=p>,</span> <span class=s1>&#39;https://www.xxxx.com/page03&#39;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=nb>super</span><span class=p>(</span><span class=n>ScrapySpider</span><span class=p>,</span> <span class=bp>self</span><span class=p>)</span><span class=o>.</span><span class=fm>__init__</span><span class=p>(</span><span class=n>name</span><span class=p>,</span> <span class=o>**</span><span class=n>kwargs</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=222-执行出现的问题>2.2.2 执行出现的问题</h4><p>在部署后进行执行，出现了报错信息，<code>__init __()</code> 得到了一个意外的关键字参数<code>_ job</code></p><p><img class=lazyload src=/svg/loading.min.svg data-src=https://raw.githubusercontent.com/XD825/picgo/main/img/202303201137861.png data-srcset="https://raw.githubusercontent.com/XD825/picgo/main/img/202303201137861.png, https://raw.githubusercontent.com/XD825/picgo/main/img/202303201137861.png 1.5x, https://raw.githubusercontent.com/XD825/picgo/main/img/202303201137861.png 2x" data-sizes=auto alt=https://raw.githubusercontent.com/XD825/picgo/main/img/202303201137861.png title=image-20230320113754785></p><h4 id=223-解决意外关键字参数_job>2.2.3 解决意外关键字参数<code>_job</code></h4><p>直接在初始化时删除即可，为了保证可靠性，先判断是否存在，然后再进行删除</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=k>class</span> <span class=nc>ScrapySpider</span><span class=p>(</span><span class=n>RedisSpider</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>name</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span> <span class=o>**</span><span class=n>kwargs</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=n>redis_host</span> <span class=o>=</span> <span class=n>get_project_settings</span><span class=p>()</span><span class=o>.</span><span class=n>get</span><span class=p>(</span><span class=s1>&#39;REDIS_HOST&#39;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=n>redis_port</span> <span class=o>=</span> <span class=n>get_project_settings</span><span class=p>()</span><span class=o>.</span><span class=n>get</span><span class=p>(</span><span class=s1>&#39;REDIS_PORT&#39;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=n>conn</span> <span class=o>=</span> <span class=n>redis</span><span class=o>.</span><span class=n>Redis</span><span class=p>(</span><span class=n>host</span><span class=o>=</span><span class=n>redis_host</span><span class=p>,</span> <span class=n>port</span><span class=o>=</span><span class=n>redis_port</span><span class=p>,</span> <span class=n>db</span><span class=o>=</span><span class=mi>0</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=n>conn</span><span class=o>.</span><span class=n>sadd</span><span class=p>(</span><span class=s1>&#39;scrapy:start_urls&#39;</span><span class=p>,</span> <span class=s1>&#39;https://www.xxxx.com/page01&#39;</span><span class=p>,</span> <span class=s1>&#39;https://www.xxxx.com/page02&#39;</span><span class=p>,</span> <span class=s1>&#39;https://www.xxxx.com/page03&#39;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        
+</span></span><span class=line><span class=cl>        <span class=c1># 判断是否存在 _job关键字参数</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=n>kwargs</span><span class=o>.</span><span class=n>get</span><span class=p>(</span><span class=s1>&#39;_job&#39;</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>            <span class=c1># 存在则删除</span>
+</span></span><span class=line><span class=cl>            <span class=n>kwargs</span><span class=o>.</span><span class=n>pop</span><span class=p>(</span><span class=s1>&#39;_job&#39;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=nb>super</span><span class=p>(</span><span class=n>ScrapySpider</span><span class=p>,</span> <span class=bp>self</span><span class=p>)</span><span class=o>.</span><span class=fm>__init__</span><span class=p>(</span><span class=n>name</span><span class=p>,</span> <span class=o>**</span><span class=n>kwargs</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=三数据json格式处理>三、数据JSON格式处理</h2><p>在上面的初始化Redis数据时，传入的数据都是固定的一个链接，但是在实际的使用中，链接并不能满足需求，需要存储JSON格式的数据，那么再处理爬虫的时候，就要在Redis pop出数据后进行处理JSON字符串获得指定的链接进行处理。</p><h3 id=31-查询源码找到对应的处理逻辑>3.1 查询源码，找到对应的处理逻辑</h3><h4 id=scrapy-redis--make_request_from_data->Scrapy-Redis &#187; <code>make_request_from_data</code> :</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl>    <span class=k>def</span> <span class=nf>make_request_from_data</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>data</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;&#34;&#34;Returns a Request instance from data coming from Redis.
+</span></span></span><span class=line><span class=cl><span class=s2>
+</span></span></span><span class=line><span class=cl><span class=s2>        By default, ``data`` is an encoded URL. You can override this method to
+</span></span></span><span class=line><span class=cl><span class=s2>        provide your own message decoding.
+</span></span></span><span class=line><span class=cl><span class=s2>
+</span></span></span><span class=line><span class=cl><span class=s2>        Parameters
+</span></span></span><span class=line><span class=cl><span class=s2>        ----------
+</span></span></span><span class=line><span class=cl><span class=s2>        data : bytes
+</span></span></span><span class=line><span class=cl><span class=s2>            Message from redis. 直接读取Redis的数据
+</span></span></span><span class=line><span class=cl><span class=s2>
+</span></span></span><span class=line><span class=cl><span class=s2>        &#34;&#34;&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=c1># 将Redis pop出的数据转成字符串</span>
+</span></span><span class=line><span class=cl>        <span class=n>url</span> <span class=o>=</span> <span class=n>bytes_to_str</span><span class=p>(</span><span class=n>data</span><span class=p>,</span> <span class=bp>self</span><span class=o>.</span><span class=n>redis_encoding</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=c1># 调用Scrapy的方法进行发送请求</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=bp>self</span><span class=o>.</span><span class=n>make_requests_from_url</span><span class=p>(</span><span class=n>url</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=scrapy--make_requests_from_url>Scrapy &#187; <code>make_requests_from_url</code></h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl>    <span class=k>def</span> <span class=nf>make_requests_from_url</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>url</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;&#34;&#34; This method is deprecated. &#34;&#34;&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=n>warnings</span><span class=o>.</span><span class=n>warn</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>            <span class=s2>&#34;Spider.make_requests_from_url method is deprecated: &#34;</span>
+</span></span><span class=line><span class=cl>            <span class=s2>&#34;it will be removed and not be called by the default &#34;</span>
+</span></span><span class=line><span class=cl>            <span class=s2>&#34;Spider.start_requests method in future Scrapy releases. &#34;</span>
+</span></span><span class=line><span class=cl>            <span class=s2>&#34;Please override Spider.start_requests method instead.&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=c1># 发送请求，并返回scrapy.http.Request对象</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>Request</span><span class=p>(</span><span class=n>url</span><span class=p>,</span> <span class=n>dont_filter</span><span class=o>=</span><span class=kc>True</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=32-进行重写>3.2 进行重写</h3><p>从上面的源码中，我们可以直接重写<code>make_request_from_data</code> 方法，在方法内部进行处理JSON数据，并返回<code>scrapy.http.Request</code>对象即可。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=kn>import</span> <span class=nn>json</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=nn>redis</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>scrapy</span> <span class=kn>import</span> <span class=n>Request</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>scrapy.utils.project</span> <span class=kn>import</span> <span class=n>get_project_settings</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>scrapy_redis.spiders</span> <span class=kn>import</span> <span class=n>RedisSpider</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>ScrapySpider</span><span class=p>(</span><span class=n>RedisSpider</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>name</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span> <span class=o>**</span><span class=n>kwargs</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=n>redis_host</span> <span class=o>=</span> <span class=n>get_project_settings</span><span class=p>()</span><span class=o>.</span><span class=n>get</span><span class=p>(</span><span class=s1>&#39;REDIS_HOST&#39;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=n>redis_port</span> <span class=o>=</span> <span class=n>get_project_settings</span><span class=p>()</span><span class=o>.</span><span class=n>get</span><span class=p>(</span><span class=s1>&#39;REDIS_PORT&#39;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=n>conn</span> <span class=o>=</span> <span class=n>redis</span><span class=o>.</span><span class=n>Redis</span><span class=p>(</span><span class=n>host</span><span class=o>=</span><span class=n>redis_host</span><span class=p>,</span> <span class=n>port</span><span class=o>=</span><span class=n>redis_port</span><span class=p>,</span> <span class=n>db</span><span class=o>=</span><span class=mi>0</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=n>conn</span><span class=o>.</span><span class=n>sadd</span><span class=p>(</span><span class=s1>&#39;scrapy:start_urls&#39;</span><span class=p>,</span> 
+</span></span><span class=line><span class=cl>                  <span class=s1>&#39;{&#34;id&#34;: 9531, &#34;source&#34;: 1, &#34;mobile&#34;: &#34;62196161&#34;, &#34;url&#34;: &#34;https://www.xxxx.com/detail001&#34;}&#39;</span><span class=p>,</span> 
+</span></span><span class=line><span class=cl>                  <span class=s1>&#39;{&#34;id&#34;: 8160, &#34;source&#34;: 0, &#34;mobile&#34;: &#34;60376386&#34;, &#34;url&#34;: &#34;https://www.xxxx.com/detail002&#34;&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                  <span class=s1>&#39;{&#34;id&#34;: 7334, &#34;source&#34;: 0, &#34;mobile&#34;: &#34;62631381&#34;, &#34;url&#34;: &#34;https://www.28hse.com/detail003&#34;&#39;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        
+</span></span><span class=line><span class=cl>        <span class=c1># 判断是否存在 _job关键字参数</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=n>kwargs</span><span class=o>.</span><span class=n>get</span><span class=p>(</span><span class=s1>&#39;_job&#39;</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>            <span class=c1># 存在则删除</span>
+</span></span><span class=line><span class=cl>            <span class=n>kwargs</span><span class=o>.</span><span class=n>pop</span><span class=p>(</span><span class=s1>&#39;_job&#39;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=nb>super</span><span class=p>(</span><span class=n>ScrapySpider</span><span class=p>,</span> <span class=bp>self</span><span class=p>)</span><span class=o>.</span><span class=fm>__init__</span><span class=p>(</span><span class=n>name</span><span class=p>,</span> <span class=o>**</span><span class=n>kwargs</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        
+</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=nf>make_request_from_data</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>data</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;&#34;&#34;
+</span></span></span><span class=line><span class=cl><span class=s2>        :param data: 从reids pop到的数据
+</span></span></span><span class=line><span class=cl><span class=s2>        :return:
+</span></span></span><span class=line><span class=cl><span class=s2>        &#34;&#34;&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=c1># 将获取的数据进行转换</span>
+</span></span><span class=line><span class=cl>        <span class=n>req_data</span> <span class=o>=</span> <span class=n>json</span><span class=o>.</span><span class=n>loads</span><span class=p>(</span><span class=n>data</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=c1># 获取所需参数信息</span>
+</span></span><span class=line><span class=cl>        <span class=n>url</span> <span class=o>=</span> <span class=n>req_data</span><span class=p>[</span><span class=s1>&#39;url&#39;</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>        <span class=n>source</span> <span class=o>=</span> <span class=n>req_data</span><span class=p>[</span><span class=s1>&#39;source&#39;</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>        <span class=n>mobile</span> <span class=o>=</span> <span class=n>req_data</span><span class=o>.</span><span class=n>get</span><span class=p>(</span><span class=s1>&#39;mobile&#39;</span><span class=p>,</span> <span class=s1>&#39;&#39;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=nb>id</span> <span class=o>=</span> <span class=n>req_data</span><span class=p>[</span><span class=s1>&#39;id&#39;</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>        
+</span></span><span class=line><span class=cl>		<span class=c1># 发送请求，并返回</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>Request</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>            <span class=n>url</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>            <span class=n>meta</span><span class=o>=</span><span class=p>{</span><span class=s2>&#34;id&#34;</span><span class=p>:</span> <span class=nb>id</span><span class=p>,</span> <span class=s2>&#34;source&#34;</span><span class=p>:</span> <span class=n>source</span><span class=p>,</span> <span class=s2>&#34;mobile&#34;</span><span class=p>:</span> <span class=n>mobile</span><span class=p>}</span> <span class=c1># 将参数作为元数据传递</span>
+</span></span><span class=line><span class=cl>        <span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>更新于 2023年03月20日</span></div></div><div class=post-info-line><div class=post-info-md><span><a class=link-to-markdown href=/2023/03/scrapy-redis%E5%88%9D%E5%A7%8B%E5%8C%96%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86/index.md target=_blank>阅读原始文档</a></span></div><div class=post-info-share><span><a href=javascript:void(0); title="分享到 Twitter" data-sharer=twitter data-url=https://Joker-desire.github.io/2023/03/scrapy-redis%E5%88%9D%E5%A7%8B%E5%8C%96%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86/ data-title=Scrapy-Redis初始化数据处理 data-hashtags=爬虫,Python><i class="fab fa-twitter fa-fw" aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 Facebook" data-sharer=facebook data-url=https://Joker-desire.github.io/2023/03/scrapy-redis%E5%88%9D%E5%A7%8B%E5%8C%96%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86/ data-hashtag=爬虫><i class="fab fa-facebook-square fa-fw" aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 Hacker News" data-sharer=hackernews data-url=https://Joker-desire.github.io/2023/03/scrapy-redis%E5%88%9D%E5%A7%8B%E5%8C%96%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86/ data-title=Scrapy-Redis初始化数据处理><i class="fab fa-hacker-news fa-fw" aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 Line" data-sharer=line data-url=https://Joker-desire.github.io/2023/03/scrapy-redis%E5%88%9D%E5%A7%8B%E5%8C%96%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86/ data-title=Scrapy-Redis初始化数据处理><i data-svg-src=https://cdn.jsdelivr.net/npm/simple-icons@7.0.0/icons/line.svg aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 微博" data-sharer=weibo data-url=https://Joker-desire.github.io/2023/03/scrapy-redis%E5%88%9D%E5%A7%8B%E5%8C%96%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86/ data-title=Scrapy-Redis初始化数据处理><i class="fab fa-weibo fa-fw" aria-hidden=true></i></a></span></div></div></div><div class=post-info-more><section class=post-tags><i class="fas fa-tags fa-fw" aria-hidden=true></i>&nbsp;<a href=/tags/%E7%88%AC%E8%99%AB/>爬虫</a>,&nbsp;<a href=/tags/python/>Python</a></section><section><span><a href=javascript:void(0); onclick=window.history.back()>返回</a></span>&nbsp;|&nbsp;<span><a href=/>主页</a></span></section></div><div class=post-nav><a href=/2023/03/3/ class=prev rel=prev title="Mixed Content The page at was loaded over HTTPS but requested an insecure resource This request has been blocked the content must be served over HTTPS"><i class="fas fa-angle-left fa-fw" aria-hidden=true></i>Mixed Content The page at was loaded over HTTPS but requested an insecure resource This request has been blocked the content must be served over HTTPS</a>
+<a href=/2023/03/redis-incr%E8%AE%A1%E6%95%B0/ class=next rel=next title=Redis-incr计数>Redis-incr计数<i class="fas fa-angle-right fa-fw" aria-hidden=true></i></a></div></div><div id=comments><div id=giscus class=comment></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://giscus.app>Giscus</a>.</noscript></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line itemscope itemtype=http://schema.org/CreativeWork><i class="far fa-copyright fa-fw" aria-hidden=true></i><span itemprop=copyrightYear>2022 - 2024</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=/ target=_blank>Joker desire</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div></div></footer></div><div id=fixed-buttons><a href=# id=back-to-top class=fixed-button title=回到顶部><i class="fas fa-arrow-up fa-fw" aria-hidden=true></i>
+</a><a href=# id=view-comments class=fixed-button title=查看评论><i class="fas fa-comment fa-fw" aria-hidden=true></i></a></div><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/lightgallery@2.4.0/css/lightgallery-bundle.min.css><script type=text/javascript src=https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/algoliasearch@4.13.1/dist/algoliasearch-lite.umd.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lazysizes@5.3.1/lazysizes.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lightgallery@2.4.0/lightgallery.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lightgallery@2.4.0/plugins/thumbnail/lg-thumbnail.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lightgallery@2.4.0/plugins/zoom/lg-zoom.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js></script><script type=text/javascript>window.config={code:{copyTitle:"复制到剪贴板",maxShownLines:50},comment:{giscus:{category:"Announcements",categoryId:"DIC_kwDOHfPihs4CPp7X",darkTheme:"dark",emitMetadata:"0",inputPosition:"top",lang:"zh-CN",lazyLoading:!1,lightTheme:"light",mapping:"pathname",reactionsEnabled:"1",repo:"Joker-desire/store-comments",repoId:"R_kgDOHfPihg"}},lightgallery:!0,search:{algoliaAppID:"R6OIVCXBNU",algoliaIndex:"Joker-desire",algoliaSearchKey:"07e68b90760663e43882d4a48e00e932",highlightTag:"em",maxResultLength:10,noResultsFound:"没有找到结果",snippetLength:30,type:"algolia"}}</script><script type=text/javascript src=/js/theme.min.js></script></body></html>

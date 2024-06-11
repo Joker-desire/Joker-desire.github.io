@@ -1,0 +1,510 @@
+<!doctype html><html lang=zh-cn><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><title>Python3.10新特性初体验 - Joker-desire's Blog</title><meta name=Description content="为什么要努力？ 因为我喜欢的东西都很贵，我想去的地方都很远，我爱的人超完美。"><meta property="og:url" content="https://Joker-desire.github.io/2021/11/python3.10%E6%96%B0%E7%89%B9%E6%80%A7%E5%88%9D%E4%BD%93%E9%AA%8C/">
+<meta property="og:site_name" content="Joker-desire's Blog"><meta property="og:title" content="Python3.10新特性初体验"><meta property="og:description" content="一、结构模式匹配（新增PEP 635） 如果你熟悉别的语言，你肯定知道 switch->case语句，python3.10之前的版本是一直没"><meta property="og:locale" content="zh_cn"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2021-11-10T13:51:18+08:00"><meta property="article:modified_time" content="2021-11-10T13:51:18+08:00"><meta property="article:tag" content="Python"><meta property="og:image" content="https://Joker-desire.github.io/2021/11/python3.10%E6%96%B0%E7%89%B9%E6%80%A7%E5%88%9D%E4%BD%93%E9%AA%8C/featured-image.jpg"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://Joker-desire.github.io/2021/11/python3.10%E6%96%B0%E7%89%B9%E6%80%A7%E5%88%9D%E4%BD%93%E9%AA%8C/featured-image.jpg"><meta name=twitter:title content="Python3.10新特性初体验"><meta name=twitter:description content="一、结构模式匹配（新增PEP 635） 如果你熟悉别的语言，你肯定知道 switch->case语句，python3.10之前的版本是一直没"><meta name=application-name content="Joker-desire"><meta name=apple-mobile-web-app-title content="Joker-desire"><meta name=theme-color content="#ffffff"><meta name=msapplication-TileColor content="#da532c"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://Joker-desire.github.io/2021/11/python3.10%E6%96%B0%E7%89%B9%E6%80%A7%E5%88%9D%E4%BD%93%E9%AA%8C/><link rel=prev href=https://Joker-desire.github.io/2021/07/getattr%E5%92%8Cmethodcaller%E5%89%96%E6%9E%90/><link rel=next href=https://Joker-desire.github.io/2022/03/%E7%AE%80%E6%B4%81%E6%98%93%E7%94%A8%E7%9A%84%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%AE%9E%E8%B7%B5/><link rel=stylesheet href=/css/style.min.css><link rel=preload href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css></noscript><link rel=preload href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css></noscript><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"Python3.10新特性初体验","inLanguage":"zh-cn","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/Joker-desire.github.io\/2021\/11\/python3.10%E6%96%B0%E7%89%B9%E6%80%A7%E5%88%9D%E4%BD%93%E9%AA%8C\/"},"image":[{"@type":"ImageObject","url":"https:\/\/Joker-desire.github.io\/2021\/11\/python3.10%E6%96%B0%E7%89%B9%E6%80%A7%E5%88%9D%E4%BD%93%E9%AA%8C\/featured-image.jpg","width":393,"height":331}],"genre":"posts","keywords":"Python","wordcount":2821,"url":"https:\/\/Joker-desire.github.io\/2021\/11\/python3.10%E6%96%B0%E7%89%B9%E6%80%A7%E5%88%9D%E4%BD%93%E9%AA%8C\/","datePublished":"2021-11-10T13:51:18+08:00","dateModified":"2021-11-10T13:51:18+08:00","publisher":{"@type":"Organization","name":""},"author":{"@type":"Person","name":"Joker-desire"},"description":""}</script></head><body data-header-desktop=fixed data-header-mobile=auto><script type=text/javascript>(window.localStorage&&localStorage.getItem("theme")?localStorage.getItem("theme")==="dark":"auto"==="auto"?window.matchMedia("(prefers-color-scheme: dark)").matches:"auto"==="dark")&&document.body.setAttribute("theme","dark")</script><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title="Joker-desire's Blog"><span class=header-title-pre><i class='far fa-kiss-wink-heart fa-fw' aria-hidden=true></i></span>welcome</a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts title=所有文章>所有文章 </a><a class=menu-item href=/categories title=分类>分类 </a><a class=menu-item href=/tags title=标签>标签 </a><a class=menu-item href=/about title=关于>关于 </a><a class=menu-item href=https://github.com/Joker-desire title=GitHub rel="noopener noreffer" target=_blank><i class='fab fa-github fa-fw' aria-hidden=true></i> </a><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop>
+<input type=text placeholder=搜索文章标题或内容... id=search-input-desktop>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-desktop title=搜索><i class="fas fa-search fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-desktop title=清空><i class="fas fa-times-circle fa-fw" aria-hidden=true></i>
+</a><span class="search-button search-loading" id=search-loading-desktop><i class="fas fa-spinner fa-fw fa-spin" aria-hidden=true></i>
+</span></span><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题><i class="fas fa-adjust fa-fw" aria-hidden=true></i></a></div></div></div></header><header class=mobile id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title="Joker-desire's Blog"><span class=header-title-pre><i class='far fa-kiss-wink-heart fa-fw' aria-hidden=true></i></span>welcome</a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><div class=search-wrapper><div class="search mobile" id=search-mobile><input type=text placeholder=搜索文章标题或内容... id=search-input-mobile>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-mobile title=搜索><i class="fas fa-search fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-mobile title=清空><i class="fas fa-times-circle fa-fw" aria-hidden=true></i>
+</a><span class="search-button search-loading" id=search-loading-mobile><i class="fas fa-spinner fa-fw fa-spin" aria-hidden=true></i></span></div><a href=javascript:void(0); class=search-cancel id=search-cancel-mobile>取消</a></div><a class=menu-item href=/posts title=所有文章>所有文章</a><a class=menu-item href=/categories title=分类>分类</a><a class=menu-item href=/tags title=标签>标签</a><a class=menu-item href=/about title=关于>关于</a><a class=menu-item href=https://github.com/Joker-desire title=GitHub rel="noopener noreffer" target=_blank><i class='fab fa-github fa-fw' aria-hidden=true></i></a><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题>
+<i class="fas fa-adjust fa-fw" aria-hidden=true></i></a></div></div></header><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div><main class=main><div class=container><div class=toc id=toc-auto><h2 class=toc-title>目录</h2><div class=toc-content id=toc-content-auto></div></div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Python3.10新特性初体验</h1><div class=post-meta><div class=post-meta-line><span class=post-author><a href=/ title=Author rel=author class=author><i class="fas fa-user-circle fa-fw" aria-hidden=true></i>Joker-desire</a></span>&nbsp;<span class=post-category>收录于 <a href=/categories/python/><i class="far fa-folder fa-fw" aria-hidden=true></i>Python</a></span></div><div class=post-meta-line><i class="far fa-calendar-alt fa-fw" aria-hidden=true></i>&nbsp;<time datetime=2021年11月10日>2021年11月10日</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden=true></i>&nbsp;约 2821 字&nbsp;
+<i class="far fa-clock fa-fw" aria-hidden=true></i>&nbsp;预计阅读 6 分钟&nbsp;</div></div><div class=featured-image><img class=lazyload src=/svg/loading.min.svg data-src=/2021/11/python3.10%E6%96%B0%E7%89%B9%E6%80%A7%E5%88%9D%E4%BD%93%E9%AA%8C/featured-image.jpg data-srcset="/2021/11/python3.10%E6%96%B0%E7%89%B9%E6%80%A7%E5%88%9D%E4%BD%93%E9%AA%8C/featured-image.jpg, /2021/11/python3.10%E6%96%B0%E7%89%B9%E6%80%A7%E5%88%9D%E4%BD%93%E9%AA%8C/featured-image.jpg 1.5x, /2021/11/python3.10%E6%96%B0%E7%89%B9%E6%80%A7%E5%88%9D%E4%BD%93%E9%AA%8C/featured-image.jpg 2x" data-sizes=auto alt=/2021/11/python3.10%E6%96%B0%E7%89%B9%E6%80%A7%E5%88%9D%E4%BD%93%E9%AA%8C/featured-image.jpg title=/2021/11/python3.10%E6%96%B0%E7%89%B9%E6%80%A7%E5%88%9D%E4%BD%93%E9%AA%8C/featured-image.jpg></div><div class="details toc" id=toc-static data-kept><div class="details-summary toc-title"><span>目录</span>
+<span><i class="details-icon fas fa-angle-right" aria-hidden=true></i></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><ul><li><a href=#一结构模式匹配新增pep-635httpswwwpythonorgdevpepspep-0635>一、结构模式匹配（新增<a href=https://www.python.org/dev/peps/pep-0635/>PEP 635</a>）</a><ul><li><a href=#1基本语法>1、基本语法</a></li><li><a href=#2模式>2、模式</a><ul><li><a href=#1-as模式as>1. as模式(AS)</a></li><li><a href=#2-or模式>2. or模式(|)</a></li><li><a href=#3-文字模式literal>3. 文字模式(Literal)</a></li><li><a href=#4-捕获模式capture>4. 捕获模式(Capture)</a></li><li><a href=#5-通配符模式wildcard>5. 通配符模式(Wildcard)</a></li><li><a href=#6-值模式value>6. 值模式(value)</a></li><li><a href=#7-组织模式group>7. 组织模式(Group)</a></li><li><a href=#8-序列模式sequence>8. 序列模式(Sequence)</a></li><li><a href=#9-映射模式mapping>9. 映射模式（Mapping）</a></li><li><a href=#10-类模式class>10. 类模式(Class)</a></li></ul></li><li><a href=#3匹配要注意的顺序>3、匹配要注意的顺序</a></li></ul></li><li><a href=#二union类型允许x--y-pep-604httpswwwpythonorgdevpepspep-0604>二、union类型允许X | Y （<a href=https://www.python.org/dev/peps/pep-0604/>PEP 604</a>）</a><ul><li><a href=#1简单的语法>1、简单的语法</a></li><li><a href=#2typingunion-和--是等价的>2、<code>typing.Union</code> 和 <code>|</code> 是等价的</a></li><li><a href=#3顺序是没有要求的>3、顺序是没有要求的</a></li><li><a href=#4isinstance和issubclass支持>4、isinstance和issubclass支持</a></li></ul></li><li><a href=#三带圆括号的上下文管理器>三、带圆括号的上下文管理器</a></li></ul></li></ul></nav></div></div><div class=content id=content><h2 id=一结构模式匹配新增pep-635httpswwwpythonorgdevpepspep-0635>一、结构模式匹配（新增<a href=https://www.python.org/dev/peps/pep-0635/ target=_blank rel="noopener noreffer">PEP 635</a>）</h2><p>如果你熟悉别的语言，你肯定知道 <code>switch->case</code>语句，python3.10之前的版本是一直没有这种语法的，但是这一次的更新中3.10+版本（20211004）开始支持这种结构模式匹配的语法书写了&ndash;<code>match->case</code></p><h3 id=1基本语法>1、基本语法</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=k>match</span> <span class=n>expression</span><span class=p>:</span> <span class=c1># 条件，可为任意表达式、变量</span>
+</span></span><span class=line><span class=cl>    <span class=k>case</span> <span class=n>pattern_1</span><span class=p>:</span> <span class=c1># 模式，待匹配的条件1</span>
+</span></span><span class=line><span class=cl>        <span class=o>...</span> <span class=c1># 需要执行的代码块</span>
+</span></span><span class=line><span class=cl>    <span class=k>case</span> <span class=n>pattern_2</span><span class=p>:</span> <span class=c1># 模式，待匹配的条件2</span>
+</span></span><span class=line><span class=cl>        <span class=o>...</span> <span class=c1># 需要执行的代码块</span>
+</span></span><span class=line><span class=cl>    <span class=k>case</span> <span class=n>_</span><span class=p>:</span> <span class=c1># 模式，表示default</span>
+</span></span><span class=line><span class=cl>        <span class=o>...</span> <span class=c1># 需要执行的代码块</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=2模式>2、模式</h3><h4 id=1-as模式as>1. as模式(AS)</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=k>def</span> <span class=nf>simplify_expr</span><span class=p>(</span><span class=n>tokens</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>    <span class=k>match</span> <span class=n>tokens</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>        <span class=k>case</span> <span class=p>[(</span><span class=s1>&#39;(&#39;</span> <span class=o>|</span> <span class=s1>&#39;[&#39;</span><span class=p>)</span> <span class=k>as</span> <span class=n>l</span><span class=p>,</span> <span class=o>*</span><span class=n>expr</span><span class=p>,</span> <span class=p>(</span><span class=s1>&#39;)&#39;</span> <span class=o>|</span> <span class=s1>&#39;]&#39;</span><span class=p>)</span> <span class=k>as</span> <span class=n>r</span><span class=p>]</span> <span class=k>if</span> <span class=p>(</span><span class=n>l</span> <span class=o>+</span> <span class=n>r</span><span class=p>)</span> <span class=ow>in</span> <span class=p>(</span><span class=s1>&#39;()&#39;</span><span class=p>,</span> <span class=s1>&#39;[]&#39;</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>            <span class=c1># 第一个参数得为(&#39;(&#39; | &#39;[&#39;),取别名为l</span>
+</span></span><span class=line><span class=cl>            <span class=c1># 最后一个参数得为(&#39;(&#39; | &#39;[&#39;),取别名为r</span>
+</span></span><span class=line><span class=cl>            <span class=c1># 并且需判断(l + r) in (&#39;()&#39;, &#39;[]&#39;)为True才会进入此代码块执行</span>
+</span></span><span class=line><span class=cl>            <span class=nb>print</span><span class=p>(</span><span class=n>expr</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=k>case</span> <span class=p>[</span><span class=mi>0</span><span class=p>,</span> <span class=p>(</span><span class=s1>&#39;+&#39;</span> <span class=o>|</span> <span class=s1>&#39;-&#39;</span><span class=p>)</span> <span class=k>as</span> <span class=n>op</span><span class=p>,</span> <span class=n>right</span><span class=p>]:</span>
+</span></span><span class=line><span class=cl>            <span class=c1># 第一个参数必须为0</span>
+</span></span><span class=line><span class=cl>            <span class=c1># 第二个参数得为(&#39;+&#39; | &#39;-&#39;),取别名为op</span>
+</span></span><span class=line><span class=cl>            <span class=c1># 第三个参数为任意数</span>
+</span></span><span class=line><span class=cl>            <span class=c1># 序列的长度必须为3个</span>
+</span></span><span class=line><span class=cl>            <span class=nb>print</span><span class=p>(</span><span class=n>op</span><span class=p>,</span> <span class=n>right</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=k>case</span> <span class=p>[(</span><span class=nb>int</span><span class=p>()</span> <span class=o>|</span> <span class=nb>float</span><span class=p>())</span> <span class=k>as</span> <span class=n>value</span><span class=p>]:</span>
+</span></span><span class=line><span class=cl>            <span class=c1># 序列的长度只能有1个</span>
+</span></span><span class=line><span class=cl>            <span class=c1># 并且，类型只能是int或者float</span>
+</span></span><span class=line><span class=cl>            <span class=nb>print</span><span class=p>(</span><span class=n>value</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=k>case</span> <span class=n>_</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>            <span class=c1># 匹配不到则走这里</span>
+</span></span><span class=line><span class=cl>            <span class=nb>print</span><span class=p>(</span><span class=s2>&#34;未匹配到&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>simplify_expr</span><span class=p>([</span><span class=s1>&#39;(&#39;</span><span class=p>,</span> <span class=s2>&#34;aaa&#34;</span><span class=p>,</span> <span class=s2>&#34;bbb&#34;</span><span class=p>,</span> <span class=s2>&#34;)&#34;</span><span class=p>])</span>  <span class=c1># [&#39;aaa&#39;, &#39;bbb&#39;]</span>
+</span></span><span class=line><span class=cl><span class=n>simplify_expr</span><span class=p>([</span><span class=s1>&#39;[&#39;</span><span class=p>,</span> <span class=s2>&#34;aaa&#34;</span><span class=p>,</span> <span class=s2>&#34;bbb&#34;</span><span class=p>,</span> <span class=s2>&#34;]&#34;</span><span class=p>])</span>  <span class=c1># [&#39;aaa&#39;, &#39;bbb&#39;]</span>
+</span></span><span class=line><span class=cl><span class=n>simplify_expr</span><span class=p>([</span><span class=s1>&#39;[&#39;</span><span class=p>,</span> <span class=s2>&#34;aaa&#34;</span><span class=p>,</span> <span class=s2>&#34;bbb&#34;</span><span class=p>,</span> <span class=s2>&#34;)&#34;</span><span class=p>])</span>  <span class=c1># 未匹配到</span>
+</span></span><span class=line><span class=cl><span class=n>simplify_expr</span><span class=p>([</span><span class=s1>&#39;[&#39;</span><span class=p>,</span> <span class=s2>&#34;]&#34;</span><span class=p>])</span>  <span class=c1># []</span>
+</span></span><span class=line><span class=cl><span class=n>simplify_expr</span><span class=p>([</span><span class=s1>&#39;bbb&#39;</span><span class=p>,</span> <span class=s1>&#39;[&#39;</span><span class=p>,</span> <span class=s2>&#34;]&#34;</span><span class=p>])</span>  <span class=c1># 未匹配到</span>
+</span></span><span class=line><span class=cl><span class=n>simplify_expr</span><span class=p>([</span><span class=mi>0</span><span class=p>,</span> <span class=s2>&#34;+&#34;</span><span class=p>,</span> <span class=mi>3</span><span class=p>])</span>  <span class=c1># + 3</span>
+</span></span><span class=line><span class=cl><span class=n>simplify_expr</span><span class=p>([</span><span class=mi>0</span><span class=p>,</span> <span class=s2>&#34;-&#34;</span><span class=p>,</span> <span class=mi>3</span><span class=p>])</span>  <span class=c1># - 3</span>
+</span></span><span class=line><span class=cl><span class=n>simplify_expr</span><span class=p>([</span><span class=mi>0</span><span class=p>,</span> <span class=s2>&#34;-&#34;</span><span class=p>,</span> <span class=mi>3</span><span class=p>,</span> <span class=mi>34</span><span class=p>])</span>  <span class=c1># 未匹配到</span>
+</span></span><span class=line><span class=cl><span class=n>simplify_expr</span><span class=p>([</span><span class=mi>1</span><span class=p>])</span>  <span class=c1># 1</span>
+</span></span><span class=line><span class=cl><span class=n>simplify_expr</span><span class=p>([</span><span class=mf>1.0</span><span class=p>])</span>  <span class=c1># 1.0</span>
+</span></span><span class=line><span class=cl><span class=n>simplify_expr</span><span class=p>([</span><span class=mf>1.0</span><span class=p>,</span> <span class=mi>1</span><span class=p>])</span>  <span class=c1># 未匹配到</span>
+</span></span><span class=line><span class=cl><span class=n>simplify_expr</span><span class=p>([</span><span class=s2>&#34;aaaa&#34;</span><span class=p>])</span>  <span class=c1># 未匹配到</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=2-or模式>2. or模式(|)</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=k>def</span> <span class=nf>demo</span><span class=p>(</span><span class=n>code</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>    <span class=k>match</span> <span class=n>code</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>        <span class=k>case</span> <span class=mi>200</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>            <span class=nb>print</span><span class=p>(</span><span class=s2>&#34;200成功了&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=k>case</span> <span class=mi>400</span> <span class=o>|</span> <span class=mi>404</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>            <span class=nb>print</span><span class=p>(</span><span class=s2>&#34;出问题了&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=k>case</span> <span class=p>(</span><span class=mi>1002</span> <span class=o>|</span> <span class=mi>1006</span><span class=p>,</span> <span class=mi>200</span><span class=p>):</span> <span class=c1># 把两个值组织起来（组织模式）</span>
+</span></span><span class=line><span class=cl>            <span class=nb>print</span><span class=p>(</span><span class=s2>&#34;接口请求成功&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=k>case</span> <span class=n>_</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>            <span class=nb>print</span><span class=p>(</span><span class=s2>&#34;匹配不到&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>demo</span><span class=p>(</span><span class=mi>200</span><span class=p>)</span> <span class=c1># 200成功了</span>
+</span></span><span class=line><span class=cl><span class=n>demo</span><span class=p>(</span><span class=mi>400</span><span class=p>)</span> <span class=c1># 出问题了</span>
+</span></span><span class=line><span class=cl><span class=n>demo</span><span class=p>(</span><span class=mi>404</span><span class=p>)</span> <span class=c1># 出问题了</span>
+</span></span><span class=line><span class=cl><span class=n>demo</span><span class=p>((</span><span class=mi>1006</span><span class=p>,</span> <span class=mi>200</span><span class=p>))</span> <span class=c1># 接口请求成功</span>
+</span></span><span class=line><span class=cl><span class=n>demo</span><span class=p>(</span><span class=mi>502</span><span class=p>)</span> <span class=c1># 匹配不到</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=3-文字模式literal>3. 文字模式(Literal)</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=k>def</span> <span class=nf>simplify</span><span class=p>(</span><span class=n>expr</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>    <span class=k>match</span> <span class=n>expr</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>        <span class=k>case</span> <span class=p>(</span><span class=s1>&#39;+&#39;</span><span class=p>,</span> <span class=mi>0</span><span class=p>,</span> <span class=n>x</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>            <span class=k>return</span> <span class=n>x</span>
+</span></span><span class=line><span class=cl>        <span class=k>case</span> <span class=p>(</span><span class=s1>&#39;+&#39;</span> <span class=o>|</span> <span class=s1>&#39;-&#39;</span><span class=p>,</span> <span class=n>x</span><span class=p>,</span> <span class=mi>0</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>            <span class=k>return</span> <span class=n>x</span>
+</span></span><span class=line><span class=cl>        <span class=k>case</span> <span class=p>(</span><span class=s1>&#39;and&#39;</span><span class=p>,</span> <span class=kc>True</span><span class=p>,</span> <span class=n>x</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>            <span class=k>return</span> <span class=n>x</span>
+</span></span><span class=line><span class=cl>        <span class=k>case</span> <span class=p>(</span><span class=s1>&#39;and&#39;</span><span class=p>,</span> <span class=kc>False</span><span class=p>,</span> <span class=n>x</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>            <span class=k>return</span> <span class=kc>False</span>
+</span></span><span class=line><span class=cl>        <span class=k>case</span> <span class=p>(</span><span class=s1>&#39;or&#39;</span><span class=p>,</span> <span class=kc>False</span><span class=p>,</span> <span class=n>x</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>            <span class=k>return</span> <span class=n>x</span>
+</span></span><span class=line><span class=cl>        <span class=k>case</span> <span class=p>(</span><span class=s1>&#39;or&#39;</span><span class=p>,</span> <span class=kc>True</span><span class=p>,</span> <span class=n>x</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>            <span class=k>return</span> <span class=kc>True</span>
+</span></span><span class=line><span class=cl>        <span class=k>case</span> <span class=p>(</span><span class=s1>&#39;not&#39;</span><span class=p>,</span> <span class=p>(</span><span class=s1>&#39;not&#39;</span><span class=p>,</span> <span class=n>x</span><span class=p>)):</span>
+</span></span><span class=line><span class=cl>            <span class=k>return</span> <span class=n>x</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=n>expr</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=n>simplify</span><span class=p>((</span><span class=s1>&#39;+&#39;</span><span class=p>,</span> <span class=mi>0</span><span class=p>,</span> <span class=mi>12</span><span class=p>)))</span>  <span class=c1># 12</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=n>simplify</span><span class=p>((</span><span class=s1>&#39;+&#39;</span><span class=p>,</span> <span class=mi>13</span><span class=p>,</span> <span class=mi>0</span><span class=p>)))</span>  <span class=c1># 13</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=n>simplify</span><span class=p>((</span><span class=s1>&#39;-&#39;</span><span class=p>,</span> <span class=mi>13</span><span class=p>,</span> <span class=mi>0</span><span class=p>)))</span>  <span class=c1># 13</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=n>simplify</span><span class=p>((</span><span class=s1>&#39;and&#39;</span><span class=p>,</span> <span class=kc>True</span><span class=p>,</span> <span class=mi>0</span><span class=p>)))</span>  <span class=c1># 0</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=n>simplify</span><span class=p>((</span><span class=s1>&#39;and&#39;</span><span class=p>,</span> <span class=kc>False</span><span class=p>,</span> <span class=mi>0</span><span class=p>)))</span>  <span class=c1># False</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=n>simplify</span><span class=p>((</span><span class=s1>&#39;or&#39;</span><span class=p>,</span> <span class=kc>False</span><span class=p>,</span> <span class=mi>1</span><span class=p>)))</span>  <span class=c1># 1</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=n>simplify</span><span class=p>((</span><span class=s1>&#39;or&#39;</span><span class=p>,</span> <span class=kc>True</span><span class=p>,</span> <span class=mi>1</span><span class=p>)))</span>  <span class=c1># True</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=n>simplify</span><span class=p>((</span><span class=s1>&#39;not&#39;</span><span class=p>,</span> <span class=p>(</span><span class=s1>&#39;not&#39;</span><span class=p>,</span> <span class=mi>23</span><span class=p>))))</span>  <span class=c1># 23</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=4-捕获模式capture>4. 捕获模式(Capture)</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=k>def</span> <span class=nf>average</span><span class=p>(</span><span class=o>*</span><span class=n>args</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>    <span class=k>match</span> <span class=n>args</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>        <span class=k>case</span> <span class=p>[</span><span class=n>x</span><span class=p>,</span> <span class=n>y</span><span class=p>]:</span>
+</span></span><span class=line><span class=cl>            <span class=k>return</span> <span class=p>(</span><span class=n>x</span> <span class=o>+</span> <span class=n>y</span><span class=p>)</span> <span class=o>/</span> <span class=mi>2</span>
+</span></span><span class=line><span class=cl>        <span class=k>case</span> <span class=p>[</span><span class=n>x</span><span class=p>]:</span>
+</span></span><span class=line><span class=cl>            <span class=k>return</span> <span class=n>x</span>
+</span></span><span class=line><span class=cl>        <span class=k>case</span> <span class=p>[]:</span>
+</span></span><span class=line><span class=cl>            <span class=k>return</span> <span class=mi>0</span>
+</span></span><span class=line><span class=cl>        <span class=k>case</span> <span class=p>[</span><span class=n>x</span><span class=p>,</span> <span class=n>y</span><span class=p>,</span> <span class=n>z</span><span class=p>]:</span>
+</span></span><span class=line><span class=cl>            <span class=k>return</span> <span class=n>x</span> <span class=o>+</span> <span class=n>y</span> <span class=o>+</span> <span class=n>z</span>
+</span></span><span class=line><span class=cl>        <span class=k>case</span> <span class=n>a</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>            <span class=k>return</span> <span class=nb>sum</span><span class=p>(</span><span class=n>a</span><span class=p>)</span> <span class=o>/</span> <span class=nb>len</span><span class=p>(</span><span class=n>a</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=n>average</span><span class=p>(</span><span class=mi>1</span><span class=p>,</span> <span class=mi>2</span><span class=p>,</span> <span class=mi>3</span><span class=p>,</span> <span class=mi>4</span><span class=p>))</span> <span class=c1># 2.5 ==&gt; a ==&gt; sum(a) / len(a)==&gt; (1+2+3+4)/4 = 2.5</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=n>average</span><span class=p>(</span><span class=mi>1</span><span class=p>,</span> <span class=mi>2</span><span class=p>))</span>  <span class=c1># 1.5 ==&gt; [x, y] ==&gt; (x+y)/2 ==&gt; (1+2)/2=1.5</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=n>average</span><span class=p>(</span><span class=mi>1</span><span class=p>))</span>  <span class=c1># 1 ==&gt; [x] ==&gt; x=1</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=n>average</span><span class=p>())</span>  <span class=c1># 0 ==&gt; [] ==&gt; 0</span>
+</span></span><span class=line><span class=cl><span class=c1># 如果传递的是三个元素，则会按照长度进行匹配，跟传字典类型不同</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=n>average</span><span class=p>(</span><span class=mi>1</span><span class=p>,</span> <span class=mi>2</span><span class=p>,</span> <span class=mi>3</span><span class=p>))</span>  <span class=c1># 6 ==&gt; [x, y, z] ==&gt; 1+2+3=6</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=5-通配符模式wildcard>5. 通配符模式(Wildcard)</h4><ul><li>_：在前面就表示任意字符</li><li>case __：这里的__在末尾，表示default默认</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=k>def</span> <span class=nf>is_closed</span><span class=p>(</span><span class=n>sequence</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>    <span class=k>match</span> <span class=n>sequence</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>        <span class=k>case</span> <span class=p>[</span><span class=n>_</span><span class=p>]:</span>  <span class=c1># 只有一个元素的序列</span>
+</span></span><span class=line><span class=cl>            <span class=k>return</span> <span class=kc>True</span>
+</span></span><span class=line><span class=cl>        <span class=k>case</span> <span class=p>[</span><span class=n>start</span><span class=p>,</span> <span class=o>*</span><span class=n>_</span><span class=p>,</span> <span class=n>end</span><span class=p>]:</span>  <span class=c1># 至少含有两个元素的序列</span>
+</span></span><span class=line><span class=cl>            <span class=k>return</span> <span class=n>start</span> <span class=o>==</span> <span class=n>end</span>
+</span></span><span class=line><span class=cl>        <span class=k>case</span> <span class=n>_</span><span class=p>:</span>  <span class=c1># 匹配任意类型</span>
+</span></span><span class=line><span class=cl>            <span class=k>return</span> <span class=kc>False</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=n>is_closed</span><span class=p>(</span><span class=mi>1</span><span class=p>))</span>  <span class=c1># False ==&gt; _ ==&gt; False</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=n>is_closed</span><span class=p>([</span><span class=mi>1</span><span class=p>]))</span>  <span class=c1># True ==&gt; [_] ==&gt; True</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=n>is_closed</span><span class=p>([</span><span class=mi>1</span><span class=p>,</span> <span class=mi>2</span><span class=p>,</span> <span class=mi>3</span><span class=p>]))</span>  <span class=c1># False ==&gt; [start, *_, end] ==&gt;&gt;1 ==3 ==&gt;False</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=6-值模式value>6. 值模式(value)</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=k>class</span> <span class=nc>HttpStatus</span><span class=p>(</span><span class=nb>object</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>    <span class=n>OK</span> <span class=o>=</span> <span class=mi>200</span>
+</span></span><span class=line><span class=cl>    <span class=n>MOVED_PERMANENTLY</span> <span class=o>=</span> <span class=mi>301</span>
+</span></span><span class=line><span class=cl>    <span class=n>NOT_FOUND</span> <span class=o>=</span> <span class=mi>404</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>MimeType</span><span class=p>(</span><span class=nb>object</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>    <span class=n>TEXT</span> <span class=o>=</span> <span class=s2>&#34;text&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=n>APPL_ZIP</span> <span class=o>=</span> <span class=s2>&#34;appl_zip&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>def</span> <span class=nf>handle_reply</span><span class=p>(</span><span class=n>reply</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>    <span class=k>match</span> <span class=n>reply</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>        <span class=k>case</span> <span class=p>(</span><span class=n>HttpStatus</span><span class=o>.</span><span class=n>OK</span><span class=p>,</span> <span class=n>MimeType</span><span class=o>.</span><span class=n>TEXT</span><span class=p>,</span> <span class=n>body</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>            <span class=nb>print</span><span class=p>(</span><span class=sa>f</span><span class=s2>&#34;请求成功，类型是TEXT,body==&gt;</span><span class=si>{</span><span class=n>body</span><span class=si>}</span><span class=s2>&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=k>case</span> <span class=p>(</span><span class=n>HttpStatus</span><span class=o>.</span><span class=n>OK</span><span class=p>,</span> <span class=n>MimeType</span><span class=o>.</span><span class=n>APPL_ZIP</span><span class=p>,</span> <span class=n>body</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>            <span class=nb>print</span><span class=p>(</span><span class=sa>f</span><span class=s2>&#34;请求成功，类型是APPL_ZIP,body==&gt;</span><span class=si>{</span><span class=n>body</span><span class=si>}</span><span class=s2>&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=k>case</span> <span class=p>(</span><span class=n>HttpStatus</span><span class=o>.</span><span class=n>MOVED_PERMANENTLY</span><span class=p>,</span> <span class=n>new_URI</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>            <span class=nb>print</span><span class=p>(</span><span class=sa>f</span><span class=s2>&#34;301了，赶紧检查下URI==&gt;</span><span class=si>{</span><span class=n>new_URI</span><span class=si>}</span><span class=s2>&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=k>case</span> <span class=p>(</span><span class=n>HttpStatus</span><span class=o>.</span><span class=n>NOT_FOUND</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>            <span class=nb>print</span><span class=p>(</span><span class=s2>&#34;网站挂了。。。&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>handle_reply</span><span class=p>([</span><span class=mi>200</span><span class=p>,</span> <span class=s2>&#34;text&#34;</span><span class=p>,</span> <span class=s2>&#34;dddddd&#34;</span><span class=p>])</span>  <span class=c1># 请求成功，类型是TEXT,body==&gt;dddddd</span>
+</span></span><span class=line><span class=cl><span class=n>handle_reply</span><span class=p>([</span><span class=mi>200</span><span class=p>,</span> <span class=s2>&#34;appl_zip&#34;</span><span class=p>,</span> <span class=s2>&#34;dddddd&#34;</span><span class=p>])</span>  <span class=c1># 请求成功，类型是APPL_ZIP,body==&gt;dddddd</span>
+</span></span><span class=line><span class=cl><span class=n>handle_reply</span><span class=p>([</span><span class=mi>200</span><span class=p>,</span> <span class=s2>&#34;appl_zip&#34;</span><span class=p>,</span> <span class=s2>&#34;dddddd&#34;</span><span class=p>])</span>  <span class=c1># 请求成功，类型是APPL_ZIP,body==&gt;dddddd</span>
+</span></span><span class=line><span class=cl><span class=n>handle_reply</span><span class=p>([</span><span class=mi>301</span><span class=p>,</span> <span class=s2>&#34;sip:smith@zte.com.cn&#34;</span><span class=p>])</span> <span class=c1># 301了，赶紧检查下URI==&gt;sip:smith@zte.com.cn</span>
+</span></span><span class=line><span class=cl><span class=n>handle_reply</span><span class=p>(</span><span class=mi>404</span><span class=p>)</span>  <span class=c1># 网站挂了。。。</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=7-组织模式group>7. 组织模式(Group)</h4><p>使用or模式实现</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=k>def</span> <span class=nf>demo</span><span class=p>(</span><span class=n>code</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>    <span class=k>match</span> <span class=n>code</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>        <span class=k>case</span> <span class=mi>200</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>            <span class=nb>print</span><span class=p>(</span><span class=s2>&#34;200成功了&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=k>case</span> <span class=mi>400</span> <span class=o>|</span> <span class=mi>404</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>            <span class=nb>print</span><span class=p>(</span><span class=s2>&#34;出问题了&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=k>case</span> <span class=p>(</span><span class=mi>1002</span> <span class=o>|</span> <span class=mi>1006</span><span class=p>,</span> <span class=mi>200</span><span class=p>):</span> <span class=c1># 把两个值组织起来（组织模式）</span>
+</span></span><span class=line><span class=cl>            <span class=nb>print</span><span class=p>(</span><span class=s2>&#34;接口请求成功&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=k>case</span> <span class=n>_</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>            <span class=nb>print</span><span class=p>(</span><span class=s2>&#34;匹配不到&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>demo</span><span class=p>((</span><span class=mi>1006</span><span class=p>,</span> <span class=mi>200</span><span class=p>))</span> <span class=c1># 接口请求成功</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=8-序列模式sequence>8. 序列模式(Sequence)</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=k>def</span> <span class=nf>is_closed</span><span class=p>(</span><span class=n>sequence</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>    <span class=k>match</span> <span class=n>sequence</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>        <span class=k>case</span> <span class=p>[</span><span class=n>_</span><span class=p>]:</span>  <span class=c1># 只有一个元素的序列</span>
+</span></span><span class=line><span class=cl>            <span class=k>return</span> <span class=kc>True</span>
+</span></span><span class=line><span class=cl>        <span class=k>case</span> <span class=p>[</span><span class=n>start</span><span class=p>,</span> <span class=o>*</span><span class=n>_</span><span class=p>,</span> <span class=n>end</span><span class=p>]:</span>  <span class=c1># 至少含有两个元素的序列</span>
+</span></span><span class=line><span class=cl>            <span class=k>return</span> <span class=n>start</span> <span class=o>==</span> <span class=n>end</span>
+</span></span><span class=line><span class=cl>        <span class=k>case</span> <span class=n>_</span><span class=p>:</span>  <span class=c1># 匹配任意类型</span>
+</span></span><span class=line><span class=cl>            <span class=k>return</span> <span class=kc>False</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=n>is_closed</span><span class=p>(</span><span class=mi>1</span><span class=p>))</span>  <span class=c1># False ==&gt; _ ==&gt; False</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=n>is_closed</span><span class=p>([</span><span class=mi>1</span><span class=p>]))</span>  <span class=c1># True ==&gt; [_] ==&gt; True</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=n>is_closed</span><span class=p>([</span><span class=mi>1</span><span class=p>,</span> <span class=mi>2</span><span class=p>,</span> <span class=mi>3</span><span class=p>]))</span>  <span class=c1># False ==&gt; [start, *_, end] ==&gt;&gt;1 ==3 ==&gt;False</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=9-映射模式mapping>9. 映射模式（Mapping）</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=k>def</span> <span class=nf>change_red_to_blue</span><span class=p>(</span><span class=n>json_obj</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>    <span class=k>match</span> <span class=n>json_obj</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>        <span class=k>case</span> <span class=p>{</span><span class=s1>&#39;color&#39;</span><span class=p>:</span> <span class=p>(</span><span class=s1>&#39;red&#39;</span> <span class=o>|</span> <span class=s1>&#39;#FF0000&#39;</span><span class=p>)}:</span>
+</span></span><span class=line><span class=cl>            <span class=n>json_obj</span><span class=p>[</span><span class=s1>&#39;color&#39;</span><span class=p>]</span> <span class=o>=</span> <span class=s1>&#39;blue&#39;</span>
+</span></span><span class=line><span class=cl>        <span class=k>case</span> <span class=p>{</span><span class=s1>&#39;children&#39;</span><span class=p>:</span> <span class=n>children</span><span class=p>}:</span>
+</span></span><span class=line><span class=cl>            <span class=k>for</span> <span class=n>child</span> <span class=ow>in</span> <span class=n>children</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>                <span class=n>change_red_to_blue</span><span class=p>(</span><span class=n>child</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>color</span> <span class=o>=</span> <span class=p>{</span><span class=s2>&#34;color&#34;</span><span class=p>:</span> <span class=s2>&#34;red&#34;</span><span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=n>color</span><span class=p>)</span>  <span class=c1># {&#39;color&#39;: &#39;red&#39;}</span>
+</span></span><span class=line><span class=cl><span class=n>change_red_to_blue</span><span class=p>(</span><span class=n>color</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=n>color</span><span class=p>)</span>  <span class=c1># {&#39;color&#39;: &#39;blue&#39;}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 注意：如果传参是字典，依次从下进行匹配，只要匹配到则不会再往下匹配了</span>
+</span></span><span class=line><span class=cl><span class=c1># 如下，color包含color和children两个键，匹配时，匹配到了color就结束了，不会再进行下一步匹配children了</span>
+</span></span><span class=line><span class=cl><span class=n>color</span> <span class=o>=</span> <span class=p>{</span><span class=s2>&#34;color&#34;</span><span class=p>:</span> <span class=s2>&#34;red&#34;</span><span class=p>,</span> <span class=s2>&#34;children&#34;</span><span class=p>:</span> <span class=p>[{</span><span class=s2>&#34;color&#34;</span><span class=p>:</span> <span class=s2>&#34;#FF0000&#34;</span><span class=p>}]}</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=n>color</span><span class=p>)</span>  <span class=c1># {&#39;color&#39;: &#39;red&#39;, &#39;children&#39;: [{&#39;color&#39;: &#39;#FF0000&#39;}]}</span>
+</span></span><span class=line><span class=cl><span class=n>change_red_to_blue</span><span class=p>(</span><span class=n>color</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=n>color</span><span class=p>)</span>  <span class=c1># {&#39;color&#39;: &#39;blue&#39;, &#39;children&#39;: [{&#39;color&#39;: &#39;#FF0000&#39;}]} children中的color则不会被修改</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=10-类模式class>10. 类模式(Class)</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=k>class</span> <span class=nc>MyClassA</span><span class=p>(</span><span class=nb>object</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>name</span><span class=p>)</span> <span class=o>-&gt;</span> <span class=kc>None</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>name</span> <span class=o>=</span> <span class=n>name</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>def</span> <span class=nf>demo</span><span class=p>(</span><span class=n>class_</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>match</span> <span class=n>class_</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>        <span class=k>case</span> <span class=n>MyClassA</span><span class=p>(</span><span class=n>name</span><span class=o>=</span><span class=s2>&#34;desire&#34;</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>            <span class=nb>print</span><span class=p>(</span><span class=s2>&#34;是desire啊&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=k>case</span> <span class=n>_</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>            <span class=nb>print</span><span class=p>(</span><span class=n>class_</span><span class=o>.</span><span class=n>name</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>demo</span><span class=p>(</span><span class=n>MyClassA</span><span class=p>(</span><span class=s2>&#34;ronin&#34;</span><span class=p>))</span> <span class=c1># ronin ==&gt; _ ==&gt; MyClassA(&#34;ronin&#34;).name ==&gt; class_.name=ronin</span>
+</span></span><span class=line><span class=cl><span class=n>demo</span><span class=p>(</span><span class=n>MyClassA</span><span class=p>(</span><span class=s2>&#34;desire&#34;</span><span class=p>))</span> <span class=c1># 是desire啊 ==&gt; MyClassA(name=&#34;desire&#34;) ==&gt; print(&#34;是desire啊&#34;)</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=3匹配要注意的顺序>3、匹配要注意的顺序</h3><ul><li>当 match 的对象是一个 list 或者 tuple 的时候，需要长度和元素值都能匹配，才能命中，在 <code>捕获模式</code>中体现的有。</li><li>当 match 的对象是一个 dict 的时候，规则却有所不同，只要 case 表达式中的 key 在所 match 的对象中有存在，即可命中，在 <code>映射模式</code>中体现的有。</li><li>而当 match 的对象是类对象时，匹配的规则是，跟 dict 有点类似，只要对象类型和对象的属性有满足 case 的条件，就能命中，在 <code>类模式</code>中体现的有。</li></ul><h2 id=二union类型允许x--y-pep-604httpswwwpythonorgdevpepspep-0604>二、union类型允许X | Y （<a href=https://www.python.org/dev/peps/pep-0604/ target=_blank rel="noopener noreffer">PEP 604</a>）</h2><p>新的语法union接受函数,变量和参数注释。</p><h3 id=1简单的语法>1、简单的语法</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=c1># before</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>typing</span> <span class=kn>import</span> <span class=n>List</span><span class=p>,</span> <span class=n>Union</span><span class=p>,</span> <span class=n>Optional</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>def</span> <span class=nf>f</span><span class=p>(</span><span class=nb>list</span><span class=p>:</span> <span class=n>List</span><span class=p>[</span><span class=n>Union</span><span class=p>[</span><span class=nb>int</span><span class=p>,</span> <span class=nb>str</span><span class=p>]],</span> <span class=n>param</span><span class=p>:</span> <span class=n>Optional</span><span class=p>[</span><span class=nb>int</span><span class=p>])</span> <span class=o>-&gt;</span> <span class=n>Union</span><span class=p>[</span><span class=nb>float</span><span class=p>,</span> <span class=nb>str</span><span class=p>]:</span>
+</span></span><span class=line><span class=cl>    <span class=k>pass</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># now 更加简洁了</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>typing</span> <span class=kn>import</span> <span class=n>List</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>def</span> <span class=nf>f</span><span class=p>(</span><span class=nb>list</span><span class=p>:</span> <span class=n>List</span><span class=p>[</span><span class=nb>int</span> <span class=o>|</span> <span class=nb>str</span><span class=p>],</span> <span class=n>param</span><span class=p>:</span> <span class=nb>int</span> <span class=o>|</span> <span class=kc>None</span><span class=p>)</span> <span class=o>-&gt;</span> <span class=nb>float</span> <span class=o>|</span> <span class=nb>str</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>    <span class=k>pass</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=2typingunion-和--是等价的>2、<code>typing.Union</code> 和 <code>|</code> 是等价的</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=nb>int</span> <span class=o>|</span> <span class=nb>str</span> <span class=o>==</span> <span class=n>typing</span><span class=o>.</span><span class=n>Union</span><span class=p>[</span><span class=nb>int</span><span class=p>,</span> <span class=nb>str</span><span class=p>]</span> <span class=c1># True</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=3顺序是没有要求的>3、顺序是没有要求的</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=p>(</span><span class=nb>int</span> <span class=o>|</span> <span class=nb>str</span><span class=p>)</span> <span class=o>==</span> <span class=p>(</span><span class=nb>str</span> <span class=o>|</span> <span class=nb>int</span><span class=p>)</span> <span class=c1># True</span>
+</span></span><span class=line><span class=cl><span class=p>(</span><span class=nb>int</span> <span class=o>|</span> <span class=nb>str</span> <span class=o>|</span> <span class=nb>float</span><span class=p>)</span> <span class=o>==</span> <span class=n>typing</span><span class=o>.</span><span class=n>Union</span><span class=p>[</span><span class=nb>str</span><span class=p>,</span> <span class=nb>float</span><span class=p>,</span> <span class=nb>int</span><span class=p>]</span> <span class=c1># True</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=4isinstance和issubclass支持>4、isinstance和issubclass支持</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=nb>isinstance</span><span class=p>(</span><span class=mi>5</span><span class=p>,</span> <span class=nb>int</span> <span class=o>|</span> <span class=nb>str</span><span class=p>)</span>  <span class=c1># True</span>
+</span></span><span class=line><span class=cl><span class=nb>isinstance</span><span class=p>(</span><span class=s2>&#34;aaa&#34;</span><span class=p>,</span> <span class=nb>int</span> <span class=o>|</span> <span class=nb>str</span><span class=p>)</span>  <span class=c1># True</span>
+</span></span><span class=line><span class=cl><span class=nb>isinstance</span><span class=p>(</span><span class=mf>1.22</span><span class=p>,</span> <span class=nb>int</span> <span class=o>|</span> <span class=nb>str</span><span class=p>)</span>  <span class=c1># False</span>
+</span></span><span class=line><span class=cl><span class=nb>issubclass</span><span class=p>(</span><span class=nb>bool</span><span class=p>,</span> <span class=nb>int</span> <span class=o>|</span> <span class=nb>float</span><span class=p>)</span>  <span class=c1># True</span>
+</span></span><span class=line><span class=cl><span class=nb>isinstance</span><span class=p>(</span><span class=kc>None</span><span class=p>,</span> <span class=nb>int</span> <span class=o>|</span> <span class=kc>None</span><span class=p>)</span>  <span class=c1># True</span>
+</span></span><span class=line><span class=cl><span class=nb>isinstance</span><span class=p>(</span><span class=mi>42</span><span class=p>,</span> <span class=kc>None</span> <span class=o>|</span> <span class=nb>int</span><span class=p>)</span>  <span class=c1># True</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=三带圆括号的上下文管理器>三、带圆括号的上下文管理器</h2><p>已支持使用外层圆括号来使多个上下文管理器可以连续多行地书写。 这允许将过长的上下文管理器集能够以与之前 import 语句类似的方式格式化为多行的形式。
+一下四种格式都是支持的</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=c1># 之前的格式不影响使用</span>
+</span></span><span class=line><span class=cl><span class=k>with</span> <span class=nb>open</span><span class=p>(</span><span class=s2>&#34;readme.md&#34;</span><span class=p>,</span> <span class=s1>&#39;r&#39;</span><span class=p>)</span> <span class=k>as</span> <span class=n>f</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>    <span class=k>pass</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>with</span> <span class=p>(</span><span class=nb>open</span><span class=p>(</span><span class=s2>&#34;readme.md&#34;</span><span class=p>,</span> <span class=s1>&#39;r&#39;</span><span class=p>)</span> <span class=k>as</span> <span class=n>f</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>    <span class=k>pass</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>with</span> <span class=p>(</span><span class=nb>open</span><span class=p>(</span><span class=s2>&#34;readme.md&#34;</span><span class=p>,</span> <span class=s1>&#39;r&#39;</span><span class=p>)</span> <span class=k>as</span> <span class=n>f1</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>      <span class=nb>open</span><span class=p>(</span><span class=s2>&#34;readme.md&#34;</span><span class=p>,</span> <span class=s1>&#39;r&#39;</span><span class=p>)</span> <span class=k>as</span> <span class=n>f2</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>    <span class=k>pass</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>with</span> <span class=p>(</span><span class=nb>open</span><span class=p>(</span><span class=s2>&#34;readme.md&#34;</span><span class=p>,</span> <span class=s1>&#39;r&#39;</span><span class=p>),</span>
+</span></span><span class=line><span class=cl>      <span class=nb>open</span><span class=p>(</span><span class=s2>&#34;readme.md&#34;</span><span class=p>,</span> <span class=s1>&#39;r&#39;</span><span class=p>)</span> <span class=k>as</span> <span class=n>f2</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>    <span class=k>pass</span>
+</span></span><span class=line><span class=cl><span class=k>with</span> <span class=p>(</span><span class=nb>open</span><span class=p>(</span><span class=s2>&#34;readme.md&#34;</span><span class=p>,</span> <span class=s1>&#39;r&#39;</span><span class=p>),</span>
+</span></span><span class=line><span class=cl>      <span class=nb>open</span><span class=p>(</span><span class=s2>&#34;readme.md&#34;</span><span class=p>,</span> <span class=s1>&#39;r&#39;</span><span class=p>),</span>
+</span></span><span class=line><span class=cl>      <span class=p>):</span>
+</span></span><span class=line><span class=cl>    <span class=k>pass</span>
+</span></span></code></pre></td></tr></table></div></div></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>更新于 2021年11月10日</span></div></div><div class=post-info-line><div class=post-info-md><span><a class=link-to-markdown href=/2021/11/python3.10%E6%96%B0%E7%89%B9%E6%80%A7%E5%88%9D%E4%BD%93%E9%AA%8C/index.md target=_blank>阅读原始文档</a></span></div><div class=post-info-share><span><a href=javascript:void(0); title="分享到 Twitter" data-sharer=twitter data-url=https://Joker-desire.github.io/2021/11/python3.10%E6%96%B0%E7%89%B9%E6%80%A7%E5%88%9D%E4%BD%93%E9%AA%8C/ data-title=Python3.10新特性初体验 data-hashtags=Python><i class="fab fa-twitter fa-fw" aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 Facebook" data-sharer=facebook data-url=https://Joker-desire.github.io/2021/11/python3.10%E6%96%B0%E7%89%B9%E6%80%A7%E5%88%9D%E4%BD%93%E9%AA%8C/ data-hashtag=Python><i class="fab fa-facebook-square fa-fw" aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 Hacker News" data-sharer=hackernews data-url=https://Joker-desire.github.io/2021/11/python3.10%E6%96%B0%E7%89%B9%E6%80%A7%E5%88%9D%E4%BD%93%E9%AA%8C/ data-title=Python3.10新特性初体验><i class="fab fa-hacker-news fa-fw" aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 Line" data-sharer=line data-url=https://Joker-desire.github.io/2021/11/python3.10%E6%96%B0%E7%89%B9%E6%80%A7%E5%88%9D%E4%BD%93%E9%AA%8C/ data-title=Python3.10新特性初体验><i data-svg-src=https://cdn.jsdelivr.net/npm/simple-icons@7.0.0/icons/line.svg aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 微博" data-sharer=weibo data-url=https://Joker-desire.github.io/2021/11/python3.10%E6%96%B0%E7%89%B9%E6%80%A7%E5%88%9D%E4%BD%93%E9%AA%8C/ data-title=Python3.10新特性初体验><i class="fab fa-weibo fa-fw" aria-hidden=true></i></a></span></div></div></div><div class=post-info-more><section class=post-tags><i class="fas fa-tags fa-fw" aria-hidden=true></i>&nbsp;<a href=/tags/python/>Python</a></section><section><span><a href=javascript:void(0); onclick=window.history.back()>返回</a></span>&nbsp;|&nbsp;<span><a href=/>主页</a></span></section></div><div class=post-nav><a href=/2021/07/getattr%E5%92%8Cmethodcaller%E5%89%96%E6%9E%90/ class=prev rel=prev title=Getattr和methodcaller剖析><i class="fas fa-angle-left fa-fw" aria-hidden=true></i>Getattr和methodcaller剖析</a>
+<a href=/2022/03/%E7%AE%80%E6%B4%81%E6%98%93%E7%94%A8%E7%9A%84%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%AE%9E%E8%B7%B5/ class=next rel=next title=简洁易用的命令行实践>简洁易用的命令行实践<i class="fas fa-angle-right fa-fw" aria-hidden=true></i></a></div></div><div id=comments><div id=giscus class=comment></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://giscus.app>Giscus</a>.</noscript></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line itemscope itemtype=http://schema.org/CreativeWork><i class="far fa-copyright fa-fw" aria-hidden=true></i><span itemprop=copyrightYear>2022 - 2024</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=/ target=_blank>Joker desire</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div></div></footer></div><div id=fixed-buttons><a href=# id=back-to-top class=fixed-button title=回到顶部><i class="fas fa-arrow-up fa-fw" aria-hidden=true></i>
+</a><a href=# id=view-comments class=fixed-button title=查看评论><i class="fas fa-comment fa-fw" aria-hidden=true></i></a></div><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/lightgallery@2.4.0/css/lightgallery-bundle.min.css><script type=text/javascript src=https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/algoliasearch@4.13.1/dist/algoliasearch-lite.umd.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lazysizes@5.3.1/lazysizes.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lightgallery@2.4.0/lightgallery.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lightgallery@2.4.0/plugins/thumbnail/lg-thumbnail.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lightgallery@2.4.0/plugins/zoom/lg-zoom.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js></script><script type=text/javascript>window.config={code:{copyTitle:"复制到剪贴板",maxShownLines:50},comment:{giscus:{category:"Announcements",categoryId:"DIC_kwDOHfPihs4CPp7X",darkTheme:"dark",emitMetadata:"0",inputPosition:"top",lang:"zh-CN",lazyLoading:!1,lightTheme:"light",mapping:"pathname",reactionsEnabled:"1",repo:"Joker-desire/store-comments",repoId:"R_kgDOHfPihg"}},lightgallery:!0,search:{algoliaAppID:"R6OIVCXBNU",algoliaIndex:"Joker-desire",algoliaSearchKey:"07e68b90760663e43882d4a48e00e932",highlightTag:"em",maxResultLength:10,noResultsFound:"没有找到结果",snippetLength:30,type:"algolia"}}</script><script type=text/javascript src=/js/theme.min.js></script></body></html>

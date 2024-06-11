@@ -1,0 +1,297 @@
+<!doctype html><html lang=zh-cn><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><title>Go Map - Joker-desire's Blog</title><meta name=Description content="为什么要努力？ 因为我喜欢的东西都很贵，我想去的地方都很远，我爱的人超完美。"><meta property="og:url" content="https://Joker-desire.github.io/2022/07/go-map/">
+<meta property="og:site_name" content="Joker-desire's Blog"><meta property="og:title" content="Go Map"><meta property="og:description" content="Map map是key-value数据结构，又称为字段或者关联数组。 基本语法 语法：var map变量名 map[keytype]valuetype 1 2 3 4 var a map[string]string var a map[string]int var a map[int]string var a map[string]map[string]string key的类型"><meta property="og:locale" content="zh_cn"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2022-07-27T13:55:27+08:00"><meta property="article:modified_time" content="2022-07-27T13:55:27+08:00"><meta property="article:tag" content="Go笔记"><meta property="og:image" content="https://Joker-desire.github.io/logo.png"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://Joker-desire.github.io/logo.png"><meta name=twitter:title content="Go Map"><meta name=twitter:description content="Map map是key-value数据结构，又称为字段或者关联数组。 基本语法 语法：var map变量名 map[keytype]valuetype 1 2 3 4 var a map[string]string var a map[string]int var a map[int]string var a map[string]map[string]string key的类型"><meta name=application-name content="Joker-desire"><meta name=apple-mobile-web-app-title content="Joker-desire"><meta name=theme-color content="#ffffff"><meta name=msapplication-TileColor content="#da532c"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://Joker-desire.github.io/2022/07/go-map/><link rel=prev href=https://Joker-desire.github.io/2022/07/go%E6%95%B0%E7%BB%84%E5%92%8C%E5%88%87%E7%89%87/><link rel=next href=https://Joker-desire.github.io/2022/08/jenkins%E6%9E%84%E5%BB%BA%E5%90%8E%E6%89%A7%E8%A1%8C%E8%84%9A%E6%9C%AC/><link rel=stylesheet href=/css/style.min.css><link rel=preload href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css></noscript><link rel=preload href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css></noscript><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"Go Map","inLanguage":"zh-cn","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/Joker-desire.github.io\/2022\/07\/go-map\/"},"genre":"posts","keywords":"Go笔记","wordcount":2144,"url":"https:\/\/Joker-desire.github.io\/2022\/07\/go-map\/","datePublished":"2022-07-27T13:55:27+08:00","dateModified":"2022-07-27T13:55:27+08:00","publisher":{"@type":"Organization","name":""},"author":{"@type":"Person","name":"Joker-desire"},"description":""}</script></head><body data-header-desktop=fixed data-header-mobile=auto><script type=text/javascript>(window.localStorage&&localStorage.getItem("theme")?localStorage.getItem("theme")==="dark":"auto"==="auto"?window.matchMedia("(prefers-color-scheme: dark)").matches:"auto"==="dark")&&document.body.setAttribute("theme","dark")</script><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title="Joker-desire's Blog"><span class=header-title-pre><i class='far fa-kiss-wink-heart fa-fw' aria-hidden=true></i></span>welcome</a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts title=所有文章>所有文章 </a><a class=menu-item href=/categories title=分类>分类 </a><a class=menu-item href=/tags title=标签>标签 </a><a class=menu-item href=/about title=关于>关于 </a><a class=menu-item href=https://github.com/Joker-desire title=GitHub rel="noopener noreffer" target=_blank><i class='fab fa-github fa-fw' aria-hidden=true></i> </a><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop>
+<input type=text placeholder=搜索文章标题或内容... id=search-input-desktop>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-desktop title=搜索><i class="fas fa-search fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-desktop title=清空><i class="fas fa-times-circle fa-fw" aria-hidden=true></i>
+</a><span class="search-button search-loading" id=search-loading-desktop><i class="fas fa-spinner fa-fw fa-spin" aria-hidden=true></i>
+</span></span><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题><i class="fas fa-adjust fa-fw" aria-hidden=true></i></a></div></div></div></header><header class=mobile id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title="Joker-desire's Blog"><span class=header-title-pre><i class='far fa-kiss-wink-heart fa-fw' aria-hidden=true></i></span>welcome</a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><div class=search-wrapper><div class="search mobile" id=search-mobile><input type=text placeholder=搜索文章标题或内容... id=search-input-mobile>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-mobile title=搜索><i class="fas fa-search fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-mobile title=清空><i class="fas fa-times-circle fa-fw" aria-hidden=true></i>
+</a><span class="search-button search-loading" id=search-loading-mobile><i class="fas fa-spinner fa-fw fa-spin" aria-hidden=true></i></span></div><a href=javascript:void(0); class=search-cancel id=search-cancel-mobile>取消</a></div><a class=menu-item href=/posts title=所有文章>所有文章</a><a class=menu-item href=/categories title=分类>分类</a><a class=menu-item href=/tags title=标签>标签</a><a class=menu-item href=/about title=关于>关于</a><a class=menu-item href=https://github.com/Joker-desire title=GitHub rel="noopener noreffer" target=_blank><i class='fab fa-github fa-fw' aria-hidden=true></i></a><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题>
+<i class="fas fa-adjust fa-fw" aria-hidden=true></i></a></div></div></header><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div><main class=main><div class=container><div class=toc id=toc-auto><h2 class=toc-title>目录</h2><div class=toc-content id=toc-content-auto></div></div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Go Map</h1><div class=post-meta><div class=post-meta-line><span class=post-author><a href=/ title=Author rel=author class=author><i class="fas fa-user-circle fa-fw" aria-hidden=true></i>Joker-desire</a></span>&nbsp;<span class=post-category>收录于 <a href=/categories/go%E7%AC%94%E8%AE%B0/><i class="far fa-folder fa-fw" aria-hidden=true></i>Go笔记</a></span></div><div class=post-meta-line><i class="far fa-calendar-alt fa-fw" aria-hidden=true></i>&nbsp;<time datetime=2022年07月27日>2022年07月27日</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden=true></i>&nbsp;约 2144 字&nbsp;
+<i class="far fa-clock fa-fw" aria-hidden=true></i>&nbsp;预计阅读 5 分钟&nbsp;</div></div><div class="details toc" id=toc-static data-kept><div class="details-summary toc-title"><span>目录</span>
+<span><i class="details-icon fas fa-angle-right" aria-hidden=true></i></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><a href=#map>Map</a><ul><li><a href=#基本语法>基本语法</a></li><li><a href=#map的使用>map的使用</a></li><li><a href=#map的操作>map的操作</a><ul><li><a href=#map的增加和更新>map的增加和更新</a></li><li><a href=#map的删除>map的删除</a></li><li><a href=#map查找>map查找</a></li></ul></li><li><a href=#map的遍历>map的遍历</a></li><li><a href=#map的长度>map的长度</a></li><li><a href=#map切片>map切片</a><ul><li><a href=#基本介绍>基本介绍</a></li><li><a href=#使用>使用</a></li></ul></li><li><a href=#map排序>map排序</a></li><li><a href=#map使用细节>map使用细节</a></li></ul></li></ul></nav></div></div><div class=content id=content><h1 id=map>Map</h1><p>map是key-value数据结构，又称为字段或者关联数组。</p><h2 id=基本语法>基本语法</h2><p>语法：<code>var map变量名 map[keytype]valuetype</code></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kd>var</span> <span class=nx>a</span> <span class=kd>map</span><span class=p>[</span><span class=kt>string</span><span class=p>]</span><span class=kt>string</span>
+</span></span><span class=line><span class=cl><span class=kd>var</span> <span class=nx>a</span> <span class=kd>map</span><span class=p>[</span><span class=kt>string</span><span class=p>]</span><span class=kt>int</span>
+</span></span><span class=line><span class=cl><span class=kd>var</span> <span class=nx>a</span> <span class=kd>map</span><span class=p>[</span><span class=kt>int</span><span class=p>]</span><span class=kt>string</span>
+</span></span><span class=line><span class=cl><span class=kd>var</span> <span class=nx>a</span> <span class=kd>map</span><span class=p>[</span><span class=kt>string</span><span class=p>]</span><span class=kd>map</span><span class=p>[</span><span class=kt>string</span><span class=p>]</span><span class=kt>string</span>
+</span></span></code></pre></td></tr></table></div></div><p><strong>key的类型</strong></p><p>可以是：bool、数字、string、指针、channel，还可以值包含前面几个类型的接口、结构体、数组，通常为int、string</p><p>slice、map和function不可以当做key的类型，因为这几个没法用<code>==</code>来判断</p><p><strong>value的类型</strong></p><p>和key基本一样，通常为：数字（整数，浮点数）、string、map、struct</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=c1>//声明一个map
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kd>var</span> <span class=nx>a</span> <span class=kd>map</span><span class=p>[</span><span class=kt>string</span><span class=p>]</span><span class=kt>string</span>
+</span></span><span class=line><span class=cl><span class=c1>// 在使用map前，需要先make，make的作用个就是给map分配数据空间
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=nx>a</span> <span class=p>=</span> <span class=nb>make</span><span class=p>(</span><span class=kd>map</span><span class=p>[</span><span class=kt>string</span><span class=p>]</span><span class=kt>string</span><span class=p>,</span> <span class=mi>10</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nx>a</span><span class=p>[</span><span class=s>&#34;str1&#34;</span><span class=p>]</span> <span class=p>=</span> <span class=s>&#34;第一个字符串&#34;</span>
+</span></span><span class=line><span class=cl><span class=nx>a</span><span class=p>[</span><span class=s>&#34;str2&#34;</span><span class=p>]</span> <span class=p>=</span> <span class=s>&#34;第二个字符串&#34;</span>
+</span></span><span class=line><span class=cl><span class=nx>a</span><span class=p>[</span><span class=s>&#34;str3&#34;</span><span class=p>]</span> <span class=p>=</span> <span class=s>&#34;第三个字符串&#34;</span>
+</span></span><span class=line><span class=cl><span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=nx>a</span><span class=p>)</span> <span class=c1>//map[str1:第一个字符串 str2:第二个字符串 str3:第三个字符串]
+</span></span></span></code></pre></td></tr></table></div></div><p>注意：声明是不会分配内存的，初始化需要<code>make</code>分配内存后才能赋值和使用。</p><p><strong>注意事项</strong></p><ol><li>map在使用前一定要make</li><li>map的key是不能重复，如果重复了，则以最后这个key-value为准</li><li>map的value是可以相同的</li><li>map的key-value是无序的</li></ol><h2 id=map的使用>map的使用</h2><p>方式一：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kd>var</span> <span class=nx>cities</span> <span class=kd>map</span><span class=p>[</span><span class=kt>string</span><span class=p>]</span><span class=kt>string</span>
+</span></span><span class=line><span class=cl><span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=nx>cities</span><span class=p>)</span> <span class=c1>//map[]
+</span></span></span><span class=line><span class=cl><span class=c1>// 分配一个map空间
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=nx>cities</span> <span class=p>=</span> <span class=nb>make</span><span class=p>(</span><span class=kd>map</span><span class=p>[</span><span class=kt>string</span><span class=p>]</span><span class=kt>string</span><span class=p>,</span> <span class=mi>10</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=nx>cities</span><span class=p>)</span> <span class=c1>//map[]
+</span></span></span></code></pre></td></tr></table></div></div><p>方式二：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=c1>// 声明直接make
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kd>var</span> <span class=nx>cities</span> <span class=p>=</span> <span class=nb>make</span><span class=p>(</span><span class=kd>map</span><span class=p>[</span><span class=kt>string</span><span class=p>]</span><span class=kt>string</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=nx>cities</span><span class=p>)</span> <span class=c1>//map[]
+</span></span></span></code></pre></td></tr></table></div></div><p>方式三：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=c1>// 声明直接赋值
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kd>var</span> <span class=nx>cities</span> <span class=kd>map</span><span class=p>[</span><span class=kt>string</span><span class=p>]</span><span class=kt>string</span> <span class=p>=</span> <span class=kd>map</span><span class=p>[</span><span class=kt>string</span><span class=p>]</span><span class=kt>string</span><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;city1&#34;</span><span class=p>:</span> <span class=s>&#34;成都&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=nx>cities</span><span class=p>[</span><span class=s>&#34;city2&#34;</span><span class=p>]</span> <span class=p>=</span> <span class=s>&#34;深圳&#34;</span>
+</span></span><span class=line><span class=cl><span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=nx>cities</span><span class=p>)</span> <span class=c1>//map[city1:成都 city2:深圳]
+</span></span></span></code></pre></td></tr></table></div></div><h2 id=map的操作>map的操作</h2><h3 id=map的增加和更新>map的增加和更新</h3><p><code>map["key"] = value</code> 如果key不存在就是增加，存在则修改。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=nx>cities</span> <span class=o>:=</span> <span class=kd>map</span><span class=p>[</span><span class=kt>string</span><span class=p>]</span><span class=kt>string</span><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;city1&#34;</span><span class=p>:</span> <span class=s>&#34;成都&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=c1>// 添加的key不存在，则新增
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=nx>cities</span><span class=p>[</span><span class=s>&#34;city2&#34;</span><span class=p>]</span> <span class=p>=</span> <span class=s>&#34;深圳&#34;</span>
+</span></span><span class=line><span class=cl><span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=nx>cities</span><span class=p>)</span> <span class=c1>//map[city1:成都 city2:深圳]
+</span></span></span><span class=line><span class=cl><span class=c1>// 添加的key存在，则修改
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=nx>cities</span><span class=p>[</span><span class=s>&#34;city1&#34;</span><span class=p>]</span> <span class=p>=</span> <span class=s>&#34;北京&#34;</span>
+</span></span><span class=line><span class=cl><span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=nx>cities</span><span class=p>)</span> <span class=c1>//map[city1:北京 city2:深圳]
+</span></span></span></code></pre></td></tr></table></div></div><h3 id=map的删除>map的删除</h3><p><code>delete(map, "key")</code> delete是一个内置函数，如果key存在，则删除key-value，如果key不存在，不操作，也不会报错。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=c1>// 删除的key存在
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=nb>delete</span><span class=p>(</span><span class=nx>cities</span><span class=p>,</span> <span class=s>&#34;city1&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=c1>//删除的key不存在
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=nb>delete</span><span class=p>(</span><span class=nx>cities</span><span class=p>,</span> <span class=s>&#34;city3&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=nx>cities</span><span class=p>)</span> <span class=c1>//map[city2:深圳]
+</span></span></span></code></pre></td></tr></table></div></div><ol><li><p>如果要删除map的所有key，没有专门的方法一次删除，可以遍历一下key，逐个删除</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=nx>cities</span> <span class=o>:=</span> <span class=kd>map</span><span class=p>[</span><span class=kt>string</span><span class=p>]</span><span class=kt>string</span><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;city1&#34;</span><span class=p>:</span> <span class=s>&#34;成都&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;city2&#34;</span><span class=p>:</span> <span class=s>&#34;北京&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;city3&#34;</span><span class=p>:</span> <span class=s>&#34;深圳&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=nx>cities</span><span class=p>)</span> <span class=c1>//map[city1:成都 city2:北京 city3:深圳]
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=k>for</span> <span class=nx>key</span><span class=p>,</span> <span class=nx>_</span> <span class=o>:=</span> <span class=k>range</span> <span class=nx>cities</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nb>delete</span><span class=p>(</span><span class=nx>cities</span><span class=p>,</span> <span class=nx>key</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=nx>cities</span><span class=p>)</span> <span class=c1>//map[]
+</span></span></span></code></pre></td></tr></table></div></div></li><li><p>或者<code>map = make(...)</code> make一个新的，让原来的成为垃圾，被gc回收</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=nx>cities</span> <span class=o>:=</span> <span class=kd>map</span><span class=p>[</span><span class=kt>string</span><span class=p>]</span><span class=kt>string</span><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;city1&#34;</span><span class=p>:</span> <span class=s>&#34;成都&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;city2&#34;</span><span class=p>:</span> <span class=s>&#34;北京&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;city3&#34;</span><span class=p>:</span> <span class=s>&#34;深圳&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=nx>cities</span><span class=p>)</span> <span class=c1>//map[city1:成都 city2:北京 city3:深圳]
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=nx>cities</span> <span class=p>=</span> <span class=nb>make</span><span class=p>(</span><span class=kd>map</span><span class=p>[</span><span class=kt>string</span><span class=p>]</span><span class=kt>string</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=nx>cities</span><span class=p>)</span> <span class=c1>//map[]
+</span></span></span></code></pre></td></tr></table></div></div></li></ol><h3 id=map查找>map查找</h3><p><code>cities["city1"]</code> 获取map的值时，返回结果有两个，第一个为值，第二个为是否存在，存在返回true，反之false，通过判断第二个值可得到是否存在该key</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=nx>cities</span> <span class=o>:=</span> <span class=kd>map</span><span class=p>[</span><span class=kt>string</span><span class=p>]</span><span class=kt>string</span><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;city1&#34;</span><span class=p>:</span> <span class=s>&#34;成都&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;city2&#34;</span><span class=p>:</span> <span class=s>&#34;北京&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;city3&#34;</span><span class=p>:</span> <span class=s>&#34;深圳&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=nx>val</span><span class=p>,</span> <span class=nx>ok</span> <span class=o>:=</span> <span class=nx>cities</span><span class=p>[</span><span class=s>&#34;city4&#34;</span><span class=p>]</span>
+</span></span><span class=line><span class=cl><span class=k>if</span> <span class=nx>ok</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>fmt</span><span class=p>.</span><span class=nf>Printf</span><span class=p>(</span><span class=s>&#34;有 city1 key 值为%v\n&#34;</span><span class=p>,</span> <span class=nx>val</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span> <span class=k>else</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>fmt</span><span class=p>.</span><span class=nf>Printf</span><span class=p>(</span><span class=s>&#34;没有 city1 key \n&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=map的遍历>map的遍历</h2><p>map的遍历使用for-range的结果遍历</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=nx>cities</span> <span class=o>:=</span> <span class=kd>map</span><span class=p>[</span><span class=kt>string</span><span class=p>]</span><span class=kt>string</span><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;city1&#34;</span><span class=p>:</span> <span class=s>&#34;成都&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;city2&#34;</span><span class=p>:</span> <span class=s>&#34;北京&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;city3&#34;</span><span class=p>:</span> <span class=s>&#34;深圳&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=k>for</span> <span class=nx>key</span><span class=p>,</span> <span class=nx>value</span> <span class=o>:=</span> <span class=k>range</span> <span class=nx>cities</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=nx>key</span><span class=p>,</span> <span class=nx>value</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=cm>/*
+</span></span></span><span class=line><span class=cl><span class=cm>		结果：
+</span></span></span><span class=line><span class=cl><span class=cm>		   city2 北京
+</span></span></span><span class=line><span class=cl><span class=cm>		   city3 深圳
+</span></span></span><span class=line><span class=cl><span class=cm>		   city1 成都
+</span></span></span><span class=line><span class=cl><span class=cm>	*/</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=map的长度>map的长度</h2><p>使用<code>len(map)</code></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=nx>cities</span> <span class=o>:=</span> <span class=kd>map</span><span class=p>[</span><span class=kt>string</span><span class=p>]</span><span class=kt>string</span><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;city1&#34;</span><span class=p>:</span> <span class=s>&#34;成都&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;city2&#34;</span><span class=p>:</span> <span class=s>&#34;北京&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;city3&#34;</span><span class=p>:</span> <span class=s>&#34;深圳&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=nb>len</span><span class=p>(</span><span class=nx>cities</span><span class=p>))</span> <span class=c1>//3
+</span></span></span></code></pre></td></tr></table></div></div><h2 id=map切片>map切片</h2><h3 id=基本介绍>基本介绍</h3><p>切片的数据类型如果是map，则我们称为slice of map，map切片，这样使用map个数就可以动态变化了</p><h3 id=使用>使用</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=c1>// 1. 声明一个map切片
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kd>var</span> <span class=nx>monsters</span> <span class=p>[]</span><span class=kd>map</span><span class=p>[</span><span class=kt>string</span><span class=p>]</span><span class=kt>string</span>
+</span></span><span class=line><span class=cl><span class=nx>monsters</span> <span class=p>=</span> <span class=nb>make</span><span class=p>([]</span><span class=kd>map</span><span class=p>[</span><span class=kt>string</span><span class=p>]</span><span class=kt>string</span><span class=p>,</span> <span class=mi>2</span><span class=p>)</span> <span class=c1>//准备放两个信息
+</span></span></span><span class=line><span class=cl><span class=c1>// 2. 添加第一个信息
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=k>if</span> <span class=nx>monsters</span><span class=p>[</span><span class=mi>0</span><span class=p>]</span> <span class=o>==</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>monsters</span><span class=p>[</span><span class=mi>0</span><span class=p>]</span> <span class=p>=</span> <span class=nb>make</span><span class=p>(</span><span class=kd>map</span><span class=p>[</span><span class=kt>string</span><span class=p>]</span><span class=kt>string</span><span class=p>,</span> <span class=mi>2</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=nx>monsters</span><span class=p>[</span><span class=mi>0</span><span class=p>][</span><span class=s>&#34;name&#34;</span><span class=p>]</span> <span class=p>=</span> <span class=s>&#34;Ronin&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=nx>monsters</span><span class=p>[</span><span class=mi>0</span><span class=p>][</span><span class=s>&#34;age&#34;</span><span class=p>]</span> <span class=p>=</span> <span class=s>&#34;18&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=nx>monsters</span><span class=p>)</span> <span class=c1>//[map[age:18 name:Ronin] map[]]
+</span></span></span><span class=line><span class=cl><span class=c1>// 添加第二个信息
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=k>if</span> <span class=nx>monsters</span><span class=p>[</span><span class=mi>1</span><span class=p>]</span> <span class=o>==</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>monsters</span><span class=p>[</span><span class=mi>1</span><span class=p>]</span> <span class=p>=</span> <span class=nb>make</span><span class=p>(</span><span class=kd>map</span><span class=p>[</span><span class=kt>string</span><span class=p>]</span><span class=kt>string</span><span class=p>,</span> <span class=mi>2</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=nx>monsters</span><span class=p>[</span><span class=mi>1</span><span class=p>][</span><span class=s>&#34;name&#34;</span><span class=p>]</span> <span class=p>=</span> <span class=s>&#34;Tommy&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=nx>monsters</span><span class=p>[</span><span class=mi>1</span><span class=p>][</span><span class=s>&#34;age&#34;</span><span class=p>]</span> <span class=p>=</span> <span class=s>&#34;20&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=nx>monsters</span><span class=p>)</span> <span class=c1>//[map[age:18 name:Ronin] map[age:20 name:Tommy]]
+</span></span></span><span class=line><span class=cl><span class=c1>// 使用append函数动态的增加map数据
+</span></span></span><span class=line><span class=cl><span class=c1>// 1.先定义信息
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=nx>monster</span> <span class=o>:=</span> <span class=kd>map</span><span class=p>[</span><span class=kt>string</span><span class=p>]</span><span class=kt>string</span><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;name&#34;</span><span class=p>:</span> <span class=s>&#34;Desire&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;age&#34;</span><span class=p>:</span>  <span class=s>&#34;25&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=nx>monsters</span> <span class=p>=</span> <span class=nb>append</span><span class=p>(</span><span class=nx>monsters</span><span class=p>,</span> <span class=nx>monster</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=nx>monsters</span><span class=p>)</span> <span class=c1>//[map[age:18 name:Ronin] map[age:20 name:Tommy] map[age:25 name:Desire]]
+</span></span></span></code></pre></td></tr></table></div></div><h2 id=map排序>map排序</h2><ul><li>先将map的key放入到切片中</li><li>对切片进行排序</li><li>遍历切片，然后按照key来输出map的值</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=c1>// map的排序
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=nx>map1</span> <span class=o>:=</span> <span class=nb>make</span><span class=p>(</span><span class=kd>map</span><span class=p>[</span><span class=kt>int</span><span class=p>]</span><span class=kt>int</span><span class=p>,</span> <span class=mi>10</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nx>map1</span><span class=p>[</span><span class=mi>10</span><span class=p>]</span> <span class=p>=</span> <span class=mi>100</span>
+</span></span><span class=line><span class=cl><span class=nx>map1</span><span class=p>[</span><span class=mi>2</span><span class=p>]</span> <span class=p>=</span> <span class=mi>40</span>
+</span></span><span class=line><span class=cl><span class=nx>map1</span><span class=p>[</span><span class=mi>5</span><span class=p>]</span> <span class=p>=</span> <span class=mi>1</span>
+</span></span><span class=line><span class=cl><span class=nx>map1</span><span class=p>[</span><span class=mi>3</span><span class=p>]</span> <span class=p>=</span> <span class=mi>10</span>
+</span></span><span class=line><span class=cl><span class=nx>map1</span><span class=p>[</span><span class=mi>9</span><span class=p>]</span> <span class=p>=</span> <span class=mi>20</span>
+</span></span><span class=line><span class=cl><span class=c1>// 打印结果，可以看到每次打印的结果顺序都不一样
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=k>for</span> <span class=nx>k</span><span class=p>,</span> <span class=nx>_</span> <span class=o>:=</span> <span class=k>range</span> <span class=nx>map1</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=nx>k</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// 如果按照map的key进行排序输出
+</span></span></span><span class=line><span class=cl><span class=c1>// 1. 先将map的key放入到切片中
+</span></span></span><span class=line><span class=cl><span class=c1>// 2. 对切片进行排序
+</span></span></span><span class=line><span class=cl><span class=c1>// 3. 遍历切片，然后按照key来输出map的值
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kd>var</span> <span class=nx>keys</span> <span class=p>[]</span><span class=kt>int</span>
+</span></span><span class=line><span class=cl><span class=k>for</span> <span class=nx>k</span><span class=p>,</span> <span class=nx>_</span> <span class=o>:=</span> <span class=k>range</span> <span class=nx>map1</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>keys</span> <span class=p>=</span> <span class=nb>append</span><span class=p>(</span><span class=nx>keys</span><span class=p>,</span> <span class=nx>k</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=nx>keys</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=c1>// 排序
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=nx>sort</span><span class=p>.</span><span class=nf>Ints</span><span class=p>(</span><span class=nx>keys</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=nx>keys</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=k>for</span> <span class=nx>_</span><span class=p>,</span> <span class=nx>k</span> <span class=o>:=</span> <span class=k>range</span> <span class=nx>keys</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>fmt</span><span class=p>.</span><span class=nf>Printf</span><span class=p>(</span><span class=s>&#34;map1[%v]=%v \n&#34;</span><span class=p>,</span> <span class=nx>k</span><span class=p>,</span> <span class=nx>map1</span><span class=p>[</span><span class=nx>k</span><span class=p>])</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=map使用细节>map使用细节</h2><ol><li>map是引用类型，遵守引用类型传递的机制，在一个函数接收map，修改后，会直接修改原来的map</li><li>map的容量达到后，再想map增加元素，会自动扩容，并不会发生panic，也就是说map能动态的增长键值对</li><li>map的value也经常使用struct类型，更适合管理复杂的数据</li></ol></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>更新于 2022年07月27日</span></div></div><div class=post-info-line><div class=post-info-md><span><a class=link-to-markdown href=/2022/07/go-map/index.md target=_blank>阅读原始文档</a></span></div><div class=post-info-share><span><a href=javascript:void(0); title="分享到 Twitter" data-sharer=twitter data-url=https://Joker-desire.github.io/2022/07/go-map/ data-title="Go Map" data-hashtags=Go笔记><i class="fab fa-twitter fa-fw" aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 Facebook" data-sharer=facebook data-url=https://Joker-desire.github.io/2022/07/go-map/ data-hashtag=Go笔记><i class="fab fa-facebook-square fa-fw" aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 Hacker News" data-sharer=hackernews data-url=https://Joker-desire.github.io/2022/07/go-map/ data-title="Go Map"><i class="fab fa-hacker-news fa-fw" aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 Line" data-sharer=line data-url=https://Joker-desire.github.io/2022/07/go-map/ data-title="Go Map"><i data-svg-src=https://cdn.jsdelivr.net/npm/simple-icons@7.0.0/icons/line.svg aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 微博" data-sharer=weibo data-url=https://Joker-desire.github.io/2022/07/go-map/ data-title="Go Map"><i class="fab fa-weibo fa-fw" aria-hidden=true></i></a></span></div></div></div><div class=post-info-more><section class=post-tags><i class="fas fa-tags fa-fw" aria-hidden=true></i>&nbsp;<a href=/tags/go%E7%AC%94%E8%AE%B0/>Go笔记</a></section><section><span><a href=javascript:void(0); onclick=window.history.back()>返回</a></span>&nbsp;|&nbsp;<span><a href=/>主页</a></span></section></div><div class=post-nav><a href=/2022/07/go%E6%95%B0%E7%BB%84%E5%92%8C%E5%88%87%E7%89%87/ class=prev rel=prev title=Go数组和切片><i class="fas fa-angle-left fa-fw" aria-hidden=true></i>Go数组和切片</a>
+<a href=/2022/08/jenkins%E6%9E%84%E5%BB%BA%E5%90%8E%E6%89%A7%E8%A1%8C%E8%84%9A%E6%9C%AC/ class=next rel=next title=Jenkins构建后执行脚本>Jenkins构建后执行脚本<i class="fas fa-angle-right fa-fw" aria-hidden=true></i></a></div></div><div id=comments><div id=giscus class=comment></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://giscus.app>Giscus</a>.</noscript></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line itemscope itemtype=http://schema.org/CreativeWork><i class="far fa-copyright fa-fw" aria-hidden=true></i><span itemprop=copyrightYear>2022 - 2024</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=/ target=_blank>Joker desire</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div></div></footer></div><div id=fixed-buttons><a href=# id=back-to-top class=fixed-button title=回到顶部><i class="fas fa-arrow-up fa-fw" aria-hidden=true></i>
+</a><a href=# id=view-comments class=fixed-button title=查看评论><i class="fas fa-comment fa-fw" aria-hidden=true></i></a></div><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/lightgallery@2.4.0/css/lightgallery-bundle.min.css><script type=text/javascript src=https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/algoliasearch@4.13.1/dist/algoliasearch-lite.umd.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lazysizes@5.3.1/lazysizes.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lightgallery@2.4.0/lightgallery.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lightgallery@2.4.0/plugins/thumbnail/lg-thumbnail.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lightgallery@2.4.0/plugins/zoom/lg-zoom.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js></script><script type=text/javascript>window.config={code:{copyTitle:"复制到剪贴板",maxShownLines:50},comment:{giscus:{category:"Announcements",categoryId:"DIC_kwDOHfPihs4CPp7X",darkTheme:"dark",emitMetadata:"0",inputPosition:"top",lang:"zh-CN",lazyLoading:!1,lightTheme:"light",mapping:"pathname",reactionsEnabled:"1",repo:"Joker-desire/store-comments",repoId:"R_kgDOHfPihg"}},lightgallery:!0,search:{algoliaAppID:"R6OIVCXBNU",algoliaIndex:"Joker-desire",algoliaSearchKey:"07e68b90760663e43882d4a48e00e932",highlightTag:"em",maxResultLength:10,noResultsFound:"没有找到结果",snippetLength:30,type:"algolia"}}</script><script type=text/javascript src=/js/theme.min.js></script></body></html>
