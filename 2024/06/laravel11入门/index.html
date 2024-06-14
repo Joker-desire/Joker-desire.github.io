@@ -1,0 +1,246 @@
+<!doctype html><html lang=zh-cn><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><title>Laravel 11.x 入门 - Joker-desire's Blog</title><meta name=Description content="为什么要努力？ 因为我喜欢的东西都很贵，我想去的地方都很远，我爱的人超完美。"><meta property="og:url" content="https://Joker-desire.github.io/2024/06/laravel11%E5%85%A5%E9%97%A8/">
+<meta property="og:site_name" content="Joker-desire's Blog"><meta property="og:title" content="Laravel 11.x 入门"><meta property="og:description" content="Laravel 11 Laravel 11 通过引入简化的应用程序结构、每秒速率限制、健康路由、优雅的加密密钥轮换、队列测试改进、重新发送邮件传输、提示验证器集成、新的 Artisan 命令等"><meta property="og:locale" content="zh_cn"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2024-06-13T14:38:31+08:00"><meta property="article:modified_time" content="2024-06-13T14:38:31+08:00"><meta property="article:tag" content="PHP"><meta property="article:tag" content="Laravel"><meta property="og:image" content="https://Joker-desire.github.io/logo.png"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://Joker-desire.github.io/logo.png"><meta name=twitter:title content="Laravel 11.x 入门"><meta name=twitter:description content="Laravel 11 Laravel 11 通过引入简化的应用程序结构、每秒速率限制、健康路由、优雅的加密密钥轮换、队列测试改进、重新发送邮件传输、提示验证器集成、新的 Artisan 命令等"><meta name=application-name content="Joker-desire"><meta name=apple-mobile-web-app-title content="Joker-desire"><meta name=theme-color content="#ffffff"><meta name=msapplication-TileColor content="#da532c"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://Joker-desire.github.io/2024/06/laravel11%E5%85%A5%E9%97%A8/><link rel=prev href=https://Joker-desire.github.io/2023/10/chatgpt%E6%8F%90%E9%97%AE%E8%89%BA%E6%9C%AF/><link rel=stylesheet href=/css/style.min.css><link rel=preload href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css></noscript><link rel=preload href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css></noscript><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"Laravel 11.x 入门","inLanguage":"zh-cn","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/Joker-desire.github.io\/2024\/06\/laravel11%E5%85%A5%E9%97%A8\/"},"genre":"posts","keywords":"PHP, Laravel","wordcount":3295,"url":"https:\/\/Joker-desire.github.io\/2024\/06\/laravel11%E5%85%A5%E9%97%A8\/","datePublished":"2024-06-13T14:38:31+08:00","dateModified":"2024-06-13T14:38:31+08:00","publisher":{"@type":"Organization","name":""},"author":{"@type":"Person","name":"Joker-desire"},"description":""}</script></head><body data-header-desktop=fixed data-header-mobile=auto><script type=text/javascript>(window.localStorage&&localStorage.getItem("theme")?localStorage.getItem("theme")==="dark":"auto"==="auto"?window.matchMedia("(prefers-color-scheme: dark)").matches:"auto"==="dark")&&document.body.setAttribute("theme","dark")</script><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title="Joker-desire's Blog"><span class=header-title-pre><i class='far fa-kiss-wink-heart fa-fw' aria-hidden=true></i></span>welcome</a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts title=所有文章>所有文章 </a><a class=menu-item href=/categories title=分类>分类 </a><a class=menu-item href=/tags title=标签>标签 </a><a class=menu-item href=/about title=关于>关于 </a><a class=menu-item href=https://github.com/Joker-desire title=GitHub rel="noopener noreffer" target=_blank><i class='fab fa-github fa-fw' aria-hidden=true></i> </a><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop>
+<input type=text placeholder=搜索文章标题或内容... id=search-input-desktop>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-desktop title=搜索><i class="fas fa-search fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-desktop title=清空><i class="fas fa-times-circle fa-fw" aria-hidden=true></i>
+</a><span class="search-button search-loading" id=search-loading-desktop><i class="fas fa-spinner fa-fw fa-spin" aria-hidden=true></i>
+</span></span><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题><i class="fas fa-adjust fa-fw" aria-hidden=true></i></a></div></div></div></header><header class=mobile id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title="Joker-desire's Blog"><span class=header-title-pre><i class='far fa-kiss-wink-heart fa-fw' aria-hidden=true></i></span>welcome</a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><div class=search-wrapper><div class="search mobile" id=search-mobile><input type=text placeholder=搜索文章标题或内容... id=search-input-mobile>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-mobile title=搜索><i class="fas fa-search fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-mobile title=清空><i class="fas fa-times-circle fa-fw" aria-hidden=true></i>
+</a><span class="search-button search-loading" id=search-loading-mobile><i class="fas fa-spinner fa-fw fa-spin" aria-hidden=true></i></span></div><a href=javascript:void(0); class=search-cancel id=search-cancel-mobile>取消</a></div><a class=menu-item href=/posts title=所有文章>所有文章</a><a class=menu-item href=/categories title=分类>分类</a><a class=menu-item href=/tags title=标签>标签</a><a class=menu-item href=/about title=关于>关于</a><a class=menu-item href=https://github.com/Joker-desire title=GitHub rel="noopener noreffer" target=_blank><i class='fab fa-github fa-fw' aria-hidden=true></i></a><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题>
+<i class="fas fa-adjust fa-fw" aria-hidden=true></i></a></div></div></header><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div><main class=main><div class=container><div class=toc id=toc-auto><h2 class=toc-title>目录</h2><div class=toc-content id=toc-content-auto></div></div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Laravel 11.x 入门</h1><div class=post-meta><div class=post-meta-line><span class=post-author><a href=/ title=Author rel=author class=author><i class="fas fa-user-circle fa-fw" aria-hidden=true></i>Joker-desire</a></span>&nbsp;<span class=post-category>收录于 <a href=/categories/php/><i class="far fa-folder fa-fw" aria-hidden=true></i>PHP</a>&nbsp;<a href=/categories/laravel/><i class="far fa-folder fa-fw" aria-hidden=true></i>Laravel</a></span></div><div class=post-meta-line><i class="far fa-calendar-alt fa-fw" aria-hidden=true></i>&nbsp;<time datetime=2024年06月13日>2024年06月13日</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden=true></i>&nbsp;约 3295 字&nbsp;
+<i class="far fa-clock fa-fw" aria-hidden=true></i>&nbsp;预计阅读 7 分钟&nbsp;</div></div><div class="details toc" id=toc-static data-kept><div class="details-summary toc-title"><span>目录</span>
+<span><i class="details-icon fas fa-angle-right" aria-hidden=true></i></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><a href=#laravel-11>Laravel 11</a></li><li><a href=#installation>Installation</a><ul><li><a href=#创建-laravel-项目>创建 Laravel 项目</a></li></ul></li><li><a href=#configuration>Configuration</a><ul><li><a href=#环境配置>环境配置</a></li><li><a href=#环境文件安全>环境文件安全</a></li><li><a href=#访问配置值>访问配置值</a></li><li><a href=#配置缓存>配置缓存</a></li><li><a href=#配置发布>配置发布</a></li></ul></li><li><a href=#目录结构>目录结构</a><ul><li><ul><li><a href=#根目录>根目录</a></li><li><a href=#app-目录文件生成命令>App 目录文件生成命令</a><ul><li><a href=#命令汇总>命令汇总</a></li></ul></li></ul></li></ul></li><li><a href=#部署>部署</a><ul><li><a href=#服务器要求>服务器要求</a></li><li><a href=#服务器配置>服务器配置</a><ul><li><a href=#nginx>Nginx</a></li><li><a href=#frankenphp>FrankenPHP</a></li></ul></li><li><a href=#优化>优化</a></li><li><a href=#缓存>缓存</a><ul><li><a href=#config-缓存>Config 缓存</a></li><li><a href=#event-缓存>Event 缓存</a></li><li><a href=#routes-缓存>Routes 缓存</a></li><li><a href=#views-缓存>Views 缓存</a></li></ul></li><li><a href=#debug-模式>Debug 模式</a></li><li><a href=#健康路由>健康路由</a></li></ul></li></ul></nav></div></div><div class=content id=content><h1 id=laravel-11>Laravel 11</h1><p>Laravel 11 通过引入简化的应用程序结构、每秒速率限制、健康路由、优雅的加密密钥轮换、队列测试改进、重新发送邮件传输、提示验证器集成、新的 Artisan 命令等功能，继续改进了 Laravel 10.x 版本。此外，Laravel Reverb，一个官方推出的可扩展 WebSocket 服务器，为您的应用程序提供了强大的实时功能。</p><p><strong>Laravel 11.x 最低要求 PHP 版本为 8.2。</strong></p><h1 id=installation>Installation</h1><h2 id=创建-laravel-项目>创建 Laravel 项目</h2><p><strong>前提：需要安装 PHP 和 Composer</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=c1># 方式一（通过 Composer create-project命令创建）：</span>
+</span></span><span class=line><span class=cl>composer create-project laravel/laravel example-app
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 方式二（通过Composer全局安装Laravel安装程序进行创建）：</span>
+</span></span><span class=line><span class=cl>composer global require laravel/installer
+</span></span><span class=line><span class=cl>laravel new example-app
+</span></span></code></pre></td></tr></table></div></div><p>通过 Laravel Artisan serve 命令启动本地开发服务器：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=nb>cd</span> example-app
+</span></span><span class=line><span class=cl>php artisan serve
+</span></span></code></pre></td></tr></table></div></div><h1 id=configuration>Configuration</h1><p>Laravel 框架的所有配置文件都存储在 <code>config</code> 目录中。</p><blockquote><p>about Artisan 命令可以进行查看应用程序的配置、驱动程序和环境的概述。</p><p>可以通过 <code>--only</code> 选项筛选指定部分</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>php artisan about
+</span></span><span class=line><span class=cl>php artisan about --only<span class=o>=</span>environment
+</span></span></code></pre></td></tr></table></div></div><blockquote><p>需要浏览更详细配置文件的值，可以使用 <code>config:show</code> Artisan 命令</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>php artisan config:show database
+</span></span></code></pre></td></tr></table></div></div><h2 id=环境配置>环境配置</h2><p>在全新 Laravel 安装中，应用程序的根目录将包含一个<code>.env.example</code> 定义许多常见环境变量的文件。在安装过程中，此文件将自动复制到<code>.env</code>。</p><p>目录中的<code>config</code> 配置文件使用 Laravel <code>env</code> 函数进行读取（e: <code>env('APP_DEBUG', false)</code> ）。</p><blockquote><p>注意：<code>.env</code>文件中的任何变量都可以被外部环境变量（如服务器级或系统级环境变量）覆盖。</p></blockquote><p>在加载应用程序的环境变量之前，Laravel 会确定是否已从外部提供 <code>APP_ENV</code>环境变量或者是否指定了 <code>--env</code> CLI 参数。如果有指定，Laravel 将尝试加载文件 <code>.env.[APP_ENV]</code>，如果不存在则将加载默认<code>.env</code>文件。</p><h2 id=环境文件安全>环境文件安全</h2><p><code>.env</code>文件不应该提交到应用程序的源代码管理，如果泄漏，任何敏感凭证都会暴露。</p><p>但是，可以使用 Laravel 的内置环境加密来加密文件。加密后的可以安全的放置在源代码管理中。</p><blockquote><p><code>env:encrypt</code> 命令加密环境文件，加密后的内容放入<code>.env.encrypted</code>文件中。</p><p>解密密钥显示在命令的输出中，应存储在安全的密码管理器中。</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>php artisan env:encrypt
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 可以提供加密密钥，通过 --key 选项</span>
+</span></span><span class=line><span class=cl>php artisan env:encrypt --key<span class=o>=</span>3UVsEgGVK36XN82KKeyLFMhvosbZN1aF
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 有多个环境文件（.env / .env.staging），可以通过 --env 来指定</span>
+</span></span><span class=line><span class=cl>php artisan env:encrypt --env<span class=o>=</span>staging
+</span></span></code></pre></td></tr></table></div></div><blockquote><p><code>env:decrypt</code> 命令解密环境文件。</p><p>默认将从<code>LARAVEL_ENV_ENCRYPTION_KEY</code> 环境变量中检索该密钥</p><p>也可以通过 <code>--key</code> 选项直接向命令提供密钥</p><p>解密后的文件内容保存在<code>.env</code>文件中</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>php artisan env:decrypt
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>php artisan env:decrypt --key<span class=o>=</span>3UVsEgGVK36XN82KKeyLFMhvosbZN1aF
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 有多个环境文件（.env / .env.staging），可以通过 --env 来指定</span>
+</span></span><span class=line><span class=cl>php artisan env:decrypt --env<span class=o>=</span>staging
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 要覆盖现有环境文件，可以通过 --force 选项</span>
+</span></span><span class=line><span class=cl>php artisan env:decrypt --force
+</span></span></code></pre></td></tr></table></div></div><h2 id=访问配置值>访问配置值</h2><blockquote><p>获取配置值：可以使用<code>Config</code> Facade 或全局 <code>config</code>函数。</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$value</span> <span class=o>=</span> <span class=nx>Config</span><span class=o>::</span><span class=na>get</span><span class=p>(</span><span class=s1>&#39;app.timezone&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nv>$value</span> <span class=o>=</span> <span class=nx>config</span><span class=p>(</span><span class=s1>&#39;app.timezone&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// 如果不存在，则返回默认值
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=nv>$value</span> <span class=o>=</span> <span class=nx>config</span><span class=p>(</span><span class=s1>&#39;app.timezone&#39;</span><span class=p>,</span> <span class=s1>&#39;Asia/Shanghai&#39;</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><blockquote><p>设置配置值：可以使用 <code>Config::set</code> 或将数组传递给<code>config</code>函数</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>Config</span><span class=o>::</span><span class=na>set</span><span class=p>(</span><span class=s1>&#39;app.timezone&#39;</span><span class=p>,</span> <span class=s1>&#39;Asia/Shanghai&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nx>config</span><span class=p>([</span><span class=s1>&#39;app.timezone&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;Asia/Shanghai&#39;</span><span class=p>]);</span>
+</span></span></code></pre></td></tr></table></div></div><blockquote><p>类型化配置检索，如果检索到的配置值与预期不匹配，则会引发异常</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>Config</span><span class=o>::</span><span class=na>string</span><span class=p>(</span><span class=s1>&#39;config-key&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=nx>Config</span><span class=o>::</span><span class=na>integer</span><span class=p>(</span><span class=s1>&#39;config-key&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=nx>Config</span><span class=o>::</span><span class=na>float</span><span class=p>(</span><span class=s1>&#39;config-key&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=nx>Config</span><span class=o>::</span><span class=na>boolean</span><span class=p>(</span><span class=s1>&#39;config-key&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=nx>Config</span><span class=o>::</span><span class=na>array</span><span class=p>(</span><span class=s1>&#39;config-key&#39;</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=配置缓存>配置缓存</h2><blockquote><p><code>config:cache</code> Artisan命令将所有配置文件缓存到单个文件中。</p><p>这会将应用程序的所有配置选项合并到一个文件中，框架可以加速加载该文件。</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>php artisan config:cache
+</span></span></code></pre></td></tr></table></div></div><blockquote><p><code>config:clear</code> 用于清除缓存的配置</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>php artisan config:clear
+</span></span></code></pre></td></tr></table></div></div><h2 id=配置发布>配置发布</h2><p>Laravel的大多数配置文件已经发布在应用程序的 config 目录中，然而，像 <code>cors.php</code> 和 <code>view.php</code> 这样的一些配置文件默认情况下并不会发布，因为大多数应用程序从不需要修改它们。</p><p>不过，可以使用 <code>config:publish</code> Artisan 命令来发布那些默认未发布的配置文件：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>php artisan config:publish
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl>php artisan config:publish --all
+</span></span></code></pre></td></tr></table></div></div><h1 id=目录结构>目录结构</h1><h3 id=根目录>根目录</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-lua data-lang=lua><span class=line><span class=cl><span class=err>项目根目录</span>
+</span></span><span class=line><span class=cl><span class=o>|--</span> <span class=n>app</span> <span class=p>(</span><span class=err>用于存放应用程序核心代码</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=o>|--</span> <span class=n>bootstrap</span>
+</span></span><span class=line><span class=cl><span class=o>|</span>   <span class=o>|--</span> <span class=n>cache</span> <span class=p>(</span><span class=err>用于存放框架生成的文件以进行性能优化，比如路由和服务缓存文件</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=o>|</span>   <span class=o>|--</span> <span class=n>app.php</span> <span class=p>(</span><span class=err>初始化框架</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=o>|--</span> <span class=n>config</span> <span class=p>(</span><span class=err>用于存放所有应用程序的配置文件</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=o>|--</span> <span class=n>database</span> <span class=p>(</span><span class=err>包含数据库迁移文件、模型工厂和种子文件。也可以存放</span><span class=n>SQLite数据库文件</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=o>|--</span> <span class=n>public</span>
+</span></span><span class=line><span class=cl><span class=o>|</span>   <span class=o>|--</span> <span class=n>index.php</span> <span class=p>(</span><span class=err>进入应用程序的所有请求的入口，并配置了自动加载</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=o>|</span>   <span class=o>|--</span> <span class=n>Other</span> <span class=p>(</span><span class=err>存放资源文件，如：图片、</span><span class=n>JS和CSS</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=o>|--</span> <span class=n>resources</span> <span class=p>(</span><span class=err>存放视图以及原始的、未编译的资产，例如：</span><span class=n>CSS或JS</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=o>|--</span> <span class=n>routes</span> <span class=p>(</span><span class=err>包含应用程序的所有路由定义</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=o>|</span>   <span class=o>|--</span> <span class=n>web.php</span> <span class=p>(</span><span class=err>包含</span><span class=n>Laravel放置在web中间件组中的路由</span><span class=err>，该中间件组提供会话状态、</span><span class=n>CSRF</span> <span class=err>保护和</span> <span class=n>Cookie</span> <span class=err>加密</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=o>|</span>   <span class=o>|--</span> <span class=n>console.php</span> <span class=p>(</span><span class=err>包含所有基于闭包的控制台命令</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=o>|--</span> <span class=n>storage</span> 
+</span></span><span class=line><span class=cl><span class=o>|</span>   <span class=o>|--</span> <span class=n>app</span> <span class=p>(</span><span class=err>用于存储应用程序生成的任何文件</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=o>|</span>   <span class=o>|</span>   <span class=o>|--</span> <span class=n>public</span> <span class=p>(</span><span class=err>可用于存储用户生成的文件，例如配置文件头像，这些文件是可公开访问的</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=o>|</span>   <span class=o>|--</span> <span class=n>framework</span> <span class=p>(</span><span class=err>用于存储框架生成的文件和缓存</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=o>|</span>   <span class=o>|--</span> <span class=n>logs</span> <span class=p>(</span><span class=err>包含应用程序的日志文件</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=o>|--</span> <span class=n>tests</span> <span class=p>(</span><span class=err>用于自动化测试</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=o>|--</span> <span class=n>vendor</span> <span class=p>(</span><span class=err>包含</span><span class=n>Composer依赖项</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=app-目录文件生成命令>App 目录文件生成命令</h3><p><code>app</code>目录中许多类都可以由Artisan通过命令生成</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=c1># 查看可用命令</span>
+</span></span><span class=line><span class=cl>php artisan list make
+</span></span></code></pre></td></tr></table></div></div><h4 id=命令汇总>命令汇总</h4><table><thead><tr><th style=text-align:left>命令</th><th>描述</th></tr></thead><tbody><tr><td style=text-align:left><code>make:cache-table</code></td><td>[cache:table] 创建缓存数据库表的迁移文件</td></tr><tr><td style=text-align:left><code>make:cast</code></td><td>创建一个新的自定义 Eloquent 类型转换类</td></tr><tr><td style=text-align:left><code>make:channel</code></td><td>创建一个新的通道类</td></tr><tr><td style=text-align:left><code>make:class</code></td><td>创建一个新的类</td></tr><tr><td style=text-align:left><code>make:command</code></td><td>创建一个新的 Artisan 命令</td></tr><tr><td style=text-align:left><code>make:component</code></td><td>创建一个新的视图组件类</td></tr><tr><td style=text-align:left><code>make:controller</code></td><td>创建一个新的控制器类</td></tr><tr><td style=text-align:left><code>make:enum</code></td><td>创建一个新的枚举</td></tr><tr><td style=text-align:left><code>make:event</code></td><td>创建一个新的事件类</td></tr><tr><td style=text-align:left><code>make:exception</code></td><td>创建一个新的自定义异常类</td></tr><tr><td style=text-align:left><code>make:factory</code></td><td>创建一个新的模型工厂</td></tr><tr><td style=text-align:left><code>make:interface</code></td><td>创建一个新的接口</td></tr><tr><td style=text-align:left><code>make:job</code></td><td>创建一个新的任务类</td></tr><tr><td style=text-align:left><code>make:listener</code></td><td>创建一个新的事件监听器类</td></tr><tr><td style=text-align:left><code>make:mail</code></td><td>创建一个新的邮件类</td></tr><tr><td style=text-align:left><code>make:middleware</code></td><td>创建一个新的中间件类</td></tr><tr><td style=text-align:left><code>make:migration</code></td><td>创建一个新的迁移文件</td></tr><tr><td style=text-align:left><code>make:model</code></td><td>创建一个新的 Eloquent 模型类</td></tr><tr><td style=text-align:left><code>make:notification</code></td><td>创建一个新的通知类</td></tr><tr><td style=text-align:left><code>make:notifications-table</code></td><td>[notifications:table] 创建通知表的迁移文件</td></tr><tr><td style=text-align:left><code>make:observer</code></td><td>创建一个新的观察者类</td></tr><tr><td style=text-align:left><code>make:policy</code></td><td>创建一个新的策略类</td></tr><tr><td style=text-align:left><code>make:provider</code></td><td>创建一个新的服务提供者类</td></tr><tr><td style=text-align:left><code>make:queue-batches-table</code></td><td>[queue:batches-table] 创建批处理数据库表的迁移文件</td></tr><tr><td style=text-align:left><code>make:queue-failed-table</code></td><td>[queue:failed-table] 创建失败队列任务数据库表的迁移文件</td></tr><tr><td style=text-align:left><code>make:queue-table</code></td><td>[queue:table] 创建队列任务数据库表的迁移文件</td></tr><tr><td style=text-align:left><code>make:request</code></td><td>创建一个新的表单请求类</td></tr><tr><td style=text-align:left><code>make:resource</code></td><td>创建一个新的资源</td></tr><tr><td style=text-align:left><code>make:rule</code></td><td>创建一个新的验证规则</td></tr><tr><td style=text-align:left><code>make:scope</code></td><td>创建一个新的作用域类</td></tr><tr><td style=text-align:left><code>make:seeder</code></td><td>创建一个新的数据库填充类</td></tr><tr><td style=text-align:left><code>make:session-table</code></td><td>[session:table] 创建会话数据库表的迁移文件</td></tr><tr><td style=text-align:left><code>make:test</code></td><td>创建一个新的测试类</td></tr><tr><td style=text-align:left><code>make:trait</code></td><td>创建一个新的特性</td></tr><tr><td style=text-align:left><code>make:view</code></td><td>创建一个新的视图</td></tr></tbody></table><h1 id=部署>部署</h1><h2 id=服务器要求>服务器要求</h2><ul><li>PHP >= 8.2</li><li>Ctype PHP Extension</li><li>cURL PHP Extension</li><li>DOM PHP Extension</li><li>Fileinfo PHP Extension</li><li>Filter PHP Extension</li><li>Hash PHP Extension</li><li>Mbstring PHP Extension</li><li>OpenSSL PHP Extension</li><li>PCRE PHP Extension</li><li>PDO PHP Extension</li><li>Session PHP Extension</li><li>Tokenizer PHP Extension</li><li>XML PHP Extension</li></ul><h2 id=服务器配置>服务器配置</h2><h3 id=nginx>Nginx</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-yml data-lang=yml><span class=line><span class=cl><span class=l>server {</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=l>listen 80;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=l>listen [::]:80;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=l>server_name example.com;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=l>root /srv/example.com/public;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w> 
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=l>add_header X-Frame-Options &#34;SAMEORIGIN&#34;;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=l>add_header X-Content-Type-Options &#34;nosniff&#34;;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w> 
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=l>index index.php;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w> 
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=l>charset utf-8;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w> 
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=l>location / {</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=l>try_files $uri $uri/ /index.php?$query_string;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span>}<span class=w>
+</span></span></span><span class=line><span class=cl><span class=w> 
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=l>location = /favicon.ico { access_log off; log_not_found off; }</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=l>location = /robots.txt  { access_log off; log_not_found off; }</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w> 
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=l>error_page 404 /index.php;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w> 
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=l>location ~ \.php$ {</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=l>fastcgi_pass unix:/var/run/php/php8.2-fpm.sock;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=l>fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=l>include fastcgi_params;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=l>fastcgi_hide_header X-Powered-By;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span>}<span class=w>
+</span></span></span><span class=line><span class=cl><span class=w> 
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=l>location ~ /\.(?!well-known).* {</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=l>deny all;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span>}<span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span>}<span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><h3 id=frankenphp>FrankenPHP</h3><p><a href=https://frankenphp.dev/ target=_blank rel="noopener noreffer">FrankenPHP</a> 是一个用 Go 编写的现代 PHP 应用程序服务器。为 Laravel PHP 应用程序提供服务，只需调用其<code>php-server</code>命令：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>frankenphp php-server -r public/
+</span></span></code></pre></td></tr></table></div></div><h2 id=优化>优化</h2><p>将应用程序部署到生产环境时，有多种文件应进行缓存，包括：配置、事件、路由和视图。</p><p>Laravel 提供了一个单一且方便的<code>optimize</code> Artisan命令，可以缓存所有这些文件。</p><p>通常应该作为应用程序部署过程的一部分来调用：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>php artisan optimize
+</span></span><span class=line><span class=cl><span class=c1># 清除所有缓存</span>
+</span></span><span class=line><span class=cl>php artisan optimize:clear
+</span></span></code></pre></td></tr></table></div></div><h2 id=缓存>缓存</h2><h3 id=config-缓存>Config 缓存</h3><blockquote><p><code>config:cache</code>命令，将配置进行缓存。</p><p>这样会将所有配置文件合并到一个缓存文件中，这极大地减少了框架在加载配置值时访问文件系统的次数。</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>php artisan config:cache
+</span></span></code></pre></td></tr></table></div></div><p><strong>注意：使用此命令，应确保只在配置文件中调用了<code>env</code>函数。因为一旦配置被缓存，<code>.env</code>文件将不会被加载，所有对<code>.env</code>变量的<code>env</code>函数调用将返回<code>null</code>。</strong></p><h3 id=event-缓存>Event 缓存</h3><blockquote><p><code>event:cache</code>命令，在部署过程中缓存应用程序自动发现的事件到监听器的映射。</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>php artisan event:cache
+</span></span></code></pre></td></tr></table></div></div><h3 id=routes-缓存>Routes 缓存</h3><blockquote><p><code>route:cache</code>命令，将所有的路由注册简化为在一个缓存文件中的单个方法调用，从而在注册数百个路由时提高路由注册的性能。</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>php artisan route:cache
+</span></span></code></pre></td></tr></table></div></div><h3 id=views-缓存>Views 缓存</h3><blockquote><p><code>view:cache</code>命令，该命令会预编译所有的 Blade 视图，因此它们不会在需要时即时编译，从而提高返回视图的每个请求的性能。</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>php artisan view:cache
+</span></span></code></pre></td></tr></table></div></div><h2 id=debug-模式>Debug 模式</h2><p><code>config/app.php</code> 配置文件中的 debug 选项决定了实际向用户显示多少关于错误的信息。</p><p>默认情况下，该选项设置为遵循存储在应用程序 <code>.env</code> 文件中的 <code>APP_DEBUG</code> 环境变量的值。</p><p><strong>注意：在生产环境中，此值应始终为false。</strong></p><h2 id=健康路由>健康路由</h2><p>Laravel 包含一个内置的健康检查路由，可以用来监控应用程序状态。</p><p>在生产环境中，这个路由可以用来向正常运行时间监控器、负载均衡器或者像 Kubernetes 这样的编排系统报告您的应用程序状态。</p><p>默认情况下，健康检查路由提供于 <code>/up</code>，如果应用程序启动时没有异常，则会返回 200 HTTP 响应。否则，会返回 500 HTTP 响应。</p><p>可以在应用程序的 <code>bootstrap/app</code> 文件中配置此路由的 URI：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=o>-&gt;</span><span class=na>withRouting</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=nx>web</span><span class=o>:</span> <span class=no>__DIR__</span><span class=o>.</span><span class=s1>&#39;/../routes/web.php&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=nx>commands</span><span class=o>:</span> <span class=no>__DIR__</span><span class=o>.</span><span class=s1>&#39;/../routes/console.php&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// health: &#39;/up&#39;, 
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=nx>health</span><span class=o>:</span> <span class=s1>&#39;/status&#39;</span><span class=p>,</span> 
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><p>当向此路由发出 HTTP 请求时，Laravel 还会调度一个 <code>Illuminate\Foundation\Events\DiagnosingHealth</code> 事件，允许执行与应用程序相关的额外健康检查。</p><p>在此事件的监听器中，可以检查应用程序的数据库或缓存状态。如果检测到应用程序有问题，可以直接在监听器中抛出一个异常。</p></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>更新于 2024年06月13日</span></div></div><div class=post-info-line><div class=post-info-md><span><a class=link-to-markdown href=/2024/06/laravel11%E5%85%A5%E9%97%A8/index.md target=_blank>阅读原始文档</a></span></div><div class=post-info-share><span><a href=javascript:void(0); title="分享到 Twitter" data-sharer=twitter data-url=https://Joker-desire.github.io/2024/06/laravel11%E5%85%A5%E9%97%A8/ data-title="Laravel 11.x 入门" data-hashtags=PHP,Laravel><i class="fab fa-twitter fa-fw" aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 Facebook" data-sharer=facebook data-url=https://Joker-desire.github.io/2024/06/laravel11%E5%85%A5%E9%97%A8/ data-hashtag=PHP><i class="fab fa-facebook-square fa-fw" aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 Hacker News" data-sharer=hackernews data-url=https://Joker-desire.github.io/2024/06/laravel11%E5%85%A5%E9%97%A8/ data-title="Laravel 11.x 入门"><i class="fab fa-hacker-news fa-fw" aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 Line" data-sharer=line data-url=https://Joker-desire.github.io/2024/06/laravel11%E5%85%A5%E9%97%A8/ data-title="Laravel 11.x 入门"><i data-svg-src=https://cdn.jsdelivr.net/npm/simple-icons@7.0.0/icons/line.svg aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 微博" data-sharer=weibo data-url=https://Joker-desire.github.io/2024/06/laravel11%E5%85%A5%E9%97%A8/ data-title="Laravel 11.x 入门"><i class="fab fa-weibo fa-fw" aria-hidden=true></i></a></span></div></div></div><div class=post-info-more><section class=post-tags><i class="fas fa-tags fa-fw" aria-hidden=true></i>&nbsp;<a href=/tags/php/>PHP</a>,&nbsp;<a href=/tags/laravel/>Laravel</a></section><section><span><a href=javascript:void(0); onclick=window.history.back()>返回</a></span>&nbsp;|&nbsp;<span><a href=/>主页</a></span></section></div><div class=post-nav><a href=/2023/10/chatgpt%E6%8F%90%E9%97%AE%E8%89%BA%E6%9C%AF/ class=prev rel=prev title="ChatGPT 提问的艺术"><i class="fas fa-angle-left fa-fw" aria-hidden=true></i>ChatGPT 提问的艺术</a></div></div><div id=comments><div id=giscus class=comment></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://giscus.app>Giscus</a>.</noscript></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line itemscope itemtype=http://schema.org/CreativeWork><i class="far fa-copyright fa-fw" aria-hidden=true></i><span itemprop=copyrightYear>2022 - 2024</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=/ target=_blank>Joker desire</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div></div></footer></div><div id=fixed-buttons><a href=# id=back-to-top class=fixed-button title=回到顶部><i class="fas fa-arrow-up fa-fw" aria-hidden=true></i>
+</a><a href=# id=view-comments class=fixed-button title=查看评论><i class="fas fa-comment fa-fw" aria-hidden=true></i></a></div><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/lightgallery@2.4.0/css/lightgallery-bundle.min.css><script type=text/javascript src=https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/algoliasearch@4.13.1/dist/algoliasearch-lite.umd.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lazysizes@5.3.1/lazysizes.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lightgallery@2.4.0/lightgallery.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lightgallery@2.4.0/plugins/thumbnail/lg-thumbnail.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lightgallery@2.4.0/plugins/zoom/lg-zoom.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js></script><script type=text/javascript>window.config={code:{copyTitle:"复制到剪贴板",maxShownLines:50},comment:{giscus:{category:"Announcements",categoryId:"DIC_kwDOHfPihs4CPp7X",darkTheme:"dark",emitMetadata:"0",inputPosition:"top",lang:"zh-CN",lazyLoading:!1,lightTheme:"light",mapping:"pathname",reactionsEnabled:"1",repo:"Joker-desire/store-comments",repoId:"R_kgDOHfPihg"}},lightgallery:!0,search:{algoliaAppID:"R6OIVCXBNU",algoliaIndex:"Joker-desire",algoliaSearchKey:"07e68b90760663e43882d4a48e00e932",highlightTag:"em",maxResultLength:10,noResultsFound:"没有找到结果",snippetLength:30,type:"algolia"}}</script><script type=text/javascript src=/js/theme.min.js></script></body></html>
