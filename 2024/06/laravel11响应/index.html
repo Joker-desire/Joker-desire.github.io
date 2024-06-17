@@ -1,0 +1,287 @@
+<!doctype html><html lang=zh-cn><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><title>Laravel 11.x 响应 - Joker-desire's Blog</title><meta name=Description content="为什么要努力？ 因为我喜欢的东西都很贵，我想去的地方都很远，我爱的人超完美。"><meta property="og:url" content="https://Joker-desire.github.io/2024/06/laravel11%E5%93%8D%E5%BA%94/">
+<meta property="og:site_name" content="Joker-desire's Blog"><meta property="og:title" content="Laravel 11.x 响应"><meta property="og:description" content="原文 创建响应 字符串和数组 Laravel框架会自动将字符串转换为完整的HTTP相应： 1 2 3 Route::get('/', function () { return 'Hello World'; }); 会自动将数组转换为JSON响应： 1 2"><meta property="og:locale" content="zh_cn"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2024-06-16T21:31:49+08:00"><meta property="article:modified_time" content="2024-06-16T21:31:49+08:00"><meta property="article:tag" content="PHP"><meta property="article:tag" content="Laravel"><meta property="og:image" content="https://Joker-desire.github.io/logo.png"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://Joker-desire.github.io/logo.png"><meta name=twitter:title content="Laravel 11.x 响应"><meta name=twitter:description content="原文 创建响应 字符串和数组 Laravel框架会自动将字符串转换为完整的HTTP相应： 1 2 3 Route::get('/', function () { return 'Hello World'; }); 会自动将数组转换为JSON响应： 1 2"><meta name=application-name content="Joker-desire"><meta name=apple-mobile-web-app-title content="Joker-desire"><meta name=theme-color content="#ffffff"><meta name=msapplication-TileColor content="#da532c"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://Joker-desire.github.io/2024/06/laravel11%E5%93%8D%E5%BA%94/><link rel=prev href=https://Joker-desire.github.io/2024/06/laravel11%E8%AF%B7%E6%B1%82/><link rel=next href=https://Joker-desire.github.io/2024/06/laravel11%E4%BC%9A%E8%AF%9D/><link rel=stylesheet href=/css/style.min.css><link rel=preload href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css></noscript><link rel=preload href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css></noscript><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"Laravel 11.x 响应","inLanguage":"zh-cn","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/Joker-desire.github.io\/2024\/06\/laravel11%E5%93%8D%E5%BA%94\/"},"genre":"posts","keywords":"PHP, Laravel","wordcount":2532,"url":"https:\/\/Joker-desire.github.io\/2024\/06\/laravel11%E5%93%8D%E5%BA%94\/","datePublished":"2024-06-16T21:31:49+08:00","dateModified":"2024-06-16T21:31:49+08:00","publisher":{"@type":"Organization","name":""},"author":{"@type":"Person","name":"Joker-desire"},"description":""}</script></head><body data-header-desktop=fixed data-header-mobile=auto><script type=text/javascript>(window.localStorage&&localStorage.getItem("theme")?localStorage.getItem("theme")==="dark":"auto"==="auto"?window.matchMedia("(prefers-color-scheme: dark)").matches:"auto"==="dark")&&document.body.setAttribute("theme","dark")</script><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title="Joker-desire's Blog"><span class=header-title-pre><i class='far fa-kiss-wink-heart fa-fw' aria-hidden=true></i></span>welcome</a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts title=所有文章>所有文章 </a><a class=menu-item href=/categories title=分类>分类 </a><a class=menu-item href=/tags title=标签>标签 </a><a class=menu-item href=/about title=关于>关于 </a><a class=menu-item href=https://github.com/Joker-desire title=GitHub rel="noopener noreffer" target=_blank><i class='fab fa-github fa-fw' aria-hidden=true></i> </a><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop>
+<input type=text placeholder=搜索文章标题或内容... id=search-input-desktop>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-desktop title=搜索><i class="fas fa-search fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-desktop title=清空><i class="fas fa-times-circle fa-fw" aria-hidden=true></i>
+</a><span class="search-button search-loading" id=search-loading-desktop><i class="fas fa-spinner fa-fw fa-spin" aria-hidden=true></i>
+</span></span><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题><i class="fas fa-adjust fa-fw" aria-hidden=true></i></a></div></div></div></header><header class=mobile id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title="Joker-desire's Blog"><span class=header-title-pre><i class='far fa-kiss-wink-heart fa-fw' aria-hidden=true></i></span>welcome</a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><div class=search-wrapper><div class="search mobile" id=search-mobile><input type=text placeholder=搜索文章标题或内容... id=search-input-mobile>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-mobile title=搜索><i class="fas fa-search fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-mobile title=清空><i class="fas fa-times-circle fa-fw" aria-hidden=true></i>
+</a><span class="search-button search-loading" id=search-loading-mobile><i class="fas fa-spinner fa-fw fa-spin" aria-hidden=true></i></span></div><a href=javascript:void(0); class=search-cancel id=search-cancel-mobile>取消</a></div><a class=menu-item href=/posts title=所有文章>所有文章</a><a class=menu-item href=/categories title=分类>分类</a><a class=menu-item href=/tags title=标签>标签</a><a class=menu-item href=/about title=关于>关于</a><a class=menu-item href=https://github.com/Joker-desire title=GitHub rel="noopener noreffer" target=_blank><i class='fab fa-github fa-fw' aria-hidden=true></i></a><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题>
+<i class="fas fa-adjust fa-fw" aria-hidden=true></i></a></div></div></header><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div><main class=main><div class=container><div class=toc id=toc-auto><h2 class=toc-title>目录</h2><div class=toc-content id=toc-content-auto></div></div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Laravel 11.x 响应</h1><div class=post-meta><div class=post-meta-line><span class=post-author><a href=/ title=Author rel=author class=author><i class="fas fa-user-circle fa-fw" aria-hidden=true></i>Joker-desire</a></span>&nbsp;<span class=post-category>收录于 <a href=/categories/php/><i class="far fa-folder fa-fw" aria-hidden=true></i>PHP</a>&nbsp;<a href=/categories/laravel/><i class="far fa-folder fa-fw" aria-hidden=true></i>Laravel</a></span></div><div class=post-meta-line><i class="far fa-calendar-alt fa-fw" aria-hidden=true></i>&nbsp;<time datetime=2024年06月16日>2024年06月16日</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden=true></i>&nbsp;约 2532 字&nbsp;
+<i class="far fa-clock fa-fw" aria-hidden=true></i>&nbsp;预计阅读 6 分钟&nbsp;</div></div><div class="details toc" id=toc-static data-kept><div class="details-summary toc-title"><span>目录</span>
+<span><i class="details-icon fas fa-angle-right" aria-hidden=true></i></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><ul><li><a href=#创建响应>创建响应</a><ul><li><ul><li><a href=#字符串和数组>字符串和数组</a></li><li><a href=#响应对象>响应对象</a></li><li><a href=#eloquent模型和控制器>Eloquent模型和控制器</a></li></ul></li><li><a href=#将headers附加到响应>将Headers附加到响应</a><ul><li><a href=#缓存控制中间件>缓存控制中间件</a></li></ul></li><li><a href=#将cookie附加到响应>将Cookie附加到响应</a><ul><li><a href=#生成cookie实例>生成Cookie实例</a></li><li><a href=#提前过期cookie>提前过期Cookie</a></li></ul></li><li><a href=#cookie加密>Cookie加密</a></li></ul></li><li><a href=#重定向>重定向</a><ul><li><a href=#重定向到命名路由>重定向到命名路由</a><ul><li><a href=#通过eloquent模型填充参数>通过Eloquent模型填充参数</a></li></ul></li><li><a href=#重定向至控制器操作>重定向至控制器操作</a></li><li><a href=#重定向到外部域>重定向到外部域</a></li><li><a href=#使用闪存的会话数量重定向>使用闪存的会话数量重定向</a><ul><li><a href=#使用输入重定向>使用输入重定向</a></li></ul></li></ul></li><li><a href=#其他响应类型>其他响应类型</a><ul><li><a href=#view-响应>View 响应</a></li><li><a href=#json-响应>JSON 响应</a></li><li><a href=#文件下载>文件下载</a><ul><li><a href=#流下载>流下载</a></li></ul></li><li><a href=#文件响应>文件响应</a></li></ul></li><li><a href=#响应宏>响应宏</a></li></ul></li></ul></nav></div></div><div class=content id=content><hr><p><a href=https://laravel.com/docs/11.x/responses target=_blank rel="noopener noreffer">原文</a></p><hr><h2 id=创建响应>创建响应</h2><h4 id=字符串和数组>字符串和数组</h4><p>Laravel框架会自动将字符串转换为完整的HTTP相应：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>get</span><span class=p>(</span><span class=s1>&#39;/&#39;</span><span class=p>,</span> <span class=k>function</span> <span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=s1>&#39;Hello World&#39;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span></code></pre></td></tr></table></div></div><p>会自动将数组转换为JSON响应：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>get</span><span class=p>(</span><span class=s1>&#39;/&#39;</span><span class=p>,</span> <span class=k>function</span> <span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=p>[</span><span class=mi>1</span><span class=p>,</span> <span class=mi>2</span><span class=p>,</span> <span class=mi>3</span><span class=p>];</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=响应对象>响应对象</h4><p>通过返回完整<code>Response</code>实例，可以自定义相应的HTTP状态码和标头。</p><p><code>Response</code>应继承自<code>Symfony\Component\HttpFoundation\Response</code>类</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>get</span><span class=p>(</span><span class=s1>&#39;/home&#39;</span><span class=p>,</span> <span class=k>function</span> <span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nx>response</span><span class=p>(</span><span class=s1>&#39;Hello World&#39;</span><span class=p>,</span> <span class=mi>200</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>                  <span class=o>-&gt;</span><span class=na>header</span><span class=p>(</span><span class=s1>&#39;Content-Type&#39;</span><span class=p>,</span> <span class=s1>&#39;text/plain&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=eloquent模型和控制器>Eloquent模型和控制器</h4><p>可以直接从路由和控制器返回Eloquent ORM模型和集合。会自动将模型和集合转换为JSON响应，同时遵循模型的隐藏属性：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>App\Models\User</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>get</span><span class=p>(</span><span class=s1>&#39;/user/{user}&#39;</span><span class=p>,</span> <span class=k>function</span> <span class=p>(</span><span class=nx>User</span> <span class=nv>$user</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nv>$user</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=将headers附加到响应>将Headers附加到响应</h3><blockquote><p><code>header</code>方法为响应添加一系列标头</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>return</span> <span class=nx>response</span><span class=p>(</span><span class=nv>$content</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>            <span class=o>-&gt;</span><span class=na>header</span><span class=p>(</span><span class=s1>&#39;Content-Type&#39;</span><span class=p>,</span> <span class=nv>$type</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>            <span class=o>-&gt;</span><span class=na>header</span><span class=p>(</span><span class=s1>&#39;X-Header-One&#39;</span><span class=p>,</span> <span class=s1>&#39;Header Value&#39;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>            <span class=o>-&gt;</span><span class=na>header</span><span class=p>(</span><span class=s1>&#39;X-Header-Two&#39;</span><span class=p>,</span> <span class=s1>&#39;Header Value&#39;</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><blockquote><p><code>withHeaders</code>方法指定要添加到响应中的标头数组</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>return</span> <span class=nx>response</span><span class=p>(</span><span class=nv>$content</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>            <span class=o>-&gt;</span><span class=na>withHeaders</span><span class=p>([</span>
+</span></span><span class=line><span class=cl>                <span class=s1>&#39;Content-Type&#39;</span> <span class=o>=&gt;</span> <span class=nv>$type</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                <span class=s1>&#39;X-Header-One&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;Header Value&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                <span class=s1>&#39;X-Header-Two&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;Header Value&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>            <span class=p>]);</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=缓存控制中间件>缓存控制中间件</h4><p>Laravel包含一个<code>cache.headers</code>中间件，可用于快速设置一组路由<code>Cache-Control</code>的标头。</p><p>指令应使用与相应缓存控制指令等效的“蛇形大小写”来提供，并应用分号分隔。</p><p>如果 <code>etag</code> 在指令列表中指定，则响应内容的 MD5 哈希值将自动设置为 ETag 标识符：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>middleware</span><span class=p>(</span><span class=s1>&#39;cache.headers:public;max_age=2628000;etag&#39;</span><span class=p>)</span><span class=o>-&gt;</span><span class=na>group</span><span class=p>(</span><span class=k>function</span> <span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>Route</span><span class=o>::</span><span class=na>get</span><span class=p>(</span><span class=s1>&#39;/privacy&#39;</span><span class=p>,</span> <span class=k>function</span> <span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=c1>// ...
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=p>});</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl>    <span class=nx>Route</span><span class=o>::</span><span class=na>get</span><span class=p>(</span><span class=s1>&#39;/terms&#39;</span><span class=p>,</span> <span class=k>function</span> <span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=c1>// ...
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=p>});</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=将cookie附加到响应>将Cookie附加到响应</h3><blockquote><p><code>cookie</code>方法将cookie附加到<code>Illuminate\Http\Response</code>实例</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>return</span> <span class=nx>response</span><span class=p>(</span><span class=s1>&#39;Hello World&#39;</span><span class=p>)</span><span class=o>-&gt;</span><span class=na>cookie</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;name&#39;</span><span class=p>,</span> <span class=s1>&#39;value&#39;</span><span class=p>,</span> <span class=nv>$minutes</span>
+</span></span><span class=line><span class=cl><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><p>还接受一些不太频繁使用的参数。通常，这些参数与 PHP 的原生 setcookie 方法的参数具有相同的目的和含义：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>return</span> <span class=nx>response</span><span class=p>(</span><span class=s1>&#39;Hello World&#39;</span><span class=p>)</span><span class=o>-&gt;</span><span class=na>cookie</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;name&#39;</span><span class=p>,</span> <span class=s1>&#39;value&#39;</span><span class=p>,</span> <span class=nv>$minutes</span><span class=p>,</span> <span class=nv>$path</span><span class=p>,</span> <span class=nv>$domain</span><span class=p>,</span> <span class=nv>$secure</span><span class=p>,</span> <span class=nv>$httpOnly</span>
+</span></span><span class=line><span class=cl><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><p>如果想确保在发送响应时附带一个 cookie，但还没有该响应的实例，可以使用 Cookie facade 来将 cookie &ldquo;队列化&rdquo;，以便在发送响应时附加到响应上。</p><p>queue 方法接受创建 cookie 实例所需的参数。</p><p>这些 cookie 将在发送到浏览器之前附加到传出的响应上：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Support\Facades\Cookie</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nx>Cookie</span><span class=o>::</span><span class=na>queue</span><span class=p>(</span><span class=s1>&#39;name&#39;</span><span class=p>,</span> <span class=s1>&#39;value&#39;</span><span class=p>,</span> <span class=nv>$minutes</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=生成cookie实例>生成Cookie实例</h4><p>如果想生成一个可以稍后附加到响应实例的 <code>Symfony\Component\HttpFoundation\Cookie</code> 实例，可以使用全局 cookie 辅助函数。</p><p>除非该 cookie 被附加到响应实例，否则它不会发送回客户端：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$cookie</span> <span class=o>=</span> <span class=nx>cookie</span><span class=p>(</span><span class=s1>&#39;name&#39;</span><span class=p>,</span> <span class=s1>&#39;value&#39;</span><span class=p>,</span> <span class=nv>$minutes</span><span class=p>);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=k>return</span> <span class=nx>response</span><span class=p>(</span><span class=s1>&#39;Hello World&#39;</span><span class=p>)</span><span class=o>-&gt;</span><span class=na>cookie</span><span class=p>(</span><span class=nv>$cookie</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=提前过期cookie>提前过期Cookie</h4><p>可以通过传出响应 <code>withoutCookie</code> 的方法使 cookie 过期来删除 cookie：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>return</span> <span class=nx>response</span><span class=p>(</span><span class=s1>&#39;Hello World&#39;</span><span class=p>)</span><span class=o>-&gt;</span><span class=na>withoutCookie</span><span class=p>(</span><span class=s1>&#39;name&#39;</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><p>如果还没有传出响应的实例，则可以使用 <code>Cookie</code> Facade <code>expire</code> 的方法使 cookie 过期：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>Cookie</span><span class=o>::</span><span class=na>expire</span><span class=p>(</span><span class=s1>&#39;name&#39;</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=cookie加密>Cookie加密</h3><p>默认情况下，由于 <code>Illuminate\Cookie\Middleware\EncryptCookies</code> 中间件的存在，Laravel 生成的所有 cookie 都经过加密和签名，因此客户端无法修改或读取它们。</p><p>如果想禁用应用程序生成的 cookie 子集的加密，可以使用应用程序 <code>bootstrap/app.php</code> 文件中的方法 <code>encryptCookies</code> ：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=o>-&gt;</span><span class=na>withMiddleware</span><span class=p>(</span><span class=k>function</span> <span class=p>(</span><span class=nx>Middleware</span> <span class=nv>$middleware</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nv>$middleware</span><span class=o>-&gt;</span><span class=na>encryptCookies</span><span class=p>(</span><span class=nx>except</span><span class=o>:</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>        <span class=s1>&#39;cookie_name&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=p>]);</span>
+</span></span><span class=line><span class=cl><span class=p>})</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=重定向>重定向</h2><p>重定向响应是 <code>Illuminate\Http\RedirectResponse</code> 类的实例，包含将用户重定向到另一个 URL 所需的正确标头。有几种方法可以生成 <code>RedirectResponse</code> 实例。最简单的方法是使用全局 <code>redirect</code> 帮助程序：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>get</span><span class=p>(</span><span class=s1>&#39;/dashboard&#39;</span><span class=p>,</span> <span class=k>function</span> <span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nx>redirect</span><span class=p>(</span><span class=s1>&#39;home/dashboard&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span></code></pre></td></tr></table></div></div><p>有时，需要将用户重定向到其以前的位置，例如当提交的表单无效时。可以使用全局 <code>back</code> 帮助程序函数来执行此操作。由于此功能利用会话，因此请确保调用函数的 <code>back</code> 路由使用 <code>web</code> 中间件组：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>post</span><span class=p>(</span><span class=s1>&#39;/user/profile&#39;</span><span class=p>,</span> <span class=k>function</span> <span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// Validate the request...
+</span></span></span><span class=line><span class=cl><span class=c1></span> 
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nx>back</span><span class=p>()</span><span class=o>-&gt;</span><span class=na>withInput</span><span class=p>();</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=重定向到命名路由>重定向到命名路由</h3><p>当调用不带参数的 <code>redirect</code> 帮助程序时，将返回一个实例 <code>Illuminate\Routing\Redirector</code> ，允许调用 <code>Redirector</code> 实例上的任何方法。</p><p>例如，要生成 <code>RedirectResponse</code> 到命名路由，可以使用以下 <code>route</code> 方法：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>return</span> <span class=nx>redirect</span><span class=p>()</span><span class=o>-&gt;</span><span class=na>route</span><span class=p>(</span><span class=s1>&#39;login&#39;</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><p>如果路由具有参数，则可以将它们作为第二个参数传递给 <code>route</code> 方法：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=c1>// For a route with the following URI: /profile/{id}
+</span></span></span><span class=line><span class=cl><span class=c1></span> 
+</span></span><span class=line><span class=cl><span class=k>return</span> <span class=nx>redirect</span><span class=p>()</span><span class=o>-&gt;</span><span class=na>route</span><span class=p>(</span><span class=s1>&#39;profile&#39;</span><span class=p>,</span> <span class=p>[</span><span class=s1>&#39;id&#39;</span> <span class=o>=&gt;</span> <span class=mi>1</span><span class=p>]);</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=通过eloquent模型填充参数>通过Eloquent模型填充参数</h4><p>如果要重定向到具有“ID”参数的路由，该路由是从 Eloquent 模型填充的，则可以传递模型本身。将自动提取 ID：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=c1>// For a route with the following URI: /profile/{id}
+</span></span></span><span class=line><span class=cl><span class=c1></span> 
+</span></span><span class=line><span class=cl><span class=k>return</span> <span class=nx>redirect</span><span class=p>()</span><span class=o>-&gt;</span><span class=na>route</span><span class=p>(</span><span class=s1>&#39;profile&#39;</span><span class=p>,</span> <span class=p>[</span><span class=nv>$user</span><span class=p>]);</span>
+</span></span></code></pre></td></tr></table></div></div><p>如果要自定义放置在路由参数中的值，可以在路由参数定义 （ <code>/profile/{id:slug}</code> ） 中指定列，也可以在 Eloquent 模型上重写该 <code>getRouteKey</code> 方法：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=sd>/**
+</span></span></span><span class=line><span class=cl><span class=sd> * Get the value of the model&#39;s route key.
+</span></span></span><span class=line><span class=cl><span class=sd> */</span>
+</span></span><span class=line><span class=cl><span class=k>public</span> <span class=k>function</span> <span class=nf>getRouteKey</span><span class=p>()</span><span class=o>:</span> <span class=nx>mixed</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>slug</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=重定向至控制器操作>重定向至控制器操作</h3><p>还可以生成指向控制器操作的重定向。为此，请将控制器和操作名称传递给 <code>action</code> 方法：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>App\Http\Controllers\UserController</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=k>return</span> <span class=nx>redirect</span><span class=p>()</span><span class=o>-&gt;</span><span class=na>action</span><span class=p>([</span><span class=nx>UserController</span><span class=o>::</span><span class=na>class</span><span class=p>,</span> <span class=s1>&#39;index&#39;</span><span class=p>]);</span>
+</span></span></code></pre></td></tr></table></div></div><p>如果控制器路由需要参数，则可以将它们作为第二个参数传递给 <code>action</code> 方法：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>return</span> <span class=nx>redirect</span><span class=p>()</span><span class=o>-&gt;</span><span class=na>action</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=p>[</span><span class=nx>UserController</span><span class=o>::</span><span class=na>class</span><span class=p>,</span> <span class=s1>&#39;profile&#39;</span><span class=p>],</span> <span class=p>[</span><span class=s1>&#39;id&#39;</span> <span class=o>=&gt;</span> <span class=mi>1</span><span class=p>]</span>
+</span></span><span class=line><span class=cl><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=重定向到外部域>重定向到外部域</h3><p>可以通过调用该 <code>away</code> 方法重定向到应用程序外的域。</p><p>该方法将 <code>RedirectResponse</code> 创建一个无需任何其他 URL 编码、验证或验证的方法：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>return</span> <span class=nx>redirect</span><span class=p>()</span><span class=o>-&gt;</span><span class=na>away</span><span class=p>(</span><span class=s1>&#39;https://www.google.com&#39;</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=使用闪存的会话数量重定向>使用闪存的会话数量重定向</h3><p>重定向到新 URL 和将数据刷入会话通常同时完成。</p><p>通常，这是在成功执行操作后，当向会话刷新成功消息时完成的。</p><p>为方便起见，可以创建一个 <code>RedirectResponse</code> 实例，并在单个流畅的方法链中将数据闪存到会话中：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>post</span><span class=p>(</span><span class=s1>&#39;/user/profile&#39;</span><span class=p>,</span> <span class=k>function</span> <span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// ...
+</span></span></span><span class=line><span class=cl><span class=c1></span> 
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nx>redirect</span><span class=p>(</span><span class=s1>&#39;dashboard&#39;</span><span class=p>)</span><span class=o>-&gt;</span><span class=na>with</span><span class=p>(</span><span class=s1>&#39;status&#39;</span><span class=p>,</span> <span class=s1>&#39;Profile updated!&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span></code></pre></td></tr></table></div></div><p>重定向用户后，可以显示会话中闪烁的消息。例如，使用 Blade 语法：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>@if (session(&#39;status&#39;))
+</span></span><span class=line><span class=cl>    &lt;div class=&#34;alert alert-success&#34;&gt;
+</span></span><span class=line><span class=cl>        {{ session(&#39;status&#39;) }}
+</span></span><span class=line><span class=cl>    &lt;/div&gt;
+</span></span><span class=line><span class=cl>@endif
+</span></span></code></pre></td></tr></table></div></div><h4 id=使用输入重定向>使用输入重定向</h4><p>在将用户重定向到新位置之前，可以使用 <code>RedirectResponse</code> 实例提供 <code>withInput</code> 的方法将当前请求的输入数据刷新到会话。</p><p>如果用户遇到验证错误，通常会执行此操作。</p><p>将输入切换到会话后，可以在下一次请求重新填充表单时轻松检索它：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>return</span> <span class=nx>back</span><span class=p>()</span><span class=o>-&gt;</span><span class=na>withInput</span><span class=p>();</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=其他响应类型>其他响应类型</h2><h3 id=view-响应>View 响应</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>return</span> <span class=nx>response</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>            <span class=o>-&gt;</span><span class=na>view</span><span class=p>(</span><span class=s1>&#39;hello&#39;</span><span class=p>,</span> <span class=nv>$data</span><span class=p>,</span> <span class=mi>200</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>            <span class=o>-&gt;</span><span class=na>header</span><span class=p>(</span><span class=s1>&#39;Content-Type&#39;</span><span class=p>,</span> <span class=nv>$type</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><p>如果不需要传递自定义 HTTP 状态码或自定义标头，则可以使用全局 <code>view</code> 帮助程序函数。</p><h3 id=json-响应>JSON 响应</h3><p>该 <code>json</code> 方法会自动将 <code>Content-Type</code> 标头设置为 <code>application/json</code> ，并使用 <code>json_encode</code> PHP 函数将给定的数组转换为 JSON：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>return</span> <span class=nx>response</span><span class=p>()</span><span class=o>-&gt;</span><span class=na>json</span><span class=p>([</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;name&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;Abigail&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;state&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;CA&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl><span class=p>]);</span>
+</span></span></code></pre></td></tr></table></div></div><p>如果要创建 JSONP 响应，可以将该 <code>json</code> 方法与以下 <code>withCallback</code> 方法结合使用</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>return</span> <span class=nx>response</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>            <span class=o>-&gt;</span><span class=na>json</span><span class=p>([</span><span class=s1>&#39;name&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;Abigail&#39;</span><span class=p>,</span> <span class=s1>&#39;state&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;CA&#39;</span><span class=p>])</span>
+</span></span><span class=line><span class=cl>            <span class=o>-&gt;</span><span class=na>withCallback</span><span class=p>(</span><span class=nv>$request</span><span class=o>-&gt;</span><span class=na>input</span><span class=p>(</span><span class=s1>&#39;callback&#39;</span><span class=p>));</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=文件下载>文件下载</h3><p>该 <code>download</code> 方法可用于生成响应，强制用户的浏览器在给定路径下载文件。</p><p>该 <code>download</code> 方法接受文件名作为该方法的第二个参数，该参数将确定下载文件的用户看到的文件名。</p><p>最后，可以将 HTTP 标头数组作为第三个参数传递给该方法：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>return</span> <span class=nx>response</span><span class=p>()</span><span class=o>-&gt;</span><span class=na>download</span><span class=p>(</span><span class=nv>$pathToFile</span><span class=p>);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=k>return</span> <span class=nx>response</span><span class=p>()</span><span class=o>-&gt;</span><span class=na>download</span><span class=p>(</span><span class=nv>$pathToFile</span><span class=p>,</span> <span class=nv>$name</span><span class=p>,</span> <span class=nv>$headers</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=流下载>流下载</h4><p>该 <code>streamDownload</code> 方法可用于将给定操作的字符串响应转换为可下载的响应，而无需将操作的内容写入磁盘。</p><p>此方法接受回调、文件名和可选的标头数组作为其参数：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>App\Services\GitHub</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=k>return</span> <span class=nx>response</span><span class=p>()</span><span class=o>-&gt;</span><span class=na>streamDownload</span><span class=p>(</span><span class=k>function</span> <span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>echo</span> <span class=nx>GitHub</span><span class=o>::</span><span class=na>api</span><span class=p>(</span><span class=s1>&#39;repo&#39;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>                <span class=o>-&gt;</span><span class=na>contents</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>                <span class=o>-&gt;</span><span class=na>readme</span><span class=p>(</span><span class=s1>&#39;laravel&#39;</span><span class=p>,</span> <span class=s1>&#39;laravel&#39;</span><span class=p>)[</span><span class=s1>&#39;contents&#39;</span><span class=p>];</span>
+</span></span><span class=line><span class=cl><span class=p>},</span> <span class=s1>&#39;laravel-readme.md&#39;</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=文件响应>文件响应</h3><p>该 <code>file</code> 方法可用于直接在用户的浏览器中显示文件（如图像或 PDF），而不是启动下载。</p><p>此方法接受文件的绝对路径作为其第一个参数，并接受标头数组作为其第二个参数：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>return</span> <span class=nx>response</span><span class=p>()</span><span class=o>-&gt;</span><span class=na>file</span><span class=p>(</span><span class=nv>$pathToFile</span><span class=p>);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=k>return</span> <span class=nx>response</span><span class=p>()</span><span class=o>-&gt;</span><span class=na>file</span><span class=p>(</span><span class=nv>$pathToFile</span><span class=p>,</span> <span class=nv>$headers</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=响应宏>响应宏</h2><p>如果要定义可在各种路由和控制器中重复使用的自定义响应，则可以在 <code>Response</code> 外观上使用该 <code>macro</code> 方法。</p><p>通常，应从应用程序的服务提供商之一（如 <code>App\Providers\AppServiceProvider</code> 服务提供商） <code>boot</code> 的方法调用此方法：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=o>&lt;?</span><span class=nx>php</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=k>namespace</span> <span class=nx>App\Providers</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Support\Facades\Response</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Support\ServiceProvider</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>AppServiceProvider</span> <span class=k>extends</span> <span class=nx>ServiceProvider</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=sd>/**
+</span></span></span><span class=line><span class=cl><span class=sd>     * Bootstrap any application services.
+</span></span></span><span class=line><span class=cl><span class=sd>     */</span>
+</span></span><span class=line><span class=cl>    <span class=k>public</span> <span class=k>function</span> <span class=nf>boot</span><span class=p>()</span><span class=o>:</span> <span class=nx>void</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nx>Response</span><span class=o>::</span><span class=na>macro</span><span class=p>(</span><span class=s1>&#39;caps&#39;</span><span class=p>,</span> <span class=k>function</span> <span class=p>(</span><span class=nx>string</span> <span class=nv>$value</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=k>return</span> <span class=nx>Response</span><span class=o>::</span><span class=na>make</span><span class=p>(</span><span class=nx>strtoupper</span><span class=p>(</span><span class=nv>$value</span><span class=p>));</span>
+</span></span><span class=line><span class=cl>        <span class=p>});</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>该 <code>macro</code> 函数接受名称作为其第一个参数，接受闭包作为其第二个参数。从 <code>ResponseFactory</code> 实现或 <code>response</code> 帮助程序调用宏名称时，将执行宏的闭包：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>return</span> <span class=nx>response</span><span class=p>()</span><span class=o>-&gt;</span><span class=na>caps</span><span class=p>(</span><span class=s1>&#39;foo&#39;</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>更新于 2024年06月16日</span></div></div><div class=post-info-line><div class=post-info-md><span><a class=link-to-markdown href=/2024/06/laravel11%E5%93%8D%E5%BA%94/index.md target=_blank>阅读原始文档</a></span></div><div class=post-info-share><span><a href=javascript:void(0); title="分享到 Twitter" data-sharer=twitter data-url=https://Joker-desire.github.io/2024/06/laravel11%E5%93%8D%E5%BA%94/ data-title="Laravel 11.x 响应" data-hashtags=PHP,Laravel><i class="fab fa-twitter fa-fw" aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 Facebook" data-sharer=facebook data-url=https://Joker-desire.github.io/2024/06/laravel11%E5%93%8D%E5%BA%94/ data-hashtag=PHP><i class="fab fa-facebook-square fa-fw" aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 Hacker News" data-sharer=hackernews data-url=https://Joker-desire.github.io/2024/06/laravel11%E5%93%8D%E5%BA%94/ data-title="Laravel 11.x 响应"><i class="fab fa-hacker-news fa-fw" aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 Line" data-sharer=line data-url=https://Joker-desire.github.io/2024/06/laravel11%E5%93%8D%E5%BA%94/ data-title="Laravel 11.x 响应"><i data-svg-src=https://cdn.jsdelivr.net/npm/simple-icons@7.0.0/icons/line.svg aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 微博" data-sharer=weibo data-url=https://Joker-desire.github.io/2024/06/laravel11%E5%93%8D%E5%BA%94/ data-title="Laravel 11.x 响应"><i class="fab fa-weibo fa-fw" aria-hidden=true></i></a></span></div></div></div><div class=post-info-more><section class=post-tags><i class="fas fa-tags fa-fw" aria-hidden=true></i>&nbsp;<a href=/tags/php/>PHP</a>,&nbsp;<a href=/tags/laravel/>Laravel</a></section><section><span><a href=javascript:void(0); onclick=window.history.back()>返回</a></span>&nbsp;|&nbsp;<span><a href=/>主页</a></span></section></div><div class=post-nav><a href=/2024/06/laravel11%E8%AF%B7%E6%B1%82/ class=prev rel=prev title="Laravel 11.x 请求"><i class="fas fa-angle-left fa-fw" aria-hidden=true></i>Laravel 11.x 请求</a>
+<a href=/2024/06/laravel11%E4%BC%9A%E8%AF%9D/ class=next rel=next title="Laravle 11.x 会话">Laravle 11.x 会话<i class="fas fa-angle-right fa-fw" aria-hidden=true></i></a></div></div><div id=comments><div id=giscus class=comment></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://giscus.app>Giscus</a>.</noscript></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line itemscope itemtype=http://schema.org/CreativeWork><i class="far fa-copyright fa-fw" aria-hidden=true></i><span itemprop=copyrightYear>2022 - 2024</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=/ target=_blank>Joker desire</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div></div></footer></div><div id=fixed-buttons><a href=# id=back-to-top class=fixed-button title=回到顶部><i class="fas fa-arrow-up fa-fw" aria-hidden=true></i>
+</a><a href=# id=view-comments class=fixed-button title=查看评论><i class="fas fa-comment fa-fw" aria-hidden=true></i></a></div><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/lightgallery@2.4.0/css/lightgallery-bundle.min.css><script type=text/javascript src=https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/algoliasearch@4.13.1/dist/algoliasearch-lite.umd.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lazysizes@5.3.1/lazysizes.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lightgallery@2.4.0/lightgallery.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lightgallery@2.4.0/plugins/thumbnail/lg-thumbnail.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lightgallery@2.4.0/plugins/zoom/lg-zoom.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js></script><script type=text/javascript>window.config={code:{copyTitle:"复制到剪贴板",maxShownLines:50},comment:{giscus:{category:"Announcements",categoryId:"DIC_kwDOHfPihs4CPp7X",darkTheme:"dark",emitMetadata:"0",inputPosition:"top",lang:"zh-CN",lazyLoading:!1,lightTheme:"light",mapping:"pathname",reactionsEnabled:"1",repo:"Joker-desire/store-comments",repoId:"R_kgDOHfPihg"}},lightgallery:!0,search:{algoliaAppID:"R6OIVCXBNU",algoliaIndex:"Joker-desire",algoliaSearchKey:"07e68b90760663e43882d4a48e00e932",highlightTag:"em",maxResultLength:10,noResultsFound:"没有找到结果",snippetLength:30,type:"algolia"}}</script><script type=text/javascript src=/js/theme.min.js></script></body></html>

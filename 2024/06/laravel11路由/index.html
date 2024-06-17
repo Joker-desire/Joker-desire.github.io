@@ -1,0 +1,875 @@
+<!doctype html><html lang=zh-cn><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><title>Laravel 11.x 路由 - Joker-desire's Blog</title><meta name=Description content="为什么要努力？ 因为我喜欢的东西都很贵，我想去的地方都很远，我爱的人超完美。"><meta property="og:url" content="https://Joker-desire.github.io/2024/06/laravel11%E8%B7%AF%E7%94%B1/">
+<meta property="og:site_name" content="Joker-desire's Blog"><meta property="og:title" content="Laravel 11.x 路由"><meta property="og:description" content="原文 基本路由 最基本的路由接收 URI 和闭包，提供了一种非常简单且富有表现力的方法来定义路由和行为，而无需复杂的路由配置文件： 1 2 3 4 5 use Illuminate\Support\Facades\Route; Route::get('/greeting', function () {"><meta property="og:locale" content="zh_cn"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2024-06-14T10:56:48+08:00"><meta property="article:modified_time" content="2024-06-14T10:56:48+08:00"><meta property="article:tag" content="PHP"><meta property="article:tag" content="Laravel"><meta property="og:image" content="https://Joker-desire.github.io/logo.png"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://Joker-desire.github.io/logo.png"><meta name=twitter:title content="Laravel 11.x 路由"><meta name=twitter:description content="原文 基本路由 最基本的路由接收 URI 和闭包，提供了一种非常简单且富有表现力的方法来定义路由和行为，而无需复杂的路由配置文件： 1 2 3 4 5 use Illuminate\Support\Facades\Route; Route::get('/greeting', function () {"><meta name=application-name content="Joker-desire"><meta name=apple-mobile-web-app-title content="Joker-desire"><meta name=theme-color content="#ffffff"><meta name=msapplication-TileColor content="#da532c"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://Joker-desire.github.io/2024/06/laravel11%E8%B7%AF%E7%94%B1/><link rel=prev href=https://Joker-desire.github.io/2024/06/laravel11%E5%85%A5%E9%97%A8/><link rel=next href=https://Joker-desire.github.io/2024/06/laravel11%E4%B8%AD%E9%97%B4%E4%BB%B6/><link rel=stylesheet href=/css/style.min.css><link rel=preload href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css></noscript><link rel=preload href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css></noscript><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"Laravel 11.x 路由","inLanguage":"zh-cn","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/Joker-desire.github.io\/2024\/06\/laravel11%E8%B7%AF%E7%94%B1\/"},"genre":"posts","keywords":"PHP, Laravel","wordcount":6042,"url":"https:\/\/Joker-desire.github.io\/2024\/06\/laravel11%E8%B7%AF%E7%94%B1\/","datePublished":"2024-06-14T10:56:48+08:00","dateModified":"2024-06-14T10:56:48+08:00","publisher":{"@type":"Organization","name":""},"author":{"@type":"Person","name":"Joker-desire"},"description":""}</script></head><body data-header-desktop=fixed data-header-mobile=auto><script type=text/javascript>(window.localStorage&&localStorage.getItem("theme")?localStorage.getItem("theme")==="dark":"auto"==="auto"?window.matchMedia("(prefers-color-scheme: dark)").matches:"auto"==="dark")&&document.body.setAttribute("theme","dark")</script><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title="Joker-desire's Blog"><span class=header-title-pre><i class='far fa-kiss-wink-heart fa-fw' aria-hidden=true></i></span>welcome</a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts title=所有文章>所有文章 </a><a class=menu-item href=/categories title=分类>分类 </a><a class=menu-item href=/tags title=标签>标签 </a><a class=menu-item href=/about title=关于>关于 </a><a class=menu-item href=https://github.com/Joker-desire title=GitHub rel="noopener noreffer" target=_blank><i class='fab fa-github fa-fw' aria-hidden=true></i> </a><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop>
+<input type=text placeholder=搜索文章标题或内容... id=search-input-desktop>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-desktop title=搜索><i class="fas fa-search fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-desktop title=清空><i class="fas fa-times-circle fa-fw" aria-hidden=true></i>
+</a><span class="search-button search-loading" id=search-loading-desktop><i class="fas fa-spinner fa-fw fa-spin" aria-hidden=true></i>
+</span></span><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题><i class="fas fa-adjust fa-fw" aria-hidden=true></i></a></div></div></div></header><header class=mobile id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title="Joker-desire's Blog"><span class=header-title-pre><i class='far fa-kiss-wink-heart fa-fw' aria-hidden=true></i></span>welcome</a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><div class=search-wrapper><div class="search mobile" id=search-mobile><input type=text placeholder=搜索文章标题或内容... id=search-input-mobile>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-mobile title=搜索><i class="fas fa-search fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-mobile title=清空><i class="fas fa-times-circle fa-fw" aria-hidden=true></i>
+</a><span class="search-button search-loading" id=search-loading-mobile><i class="fas fa-spinner fa-fw fa-spin" aria-hidden=true></i></span></div><a href=javascript:void(0); class=search-cancel id=search-cancel-mobile>取消</a></div><a class=menu-item href=/posts title=所有文章>所有文章</a><a class=menu-item href=/categories title=分类>分类</a><a class=menu-item href=/tags title=标签>标签</a><a class=menu-item href=/about title=关于>关于</a><a class=menu-item href=https://github.com/Joker-desire title=GitHub rel="noopener noreffer" target=_blank><i class='fab fa-github fa-fw' aria-hidden=true></i></a><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题>
+<i class="fas fa-adjust fa-fw" aria-hidden=true></i></a></div></div></header><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div><main class=main><div class=container><div class=toc id=toc-auto><h2 class=toc-title>目录</h2><div class=toc-content id=toc-content-auto></div></div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Laravel 11.x 路由</h1><div class=post-meta><div class=post-meta-line><span class=post-author><a href=/ title=Author rel=author class=author><i class="fas fa-user-circle fa-fw" aria-hidden=true></i>Joker-desire</a></span>&nbsp;<span class=post-category>收录于 <a href=/categories/php/><i class="far fa-folder fa-fw" aria-hidden=true></i>PHP</a>&nbsp;<a href=/categories/laravel/><i class="far fa-folder fa-fw" aria-hidden=true></i>Laravel</a></span></div><div class=post-meta-line><i class="far fa-calendar-alt fa-fw" aria-hidden=true></i>&nbsp;<time datetime=2024年06月14日>2024年06月14日</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden=true></i>&nbsp;约 6042 字&nbsp;
+<i class="far fa-clock fa-fw" aria-hidden=true></i>&nbsp;预计阅读 13 分钟&nbsp;</div></div><div class="details toc" id=toc-static data-kept><div class="details-summary toc-title"><span>目录</span>
+<span><i class="details-icon fas fa-angle-right" aria-hidden=true></i></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><ul><li><a href=#基本路由>基本路由</a><ul><li><a href=#默认路由文件>默认路由文件</a><ul><li><a href=#web-路由>web 路由</a></li><li><a href=#api-路由>api 路由</a></li><li><a href=#可用路由方法>可用路由方法</a></li><li><a href=#依赖注入>依赖注入</a></li><li><a href=#csrf-保护>CSRF 保护</a></li></ul></li><li><a href=#重定向路由>重定向路由</a></li><li><a href=#视图路由>视图路由</a></li><li><a href=#查看所有定义的路由>查看所有定义的路由</a></li><li><a href=#定制路由>定制路由</a></li></ul></li><li><a href=#路由参数>路由参数</a><ul><li><a href=#必需参数>必需参数</a></li><li><a href=#可选参数>可选参数</a></li><li><a href=#正则约束>正则约束</a></li><li><a href=#全局约束>全局约束</a></li><li><a href=#编码正斜杠>编码正斜杠</a></li></ul></li><li><a href=#命名路由>命名路由</a><ul><li><a href=#生成命名路由的url>生成命名路由的URL</a></li><li><a href=#检查当前路由>检查当前路由</a></li></ul></li><li><a href=#路由组>路由组</a><ul><li><a href=#中间件>中间件</a></li><li><a href=#控制器>控制器</a></li><li><a href=#子域路由>子域路由</a></li><li><a href=#路由前缀>路由前缀</a></li><li><a href=#路由名称前缀>路由名称前缀</a></li></ul></li><li><a href=#路由模型绑定>路由模型绑定</a><ul><li><a href=#隐式绑定>隐式绑定</a><ul><li><a href=#软删除模型>软删除模型</a></li><li><a href=#自定义键>自定义键</a></li><li><a href=#自定义键和作用域>自定义键和作用域</a></li><li><a href=#自定义缺失的模型行为>自定义缺失的模型行为</a></li><li><a href=#隐式枚举绑定>隐式枚举绑定</a></li></ul></li><li><a href=#显示绑定>显示绑定</a><ul><li><a href=#自定义解析逻辑>自定义解析逻辑</a></li></ul></li></ul></li><li><a href=#回退路由>回退路由</a></li><li><a href=#速率限制>速率限制</a><ul><li><a href=#定义速率限制器>定义速率限制器</a><ul><li><a href=#分段速率限制>分段速率限制</a></li><li><a href=#多个速率限制>多个速率限制</a></li></ul></li><li><a href=#将速率限制器附加到路由>将速率限制器附加到路由</a><ul><li><a href=#使用redis进行节流>使用Redis进行节流</a></li></ul></li></ul></li><li><a href=#表单方法欺骗>表单方法欺骗</a></li><li><a href=#访问当前路由>访问当前路由</a></li><li><a href=#跨域资源共享cors>跨域资源共享（CORS）</a></li><li><a href=#路由缓存>路由缓存</a></li></ul></li></ul></nav></div></div><div class=content id=content><hr><p><a href=https://laravel.com/docs/11.x/routing target=_blank rel="noopener noreffer">原文</a></p><hr><h2 id=基本路由>基本路由</h2><p>最基本的路由接收 URI 和闭包，提供了一种非常简单且富有表现力的方法来定义路由和行为，而无需复杂的路由配置文件：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Support\Facades\Route</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>get</span><span class=p>(</span><span class=s1>&#39;/greeting&#39;</span><span class=p>,</span> <span class=k>function</span> <span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=s1>&#39;Hello World&#39;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=默认路由文件>默认路由文件</h3><p>所有路由都在位于<code>routes</code>目录中的路由文件中定义。</p><p>这些文件由应用程序<code>bootstrap/app.php</code>文件中指定的配置自动加载。</p><h4 id=web-路由>web 路由</h4><p><code>routes/web.php</code>文件定义用于Web界面的路由，这些路由被分配为web中间件组，该组提供会话状态和CSRF保护等功能。</p><p>在<code>routes/web.php</code>中定义的路由，可以通过在浏览器中输入定义的路由的URL来访问。</p><p>例如：通过<code>http://example.com/user</code>URL访问以下路由：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>App\Http\Controllers\UserController</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Support\Facades\Route</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>get</span><span class=p>(</span><span class=s1>&#39;/user&#39;</span><span class=p>,</span> <span class=p>[</span><span class=nx>UserController</span><span class=o>::</span><span class=na>class</span><span class=p>,</span> <span class=s1>&#39;index&#39;</span><span class=p>]);</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=api-路由>api 路由</h4><blockquote><p><code>install:api</code> 命令用来生成无状态API，会创建<code>routes/api.php</code>文件</p><p>该命令将安装 Laravel Sanctum ，它提供了一个强大而简单的API令牌身份验证防护。</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>php artisan install:api
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Support\Facades\Request</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Support\Facades\Route</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>get</span><span class=p>(</span><span class=s1>&#39;/user&#39;</span><span class=p>,</span> <span class=k>function</span> <span class=p>(</span><span class=nx>Request</span> <span class=nv>$request</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nv>$request</span><span class=o>-&gt;</span><span class=na>user</span><span class=p>();</span>
+</span></span><span class=line><span class=cl><span class=p>})</span><span class=o>-&gt;</span><span class=na>middleware</span><span class=p>(</span><span class=s1>&#39;auth:sanctum&#39;</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><blockquote><p><code>routes/api.php</code>中的路由是无状态的，并且被分配到<code>api</code>中间件组。</p><p>会自动应用<code>/api</code>作为URI前缀。</p><p>可以通过<code>bootstrap/app.php</code>修改前缀</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=o>-&gt;</span><span class=na>withRouting</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=nx>api</span><span class=o>:</span> <span class=no>__DIR__</span><span class=o>.</span><span class=s1>&#39;/../routes/api.php&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=nx>apiPrefix</span><span class=o>:</span> <span class=s1>&#39;api/admin&#39;</span><span class=p>,</span> <span class=c1>// 自定义前缀
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=c1>// ...
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=可用路由方法>可用路由方法</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>get</span><span class=p>(</span><span class=s1>&#39;/get&#39;</span><span class=p>,</span> <span class=p>[</span><span class=nx>UserController</span><span class=o>::</span><span class=na>class</span><span class=p>,</span> <span class=s1>&#39;index&#39;</span><span class=p>]);</span>
+</span></span><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>post</span><span class=p>(</span><span class=s1>&#39;/post&#39;</span><span class=p>,</span> <span class=p>[</span><span class=nx>UserController</span><span class=o>::</span><span class=na>class</span><span class=p>,</span> <span class=s1>&#39;index&#39;</span><span class=p>]);</span>
+</span></span><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>put</span><span class=p>(</span><span class=s1>&#39;/put&#39;</span><span class=p>,</span> <span class=p>[</span><span class=nx>UserController</span><span class=o>::</span><span class=na>class</span><span class=p>,</span> <span class=s1>&#39;index&#39;</span><span class=p>]);</span>
+</span></span><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>patch</span><span class=p>(</span><span class=s1>&#39;/patch&#39;</span><span class=p>,</span> <span class=p>[</span><span class=nx>UserController</span><span class=o>::</span><span class=na>class</span><span class=p>,</span> <span class=s1>&#39;index&#39;</span><span class=p>]);</span>
+</span></span><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>delete</span><span class=p>(</span><span class=s1>&#39;/delete&#39;</span><span class=p>,</span> <span class=p>[</span><span class=nx>UserController</span><span class=o>::</span><span class=na>class</span><span class=p>,</span> <span class=s1>&#39;index&#39;</span><span class=p>]);</span>
+</span></span><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>options</span><span class=p>(</span><span class=s1>&#39;/options&#39;</span><span class=p>,</span> <span class=p>[</span><span class=nx>UserController</span><span class=o>::</span><span class=na>class</span><span class=p>,</span> <span class=s1>&#39;index&#39;</span><span class=p>]);</span>
+</span></span><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>match</span><span class=p>([</span><span class=s1>&#39;get&#39;</span><span class=p>,</span> <span class=s1>&#39;post&#39;</span><span class=p>],</span> <span class=s1>&#39;/match&#39;</span><span class=p>,</span> <span class=p>[</span><span class=nx>UserController</span><span class=o>::</span><span class=na>class</span><span class=p>,</span> <span class=s1>&#39;index&#39;</span><span class=p>]);</span>
+</span></span><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>any</span><span class=p>(</span><span class=s1>&#39;/any&#39;</span><span class=p>,</span> <span class=p>[</span><span class=nx>UserController</span><span class=o>::</span><span class=na>class</span><span class=p>,</span> <span class=s1>&#39;index&#39;</span><span class=p>]);</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=依赖注入>依赖注入</h4><p>可以在路由的回调签名中进行类型提示，以声明路由所需的任何依赖项。被声明的依赖项将由服务容器自动解析并注入到回调中。</p><p>例如：可以对<code>Illuminate\Support\Facades\Request</code> 类进行类型提示，以便当前的HTTP请求自动注入到路由回调中：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Support\Facades\Request</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Support\Facades\Route</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>get</span><span class=p>(</span><span class=s1>&#39;/user&#39;</span><span class=p>,</span> <span class=k>function</span> <span class=p>(</span><span class=nx>Request</span> <span class=nv>$request</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nv>$request</span><span class=o>-&gt;</span><span class=na>user</span><span class=p>();</span> <span class=c1>// 可以使用 $request 对象来访问当前 HTTP 请求
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>});</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=csrf-保护>CSRF 保护</h4><p>在 web 路由文件中定义的指向 POST、PUT、PATCH 或 DELETE 路由的任何 HTML 表单都应包含一个 CSRF 令牌字段。否则，请求将被拒绝。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-html data-lang=html><span class=line><span class=cl><span class=p>&lt;</span><span class=nt>form</span> <span class=na>method</span><span class=o>=</span><span class=s>&#34;POST&#34;</span> <span class=na>action</span><span class=o>=</span><span class=s>&#34;/profile&#34;</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>    @csrf
+</span></span><span class=line><span class=cl>    ...
+</span></span><span class=line><span class=cl><span class=p>&lt;/</span><span class=nt>form</span><span class=p>&gt;</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=重定向路由>重定向路由</h3><blockquote><p><code>Route::redirect</code> 重定向路由</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>redirect</span><span class=p>(</span><span class=s1>&#39;/here&#39;</span><span class=p>,</span> <span class=s1>&#39;/there&#39;</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><blockquote><p><code>Route::redirect</code> 默认返回状态码是302代码，可以通过第三个参数进行自定义状态代码</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>redirect</span><span class=p>(</span><span class=s1>&#39;/here&#39;</span><span class=p>,</span> <span class=s1>&#39;/there&#39;</span><span class=p>,</span> <span class=mi>301</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><blockquote><p><code>Route::permanentRedirect</code>重定向路由默认返回301状态代码</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>permanentRedirect</span><span class=p>(</span><span class=s1>&#39;/here&#39;</span><span class=p>,</span> <span class=s1>&#39;/there&#39;</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=视图路由>视图路由</h3><blockquote><p><code>Route:view</code> 视图路由。</p><p>该 <code>view</code> 方法接受 URI 作为其第一个参数，并接受视图名称作为其第二个参数。此外，还可以提供要传递给视图的数据数组作为可选的第三个参数：</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>view</span><span class=p>(</span><span class=s1>&#39;/welcome&#39;</span><span class=p>,</span> <span class=s1>&#39;welcome&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>view</span><span class=p>(</span><span class=s1>&#39;/welcome&#39;</span><span class=p>,</span> <span class=s1>&#39;welcome&#39;</span><span class=p>,</span> <span class=p>[</span><span class=s1>&#39;name&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;Taylor&#39;</span><span class=p>]);</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=查看所有定义的路由>查看所有定义的路由</h3><blockquote><p><code>route:list</code> 命令可以查看应用程序定义的所有路由</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>php artisan route:list
+</span></span></code></pre></td></tr></table></div></div><blockquote><p>默认情况下，分配给每个路由的路由中间件不会输出，但是可以通过<code>- </code> 参数来显示路由中间件和中间件组名称</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>php artisan route:list -v
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 展开中间件组</span>
+</span></span><span class=line><span class=cl>php artisan route:list -vv
+</span></span></code></pre></td></tr></table></div></div><blockquote><p><code>--path=xx</code> 指定显示以给定URI开头的路由</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>php artisan route:list --path<span class=o>=</span>api
+</span></span></code></pre></td></tr></table></div></div><blockquote><p><code>--except-vendor</code>选项来指定隐藏第三方软件包定义的任何路由</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>php artisan route:list --except-vendor
+</span></span></code></pre></td></tr></table></div></div><blockquote><p><code>--only-vendor</code>选项来指定仅显示第三方软件包定义的路由</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>php artisan route:list --only-vendor
+</span></span></code></pre></td></tr></table></div></div><h3 id=定制路由>定制路由</h3><p>默认情况，应用程序的路由由<code>bootstrap/app.php</code>进行配置和加载：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Foundation\Application</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=k>return</span> <span class=nx>Application</span><span class=o>::</span><span class=na>configure</span><span class=p>(</span><span class=nx>basePath</span><span class=o>:</span> <span class=nx>dirname</span><span class=p>(</span><span class=no>__DIR__</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>    <span class=o>-&gt;</span><span class=na>withRouting</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>        <span class=nx>web</span><span class=o>:</span> <span class=no>__DIR__</span><span class=o>.</span><span class=s1>&#39;/../routes/web.php&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=nx>commands</span><span class=o>:</span> <span class=no>__DIR__</span><span class=o>.</span><span class=s1>&#39;/../routes/console.php&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=nx>health</span><span class=o>:</span> <span class=s1>&#39;/up&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=p>)</span><span class=o>-&gt;</span><span class=na>create</span><span class=p>();</span>
+</span></span></code></pre></td></tr></table></div></div><blockquote><p><code>then</code>闭包，用来注册应用程序所需要的任何附加路由</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Support\Facades\Route</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=o>-&gt;</span><span class=na>withRouting</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=nx>web</span><span class=o>:</span> <span class=no>__DIR__</span><span class=o>.</span><span class=s1>&#39;/../routes/web.php&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=nx>commands</span><span class=o>:</span> <span class=no>__DIR__</span><span class=o>.</span><span class=s1>&#39;/../routes/console.php&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=nx>health</span><span class=o>:</span> <span class=s1>&#39;/up&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=nx>then</span><span class=o>:</span> <span class=k>function</span> <span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nx>Route</span><span class=o>::</span><span class=na>middleware</span><span class=p>(</span><span class=s1>&#39;api&#39;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>            <span class=o>-&gt;</span><span class=na>prefix</span><span class=p>(</span><span class=s1>&#39;webhooks&#39;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>            <span class=o>-&gt;</span><span class=na>name</span><span class=p>(</span><span class=s1>&#39;webhooks.&#39;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>            <span class=o>-&gt;</span><span class=na>group</span><span class=p>(</span><span class=nx>base_path</span><span class=p>(</span><span class=s1>&#39;routes/webhooks.php&#39;</span><span class=p>));</span>
+</span></span><span class=line><span class=cl>    <span class=p>},</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><blockquote><p><code>using</code>闭包，用来完全控制路由注册。</p><p>当传递此参数时，框架将不会注册任何HTTP路由，需要手动注册所有路由</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Support\Facades\Route</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=o>-&gt;</span><span class=na>withRouting</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=nx>commands</span><span class=o>:</span> <span class=no>__DIR__</span><span class=o>.</span><span class=s1>&#39;/../routes/console.php&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=nx>using</span><span class=o>:</span> <span class=k>function</span> <span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nx>Route</span><span class=o>::</span><span class=na>middleware</span><span class=p>(</span><span class=s1>&#39;api&#39;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>            <span class=o>-&gt;</span><span class=na>prefix</span><span class=p>(</span><span class=s1>&#39;api&#39;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>            <span class=o>-&gt;</span><span class=na>group</span><span class=p>(</span><span class=nx>base_path</span><span class=p>(</span><span class=s1>&#39;routes/api.php&#39;</span><span class=p>));</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl>        <span class=nx>Route</span><span class=o>::</span><span class=na>middleware</span><span class=p>(</span><span class=s1>&#39;web&#39;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>            <span class=o>-&gt;</span><span class=na>group</span><span class=p>(</span><span class=nx>base_path</span><span class=p>(</span><span class=s1>&#39;routes/web.php&#39;</span><span class=p>));</span>
+</span></span><span class=line><span class=cl>    <span class=p>},</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=路由参数>路由参数</h2><h3 id=必需参数>必需参数</h3><blockquote><p>路由参数适中使用<code>{}</code>括起来，并且应由字母字符组成。</p><p>下划线在路由参数名称中也是可以接受的。</p><p>路由参数根据其顺序注入到路由回调/控制器中 - 路由回调/控制器参数的名称无关紧要</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>get</span><span class=p>(</span><span class=s1>&#39;/user/{id}&#39;</span><span class=p>,</span> <span class=k>function</span> <span class=p>(</span><span class=nx>string</span> <span class=nv>$id</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=s1>&#39;User &#39;</span> <span class=o>.</span> <span class=nv>$id</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>get</span><span class=p>(</span><span class=s1>&#39;posts/{post}/comments/{comment}&#39;</span><span class=p>,</span> <span class=k>function</span> <span class=p>(</span><span class=nx>string</span> <span class=nv>$postId</span><span class=p>,</span> <span class=nx>string</span> <span class=nv>$commentId</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=s1>&#39;Post &#39;</span> <span class=o>.</span> <span class=nv>$postId</span> <span class=o>.</span> <span class=s1>&#39; Comment &#39;</span> <span class=o>.</span> <span class=nv>$commentId</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span></code></pre></td></tr></table></div></div><p><strong>参数和依赖注入</strong></p><p>依赖注入项应该在路由参数前</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>get</span><span class=p>(</span><span class=s1>&#39;/user/{id}&#39;</span><span class=p>,</span> <span class=k>function</span> <span class=p>(</span><span class=nx>Request</span> <span class=nv>$request</span><span class=p>,</span> <span class=nx>string</span> <span class=nv>$id</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=s1>&#39;User &#39;</span> <span class=o>.</span> <span class=nv>$id</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=可选参数>可选参数</h3><blockquote><p>通过在参数名称后放置标记<code>?</code>来表示可选参数。</p><p>需要确保相对于变量提供有默认值，不提供默认值又不传递参数，则会发生异常</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>get</span><span class=p>(</span><span class=s1>&#39;/user2/{name?}&#39;</span><span class=p>,</span> <span class=k>function</span> <span class=p>(</span><span class=o>?</span><span class=nx>string</span> <span class=nv>$name</span> <span class=o>=</span> <span class=k>null</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nv>$name</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>get</span><span class=p>(</span><span class=s1>&#39;/user3/{name?}&#39;</span><span class=p>,</span> <span class=k>function</span> <span class=p>(</span><span class=o>?</span><span class=nx>string</span> <span class=nv>$name</span> <span class=o>=</span> <span class=s1>&#39;John&#39;</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nv>$name</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=正则约束>正则约束</h3><blockquote><p>使用路由实例上的方法<code>where</code>限制路由参数的格式。</p><p><code>where</code>方法接受参数的名称和正则表达式，用于定义参数应如何约束。</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>get</span><span class=p>(</span><span class=s1>&#39;/user/{name}&#39;</span><span class=p>,</span> <span class=k>function</span> <span class=p>(</span><span class=nx>string</span> <span class=nv>$name</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// ...
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>})</span><span class=o>-&gt;</span><span class=na>where</span><span class=p>(</span><span class=s1>&#39;name&#39;</span><span class=p>,</span> <span class=s1>&#39;[A-Za-z]+&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>get</span><span class=p>(</span><span class=s1>&#39;/user/{id}&#39;</span><span class=p>,</span> <span class=k>function</span> <span class=p>(</span><span class=nx>string</span> <span class=nv>$id</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// ...
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>})</span><span class=o>-&gt;</span><span class=na>where</span><span class=p>(</span><span class=s1>&#39;id&#39;</span><span class=p>,</span> <span class=s1>&#39;[0-9]+&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>get</span><span class=p>(</span><span class=s1>&#39;/user/{id}/{name}&#39;</span><span class=p>,</span> <span class=k>function</span> <span class=p>(</span><span class=nx>string</span> <span class=nv>$id</span><span class=p>,</span> <span class=nx>string</span> <span class=nv>$name</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// ...
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>})</span><span class=o>-&gt;</span><span class=na>where</span><span class=p>([</span><span class=s1>&#39;id&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;[0-9]+&#39;</span><span class=p>,</span> <span class=s1>&#39;name&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;[a-z]+&#39;</span><span class=p>]);</span>
+</span></span></code></pre></td></tr></table></div></div><blockquote><p>Laravel 提供了一些常用的正则表达式模式，可用于快速向路由添加模式约束</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>get</span><span class=p>(</span><span class=s1>&#39;/user/{id}/{name}&#39;</span><span class=p>,</span> <span class=k>function</span> <span class=p>(</span><span class=nx>string</span> <span class=nv>$id</span><span class=p>,</span> <span class=nx>string</span> <span class=nv>$name</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// ...
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>})</span><span class=o>-&gt;</span><span class=na>whereNumber</span><span class=p>(</span><span class=s1>&#39;id&#39;</span><span class=p>)</span><span class=o>-&gt;</span><span class=na>whereAlpha</span><span class=p>(</span><span class=s1>&#39;name&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>get</span><span class=p>(</span><span class=s1>&#39;/user/{name}&#39;</span><span class=p>,</span> <span class=k>function</span> <span class=p>(</span><span class=nx>string</span> <span class=nv>$name</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// ...
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>})</span><span class=o>-&gt;</span><span class=na>whereAlphaNumeric</span><span class=p>(</span><span class=s1>&#39;name&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>get</span><span class=p>(</span><span class=s1>&#39;/user/{id}&#39;</span><span class=p>,</span> <span class=k>function</span> <span class=p>(</span><span class=nx>string</span> <span class=nv>$id</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// ...
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>})</span><span class=o>-&gt;</span><span class=na>whereUuid</span><span class=p>(</span><span class=s1>&#39;id&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>get</span><span class=p>(</span><span class=s1>&#39;/user/{id}&#39;</span><span class=p>,</span> <span class=k>function</span> <span class=p>(</span><span class=nx>string</span> <span class=nv>$id</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// ...
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>})</span><span class=o>-&gt;</span><span class=na>whereUlid</span><span class=p>(</span><span class=s1>&#39;id&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>get</span><span class=p>(</span><span class=s1>&#39;/category/{category}&#39;</span><span class=p>,</span> <span class=k>function</span> <span class=p>(</span><span class=nx>string</span> <span class=nv>$category</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// ...
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>})</span><span class=o>-&gt;</span><span class=na>whereIn</span><span class=p>(</span><span class=s1>&#39;category&#39;</span><span class=p>,</span> <span class=p>[</span><span class=s1>&#39;movie&#39;</span><span class=p>,</span> <span class=s1>&#39;song&#39;</span><span class=p>,</span> <span class=s1>&#39;painting&#39;</span><span class=p>]);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>get</span><span class=p>(</span><span class=s1>&#39;/category/{category}&#39;</span><span class=p>,</span> <span class=k>function</span> <span class=p>(</span><span class=nx>string</span> <span class=nv>$category</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// ...
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>})</span><span class=o>-&gt;</span><span class=na>whereIn</span><span class=p>(</span><span class=s1>&#39;category&#39;</span><span class=p>,</span> <span class=nx>CategoryEnum</span><span class=o>::</span><span class=na>cases</span><span class=p>());</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=全局约束>全局约束</h3><blockquote><p>使用<code>pattern</code> 方法，可以定义路由参数全局约束。</p><p>在<code>App\Providers\AppServiceProvider</code>类的<code>boot</code>方法中定义这些模式</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>public</span> <span class=k>function</span> <span class=nf>boot</span><span class=p>()</span><span class=o>:</span> <span class=nx>void</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// 定义全局路由参数约束
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=nx>Route</span><span class=o>::</span><span class=na>pattern</span><span class=p>(</span><span class=s1>&#39;id&#39;</span><span class=p>,</span> <span class=s1>&#39;[0-9]+&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=编码正斜杠>编码正斜杠</h3><blockquote><p>Laravel 路由组件允许路由参数值中包含除 / 之外的所有字符。</p><p>如果需要让 / 成为占位符的一部分，必须使用 <code>where</code> 条件正则表达式明确允许</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>get</span><span class=p>(</span><span class=s1>&#39;search/{search}&#39;</span><span class=p>,</span> <span class=k>function</span> <span class=p>(</span><span class=nx>string</span> <span class=nv>$search</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nv>$search</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>})</span><span class=o>-&gt;</span><span class=na>where</span><span class=p>(</span><span class=s1>&#39;search&#39;</span><span class=p>,</span> <span class=s1>&#39;.*&#39;</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><p><strong>注意：仅在最后一个路由段内受支持。</strong></p><h2 id=命名路由>命名路由</h2><blockquote><p>命名路由允许方便地为特定路由生成URL或进行重定向。</p><p>可以通过将 <code>name</code> 方法链接到路由定义上来为路由指定一个名称。</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>get</span><span class=p>(</span><span class=s1>&#39;/user/profile&#39;</span><span class=p>,</span> <span class=k>function</span> <span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// ...
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>})</span><span class=o>-&gt;</span><span class=na>name</span><span class=p>(</span><span class=s1>&#39;profile&#39;</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><p><strong>注意：路由名称应始终是唯一的。</strong></p><h3 id=生成命名路由的url>生成命名路由的URL</h3><blockquote><p>一旦为某个路由指定了名称，就可以在生成URL或进行重定向时，通过使用Laravel的 <code>route</code> 和 <code>redirect</code> 辅助函数来引用该路由的名称</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=c1>// Generating URLs...
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=nv>$url</span> <span class=o>=</span> <span class=nx>route</span><span class=p>(</span><span class=s1>&#39;profile&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=c1>// Generating Redirects...
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=k>return</span> <span class=nx>redirect</span><span class=p>()</span><span class=o>-&gt;</span><span class=na>route</span><span class=p>(</span><span class=s1>&#39;profile&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=k>return</span> <span class=nx>to_route</span><span class=p>(</span><span class=s1>&#39;profile&#39;</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><blockquote><p>如果命名路由定义了参数，可以将参数作为第二个参数传递给 <code>route</code> 函数。</p><p>传入的参数会自动插入到生成的 URL 中的正确位置</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>get</span><span class=p>(</span><span class=s1>&#39;/user/{id}/profile&#39;</span><span class=p>,</span> <span class=k>function</span> <span class=p>(</span><span class=nx>string</span> <span class=nv>$id</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// ...
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>})</span><span class=o>-&gt;</span><span class=na>name</span><span class=p>(</span><span class=s1>&#39;profile&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nv>$url</span> <span class=o>=</span> <span class=nx>route</span><span class=p>(</span><span class=s1>&#39;profile&#39;</span><span class=p>,</span> <span class=p>[</span><span class=s1>&#39;id&#39;</span> <span class=o>=&gt;</span> <span class=mi>1</span><span class=p>]);</span>
+</span></span></code></pre></td></tr></table></div></div><blockquote><p>如果在数组中传递了额外的参数，这些键值对将自动添加到生成的 URL 的查询字符串中：</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>get</span><span class=p>(</span><span class=s1>&#39;/user/{id}/profile&#39;</span><span class=p>,</span> <span class=k>function</span> <span class=p>(</span><span class=nx>string</span> <span class=nv>$id</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// ...
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>})</span><span class=o>-&gt;</span><span class=na>name</span><span class=p>(</span><span class=s1>&#39;profile&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nv>$url</span> <span class=o>=</span> <span class=nx>route</span><span class=p>(</span><span class=s1>&#39;profile&#39;</span><span class=p>,</span> <span class=p>[</span><span class=s1>&#39;id&#39;</span> <span class=o>=&gt;</span> <span class=mi>1</span><span class=p>,</span> <span class=s1>&#39;photos&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;yes&#39;</span><span class=p>]);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=c1>// /user/1/profile?photos=yes
+</span></span></span></code></pre></td></tr></table></div></div><h3 id=检查当前路由>检查当前路由</h3><blockquote><p>可以在路由实例上使用<code>named</code>方法确定当前请求是否路由到给定的命名路由</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>namespace</span> <span class=nx>App\Http\Middleware</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Closure</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Http\Request</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Symfony\Component\HttpFoundation\Response</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>RequestMiddleware</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=sd>/**
+</span></span></span><span class=line><span class=cl><span class=sd>     * Handle an incoming request.
+</span></span></span><span class=line><span class=cl><span class=sd>     *
+</span></span></span><span class=line><span class=cl><span class=sd>     * @param \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response) $next
+</span></span></span><span class=line><span class=cl><span class=sd>     */</span>
+</span></span><span class=line><span class=cl>    <span class=k>public</span> <span class=k>function</span> <span class=nf>handle</span><span class=p>(</span><span class=nx>Request</span> <span class=nv>$request</span><span class=p>,</span> <span class=nx>Closure</span> <span class=nv>$next</span><span class=p>)</span><span class=o>:</span> <span class=nx>Response</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=nv>$request</span><span class=o>-&gt;</span><span class=na>route</span><span class=p>()</span><span class=o>-&gt;</span><span class=na>named</span><span class=p>(</span><span class=s1>&#39;profile&#39;</span><span class=p>))</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=nx>print_r</span><span class=p>(</span><span class=s1>&#39;Profile route&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=nv>$next</span><span class=p>(</span><span class=nv>$request</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=路由组>路由组</h2><p>路由组允许在大量路由之间共享路由属性（如中间件），而无需在每个单独的路由上定义这些属性。</p><h3 id=中间件>中间件</h3><blockquote><p><code>middleware</code>方法可以将中间件分配给组内的所有路由。</p><p>中间件按它们在数组中列出的顺序执行</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>middleware</span><span class=p>([</span><span class=s1>&#39;first&#39;</span><span class=p>,</span> <span class=s1>&#39;second&#39;</span><span class=p>])</span><span class=o>-&gt;</span><span class=na>group</span><span class=p>(</span><span class=k>function</span> <span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>Route</span><span class=o>::</span><span class=na>get</span><span class=p>(</span><span class=s1>&#39;/&#39;</span><span class=p>,</span> <span class=k>function</span> <span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=c1>// Uses first &amp; second Middleware
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=p>});</span>
+</span></span><span class=line><span class=cl>    <span class=nx>Route</span><span class=o>::</span><span class=na>get</span><span class=p>(</span><span class=s1>&#39;/user&#39;</span><span class=p>,</span> <span class=k>function</span> <span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=c1>// Uses first &amp; second Middleware
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=p>});</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=控制器>控制器</h3><blockquote><p><code>controller</code>方法为组内的所有路由定义公共控制器。</p><p>在定义路由时，只需提供它们调用的控制器方法。</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>controller</span><span class=p>(</span><span class=nx>UserController</span><span class=o>::</span><span class=na>class</span><span class=p>)</span><span class=o>-&gt;</span><span class=na>group</span><span class=p>(</span><span class=k>function</span> <span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>Route</span><span class=o>::</span><span class=na>get</span><span class=p>(</span><span class=s1>&#39;user&#39;</span><span class=p>,</span> <span class=s1>&#39;show&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=nx>Route</span><span class=o>::</span><span class=na>get</span><span class=p>(</span><span class=s1>&#39;user/edit&#39;</span><span class=p>,</span> <span class=s1>&#39;edit&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=子域路由>子域路由</h3><blockquote><p><code>domain</code>指定子域路由。</p><p>子域可以像路由URI一样分配路由参数，允许捕获子域的一部分，以便在路由或控制器中使用。</p><p>注意：为确保子域路由可访问，应该在注册根域路由之前注册子域路由。防止根域路由覆盖具有相同URI路径的子域路由。</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>domain</span><span class=p>(</span><span class=s1>&#39;{account}.myapp.com&#39;</span><span class=p>)</span><span class=o>-&gt;</span><span class=na>group</span><span class=p>(</span><span class=k>function</span> <span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>Route</span><span class=o>::</span><span class=na>get</span><span class=p>(</span><span class=s1>&#39;user/{id}&#39;</span><span class=p>,</span> <span class=k>function</span> <span class=p>(</span><span class=nx>string</span> <span class=nv>$account</span><span class=p>,</span> <span class=nx>string</span> <span class=nv>$id</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=c1>//
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=p>});</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span><span class=line><span class=cl><span class=c1>// GET|HEAD       {account}.myapp.com/api/user/{id}
+</span></span></span></code></pre></td></tr></table></div></div><h3 id=路由前缀>路由前缀</h3><blockquote><p><code>prefix</code>方法可用于使用给定的URI 为组中的每个路由添加前缀</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>prefix</span><span class=p>(</span><span class=s1>&#39;admin&#39;</span><span class=p>)</span><span class=o>-&gt;</span><span class=na>group</span><span class=p>(</span><span class=k>function</span> <span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>Route</span><span class=o>::</span><span class=na>get</span><span class=p>(</span><span class=s1>&#39;users&#39;</span><span class=p>,</span> <span class=k>function</span> <span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=c1>// Matches The &#34;/admin/users&#34; URL
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=p>});</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span><span class=line><span class=cl><span class=c1>// GET|HEAD       api/admin/users
+</span></span></span></code></pre></td></tr></table></div></div><h3 id=路由名称前缀>路由名称前缀</h3><blockquote><p><code>name</code>方法可用于在组中的每个路由名称前面加上给定的字符串。</p><p>给定的字符串与指定的路由名称完全相同，因此我们确保在前缀中提供尾<code>.</code>字符</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>name</span><span class=p>(</span><span class=s1>&#39;admin.&#39;</span><span class=p>)</span><span class=o>-&gt;</span><span class=na>group</span><span class=p>(</span><span class=k>function</span> <span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>Route</span><span class=o>::</span><span class=na>get</span><span class=p>(</span><span class=s1>&#39;users&#39;</span><span class=p>,</span> <span class=k>function</span> <span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=c1>// Route assigned name &#34;admin.users&#34;...
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=p>})</span><span class=o>-&gt;</span><span class=na>name</span><span class=p>(</span><span class=s1>&#39;users&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span><span class=line><span class=cl><span class=c1>// GET|HEAD       api/users ..... admin.users
+</span></span></span></code></pre></td></tr></table></div></div><h2 id=路由模型绑定>路由模型绑定</h2><h3 id=隐式绑定>隐式绑定</h3><blockquote><p>Laravel 会自动解析在路由或控制器操作中定义的 Eloquent 模型，通过类型提示的变量名匹配路由段名称。</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>App\Models\User</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>get</span><span class=p>(</span><span class=s1>&#39;/users/{user}&#39;</span><span class=p>,</span> <span class=k>function</span> <span class=p>(</span><span class=nx>User</span> <span class=nv>$user</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nv>$user</span><span class=o>-&gt;</span><span class=na>email</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span></code></pre></td></tr></table></div></div><p>由于<code>$user</code>变量被类型提示为Eloquent模型，并且变量名称与<code>{user}</code>URI段匹配，因此，Laravel将自动注入具有与请求URI中相应值匹配的 ID 的模型实例。</p><p>如果在数据库中找不到匹配的模型实例，则会自动生成 404 HTTP 响应。</p><blockquote><p>在使用控制器方法时，隐式绑定也是可用的</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>App\Http\Controllers\UserController</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>App\Models\User</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=c1>// Route definition...
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=nx>Route</span><span class=o>::</span><span class=na>get</span><span class=p>(</span><span class=s1>&#39;/users/{user}&#39;</span><span class=p>,</span> <span class=p>[</span><span class=nx>UserController</span><span class=o>::</span><span class=na>class</span><span class=p>,</span> <span class=s1>&#39;show&#39;</span><span class=p>]);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=c1>// Controller method definition...
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=k>public</span> <span class=k>function</span> <span class=nf>show</span><span class=p>(</span><span class=nx>User</span> <span class=nv>$user</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nx>view</span><span class=p>(</span><span class=s1>&#39;user.profile&#39;</span><span class=p>,</span> <span class=p>[</span><span class=s1>&#39;user&#39;</span> <span class=o>=&gt;</span> <span class=nv>$user</span><span class=p>]);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=软删除模型>软删除模型</h4><blockquote><p><code>withTrashed</code>方法链接到路由的定义来指示隐式绑定检索已软删除的模式。</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>App\Models\User</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>get</span><span class=p>(</span><span class=s1>&#39;/users/{user}&#39;</span><span class=p>,</span> <span class=k>function</span> <span class=p>(</span><span class=nx>User</span> <span class=nv>$user</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nv>$user</span><span class=o>-&gt;</span><span class=na>email</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>})</span><span class=o>-&gt;</span><span class=na>withTrashed</span><span class=p>();</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=自定义键>自定义键</h4><blockquote><p>有时希望使用除<code>id</code>以外的列来解析Eloquent模型。可以在路由参数定义中指定该列</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>App\Models\Post</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>get</span><span class=p>(</span><span class=s1>&#39;/posts/{post:slug}&#39;</span><span class=p>,</span> <span class=k>function</span> <span class=p>(</span><span class=nx>Post</span> <span class=nv>$post</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nv>$post</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span></code></pre></td></tr></table></div></div><blockquote><p>如果希望模型绑定始终使用数据库列，但不是<code>id</code>，则可以在Eloquent模型上重写<code>getRouteKeyName</code>方法。</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=sd>/**
+</span></span></span><span class=line><span class=cl><span class=sd> * Get the route key for the model.
+</span></span></span><span class=line><span class=cl><span class=sd> */</span>
+</span></span><span class=line><span class=cl><span class=k>public</span> <span class=k>function</span> <span class=nf>getRouteKeyName</span><span class=p>()</span><span class=o>:</span> <span class=nx>string</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=s1>&#39;slug&#39;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=自定义键和作用域>自定义键和作用域</h4><p>当单个路由定义中隐式绑定多个Eloquent模型时，可能希望将第二个Eloquent模型的范围限定为必须是前一个Eloquent模型的子级。</p><p>例如：考虑以下这个根据用户特定的slug来检索博客文章的路由定义：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>App\Models\Post</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>App\Models\User</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>get</span><span class=p>(</span><span class=s1>&#39;/users/{user}/posts/{post:slug}&#39;</span><span class=p>,</span> <span class=k>function</span> <span class=p>(</span><span class=nx>User</span> <span class=nv>$user</span><span class=p>,</span> <span class=nx>Post</span> <span class=nv>$post</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nv>$post</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span></code></pre></td></tr></table></div></div><p>在将自定义键隐式绑定作为嵌套路由参数使用时，Laravel 会自动将查询范围限定在通过父模型来检索嵌套模型。Laravel 使用约定来猜测父模型上的关系名称。在这种情况下，将假设 <code>User</code> 模型有一个名为 <code>posts</code>（路由参数名称的复数形式）的关系，可以用来检索 <code>Post</code> 模型。</p><p>还可以指示 Laravel 限定“子”绑定的范围，即使未提供自定义键也是如此。为此，可以在定义路由时调用 <code>scopeBindings</code> 方法：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>App\Models\Post</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>App\Models\User</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>get</span><span class=p>(</span><span class=s1>&#39;/users/{user}/posts/{post}&#39;</span><span class=p>,</span> <span class=k>function</span> <span class=p>(</span><span class=nx>User</span> <span class=nv>$user</span><span class=p>,</span> <span class=nx>Post</span> <span class=nv>$post</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nv>$post</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>})</span><span class=o>-&gt;</span><span class=na>scopeBindings</span><span class=p>();</span>
+</span></span></code></pre></td></tr></table></div></div><p>还可以指示整个路由定义组使用作用域绑定：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>scopeBindings</span><span class=p>()</span><span class=o>-&gt;</span><span class=na>group</span><span class=p>(</span><span class=k>function</span> <span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>Route</span><span class=o>::</span><span class=na>get</span><span class=p>(</span><span class=s1>&#39;/users/{user}/posts/{post}&#39;</span><span class=p>,</span> <span class=k>function</span> <span class=p>(</span><span class=nx>User</span> <span class=nv>$user</span><span class=p>,</span> <span class=nx>Post</span> <span class=nv>$post</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=nv>$post</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>});</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span></code></pre></td></tr></table></div></div><p>同样，可以通过调用 <code>withoutScopedBindings</code> 方法明确指示 Laravel 不限定绑定的范围：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>get</span><span class=p>(</span><span class=s1>&#39;/users/{user}/posts/{post:slug}&#39;</span><span class=p>,</span> <span class=k>function</span> <span class=p>(</span><span class=nx>User</span> <span class=nv>$user</span><span class=p>,</span> <span class=nx>Post</span> <span class=nv>$post</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nv>$post</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>})</span><span class=o>-&gt;</span><span class=na>withoutScopedBindings</span><span class=p>();</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=自定义缺失的模型行为>自定义缺失的模型行为</h4><p>通常如果未找到隐式绑定的模型，则会生成 404 HTTP 响应。</p><p>可以通过在定义路由时调用<code>missing</code>方法来自定义此行为。</p><p><code>missing</code>方法接受一个闭包，如果找不到隐式绑定的模型，则将调用该闭包</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>App\Http\Controllers\LocationsController</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Http\Request</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Support\Facades\Redirect</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>get</span><span class=p>(</span><span class=s1>&#39;/locations/{location:slug}&#39;</span><span class=p>,</span> <span class=p>[</span><span class=nx>LocationsController</span><span class=o>::</span><span class=na>class</span><span class=p>,</span> <span class=s1>&#39;show&#39;</span><span class=p>])</span>
+</span></span><span class=line><span class=cl>        <span class=o>-&gt;</span><span class=na>name</span><span class=p>(</span><span class=s1>&#39;locations.view&#39;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=o>-&gt;</span><span class=na>missing</span><span class=p>(</span><span class=k>function</span> <span class=p>(</span><span class=nx>Request</span> <span class=nv>$request</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=k>return</span> <span class=nx>Redirect</span><span class=o>::</span><span class=na>route</span><span class=p>(</span><span class=s1>&#39;locations.index&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=p>});</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=隐式枚举绑定>隐式枚举绑定</h4><p>PHP 8.1 引入了对枚举（Enums）的支持。为了补充这一功能，Laravel 允许在路由定义中对一个有值的枚举进行类型提示，且 Laravel 仅在该路由段对应一个有效的枚举值时才会调用该路由。否则，将自动返回 404 HTTP 响应。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=o>&lt;?</span><span class=nx>php</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=k>namespace</span> <span class=nx>App\Enums</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nx>enum</span> <span class=nx>Category</span><span class=o>:</span> <span class=nx>string</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>case</span> <span class=nx>Fruits</span> <span class=o>=</span> <span class=s1>&#39;fruits&#39;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=k>case</span> <span class=nx>People</span> <span class=o>=</span> <span class=s1>&#39;people&#39;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>App\Enums\Category</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Support\Facades\Route</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>get</span><span class=p>(</span><span class=s1>&#39;/categories/{category}&#39;</span><span class=p>,</span> <span class=k>function</span> <span class=p>(</span><span class=nx>Category</span> <span class=nv>$category</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nv>$category</span><span class=o>-&gt;</span><span class=na>value</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=显示绑定>显示绑定</h3><p>要注册显示绑定，使用路由器的model方法为给定参数指定类。</p><p>应该在AppServiceProvider 类的 boot 方法的开头定义显式模型绑定。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>App\Models\User</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Support\Facades\Route</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=sd>/**
+</span></span></span><span class=line><span class=cl><span class=sd> * Bootstrap any application services.
+</span></span></span><span class=line><span class=cl><span class=sd> */</span>
+</span></span><span class=line><span class=cl><span class=k>public</span> <span class=k>function</span> <span class=nf>boot</span><span class=p>()</span><span class=o>:</span> <span class=nx>void</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>Route</span><span class=o>::</span><span class=na>model</span><span class=p>(</span><span class=s1>&#39;user&#39;</span><span class=p>,</span> <span class=nx>User</span><span class=o>::</span><span class=na>class</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>App\Models\User</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>get</span><span class=p>(</span><span class=s1>&#39;/users/{user}&#39;</span><span class=p>,</span> <span class=k>function</span> <span class=p>(</span><span class=nx>User</span> <span class=nv>$user</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// ...
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>});</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=自定义解析逻辑>自定义解析逻辑</h4><p>如果希望定义自己的模型绑定解析逻辑，可以使用<code>Route:bind</code>方法。</p><p>传递给 bind 方法的闭包将接收 URI 段的值，并应返回应注入到路由中的类的实例。</p><p>同样，这种自定义应该在应用程序的 AppServiceProvider 类的 boot 方法中进行。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>App\Models\User</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Support\Facades\Route</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=sd>/**
+</span></span></span><span class=line><span class=cl><span class=sd> * Bootstrap any application services.
+</span></span></span><span class=line><span class=cl><span class=sd> */</span>
+</span></span><span class=line><span class=cl><span class=k>public</span> <span class=k>function</span> <span class=nf>boot</span><span class=p>()</span><span class=o>:</span> <span class=nx>void</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>Route</span><span class=o>::</span><span class=na>bind</span><span class=p>(</span><span class=s1>&#39;user&#39;</span><span class=p>,</span> <span class=k>function</span> <span class=p>(</span><span class=nx>string</span> <span class=nv>$value</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=nx>User</span><span class=o>::</span><span class=na>where</span><span class=p>(</span><span class=s1>&#39;name&#39;</span><span class=p>,</span> <span class=nv>$value</span><span class=p>)</span><span class=o>-&gt;</span><span class=na>firstOrFail</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>    <span class=p>});</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>也可以在Eloquent 模型上重写 <code>resolveRouteBinding</code> 方法。这个方法将接收 URI 段的值，并应返回应注入到路由中的类的实例。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=sd>/**
+</span></span></span><span class=line><span class=cl><span class=sd> * Retrieve the model for a bound value.
+</span></span></span><span class=line><span class=cl><span class=sd> *
+</span></span></span><span class=line><span class=cl><span class=sd> * @param  mixed  $value
+</span></span></span><span class=line><span class=cl><span class=sd> * @param  string|null  $field
+</span></span></span><span class=line><span class=cl><span class=sd> * @return \Illuminate\Database\Eloquent\Model|null
+</span></span></span><span class=line><span class=cl><span class=sd> */</span>
+</span></span><span class=line><span class=cl><span class=k>public</span> <span class=k>function</span> <span class=nf>resolveRouteBinding</span><span class=p>(</span><span class=nv>$value</span><span class=p>,</span> <span class=nv>$field</span> <span class=o>=</span> <span class=k>null</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>where</span><span class=p>(</span><span class=s1>&#39;name&#39;</span><span class=p>,</span> <span class=nv>$value</span><span class=p>)</span><span class=o>-&gt;</span><span class=na>firstOrFail</span><span class=p>();</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>如果路由使用隐式绑定作用域，将使用 <code>resolveChildRouteBinding</code> 方法来解析父模型的子绑定。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=sd>/**
+</span></span></span><span class=line><span class=cl><span class=sd> * Retrieve the child model for a bound value.
+</span></span></span><span class=line><span class=cl><span class=sd> *
+</span></span></span><span class=line><span class=cl><span class=sd> * @param  string  $childType
+</span></span></span><span class=line><span class=cl><span class=sd> * @param  mixed  $value
+</span></span></span><span class=line><span class=cl><span class=sd> * @param  string|null  $field
+</span></span></span><span class=line><span class=cl><span class=sd> * @return \Illuminate\Database\Eloquent\Model|null
+</span></span></span><span class=line><span class=cl><span class=sd> */</span>
+</span></span><span class=line><span class=cl><span class=k>public</span> <span class=k>function</span> <span class=nf>resolveChildRouteBinding</span><span class=p>(</span><span class=nv>$childType</span><span class=p>,</span> <span class=nv>$value</span><span class=p>,</span> <span class=nv>$field</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=k>parent</span><span class=o>::</span><span class=na>resolveChildRouteBinding</span><span class=p>(</span><span class=nv>$childType</span><span class=p>,</span> <span class=nv>$value</span><span class=p>,</span> <span class=nv>$field</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=回退路由>回退路由</h2><p>使用 <code>Route::fallback</code> 方法，可以定义一个在没有其他路由匹配传入请求时执行的路由。</p><p>通常，未处理的请求将通过应用程序的异常处理程序自动呈现一个 &ldquo;404&rdquo; 页面。</p><p>然而，由于会在 routes/web.php 文件中定义回退路由，因此 web 中间件组中的所有中间件都将应用于该路由。</p><p>也可以根据需要向该路由添加额外的中间件。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>fallback</span><span class=p>(</span><span class=k>function</span> <span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// ...
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>});</span>
+</span></span></code></pre></td></tr></table></div></div><p><strong>📢注意：回退路由应始终是应用程序注册的最后一个路由。</strong></p><h2 id=速率限制>速率限制</h2><h3 id=定义速率限制器>定义速率限制器</h3><p>Laravel包含强大且可定制的速率限制服务，可以利用它们来限制给定路由或路由组的流量量。</p><p>要开始使用，应该定义满足应用程序需求的速率限制器配置。</p><p>速率限制器可以在应用程序的 <code>App\Providers\AppServiceProvider</code> 类的 <code>boot</code> 方法中定义。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Cache\RateLimiting\Limit</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Http\Request</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Support\Facades\RateLimiter</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=sd>/**
+</span></span></span><span class=line><span class=cl><span class=sd> * Bootstrap any application services.
+</span></span></span><span class=line><span class=cl><span class=sd> */</span>
+</span></span><span class=line><span class=cl><span class=k>protected</span> <span class=k>function</span> <span class=nf>boot</span><span class=p>()</span><span class=o>:</span> <span class=nx>void</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>RateLimiter</span><span class=o>::</span><span class=na>for</span><span class=p>(</span><span class=s1>&#39;api&#39;</span><span class=p>,</span> <span class=k>function</span> <span class=p>(</span><span class=nx>Request</span> <span class=nv>$request</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=nx>Limit</span><span class=o>::</span><span class=na>perMinute</span><span class=p>(</span><span class=mi>60</span><span class=p>)</span><span class=o>-&gt;</span><span class=na>by</span><span class=p>(</span><span class=nv>$request</span><span class=o>-&gt;</span><span class=na>user</span><span class=p>()</span><span class=o>?-&gt;</span><span class=na>id</span> <span class=o>?:</span> <span class=nv>$request</span><span class=o>-&gt;</span><span class=na>ip</span><span class=p>());</span>
+</span></span><span class=line><span class=cl>    <span class=p>});</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>速率限制器是使用 <code>RateLimiter</code> Facade <code>for</code> 的方法定义的。</p><p><code>for</code> 方法接受一个速率限制器名称和一个返回应用于分配给速率限制器的路由的限制配置的闭包。</p><p>限制配置是 <code>Illuminate\Cache\RateLimiting\Limit</code> 类的实例。</p><p>该类包含有用的 &ldquo;构建器&rdquo; 方法，因此可以快速定义限制。</p><p>速率限制器名称可以是任何字符串。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Cache\RateLimiting\Limit</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Http\Request</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Support\Facades\RateLimiter</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=sd>/**
+</span></span></span><span class=line><span class=cl><span class=sd> * Bootstrap any application services.
+</span></span></span><span class=line><span class=cl><span class=sd> */</span>
+</span></span><span class=line><span class=cl><span class=k>protected</span> <span class=k>function</span> <span class=nf>boot</span><span class=p>()</span><span class=o>:</span> <span class=nx>void</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>RateLimiter</span><span class=o>::</span><span class=na>for</span><span class=p>(</span><span class=s1>&#39;global&#39;</span><span class=p>,</span> <span class=k>function</span> <span class=p>(</span><span class=nx>Request</span> <span class=nv>$request</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=nx>Limit</span><span class=o>::</span><span class=na>perMinute</span><span class=p>(</span><span class=mi>1000</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=p>});</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>如果传入的请求超过了指定的速率限制，Laravel 将自动返回一个带有 429 HTTP 状态码的响应。如果希望定义自己的响应来处理速率限制，可以使用 <code>response</code> 方法。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>RateLimiter</span><span class=o>::</span><span class=na>for</span><span class=p>(</span><span class=s1>&#39;global&#39;</span><span class=p>,</span> <span class=k>function</span> <span class=p>(</span><span class=nx>Request</span> <span class=nv>$request</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nx>Limit</span><span class=o>::</span><span class=na>perMinute</span><span class=p>(</span><span class=mi>1000</span><span class=p>)</span><span class=o>-&gt;</span><span class=na>response</span><span class=p>(</span><span class=k>function</span> <span class=p>(</span><span class=nx>Request</span> <span class=nv>$request</span><span class=p>,</span> <span class=k>array</span> <span class=nv>$headers</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=nx>response</span><span class=p>(</span><span class=s1>&#39;Custom response...&#39;</span><span class=p>,</span> <span class=mi>429</span><span class=p>,</span> <span class=nv>$headers</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=p>});</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span></code></pre></td></tr></table></div></div><p>由于速率限制器回调接收传入的 HTTP 请求实例，可以根据传入的请求或经过身份验证的用户动态地构建适当的速率限制。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>RateLimiter</span><span class=o>::</span><span class=na>for</span><span class=p>(</span><span class=s1>&#39;uploads&#39;</span><span class=p>,</span> <span class=k>function</span> <span class=p>(</span><span class=nx>Request</span> <span class=nv>$request</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nv>$request</span><span class=o>-&gt;</span><span class=na>user</span><span class=p>()</span><span class=o>-&gt;</span><span class=na>vipCustomer</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>                <span class=o>?</span> <span class=nx>Limit</span><span class=o>::</span><span class=na>none</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>                <span class=o>:</span> <span class=nx>Limit</span><span class=o>::</span><span class=na>perMinute</span><span class=p>(</span><span class=mi>100</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=分段速率限制>分段速率限制</h4><p>可以在构建速率限制时使用<code>by</code>方法对速率限制进行分段.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>RateLimiter</span><span class=o>::</span><span class=na>for</span><span class=p>(</span><span class=s1>&#39;uploads&#39;</span><span class=p>,</span> <span class=k>function</span> <span class=p>(</span><span class=nx>Request</span> <span class=nv>$request</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nv>$request</span><span class=o>-&gt;</span><span class=na>user</span><span class=p>()</span><span class=o>-&gt;</span><span class=na>vipCustomer</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>                <span class=o>?</span> <span class=nx>Limit</span><span class=o>::</span><span class=na>none</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>                <span class=o>:</span> <span class=nx>Limit</span><span class=o>::</span><span class=na>perMinute</span><span class=p>(</span><span class=mi>100</span><span class=p>)</span><span class=o>-&gt;</span><span class=na>by</span><span class=p>(</span><span class=nv>$request</span><span class=o>-&gt;</span><span class=na>ip</span><span class=p>());</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span></code></pre></td></tr></table></div></div><p>例：限制对路由的访问，每分钟对经过身份验证的用户ID限制为100次，对于未登录的访客，每分钟限制为10次</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>RateLimiter</span><span class=o>::</span><span class=na>for</span><span class=p>(</span><span class=s1>&#39;uploads&#39;</span><span class=p>,</span> <span class=k>function</span> <span class=p>(</span><span class=nx>Request</span> <span class=nv>$request</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nv>$request</span><span class=o>-&gt;</span><span class=na>user</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>                <span class=o>?</span> <span class=nx>Limit</span><span class=o>::</span><span class=na>perMinute</span><span class=p>(</span><span class=mi>100</span><span class=p>)</span><span class=o>-&gt;</span><span class=na>by</span><span class=p>(</span><span class=nv>$request</span><span class=o>-&gt;</span><span class=na>user</span><span class=p>()</span><span class=o>-&gt;</span><span class=na>id</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>                <span class=o>:</span> <span class=nx>Limit</span><span class=o>::</span><span class=na>perMinute</span><span class=p>(</span><span class=mi>10</span><span class=p>)</span><span class=o>-&gt;</span><span class=na>by</span><span class=p>(</span><span class=nv>$request</span><span class=o>-&gt;</span><span class=na>ip</span><span class=p>());</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=多个速率限制>多个速率限制</h4><p>可以为给定的速率限制器配置返回一个速率限制数组。每个速率限制将根据它们在数组中的顺序进行路由评估。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>RateLimiter</span><span class=o>::</span><span class=na>for</span><span class=p>(</span><span class=s1>&#39;login&#39;</span><span class=p>,</span> <span class=k>function</span> <span class=p>(</span><span class=nx>Request</span> <span class=nv>$request</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>        <span class=nx>Limit</span><span class=o>::</span><span class=na>perMinute</span><span class=p>(</span><span class=mi>500</span><span class=p>),</span>
+</span></span><span class=line><span class=cl>        <span class=nx>Limit</span><span class=o>::</span><span class=na>perMinute</span><span class=p>(</span><span class=mi>3</span><span class=p>)</span><span class=o>-&gt;</span><span class=na>by</span><span class=p>(</span><span class=nv>$request</span><span class=o>-&gt;</span><span class=na>input</span><span class=p>(</span><span class=s1>&#39;email&#39;</span><span class=p>)),</span>
+</span></span><span class=line><span class=cl>    <span class=p>];</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=将速率限制器附加到路由>将速率限制器附加到路由</h3><p>可以使用 <code>throttle</code> 中间件将速率限制器附加到路由或路由组。</p><p><code>throttle</code> 中间件接受分配给路由的速率限制器的名称。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>middleware</span><span class=p>([</span><span class=s1>&#39;throttle:uploads&#39;</span><span class=p>])</span><span class=o>-&gt;</span><span class=na>group</span><span class=p>(</span><span class=k>function</span> <span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>Route</span><span class=o>::</span><span class=na>post</span><span class=p>(</span><span class=s1>&#39;/audio&#39;</span><span class=p>,</span> <span class=k>function</span> <span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=c1>// ...
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=p>});</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl>    <span class=nx>Route</span><span class=o>::</span><span class=na>post</span><span class=p>(</span><span class=s1>&#39;/video&#39;</span><span class=p>,</span> <span class=k>function</span> <span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=c1>// ...
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=p>});</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=使用redis进行节流>使用Redis进行节流</h4><p>默认情况下，<code>throttle</code> 中间件映射到 <code>Illuminate\Routing\Middleware\ThrottleRequests</code> 类。</p><p>然而，如果使用 Redis 作为应用程序的缓存驱动程序，并且指示 Laravel 使用 Redis 来管理速率限制，可以在应用程序的 <code>bootstrap/app.php</code> 文件中使用 <code>throttleWithRedis</code> 方法。</p><p>这个方法将 <code>throttle</code> 中间件映射到 <code>Illuminate\Routing\Middleware\ThrottleRequestsWithRedis</code> 中间件类。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=o>-&gt;</span><span class=na>withMiddleware</span><span class=p>(</span><span class=k>function</span> <span class=p>(</span><span class=nx>Middleware</span> <span class=nv>$middleware</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nv>$middleware</span><span class=o>-&gt;</span><span class=na>throttleWithRedis</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// ...
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>})</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=表单方法欺骗>表单方法欺骗</h2><p>HTML表单不支持PUT、PATCH或DELETE操作。因此，当定义从HTML表单调用的PUT、PATCH或DELETE路由时，需要向表单添加一个隐藏的_method字段。发送的_method字段的值将被用作HTTP请求方法。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=o>&lt;</span><span class=nx>form</span> <span class=nx>action</span><span class=o>=</span><span class=s2>&#34;/example&#34;</span> <span class=nx>method</span><span class=o>=</span><span class=s2>&#34;POST&#34;</span><span class=o>&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=o>&lt;</span><span class=nx>input</span> <span class=nx>type</span><span class=o>=</span><span class=s2>&#34;hidden&#34;</span> <span class=nx>name</span><span class=o>=</span><span class=s2>&#34;_method&#34;</span> <span class=nx>value</span><span class=o>=</span><span class=s2>&#34;PUT&#34;</span><span class=o>&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=o>&lt;</span><span class=nx>input</span> <span class=nx>type</span><span class=o>=</span><span class=s2>&#34;hidden&#34;</span> <span class=nx>name</span><span class=o>=</span><span class=s2>&#34;_token&#34;</span> <span class=nx>value</span><span class=o>=</span><span class=s2>&#34;{{ csrf_token() }}&#34;</span><span class=o>&gt;</span>
+</span></span><span class=line><span class=cl><span class=o>&lt;/</span><span class=nx>form</span><span class=o>&gt;</span>
+</span></span></code></pre></td></tr></table></div></div><p>为了方便起见，可以使用 Blade 指令 <code>@method</code> 来生成 <code>_method</code> 输入字段。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=o>&lt;</span><span class=nx>form</span> <span class=nx>action</span><span class=o>=</span><span class=s2>&#34;/example&#34;</span> <span class=nx>method</span><span class=o>=</span><span class=s2>&#34;POST&#34;</span><span class=o>&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=o>@</span><span class=nx>method</span><span class=p>(</span><span class=s1>&#39;PUT&#39;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=o>@</span><span class=nx>csrf</span>
+</span></span><span class=line><span class=cl><span class=o>&lt;/</span><span class=nx>form</span><span class=o>&gt;</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=访问当前路由>访问当前路由</h2><p>可以使用 <code>Route</code> Facade 上的 <code>current</code> 、 <code>currentRouteName</code> 和 <code>currentRouteAction</code> 方法来访问有关处理传入请求的路由的信息</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Support\Facades\Route</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nv>$route</span> <span class=o>=</span> <span class=nx>Route</span><span class=o>::</span><span class=na>current</span><span class=p>();</span> <span class=c1>// Illuminate\Routing\Route
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=nv>$name</span> <span class=o>=</span> <span class=nx>Route</span><span class=o>::</span><span class=na>currentRouteName</span><span class=p>();</span> <span class=c1>// string
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=nv>$action</span> <span class=o>=</span> <span class=nx>Route</span><span class=o>::</span><span class=na>currentRouteAction</span><span class=p>();</span> <span class=c1>// string
+</span></span></span></code></pre></td></tr></table></div></div><h2 id=跨域资源共享cors>跨域资源共享（CORS）</h2><p>Laravel可以自动使用您配置的值响应CORS OPTIONS HTTP请求。</p><p>OPTIONS请求将由HandleCors中间件自动处理，该中间件已自动包含在应用程序的全局中间件堆栈中。</p><p>有时，需要自定义应用程序的CORS配置值。可以使用 <code>config:publish</code> Artisan命令来发布CORS配置文件。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>php artisan config:publish cors
+</span></span></code></pre></td></tr></table></div></div><p>此命令会将 <code>cors.php</code> 配置文件放在应用程序 <code>config</code> 的目录中。</p><h2 id=路由缓存>路由缓存</h2><p>在将应用程序部署到生产环境时，应该利用 Laravel 的路由缓存。</p><p>使用路由缓存可以大幅减少注册所有应用程序路由所需的时间。</p><p>要生成路由缓存，可以执行 <code>route:cache</code> Artisan 命令。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>php artisan route:cache
+</span></span></code></pre></td></tr></table></div></div><p>运行此命令后，缓存路由文件将在每个请求时加载。</p><p>请记住，如果添加了任何新路由，需要生成新的路由缓存。</p><p>因此，在项目部署期间应该只运行 <code>route:cache</code> 命令。</p><p>使用以下 <code>route:clear</code> 命令清除路由缓存：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>php artisan route:clear
+</span></span></code></pre></td></tr></table></div></div></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>更新于 2024年06月14日</span></div></div><div class=post-info-line><div class=post-info-md><span><a class=link-to-markdown href=/2024/06/laravel11%E8%B7%AF%E7%94%B1/index.md target=_blank>阅读原始文档</a></span></div><div class=post-info-share><span><a href=javascript:void(0); title="分享到 Twitter" data-sharer=twitter data-url=https://Joker-desire.github.io/2024/06/laravel11%E8%B7%AF%E7%94%B1/ data-title="Laravel 11.x 路由" data-hashtags=PHP,Laravel><i class="fab fa-twitter fa-fw" aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 Facebook" data-sharer=facebook data-url=https://Joker-desire.github.io/2024/06/laravel11%E8%B7%AF%E7%94%B1/ data-hashtag=PHP><i class="fab fa-facebook-square fa-fw" aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 Hacker News" data-sharer=hackernews data-url=https://Joker-desire.github.io/2024/06/laravel11%E8%B7%AF%E7%94%B1/ data-title="Laravel 11.x 路由"><i class="fab fa-hacker-news fa-fw" aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 Line" data-sharer=line data-url=https://Joker-desire.github.io/2024/06/laravel11%E8%B7%AF%E7%94%B1/ data-title="Laravel 11.x 路由"><i data-svg-src=https://cdn.jsdelivr.net/npm/simple-icons@7.0.0/icons/line.svg aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 微博" data-sharer=weibo data-url=https://Joker-desire.github.io/2024/06/laravel11%E8%B7%AF%E7%94%B1/ data-title="Laravel 11.x 路由"><i class="fab fa-weibo fa-fw" aria-hidden=true></i></a></span></div></div></div><div class=post-info-more><section class=post-tags><i class="fas fa-tags fa-fw" aria-hidden=true></i>&nbsp;<a href=/tags/php/>PHP</a>,&nbsp;<a href=/tags/laravel/>Laravel</a></section><section><span><a href=javascript:void(0); onclick=window.history.back()>返回</a></span>&nbsp;|&nbsp;<span><a href=/>主页</a></span></section></div><div class=post-nav><a href=/2024/06/laravel11%E5%85%A5%E9%97%A8/ class=prev rel=prev title="Laravel 11.x 入门"><i class="fas fa-angle-left fa-fw" aria-hidden=true></i>Laravel 11.x 入门</a>
+<a href=/2024/06/laravel11%E4%B8%AD%E9%97%B4%E4%BB%B6/ class=next rel=next title="Laravel 11.x 中间件">Laravel 11.x 中间件<i class="fas fa-angle-right fa-fw" aria-hidden=true></i></a></div></div><div id=comments><div id=giscus class=comment></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://giscus.app>Giscus</a>.</noscript></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line itemscope itemtype=http://schema.org/CreativeWork><i class="far fa-copyright fa-fw" aria-hidden=true></i><span itemprop=copyrightYear>2022 - 2024</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=/ target=_blank>Joker desire</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div></div></footer></div><div id=fixed-buttons><a href=# id=back-to-top class=fixed-button title=回到顶部><i class="fas fa-arrow-up fa-fw" aria-hidden=true></i>
+</a><a href=# id=view-comments class=fixed-button title=查看评论><i class="fas fa-comment fa-fw" aria-hidden=true></i></a></div><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/lightgallery@2.4.0/css/lightgallery-bundle.min.css><script type=text/javascript src=https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/algoliasearch@4.13.1/dist/algoliasearch-lite.umd.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lazysizes@5.3.1/lazysizes.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lightgallery@2.4.0/lightgallery.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lightgallery@2.4.0/plugins/thumbnail/lg-thumbnail.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lightgallery@2.4.0/plugins/zoom/lg-zoom.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js></script><script type=text/javascript>window.config={code:{copyTitle:"复制到剪贴板",maxShownLines:50},comment:{giscus:{category:"Announcements",categoryId:"DIC_kwDOHfPihs4CPp7X",darkTheme:"dark",emitMetadata:"0",inputPosition:"top",lang:"zh-CN",lazyLoading:!1,lightTheme:"light",mapping:"pathname",reactionsEnabled:"1",repo:"Joker-desire/store-comments",repoId:"R_kgDOHfPihg"}},lightgallery:!0,search:{algoliaAppID:"R6OIVCXBNU",algoliaIndex:"Joker-desire",algoliaSearchKey:"07e68b90760663e43882d4a48e00e932",highlightTag:"em",maxResultLength:10,noResultsFound:"没有找到结果",snippetLength:30,type:"algolia"}}</script><script type=text/javascript src=/js/theme.min.js></script></body></html>

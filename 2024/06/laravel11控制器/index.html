@@ -1,0 +1,611 @@
+<!doctype html><html lang=zh-cn><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><title>Laravel 11.x 控制器 - Joker-desire's Blog</title><meta name=Description content="为什么要努力？ 因为我喜欢的东西都很贵，我想去的地方都很远，我爱的人超完美。"><meta property="og:url" content="https://Joker-desire.github.io/2024/06/laravel11%E6%8E%A7%E5%88%B6%E5%99%A8/">
+<meta property="og:site_name" content="Joker-desire's Blog"><meta property="og:title" content="Laravel 11.x 控制器"><meta property="og:description" content='原文 介绍 与其在路由文件中将所有请求处理逻辑定义为闭包，也可以使用"controller"类来组织这些行为。 控制器可以将相'><meta property="og:locale" content="zh_cn"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2024-06-16T01:06:26+08:00"><meta property="article:modified_time" content="2024-06-16T01:06:26+08:00"><meta property="article:tag" content="PHP"><meta property="article:tag" content="Laravel"><meta property="og:image" content="https://Joker-desire.github.io/logo.png"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://Joker-desire.github.io/logo.png"><meta name=twitter:title content="Laravel 11.x 控制器"><meta name=twitter:description content='原文 介绍 与其在路由文件中将所有请求处理逻辑定义为闭包，也可以使用"controller"类来组织这些行为。 控制器可以将相'><meta name=application-name content="Joker-desire"><meta name=apple-mobile-web-app-title content="Joker-desire"><meta name=theme-color content="#ffffff"><meta name=msapplication-TileColor content="#da532c"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://Joker-desire.github.io/2024/06/laravel11%E6%8E%A7%E5%88%B6%E5%99%A8/><link rel=prev href=https://Joker-desire.github.io/2024/06/laravel11csrf%E4%BF%9D%E6%8A%A4/><link rel=next href=https://Joker-desire.github.io/2024/06/laravel11%E8%AF%B7%E6%B1%82/><link rel=stylesheet href=/css/style.min.css><link rel=preload href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css></noscript><link rel=preload href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css></noscript><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"Laravel 11.x 控制器","inLanguage":"zh-cn","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/Joker-desire.github.io\/2024\/06\/laravel11%E6%8E%A7%E5%88%B6%E5%99%A8\/"},"genre":"posts","keywords":"PHP, Laravel","wordcount":3219,"url":"https:\/\/Joker-desire.github.io\/2024\/06\/laravel11%E6%8E%A7%E5%88%B6%E5%99%A8\/","datePublished":"2024-06-16T01:06:26+08:00","dateModified":"2024-06-16T01:06:26+08:00","publisher":{"@type":"Organization","name":""},"author":{"@type":"Person","name":"Joker-desire"},"description":""}</script></head><body data-header-desktop=fixed data-header-mobile=auto><script type=text/javascript>(window.localStorage&&localStorage.getItem("theme")?localStorage.getItem("theme")==="dark":"auto"==="auto"?window.matchMedia("(prefers-color-scheme: dark)").matches:"auto"==="dark")&&document.body.setAttribute("theme","dark")</script><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title="Joker-desire's Blog"><span class=header-title-pre><i class='far fa-kiss-wink-heart fa-fw' aria-hidden=true></i></span>welcome</a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts title=所有文章>所有文章 </a><a class=menu-item href=/categories title=分类>分类 </a><a class=menu-item href=/tags title=标签>标签 </a><a class=menu-item href=/about title=关于>关于 </a><a class=menu-item href=https://github.com/Joker-desire title=GitHub rel="noopener noreffer" target=_blank><i class='fab fa-github fa-fw' aria-hidden=true></i> </a><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop>
+<input type=text placeholder=搜索文章标题或内容... id=search-input-desktop>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-desktop title=搜索><i class="fas fa-search fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-desktop title=清空><i class="fas fa-times-circle fa-fw" aria-hidden=true></i>
+</a><span class="search-button search-loading" id=search-loading-desktop><i class="fas fa-spinner fa-fw fa-spin" aria-hidden=true></i>
+</span></span><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题><i class="fas fa-adjust fa-fw" aria-hidden=true></i></a></div></div></div></header><header class=mobile id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title="Joker-desire's Blog"><span class=header-title-pre><i class='far fa-kiss-wink-heart fa-fw' aria-hidden=true></i></span>welcome</a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><div class=search-wrapper><div class="search mobile" id=search-mobile><input type=text placeholder=搜索文章标题或内容... id=search-input-mobile>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-mobile title=搜索><i class="fas fa-search fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-mobile title=清空><i class="fas fa-times-circle fa-fw" aria-hidden=true></i>
+</a><span class="search-button search-loading" id=search-loading-mobile><i class="fas fa-spinner fa-fw fa-spin" aria-hidden=true></i></span></div><a href=javascript:void(0); class=search-cancel id=search-cancel-mobile>取消</a></div><a class=menu-item href=/posts title=所有文章>所有文章</a><a class=menu-item href=/categories title=分类>分类</a><a class=menu-item href=/tags title=标签>标签</a><a class=menu-item href=/about title=关于>关于</a><a class=menu-item href=https://github.com/Joker-desire title=GitHub rel="noopener noreffer" target=_blank><i class='fab fa-github fa-fw' aria-hidden=true></i></a><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题>
+<i class="fas fa-adjust fa-fw" aria-hidden=true></i></a></div></div></header><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div><main class=main><div class=container><div class=toc id=toc-auto><h2 class=toc-title>目录</h2><div class=toc-content id=toc-content-auto></div></div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Laravel 11.x 控制器</h1><div class=post-meta><div class=post-meta-line><span class=post-author><a href=/ title=Author rel=author class=author><i class="fas fa-user-circle fa-fw" aria-hidden=true></i>Joker-desire</a></span>&nbsp;<span class=post-category>收录于 <a href=/categories/php/><i class="far fa-folder fa-fw" aria-hidden=true></i>PHP</a>&nbsp;<a href=/categories/laravel/><i class="far fa-folder fa-fw" aria-hidden=true></i>Laravel</a></span></div><div class=post-meta-line><i class="far fa-calendar-alt fa-fw" aria-hidden=true></i>&nbsp;<time datetime=2024年06月16日>2024年06月16日</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden=true></i>&nbsp;约 3219 字&nbsp;
+<i class="far fa-clock fa-fw" aria-hidden=true></i>&nbsp;预计阅读 7 分钟&nbsp;</div></div><div class="details toc" id=toc-static data-kept><div class="details-summary toc-title"><span>目录</span>
+<span><i class="details-icon fas fa-angle-right" aria-hidden=true></i></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><ul><li><a href=#介绍>介绍</a></li><li><a href=#编写控制器>编写控制器</a><ul><li><a href=#基本控制器>基本控制器</a></li><li><a href=#单动作控制器>单动作控制器</a></li></ul></li><li><a href=#控制器中间件>控制器中间件</a></li><li><a href=#资源控制器>资源控制器</a><ul><li><ul><li><a href=#自定义缺失的模型行为>自定义缺失的模型行为</a></li><li><a href=#软删除模型>软删除模型</a></li><li><a href=#指定资源模型>指定资源模型</a></li><li><a href=#生成表单请求>生成表单请求</a></li></ul></li><li><a href=#部分资源路由>部分资源路由</a><ul><li><a href=#api-资源路由>API 资源路由</a></li></ul></li><li><a href=#嵌套资源>嵌套资源</a><ul><li><a href=#浅层嵌套>浅层嵌套</a></li></ul></li><li><a href=#命名资源路由>命名资源路由</a></li><li><a href=#命名资源路由参数>命名资源路由参数</a></li><li><a href=#确定资源路由的范围>确定资源路由的范围</a></li><li><a href=#本地化资源uri>本地化资源URI</a></li><li><a href=#补充资源控制器>补充资源控制器</a></li><li><a href=#单例资源控制器>单例资源控制器</a><ul><li><a href=#可创建的单例资源>可创建的单例资源</a></li><li><a href=#api-单例资源>API 单例资源</a></li></ul></li></ul></li><li><a href=#依赖注入和控制器>依赖注入和控制器</a><ul><li><a href=#构造函数注入>构造函数注入</a></li><li><a href=#方法注入>方法注入</a></li></ul></li></ul></li></ul></nav></div></div><div class=content id=content><hr><p><a href=https://laravel.com/docs/11.x/controllers target=_blank rel="noopener noreffer">原文</a></p><hr><h2 id=介绍>介绍</h2><p>与其在路由文件中将所有请求处理逻辑定义为闭包，也可以使用"controller"类来组织这些行为。</p><p>控制器可以将相关的请求逻辑分组到一个类中。</p><p>默认情况下，控制器存储在<code>app/Http/Controllers</code>目录中。</p><h2 id=编写控制器>编写控制器</h2><h3 id=基本控制器>基本控制器</h3><blockquote><p>使用<code>make:controller</code>命令快速生成新控制器</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>php artisan make:controller UserController
+</span></span></code></pre></td></tr></table></div></div><p>控制器可以有任意数量的公共方法，这些方法将响应传入的HTTP请求：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=o>&lt;?</span><span class=nx>php</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>namespace</span> <span class=nx>App\Http\Controllers</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>App\Models\User</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\View\View</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>UserController</span> <span class=k>extends</span> <span class=nx>Controller</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>public</span> <span class=k>function</span> <span class=nf>show</span><span class=p>(</span><span class=nx>string</span> <span class=nv>$id</span><span class=p>)</span><span class=o>:</span> <span class=nx>View</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=nx>view</span><span class=p>(</span><span class=s1>&#39;user.profile&#39;</span><span class=p>,</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>            <span class=s1>&#39;user&#39;</span> <span class=o>=&gt;</span> <span class=nx>User</span><span class=o>::</span><span class=na>findOrFail</span><span class=p>(</span><span class=nv>$id</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=p>]);</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>编写控制器类和方法后，可以定义控制器方法的路由：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>App\Http\Controllers\UserController</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>get</span><span class=p>(</span><span class=s1>&#39;/user/{id}&#39;</span><span class=p>,</span> <span class=p>[</span><span class=nx>UserController</span><span class=o>::</span><span class=na>class</span><span class=p>,</span> <span class=s1>&#39;show&#39;</span><span class=p>]);</span>
+</span></span></code></pre></td></tr></table></div></div><p>控制器不需要继承基类。然而，有时继承一个包含所有控制器通用方法的基控制器类会更方便。</p><h3 id=单动作控制器>单动作控制器</h3><p>如果一个控制器动作特别复杂，为这个单一动作专门创建一个控制类会更方便。</p><p>可以在控制器中定义一个单一的<code>__invoke</code>方法。</p><p>可以使用<code>make:controller</code>命令<code>--invokable</code>选项生成单一动作控制器：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>php artisan make:controller ProvisionServer --invokable
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=o>&lt;?</span><span class=nx>php</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>namespace</span> <span class=nx>App\Http\Controllers</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Http\Request</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>ProvisionServer</span> <span class=k>extends</span> <span class=nx>Controller</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=sd>/**
+</span></span></span><span class=line><span class=cl><span class=sd>     * Handle the incoming request.
+</span></span></span><span class=line><span class=cl><span class=sd>     */</span>
+</span></span><span class=line><span class=cl>    <span class=k>public</span> <span class=k>function</span> <span class=fm>__invoke</span><span class=p>(</span><span class=nx>Request</span> <span class=nv>$request</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=c1>//
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>在为单动作控制器注册路由时，不需要指定控制器方法。相反，可以简单地将控制器的名称传递给路由器：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>App\Http\Controllers\ProvisionServer</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>post</span><span class=p>(</span><span class=s1>&#39;/server&#39;</span><span class=p>,</span> <span class=nx>ProvisionServer</span><span class=o>::</span><span class=na>class</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=控制器中间件>控制器中间件</h2><p>中间件可以在路由文件中分配给控制器的路由。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>get</span><span class=p>(</span><span class=s1>&#39;profile&#39;</span><span class=p>,</span> <span class=p>[</span><span class=nx>UserController</span><span class=o>::</span><span class=na>class</span><span class=p>,</span> <span class=s1>&#39;show&#39;</span><span class=p>])</span><span class=o>-&gt;</span><span class=na>middleware</span><span class=p>(</span><span class=s1>&#39;auth&#39;</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><p>也可以在控制器类中指定中间件。只需控制器实现<code>HasMiddleware</code>接口，该接口规定控制器应具有静态<code>middleware</code>方法。从次方法中，可以返回一个中间件数组，该数组应用于控制器的操作：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=o>&lt;?</span><span class=nx>php</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=k>namespace</span> <span class=nx>App\Http\Controllers</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>App\Http\Controllers\Controller</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Routing\Controllers\HasMiddleware</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Routing\Controllers\Middleware</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>UserController</span> <span class=k>extends</span> <span class=nx>Controller</span> <span class=k>implements</span> <span class=nx>HasMiddleware</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=sd>/**
+</span></span></span><span class=line><span class=cl><span class=sd>     * Get the middleware that should be assigned to the controller.
+</span></span></span><span class=line><span class=cl><span class=sd>     */</span>
+</span></span><span class=line><span class=cl>    <span class=k>public</span> <span class=k>static</span> <span class=k>function</span> <span class=nf>middleware</span><span class=p>()</span><span class=o>:</span> <span class=k>array</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>            <span class=s1>&#39;auth&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>            <span class=k>new</span> <span class=nx>Middleware</span><span class=p>(</span><span class=s1>&#39;log&#39;</span><span class=p>,</span> <span class=nx>only</span><span class=o>:</span> <span class=p>[</span><span class=s1>&#39;index&#39;</span><span class=p>]),</span>
+</span></span><span class=line><span class=cl>            <span class=k>new</span> <span class=nx>Middleware</span><span class=p>(</span><span class=s1>&#39;subscribed&#39;</span><span class=p>,</span> <span class=nx>except</span><span class=o>:</span> <span class=p>[</span><span class=s1>&#39;store&#39;</span><span class=p>]),</span>
+</span></span><span class=line><span class=cl>        <span class=p>];</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl>    <span class=c1>// ...
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>还可以讲控制器中间件定义成闭包，这提供了一种方便的形式来定义内联中间件，而无需编写整个中间件类：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>Closure</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Http\Request</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=sd>/**
+</span></span></span><span class=line><span class=cl><span class=sd> * Get the middleware that should be assigned to the controller.
+</span></span></span><span class=line><span class=cl><span class=sd> */</span>
+</span></span><span class=line><span class=cl><span class=k>public</span> <span class=k>static</span> <span class=k>function</span> <span class=nf>middleware</span><span class=p>()</span><span class=o>:</span> <span class=k>array</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>        <span class=k>function</span> <span class=p>(</span><span class=nx>Request</span> <span class=nv>$request</span><span class=p>,</span> <span class=nx>Closure</span> <span class=nv>$next</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=k>return</span> <span class=nv>$next</span><span class=p>(</span><span class=nv>$request</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=p>},</span>
+</span></span><span class=line><span class=cl>    <span class=p>];</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=资源控制器>资源控制器</h2><p>使用<code>make:controller</code>命令的<code>--resource</code>选项，快速创建控制器的CRUD操作：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>php</span> <span class=nx>artisan</span> <span class=nx>make</span><span class=o>:</span><span class=nx>controller</span> <span class=nx>PhotoController</span> <span class=o>--</span><span class=nx>resource</span>
+</span></span></code></pre></td></tr></table></div></div><p>此命令将在<code>app/Http/Controllers/PhotoController.php</code> 生成一个控制器。该控制器将包含每个可用资源操作的方法。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span><span class=lnt>56
+</span><span class=lnt>57
+</span><span class=lnt>58
+</span><span class=lnt>59
+</span><span class=lnt>60
+</span><span class=lnt>61
+</span><span class=lnt>62
+</span><span class=lnt>63
+</span><span class=lnt>64
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=o>&lt;?</span><span class=nx>php</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>namespace</span> <span class=nx>App\Http\Controllers</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Http\Request</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>PhotoController</span> <span class=k>extends</span> <span class=nx>Controller</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=sd>/**
+</span></span></span><span class=line><span class=cl><span class=sd>     * Display a listing of the resource.
+</span></span></span><span class=line><span class=cl><span class=sd>     */</span>
+</span></span><span class=line><span class=cl>    <span class=k>public</span> <span class=k>function</span> <span class=nf>index</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=c1>//
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=sd>/**
+</span></span></span><span class=line><span class=cl><span class=sd>     * Show the form for creating a new resource.
+</span></span></span><span class=line><span class=cl><span class=sd>     */</span>
+</span></span><span class=line><span class=cl>    <span class=k>public</span> <span class=k>function</span> <span class=nf>create</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=c1>//
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=sd>/**
+</span></span></span><span class=line><span class=cl><span class=sd>     * Store a newly created resource in storage.
+</span></span></span><span class=line><span class=cl><span class=sd>     */</span>
+</span></span><span class=line><span class=cl>    <span class=k>public</span> <span class=k>function</span> <span class=nf>store</span><span class=p>(</span><span class=nx>Request</span> <span class=nv>$request</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=c1>//
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=sd>/**
+</span></span></span><span class=line><span class=cl><span class=sd>     * Display the specified resource.
+</span></span></span><span class=line><span class=cl><span class=sd>     */</span>
+</span></span><span class=line><span class=cl>    <span class=k>public</span> <span class=k>function</span> <span class=nf>show</span><span class=p>(</span><span class=nx>string</span> <span class=nv>$id</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=c1>//
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=sd>/**
+</span></span></span><span class=line><span class=cl><span class=sd>     * Show the form for editing the specified resource.
+</span></span></span><span class=line><span class=cl><span class=sd>     */</span>
+</span></span><span class=line><span class=cl>    <span class=k>public</span> <span class=k>function</span> <span class=nf>edit</span><span class=p>(</span><span class=nx>string</span> <span class=nv>$id</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=c1>//
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=sd>/**
+</span></span></span><span class=line><span class=cl><span class=sd>     * Update the specified resource in storage.
+</span></span></span><span class=line><span class=cl><span class=sd>     */</span>
+</span></span><span class=line><span class=cl>    <span class=k>public</span> <span class=k>function</span> <span class=nf>update</span><span class=p>(</span><span class=nx>Request</span> <span class=nv>$request</span><span class=p>,</span> <span class=nx>string</span> <span class=nv>$id</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=c1>//
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=sd>/**
+</span></span></span><span class=line><span class=cl><span class=sd>     * Remove the specified resource from storage.
+</span></span></span><span class=line><span class=cl><span class=sd>     */</span>
+</span></span><span class=line><span class=cl>    <span class=k>public</span> <span class=k>function</span> <span class=nf>destroy</span><span class=p>(</span><span class=nx>string</span> <span class=nv>$id</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=c1>//
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>然后就可以注册一个指向该控制器的资源路由：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>App\Http\Controllers\PhotoController</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>resource</span><span class=p>(</span><span class=s1>&#39;photos&#39;</span><span class=p>,</span> <span class=nx>PhotoController</span><span class=o>::</span><span class=na>class</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><p><img class=lazyload src=/svg/loading.min.svg data-src=https://raw.githubusercontent.com/XD825/picgo/main/img/202406161456066.png data-srcset="https://raw.githubusercontent.com/XD825/picgo/main/img/202406161456066.png, https://raw.githubusercontent.com/XD825/picgo/main/img/202406161456066.png 1.5x, https://raw.githubusercontent.com/XD825/picgo/main/img/202406161456066.png 2x" data-sizes=auto alt=https://raw.githubusercontent.com/XD825/picgo/main/img/202406161456066.png title=https://raw.githubusercontent.com/XD825/picgo/main/img/202406161456066.png></p><p>也可以通过将数组传递给<code>resources</code>方法来一次注册多个资源控制器：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>resources</span><span class=p>([</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;photos&#39;</span> <span class=o>=&gt;</span> <span class=nx>PhotoController</span><span class=o>::</span><span class=na>class</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;posts&#39;</span> <span class=o>=&gt;</span> <span class=nx>PostController</span><span class=o>::</span><span class=na>class</span><span class=p>,</span>
+</span></span><span class=line><span class=cl><span class=p>]);</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=自定义缺失的模型行为>自定义缺失的模型行为</h4><p>通常，如果未找到隐式绑定的资源模型，将生成一个 404 HTTP 响应。</p><p>然而，可以在定义资源路由时通过调用<code>missing</code> 方法来自定义此行为。</p><p><code>missing</code> 方法接受一个闭包，如果在任何资源路由中找不到隐式绑定的模型，该闭包将被调用：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>App\Http\Controllers\PhotoController</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Http\Request</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Support\Facades\Redirect</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>resource</span><span class=p>(</span><span class=s1>&#39;photos&#39;</span><span class=p>,</span> <span class=nx>PhotoController</span><span class=o>::</span><span class=na>class</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=o>-&gt;</span><span class=na>missing</span><span class=p>(</span><span class=k>function</span> <span class=p>(</span><span class=nx>Request</span> <span class=nv>$request</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=k>return</span> <span class=nx>Redirect</span><span class=o>::</span><span class=na>route</span><span class=p>(</span><span class=s1>&#39;photos.index&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=p>});</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=软删除模型>软删除模型</h4><p>通常，隐式模型绑定不会检索已软删除的模型，而是返回 404 HTTP 响应。</p><p>然而，可以在定义资源路由时调用 <code>withTrashed</code> 方法来指示框架允许软删除的模型：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>App\Http\Controllers\PhotoController</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>resource</span><span class=p>(</span><span class=s1>&#39;photos&#39;</span><span class=p>,</span> <span class=nx>PhotoController</span><span class=o>::</span><span class=na>class</span><span class=p>)</span><span class=o>-&gt;</span><span class=na>withTrashed</span><span class=p>();</span>
+</span></span></code></pre></td></tr></table></div></div><p>调用不带参数的 <code>withTrashed</code> 方法将允许 show、edit 和 update 资源路由处理软删除的模型。</p><p>可以通过传递一个数组给 <code>withTrashed</code> 方法来指定这些路由的子集。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>resource</span><span class=p>(</span><span class=s1>&#39;photos&#39;</span><span class=p>,</span> <span class=nx>PhotoController</span><span class=o>::</span><span class=na>class</span><span class=p>)</span><span class=o>-&gt;</span><span class=na>withTrashed</span><span class=p>([</span><span class=s1>&#39;show&#39;</span><span class=p>]);</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=指定资源模型>指定资源模型</h4><p>如果使用路由模型绑定，并希望资源控制器的方法类型提示模型实例，那么可以在生成控制器时使用</p><p><code>--model</code> 选项。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>php artisan make:controller PhotoController --model<span class=o>=</span>Photo --resource
+</span></span></code></pre></td></tr></table></div></div><h4 id=生成表单请求>生成表单请求</h4><p>在生成资源控制器时，可以使用 <code>--requests</code> 选项生成表单请求类，以供控制器的存储（create）和更新（update）方法使用。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>php</span> <span class=nx>artisan</span> <span class=nx>make</span><span class=o>:</span><span class=nx>controller</span> <span class=nx>PhotoController</span> <span class=o>--</span><span class=nx>model</span><span class=o>=</span><span class=nx>Photo</span> <span class=o>--</span><span class=nx>resource</span> <span class=o>--</span><span class=nx>requests</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=部分资源路由>部分资源路由</h3><p>声明资源路由时，可以指定控制器应处理的操作子集，而不是完成的默认操作集：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>App\Http\Controllers\PhotoController</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>resource</span><span class=p>(</span><span class=s1>&#39;photos&#39;</span><span class=p>,</span> <span class=nx>PhotoController</span><span class=o>::</span><span class=na>class</span><span class=p>)</span><span class=o>-&gt;</span><span class=na>only</span><span class=p>([</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;index&#39;</span><span class=p>,</span> <span class=s1>&#39;show&#39;</span>
+</span></span><span class=line><span class=cl><span class=p>]);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>resource</span><span class=p>(</span><span class=s1>&#39;photos&#39;</span><span class=p>,</span> <span class=nx>PhotoController</span><span class=o>::</span><span class=na>class</span><span class=p>)</span><span class=o>-&gt;</span><span class=na>except</span><span class=p>([</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;create&#39;</span><span class=p>,</span> <span class=s1>&#39;store&#39;</span><span class=p>,</span> <span class=s1>&#39;update&#39;</span><span class=p>,</span> <span class=s1>&#39;destroy&#39;</span>
+</span></span><span class=line><span class=cl><span class=p>]);</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=api-资源路由>API 资源路由</h4><p>在声明将由 API 使用的资源路由时，可以使用<code>apiResource</code>方法自动排除提供 HTML 模板（如 <code>create</code> 和 <code>edit</code> ）的路由：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>App\Http\Controllers\PhotoController</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>apiResource</span><span class=p>(</span><span class=s1>&#39;photos&#39;</span><span class=p>,</span> <span class=nx>PhotoController</span><span class=o>::</span><span class=na>class</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><p>同样，也可以通过将数组传递给<code>apiResource</code>方法一次注册多个API资源控制器：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>App\Http\Controllers\PhotoController</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>App\Http\Controllers\PostController</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>apiResources</span><span class=p>([</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;photos&#39;</span> <span class=o>=&gt;</span> <span class=nx>PhotoController</span><span class=o>::</span><span class=na>class</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;posts&#39;</span> <span class=o>=&gt;</span> <span class=nx>PostController</span><span class=o>::</span><span class=na>class</span><span class=p>,</span>
+</span></span><span class=line><span class=cl><span class=p>]);</span>
+</span></span></code></pre></td></tr></table></div></div><p>可以通过<code>make:controller</code>命令的<code>--api</code>快速生成API资源路由：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>php</span> <span class=nx>artisan</span> <span class=nx>make</span><span class=o>:</span><span class=nx>controller</span> <span class=nx>PhotoController</span> <span class=o>--</span><span class=nx>api</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=嵌套资源>嵌套资源</h3><p>为了嵌套资源控制器，可以在路由声明中使用<code>.</code>符号：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>App\Http\Controllers\PhotoCommentController</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>resource</span><span class=p>(</span><span class=s1>&#39;photos.comments&#39;</span><span class=p>,</span> <span class=nx>PhotoCommentController</span><span class=o>::</span><span class=na>class</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// /photos/{photo}/comments/{comment}
+</span></span></span></code></pre></td></tr></table></div></div><h4 id=浅层嵌套>浅层嵌套</h4><p>通常情况下，不必在 URI 中同时包含父资源和子资源的 ID，因为子资源的 ID 已经是唯一标识符。</p><p>当使用自增主键等唯一标识符来识别模型在 URI 段中时，可以选择使用 &ldquo;浅嵌套&rdquo;：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>App\Http\Controllers\CommentController</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>resource</span><span class=p>(</span><span class=s1>&#39;photos.comments&#39;</span><span class=p>,</span> <span class=nx>CommentController</span><span class=o>::</span><span class=na>class</span><span class=p>)</span><span class=o>-&gt;</span><span class=na>shallow</span><span class=p>();</span>
+</span></span></code></pre></td></tr></table></div></div><p><img class=lazyload src=/svg/loading.min.svg data-src=https://raw.githubusercontent.com/XD825/picgo/main/img/202406161515846.png data-srcset="https://raw.githubusercontent.com/XD825/picgo/main/img/202406161515846.png, https://raw.githubusercontent.com/XD825/picgo/main/img/202406161515846.png 1.5x, https://raw.githubusercontent.com/XD825/picgo/main/img/202406161515846.png 2x" data-sizes=auto alt=https://raw.githubusercontent.com/XD825/picgo/main/img/202406161515846.png title=image-20240616151520793></p><h3 id=命名资源路由>命名资源路由</h3><p>默认情况下，所有资源控制器操作都具有路由名称，可以通过传递具有所需路由名称的<code>name</code>数据来覆盖这些名称：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>App\Http\Controllers\PhotoController</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>resource</span><span class=p>(</span><span class=s1>&#39;photos&#39;</span><span class=p>,</span> <span class=nx>PhotoController</span><span class=o>::</span><span class=na>class</span><span class=p>)</span><span class=o>-&gt;</span><span class=na>names</span><span class=p>([</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;create&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;photos.build&#39;</span>
+</span></span><span class=line><span class=cl><span class=p>]);</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=命名资源路由参数>命名资源路由参数</h3><p>默认情况下，<code>Route::resource</code> 根据资源名称的单数形式创建资源路由的路由参数。</p><p>可以轻松地在每个资源基础上使用 <code>parameters</code> 方法覆盖这一行为。</p><p>传递给 <code>parameters</code> 方法的数组应该是资源名称和参数名称的关联数组。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>App\Http\Controllers\AdminUserController</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>resource</span><span class=p>(</span><span class=s1>&#39;users&#39;</span><span class=p>,</span> <span class=nx>AdminUserController</span><span class=o>::</span><span class=na>class</span><span class=p>)</span><span class=o>-&gt;</span><span class=na>parameters</span><span class=p>([</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;users&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;admin_user&#39;</span>
+</span></span><span class=line><span class=cl><span class=p>]);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// URI
+</span></span></span><span class=line><span class=cl><span class=c1>// /users/{admin_user}
+</span></span></span></code></pre></td></tr></table></div></div><h3 id=确定资源路由的范围>确定资源路由的范围</h3><p>Laravel 的作用域隐式模型绑定功能可以自动将嵌套绑定作用域化，以确保解析的子模型确实属于父模型。</p><p>通过在定义嵌套资源时使用 <code>scoped</code> 方法启用自动作用域化，并指示 Laravel 使用哪个字段来检索子资源：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>App\Http\Controllers\PhotoCommentController</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>resource</span><span class=p>(</span><span class=s1>&#39;photos.comments&#39;</span><span class=p>,</span> <span class=nx>PhotoCommentController</span><span class=o>::</span><span class=na>class</span><span class=p>)</span><span class=o>-&gt;</span><span class=na>scoped</span><span class=p>([</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;comment&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;slug&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl><span class=p>]);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// URI
+</span></span></span><span class=line><span class=cl><span class=c1>// /photos/{photo}/comments/{comment:slug}
+</span></span></span></code></pre></td></tr></table></div></div><h3 id=本地化资源uri>本地化资源URI</h3><p>默认情况下，<code>Route::resource</code> 会使用英语动词和复数规则创建资源的 URI。</p><p>如果需要本地化 create 和 edit 动作的动词，可以使用 <code>Route::resourceVerbs</code> 方法。</p><p>这可以在应用程序的 <code>App\Providers\AppServiceProvider</code> 中的 boot 方法开始时完成：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=sd>/**
+</span></span></span><span class=line><span class=cl><span class=sd> * Bootstrap any application services.
+</span></span></span><span class=line><span class=cl><span class=sd> */</span>
+</span></span><span class=line><span class=cl><span class=k>public</span> <span class=k>function</span> <span class=nf>boot</span><span class=p>()</span><span class=o>:</span> <span class=nx>void</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>Route</span><span class=o>::</span><span class=na>resourceVerbs</span><span class=p>([</span>
+</span></span><span class=line><span class=cl>        <span class=s1>&#39;create&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;crear&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s1>&#39;edit&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;editar&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=p>]);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p><img class=lazyload src=/svg/loading.min.svg data-src=https://raw.githubusercontent.com/XD825/picgo/main/img/202406161521686.png data-srcset="https://raw.githubusercontent.com/XD825/picgo/main/img/202406161521686.png, https://raw.githubusercontent.com/XD825/picgo/main/img/202406161521686.png 1.5x, https://raw.githubusercontent.com/XD825/picgo/main/img/202406161521686.png 2x" data-sizes=auto alt=https://raw.githubusercontent.com/XD825/picgo/main/img/202406161521686.png title=image-20240616152111623></p><h3 id=补充资源控制器>补充资源控制器</h3><p>如果需要在资源控制器之外添加额外的路由，超出了默认的资源路由集合，应该在调用 <code>Route::resource</code>方法之前定义这些路由；否则，资源方法定义的路由可能会意外地优先于补充路由：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>App\Http\Controller\PhotoController</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>get</span><span class=p>(</span><span class=s1>&#39;/photos/popular&#39;</span><span class=p>,</span> <span class=p>[</span><span class=nx>PhotoController</span><span class=o>::</span><span class=na>class</span><span class=p>,</span> <span class=s1>&#39;popular&#39;</span><span class=p>]);</span>
+</span></span><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>resource</span><span class=p>(</span><span class=s1>&#39;photos&#39;</span><span class=p>,</span> <span class=nx>PhotoController</span><span class=o>::</span><span class=na>class</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=单例资源控制器>单例资源控制器</h3><p>有时，应用程序会有一些资源只能有单个实例，那么可以注册一个<code>singleton</code>资源控制器：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>App\Http\Controllers\ProfileController</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Support\Facades\Route</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>singleton</span><span class=p>(</span><span class=s1>&#39;profile&#39;</span><span class=p>,</span> <span class=nx>ProfileController</span><span class=o>::</span><span class=na>class</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><p><img class=lazyload src=/svg/loading.min.svg data-src=https://raw.githubusercontent.com/XD825/picgo/main/img/202406161524969.png data-srcset="https://raw.githubusercontent.com/XD825/picgo/main/img/202406161524969.png, https://raw.githubusercontent.com/XD825/picgo/main/img/202406161524969.png 1.5x, https://raw.githubusercontent.com/XD825/picgo/main/img/202406161524969.png 2x" data-sizes=auto alt=https://raw.githubusercontent.com/XD825/picgo/main/img/202406161524969.png title=image-20240616152448895></p><p>单例实例资源也可以嵌套在标准资源中：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>singleton</span><span class=p>(</span><span class=s1>&#39;photos.comments&#39;</span><span class=p>,</span> <span class=nx>CommentController</span><span class=o>::</span><span class=na>class</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><p><img class=lazyload src=/svg/loading.min.svg data-src=https://raw.githubusercontent.com/XD825/picgo/main/img/202406161526161.png data-srcset="https://raw.githubusercontent.com/XD825/picgo/main/img/202406161526161.png, https://raw.githubusercontent.com/XD825/picgo/main/img/202406161526161.png 1.5x, https://raw.githubusercontent.com/XD825/picgo/main/img/202406161526161.png 2x" data-sizes=auto alt=https://raw.githubusercontent.com/XD825/picgo/main/img/202406161526161.png title=image-20240616152622105></p><h4 id=可创建的单例资源>可创建的单例资源</h4><p>可以在注册单例实例资源路由时调用<code>creatable</code>方法：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>singleton</span><span class=p>(</span><span class=s1>&#39;photos.thumbnail&#39;</span><span class=p>,</span> <span class=nx>ThumbnailController</span><span class=o>::</span><span class=na>class</span><span class=p>)</span><span class=o>-&gt;</span><span class=na>creatable</span><span class=p>();</span>
+</span></span></code></pre></td></tr></table></div></div><p><img class=lazyload src=/svg/loading.min.svg data-src=https://raw.githubusercontent.com/XD825/picgo/main/img/202406161527772.png data-srcset="https://raw.githubusercontent.com/XD825/picgo/main/img/202406161527772.png, https://raw.githubusercontent.com/XD825/picgo/main/img/202406161527772.png 1.5x, https://raw.githubusercontent.com/XD825/picgo/main/img/202406161527772.png 2x" data-sizes=auto alt=https://raw.githubusercontent.com/XD825/picgo/main/img/202406161527772.png title=image-20240616152754689></p><p>使用<code>destroyable</code>方法注册单例资源的<code>DELETE</code>路由，但不注册创建或存储路由：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>singleton</span><span class=p>(</span><span class=s1>&#39;photos.comments&#39;</span><span class=p>,</span> <span class=nx>CommentController</span><span class=o>::</span><span class=na>class</span><span class=p>)</span><span class=o>-&gt;</span><span class=na>destroyable</span><span class=p>();</span>
+</span></span></code></pre></td></tr></table></div></div><p><img class=lazyload src=/svg/loading.min.svg data-src=https://raw.githubusercontent.com/XD825/picgo/main/img/202406161529824.png data-srcset="https://raw.githubusercontent.com/XD825/picgo/main/img/202406161529824.png, https://raw.githubusercontent.com/XD825/picgo/main/img/202406161529824.png 1.5x, https://raw.githubusercontent.com/XD825/picgo/main/img/202406161529824.png 2x" data-sizes=auto alt=https://raw.githubusercontent.com/XD825/picgo/main/img/202406161529824.png title=image-20240616152958757></p><h4 id=api-单例资源>API 单例资源</h4><p><code>apiSingleton</code>方法可用于注册API操作的单例资源：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>apiSingleton</span><span class=p>(</span><span class=s1>&#39;photos&#39;</span><span class=p>,</span> <span class=nx>PhotoController</span><span class=o>::</span><span class=na>class</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><p><img class=lazyload src=/svg/loading.min.svg data-src=https://raw.githubusercontent.com/XD825/picgo/main/img/202406161531335.png data-srcset="https://raw.githubusercontent.com/XD825/picgo/main/img/202406161531335.png, https://raw.githubusercontent.com/XD825/picgo/main/img/202406161531335.png 1.5x, https://raw.githubusercontent.com/XD825/picgo/main/img/202406161531335.png 2x" data-sizes=auto alt=https://raw.githubusercontent.com/XD825/picgo/main/img/202406161531335.png title=image-20240616153144256></p><p>也可以使用<code>creatable</code>将资源注册<code>store</code>和<code>destroy</code>路由：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>apiSingleton</span><span class=p>(</span><span class=s1>&#39;photos&#39;</span><span class=p>,</span> <span class=nx>PhotoController</span><span class=o>::</span><span class=na>class</span><span class=p>)</span><span class=o>-&gt;</span><span class=na>creatable</span><span class=p>();</span>
+</span></span></code></pre></td></tr></table></div></div><p><img class=lazyload src=/svg/loading.min.svg data-src=https://raw.githubusercontent.com/XD825/picgo/main/img/202406161532998.png data-srcset="https://raw.githubusercontent.com/XD825/picgo/main/img/202406161532998.png, https://raw.githubusercontent.com/XD825/picgo/main/img/202406161532998.png 1.5x, https://raw.githubusercontent.com/XD825/picgo/main/img/202406161532998.png 2x" data-sizes=auto alt=https://raw.githubusercontent.com/XD825/picgo/main/img/202406161532998.png title=image-20240616153251938></p><p>同样的<code>destroyable</code>方法依旧可用：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>apiSingleton</span><span class=p>(</span><span class=s1>&#39;photos&#39;</span><span class=p>,</span> <span class=nx>PhotoController</span><span class=o>::</span><span class=na>class</span><span class=p>)</span><span class=o>-&gt;</span><span class=na>destroyable</span><span class=p>();</span>
+</span></span></code></pre></td></tr></table></div></div><p><img class=lazyload src=/svg/loading.min.svg data-src=https://raw.githubusercontent.com/XD825/picgo/main/img/202406161533488.png data-srcset="https://raw.githubusercontent.com/XD825/picgo/main/img/202406161533488.png, https://raw.githubusercontent.com/XD825/picgo/main/img/202406161533488.png 1.5x, https://raw.githubusercontent.com/XD825/picgo/main/img/202406161533488.png 2x" data-sizes=auto alt=https://raw.githubusercontent.com/XD825/picgo/main/img/202406161533488.png title=image-20240616153347425></p><h2 id=依赖注入和控制器>依赖注入和控制器</h2><h3 id=构造函数注入>构造函数注入</h3><p>Laravel的服务容器用于解析所有的Laravel控制器。</p><p>因此，可以在控制器的构造函数中对控制器可能需要的任何依赖项进行类型提示。</p><p>声明的依赖项将自动被解析并注入到控制器实例中。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=o>&lt;?</span><span class=nx>php</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=k>namespace</span> <span class=nx>App\Http\Controllers</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>App\Repositories\UserRepository</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>UserController</span> <span class=k>extends</span> <span class=nx>Controller</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=sd>/**
+</span></span></span><span class=line><span class=cl><span class=sd>     * Create a new controller instance.
+</span></span></span><span class=line><span class=cl><span class=sd>     */</span>
+</span></span><span class=line><span class=cl>    <span class=k>public</span> <span class=k>function</span> <span class=fm>__construct</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>        <span class=k>protected</span> <span class=nx>UserRepository</span> <span class=nv>$users</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=p>)</span> <span class=p>{}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=方法注入>方法注入</h3><p>除了构造函数注入外，还可以在控制器的方法中对依赖项进行类型提示。</p><p>一个常见的用例是在控制器方法中注入 <code>Illuminate\Http\Request</code> 实例：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=o>&lt;?</span><span class=nx>php</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=k>namespace</span> <span class=nx>App\Http\Controllers</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Http\RedirectResponse</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Http\Request</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>UserController</span> <span class=k>extends</span> <span class=nx>Controller</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=sd>/**
+</span></span></span><span class=line><span class=cl><span class=sd>     * Store a new user.
+</span></span></span><span class=line><span class=cl><span class=sd>     */</span>
+</span></span><span class=line><span class=cl>    <span class=k>public</span> <span class=k>function</span> <span class=nf>store</span><span class=p>(</span><span class=nx>Request</span> <span class=nv>$request</span><span class=p>)</span><span class=o>:</span> <span class=nx>RedirectResponse</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nv>$name</span> <span class=o>=</span> <span class=nv>$request</span><span class=o>-&gt;</span><span class=na>name</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl>        <span class=c1>// Store the user...
+</span></span></span><span class=line><span class=cl><span class=c1></span> 
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=nx>redirect</span><span class=p>(</span><span class=s1>&#39;/users&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>如果控制器方法还需要从路由参数中获取输入，请在其他依赖项之后列出路由参数。</p><p>例如，如果路由定义如下所示：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>App\Http\Controllers\UserController</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>put</span><span class=p>(</span><span class=s1>&#39;/user/{id}&#39;</span><span class=p>,</span> <span class=p>[</span><span class=nx>UserController</span><span class=o>::</span><span class=na>class</span><span class=p>,</span> <span class=s1>&#39;update&#39;</span><span class=p>]);</span>
+</span></span></code></pre></td></tr></table></div></div><p>仍然可以对 <code>Illuminate\Http\Request</code> 进行类型提示，并通过以下方式访问 <code>id</code> 参数，定义控制器方法如下所示:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=o>&lt;?</span><span class=nx>php</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=k>namespace</span> <span class=nx>App\Http\Controllers</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Http\RedirectResponse</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Http\Request</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>UserController</span> <span class=k>extends</span> <span class=nx>Controller</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=sd>/**
+</span></span></span><span class=line><span class=cl><span class=sd>     * Update the given user.
+</span></span></span><span class=line><span class=cl><span class=sd>     */</span>
+</span></span><span class=line><span class=cl>    <span class=k>public</span> <span class=k>function</span> <span class=nf>update</span><span class=p>(</span><span class=nx>Request</span> <span class=nv>$request</span><span class=p>,</span> <span class=nx>string</span> <span class=nv>$id</span><span class=p>)</span><span class=o>:</span> <span class=nx>RedirectResponse</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=c1>// Update the user...
+</span></span></span><span class=line><span class=cl><span class=c1></span> 
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=nx>redirect</span><span class=p>(</span><span class=s1>&#39;/users&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>更新于 2024年06月16日</span></div></div><div class=post-info-line><div class=post-info-md><span><a class=link-to-markdown href=/2024/06/laravel11%E6%8E%A7%E5%88%B6%E5%99%A8/index.md target=_blank>阅读原始文档</a></span></div><div class=post-info-share><span><a href=javascript:void(0); title="分享到 Twitter" data-sharer=twitter data-url=https://Joker-desire.github.io/2024/06/laravel11%E6%8E%A7%E5%88%B6%E5%99%A8/ data-title="Laravel 11.x 控制器" data-hashtags=PHP,Laravel><i class="fab fa-twitter fa-fw" aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 Facebook" data-sharer=facebook data-url=https://Joker-desire.github.io/2024/06/laravel11%E6%8E%A7%E5%88%B6%E5%99%A8/ data-hashtag=PHP><i class="fab fa-facebook-square fa-fw" aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 Hacker News" data-sharer=hackernews data-url=https://Joker-desire.github.io/2024/06/laravel11%E6%8E%A7%E5%88%B6%E5%99%A8/ data-title="Laravel 11.x 控制器"><i class="fab fa-hacker-news fa-fw" aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 Line" data-sharer=line data-url=https://Joker-desire.github.io/2024/06/laravel11%E6%8E%A7%E5%88%B6%E5%99%A8/ data-title="Laravel 11.x 控制器"><i data-svg-src=https://cdn.jsdelivr.net/npm/simple-icons@7.0.0/icons/line.svg aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 微博" data-sharer=weibo data-url=https://Joker-desire.github.io/2024/06/laravel11%E6%8E%A7%E5%88%B6%E5%99%A8/ data-title="Laravel 11.x 控制器"><i class="fab fa-weibo fa-fw" aria-hidden=true></i></a></span></div></div></div><div class=post-info-more><section class=post-tags><i class="fas fa-tags fa-fw" aria-hidden=true></i>&nbsp;<a href=/tags/php/>PHP</a>,&nbsp;<a href=/tags/laravel/>Laravel</a></section><section><span><a href=javascript:void(0); onclick=window.history.back()>返回</a></span>&nbsp;|&nbsp;<span><a href=/>主页</a></span></section></div><div class=post-nav><a href=/2024/06/laravel11csrf%E4%BF%9D%E6%8A%A4/ class=prev rel=prev title="Laravel 11.x CSRF保护"><i class="fas fa-angle-left fa-fw" aria-hidden=true></i>Laravel 11.x CSRF保护</a>
+<a href=/2024/06/laravel11%E8%AF%B7%E6%B1%82/ class=next rel=next title="Laravel 11.x 请求">Laravel 11.x 请求<i class="fas fa-angle-right fa-fw" aria-hidden=true></i></a></div></div><div id=comments><div id=giscus class=comment></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://giscus.app>Giscus</a>.</noscript></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line itemscope itemtype=http://schema.org/CreativeWork><i class="far fa-copyright fa-fw" aria-hidden=true></i><span itemprop=copyrightYear>2022 - 2024</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=/ target=_blank>Joker desire</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div></div></footer></div><div id=fixed-buttons><a href=# id=back-to-top class=fixed-button title=回到顶部><i class="fas fa-arrow-up fa-fw" aria-hidden=true></i>
+</a><a href=# id=view-comments class=fixed-button title=查看评论><i class="fas fa-comment fa-fw" aria-hidden=true></i></a></div><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/lightgallery@2.4.0/css/lightgallery-bundle.min.css><script type=text/javascript src=https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/algoliasearch@4.13.1/dist/algoliasearch-lite.umd.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lazysizes@5.3.1/lazysizes.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lightgallery@2.4.0/lightgallery.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lightgallery@2.4.0/plugins/thumbnail/lg-thumbnail.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lightgallery@2.4.0/plugins/zoom/lg-zoom.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js></script><script type=text/javascript>window.config={code:{copyTitle:"复制到剪贴板",maxShownLines:50},comment:{giscus:{category:"Announcements",categoryId:"DIC_kwDOHfPihs4CPp7X",darkTheme:"dark",emitMetadata:"0",inputPosition:"top",lang:"zh-CN",lazyLoading:!1,lightTheme:"light",mapping:"pathname",reactionsEnabled:"1",repo:"Joker-desire/store-comments",repoId:"R_kgDOHfPihg"}},lightgallery:!0,search:{algoliaAppID:"R6OIVCXBNU",algoliaIndex:"Joker-desire",algoliaSearchKey:"07e68b90760663e43882d4a48e00e932",highlightTag:"em",maxResultLength:10,noResultsFound:"没有找到结果",snippetLength:30,type:"algolia"}}</script><script type=text/javascript src=/js/theme.min.js></script></body></html>

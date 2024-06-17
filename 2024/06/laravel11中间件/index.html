@@ -1,0 +1,545 @@
+<!doctype html><html lang=zh-cn><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><title>Laravel 11.x 中间件 - Joker-desire's Blog</title><meta name=Description content="为什么要努力？ 因为我喜欢的东西都很贵，我想去的地方都很远，我爱的人超完美。"><meta property="og:url" content="https://Joker-desire.github.io/2024/06/laravel11%E4%B8%AD%E9%97%B4%E4%BB%B6/">
+<meta property="og:site_name" content="Joker-desire's Blog"><meta property="og:title" content="Laravel 11.x 中间件"><meta property="og:description" content="原文 介绍 中间件为检查和过滤进入应用程序的HTTP请求提供了一种便捷的机制。 定义中间件 make:middleware命令用于创建新的中间件。 1"><meta property="og:locale" content="zh_cn"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2024-06-15T22:59:16+08:00"><meta property="article:modified_time" content="2024-06-15T22:59:16+08:00"><meta property="article:tag" content="PHP"><meta property="article:tag" content="Laravel"><meta property="og:image" content="https://Joker-desire.github.io/logo.png"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://Joker-desire.github.io/logo.png"><meta name=twitter:title content="Laravel 11.x 中间件"><meta name=twitter:description content="原文 介绍 中间件为检查和过滤进入应用程序的HTTP请求提供了一种便捷的机制。 定义中间件 make:middleware命令用于创建新的中间件。 1"><meta name=application-name content="Joker-desire"><meta name=apple-mobile-web-app-title content="Joker-desire"><meta name=theme-color content="#ffffff"><meta name=msapplication-TileColor content="#da532c"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://Joker-desire.github.io/2024/06/laravel11%E4%B8%AD%E9%97%B4%E4%BB%B6/><link rel=prev href=https://Joker-desire.github.io/2024/06/laravel11%E8%B7%AF%E7%94%B1/><link rel=next href=https://Joker-desire.github.io/2024/06/laravel11csrf%E4%BF%9D%E6%8A%A4/><link rel=stylesheet href=/css/style.min.css><link rel=preload href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css></noscript><link rel=preload href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css></noscript><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"Laravel 11.x 中间件","inLanguage":"zh-cn","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/Joker-desire.github.io\/2024\/06\/laravel11%E4%B8%AD%E9%97%B4%E4%BB%B6\/"},"genre":"posts","keywords":"PHP, Laravel","wordcount":2129,"url":"https:\/\/Joker-desire.github.io\/2024\/06\/laravel11%E4%B8%AD%E9%97%B4%E4%BB%B6\/","datePublished":"2024-06-15T22:59:16+08:00","dateModified":"2024-06-15T22:59:16+08:00","publisher":{"@type":"Organization","name":""},"author":{"@type":"Person","name":"Joker-desire"},"description":""}</script></head><body data-header-desktop=fixed data-header-mobile=auto><script type=text/javascript>(window.localStorage&&localStorage.getItem("theme")?localStorage.getItem("theme")==="dark":"auto"==="auto"?window.matchMedia("(prefers-color-scheme: dark)").matches:"auto"==="dark")&&document.body.setAttribute("theme","dark")</script><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title="Joker-desire's Blog"><span class=header-title-pre><i class='far fa-kiss-wink-heart fa-fw' aria-hidden=true></i></span>welcome</a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts title=所有文章>所有文章 </a><a class=menu-item href=/categories title=分类>分类 </a><a class=menu-item href=/tags title=标签>标签 </a><a class=menu-item href=/about title=关于>关于 </a><a class=menu-item href=https://github.com/Joker-desire title=GitHub rel="noopener noreffer" target=_blank><i class='fab fa-github fa-fw' aria-hidden=true></i> </a><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop>
+<input type=text placeholder=搜索文章标题或内容... id=search-input-desktop>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-desktop title=搜索><i class="fas fa-search fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-desktop title=清空><i class="fas fa-times-circle fa-fw" aria-hidden=true></i>
+</a><span class="search-button search-loading" id=search-loading-desktop><i class="fas fa-spinner fa-fw fa-spin" aria-hidden=true></i>
+</span></span><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题><i class="fas fa-adjust fa-fw" aria-hidden=true></i></a></div></div></div></header><header class=mobile id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title="Joker-desire's Blog"><span class=header-title-pre><i class='far fa-kiss-wink-heart fa-fw' aria-hidden=true></i></span>welcome</a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><div class=search-wrapper><div class="search mobile" id=search-mobile><input type=text placeholder=搜索文章标题或内容... id=search-input-mobile>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-mobile title=搜索><i class="fas fa-search fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-mobile title=清空><i class="fas fa-times-circle fa-fw" aria-hidden=true></i>
+</a><span class="search-button search-loading" id=search-loading-mobile><i class="fas fa-spinner fa-fw fa-spin" aria-hidden=true></i></span></div><a href=javascript:void(0); class=search-cancel id=search-cancel-mobile>取消</a></div><a class=menu-item href=/posts title=所有文章>所有文章</a><a class=menu-item href=/categories title=分类>分类</a><a class=menu-item href=/tags title=标签>标签</a><a class=menu-item href=/about title=关于>关于</a><a class=menu-item href=https://github.com/Joker-desire title=GitHub rel="noopener noreffer" target=_blank><i class='fab fa-github fa-fw' aria-hidden=true></i></a><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题>
+<i class="fas fa-adjust fa-fw" aria-hidden=true></i></a></div></div></header><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div><main class=main><div class=container><div class=toc id=toc-auto><h2 class=toc-title>目录</h2><div class=toc-content id=toc-content-auto></div></div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Laravel 11.x 中间件</h1><div class=post-meta><div class=post-meta-line><span class=post-author><a href=/ title=Author rel=author class=author><i class="fas fa-user-circle fa-fw" aria-hidden=true></i>Joker-desire</a></span>&nbsp;<span class=post-category>收录于 <a href=/categories/php/><i class="far fa-folder fa-fw" aria-hidden=true></i>PHP</a>&nbsp;<a href=/categories/laravel/><i class="far fa-folder fa-fw" aria-hidden=true></i>Laravel</a></span></div><div class=post-meta-line><i class="far fa-calendar-alt fa-fw" aria-hidden=true></i>&nbsp;<time datetime=2024年06月15日>2024年06月15日</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden=true></i>&nbsp;约 2129 字&nbsp;
+<i class="far fa-clock fa-fw" aria-hidden=true></i>&nbsp;预计阅读 5 分钟&nbsp;</div></div><div class="details toc" id=toc-static data-kept><div class="details-summary toc-title"><span>目录</span>
+<span><i class="details-icon fas fa-angle-right" aria-hidden=true></i></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><ul><li><a href=#介绍>介绍</a></li><li><a href=#定义中间件>定义中间件</a><ul><li><a href=#中间件和响应>中间件和响应</a></li></ul></li><li><a href=#注册中间件>注册中间件</a><ul><li><a href=#全局中间件>全局中间件</a><ul><li><a href=#手动管理laravel默认全局中间件>手动管理Laravel默认全局中间件</a></li></ul></li><li><a href=#将中间件分配给路由>将中间件分配给路由</a><ul><li><a href=#排除中间件>排除中间件</a></li></ul></li><li><a href=#中间件组>中间件组</a><ul><li><a href=#laravel默认的中间件组>Laravel默认的中间件组</a><ul><li><a href=#手动管理laravel的默认中间件组>手动管理Laravel的默认中间件组</a></li></ul></li></ul></li><li><a href=#中间件别名>中间件别名</a><ul><li><a href=#laravel-内置中间件默认使用的别名>Laravel 内置中间件默认使用的别名</a></li></ul></li><li><a href=#中间件优先级>中间件优先级</a></li></ul></li><li><a href=#中间件参数>中间件参数</a></li><li><a href=#终止中间件>终止中间件</a></li></ul></li></ul></nav></div></div><div class=content id=content><hr><p><a href=https://laravel.com/docs/11.x/middleware target=_blank rel="noopener noreffer">原文</a></p><hr><h2 id=介绍>介绍</h2><p>中间件为检查和过滤进入应用程序的HTTP请求提供了一种便捷的机制。</p><h2 id=定义中间件>定义中间件</h2><blockquote><p><code>make:middleware</code>命令用于创建新的中间件。</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>php artisan make:middleware EnsureTokenIsValid
+</span></span></code></pre></td></tr></table></div></div><p>此命令将在<code>app/Http/Middleware</code>目录中放置一个新<code>EnsureTokenIsValid</code>类。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=o>&lt;?</span><span class=nx>php</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>namespace</span> <span class=nx>App\Http\Middleware</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Closure</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Http\Request</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Symfony\Component\HttpFoundation\Response</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>EnsureTokenIsValid</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=sd>/**
+</span></span></span><span class=line><span class=cl><span class=sd>     * Handle an incoming request.
+</span></span></span><span class=line><span class=cl><span class=sd>     *
+</span></span></span><span class=line><span class=cl><span class=sd>     * @param \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response) $next
+</span></span></span><span class=line><span class=cl><span class=sd>     */</span>
+</span></span><span class=line><span class=cl>    <span class=k>public</span> <span class=k>function</span> <span class=nf>handle</span><span class=p>(</span><span class=nx>Request</span> <span class=nv>$request</span><span class=p>,</span> <span class=nx>Closure</span> <span class=nv>$next</span><span class=p>)</span><span class=o>:</span> <span class=nx>Response</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=nv>$request</span><span class=o>-&gt;</span><span class=na>input</span><span class=p>(</span><span class=s1>&#39;token&#39;</span><span class=p>)</span> <span class=o>!==</span> <span class=s1>&#39;my-secret-token&#39;</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=k>return</span> <span class=nx>response</span><span class=p>(</span><span class=s1>&#39;This action is unauthorized.&#39;</span><span class=p>,</span> <span class=mi>401</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=nv>$next</span><span class=p>(</span><span class=nv>$request</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=中间件和响应>中间件和响应</h3><p>中间件可以在将请求传递到应用程序更深处之前或之后执行任务。</p><p>例如，以下中间件会在请求被应用程序处理之前执行某些任务</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=o>&lt;?</span><span class=nx>php</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>namespace</span> <span class=nx>App\Http\Middleware</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Closure</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Http\Request</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Symfony\Component\HttpFoundation\Response</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>BeforeMiddleware</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=sd>/**
+</span></span></span><span class=line><span class=cl><span class=sd>     * Handle an incoming request.
+</span></span></span><span class=line><span class=cl><span class=sd>     *
+</span></span></span><span class=line><span class=cl><span class=sd>     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
+</span></span></span><span class=line><span class=cl><span class=sd>     */</span>
+</span></span><span class=line><span class=cl>    <span class=k>public</span> <span class=k>function</span> <span class=nf>handle</span><span class=p>(</span><span class=nx>Request</span> <span class=nv>$request</span><span class=p>,</span> <span class=nx>Closure</span> <span class=nv>$next</span><span class=p>)</span><span class=o>:</span> <span class=nx>Response</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=c1>// Perform action
+</span></span></span><span class=line><span class=cl><span class=c1></span>        
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=nv>$next</span><span class=p>(</span><span class=nv>$request</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>以下中间件将在应用程序处理请求后执行其任务：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=o>&lt;?</span><span class=nx>php</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>namespace</span> <span class=nx>App\Http\Middleware</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Closure</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Http\Request</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Symfony\Component\HttpFoundation\Response</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>AfterMiddleware</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=sd>/**
+</span></span></span><span class=line><span class=cl><span class=sd>     * Handle an incoming request.
+</span></span></span><span class=line><span class=cl><span class=sd>     *
+</span></span></span><span class=line><span class=cl><span class=sd>     * @param \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response) $next
+</span></span></span><span class=line><span class=cl><span class=sd>     */</span>
+</span></span><span class=line><span class=cl>    <span class=k>public</span> <span class=k>function</span> <span class=nf>handle</span><span class=p>(</span><span class=nx>Request</span> <span class=nv>$request</span><span class=p>,</span> <span class=nx>Closure</span> <span class=nv>$next</span><span class=p>)</span><span class=o>:</span> <span class=nx>Response</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nv>$response</span> <span class=o>=</span> <span class=nv>$next</span><span class=p>(</span><span class=nv>$request</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=c1>// Perform action
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=nv>$response</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=注册中间件>注册中间件</h2><h3 id=全局中间件>全局中间件</h3><p>如果需要中间件在每个HTTP请求到达应用程序时都运行，那么可以将它附加到应用程序的全局中间件中，在应用程序的<code>bootstrap/app.php</code>文件中进行配置</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>App\Http\Middleware\EnsureTokenIsValid</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=o>-&gt;</span><span class=na>withMiddleware</span><span class=p>(</span><span class=k>function</span> <span class=p>(</span><span class=nx>Middleware</span> <span class=nv>$middleware</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>     <span class=nv>$middleware</span><span class=o>-&gt;</span><span class=na>append</span><span class=p>(</span><span class=nx>EnsureTokenIsValid</span><span class=o>::</span><span class=na>class</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>})</span>
+</span></span></code></pre></td></tr></table></div></div><p>在 <code>withMiddleware</code> 闭包中提供的 <code>$middleware</code> 对象是 <code>Illuminate\Foundation\Configuration\Middleware</code> 的实例，负责管理分配给应用程序路由的中间件。<code>append</code> 方法将中间件添加到全局中间件列表的末尾。</p><p>如果需要将中间件添加到列表的开头，应该使用 <code>prepend</code> 方法。</p><h4 id=手动管理laravel默认全局中间件>手动管理Laravel默认全局中间件</h4><p>可以使用<code>use</code>方法对Laravel提供的默认全局中间件进行手动管理，根据所需调整中间件使用：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=o>-&gt;</span><span class=na>withMiddleware</span><span class=p>(</span><span class=k>function</span> <span class=p>(</span><span class=nx>Middleware</span> <span class=nv>$middleware</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nv>$middleware</span><span class=o>-&gt;</span><span class=na>use</span><span class=p>([</span>
+</span></span><span class=line><span class=cl>        <span class=c1>// \Illuminate\Http\Middleware\TrustHosts::class,
+</span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=nx>\Illuminate\Http\Middleware\TrustProxies</span><span class=o>::</span><span class=na>class</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=nx>\Illuminate\Http\Middleware\HandleCors</span><span class=o>::</span><span class=na>class</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=nx>\Illuminate\Foundation\Http\Middleware\PreventRequestsDuringMaintenance</span><span class=o>::</span><span class=na>class</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=nx>\Illuminate\Http\Middleware\ValidatePostSize</span><span class=o>::</span><span class=na>class</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=nx>\Illuminate\Foundation\Http\Middleware\TrimStrings</span><span class=o>::</span><span class=na>class</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=nx>\Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull</span><span class=o>::</span><span class=na>class</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=p>]);</span>
+</span></span><span class=line><span class=cl><span class=p>})</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=将中间件分配给路由>将中间件分配给路由</h3><p>在定义路由时调用<code>middleware</code>方法将中间件分配给路由</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>App\Http\Middleware\EnsureTokenIsValid</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>get</span><span class=p>(</span><span class=s1>&#39;/profile&#39;</span><span class=p>,</span> <span class=k>function</span> <span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// ...
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>})</span><span class=o>-&gt;</span><span class=na>middleware</span><span class=p>(</span><span class=nx>EnsureTokenIsValid</span><span class=o>::</span><span class=na>class</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><p>也可以将中间件名称数组传递给<code>middleware</code>方法，将多个中间件分配给路由：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>get</span><span class=p>(</span><span class=s1>&#39;/&#39;</span><span class=p>,</span> <span class=k>function</span> <span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// ...
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>})</span><span class=o>-&gt;</span><span class=na>middleware</span><span class=p>([</span><span class=nx>First</span><span class=o>::</span><span class=na>class</span><span class=p>,</span> <span class=nx>Second</span><span class=o>::</span><span class=na>class</span><span class=p>]);</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=排除中间件>排除中间件</h4><blockquote><p>当将中间件分配给一组路由时，需要防止某个中间件应用于该组中的某个单独路由。</p><p>可以使用 <code>withoutMiddleware</code> 方法来实现。</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>App\Http\Middleware\EnsureTokenIsValid</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>middleware</span><span class=p>([</span><span class=nx>EnsureTokenIsValid</span><span class=o>::</span><span class=na>class</span><span class=p>])</span><span class=o>-&gt;</span><span class=na>group</span><span class=p>(</span><span class=k>function</span> <span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>Route</span><span class=o>::</span><span class=na>get</span><span class=p>(</span><span class=s1>&#39;/&#39;</span><span class=p>,</span> <span class=k>function</span> <span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=c1>// ...
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=p>});</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl>    <span class=nx>Route</span><span class=o>::</span><span class=na>get</span><span class=p>(</span><span class=s1>&#39;/profile&#39;</span><span class=p>,</span> <span class=k>function</span> <span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=c1>// ...
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=p>})</span><span class=o>-&gt;</span><span class=na>withoutMiddleware</span><span class=p>([</span><span class=nx>EnsureTokenIsValid</span><span class=o>::</span><span class=na>class</span><span class=p>]);</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span></code></pre></td></tr></table></div></div><p>还可以从整个路由组定义中排除给定的一组中间件</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>App\Http\Middleware\EnsureTokenIsValid</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>withoutMiddleware</span><span class=p>([</span><span class=nx>EnsureTokenIsValid</span><span class=o>::</span><span class=na>class</span><span class=p>])</span><span class=o>-&gt;</span><span class=na>group</span><span class=p>(</span><span class=k>function</span> <span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>Route</span><span class=o>::</span><span class=na>get</span><span class=p>(</span><span class=s1>&#39;/profile&#39;</span><span class=p>,</span> <span class=k>function</span> <span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=c1>// ...
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=p>});</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span></code></pre></td></tr></table></div></div><p><strong>注意：<code>withoutMiddleware</code> 方法只能移除路由中的中间件，不能用于全局中间件。</strong></p><h3 id=中间件组>中间件组</h3><p>将多个中间件分组到一个键下，以便更轻松分配给路由，可以使用应用程序<code>bootstrap/app.php</code> 文件中的方法 <code>appendToGroup</code> 完成此操作</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>App\Http\Middleware\First</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>App\Http\Middleware\Second</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=o>-&gt;</span><span class=na>withMiddleware</span><span class=p>(</span><span class=k>function</span> <span class=p>(</span><span class=nx>Middleware</span> <span class=nv>$middleware</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nv>$middleware</span><span class=o>-&gt;</span><span class=na>appendToGroup</span><span class=p>(</span><span class=s1>&#39;group-name&#39;</span><span class=p>,</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>        <span class=nx>First</span><span class=o>::</span><span class=na>class</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=nx>Second</span><span class=o>::</span><span class=na>class</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=p>]);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl>    <span class=nv>$middleware</span><span class=o>-&gt;</span><span class=na>prependToGroup</span><span class=p>(</span><span class=s1>&#39;group-name&#39;</span><span class=p>,</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>        <span class=nx>First</span><span class=o>::</span><span class=na>class</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=nx>Second</span><span class=o>::</span><span class=na>class</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=p>]);</span>
+</span></span><span class=line><span class=cl><span class=p>})</span>
+</span></span></code></pre></td></tr></table></div></div><p>中间件组可以使用与单个中间件相同的语法分配给路由和控制器动作</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>get</span><span class=p>(</span><span class=s1>&#39;/&#39;</span><span class=p>,</span> <span class=k>function</span> <span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// ...
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>})</span><span class=o>-&gt;</span><span class=na>middleware</span><span class=p>(</span><span class=s1>&#39;group-name&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>middleware</span><span class=p>([</span><span class=s1>&#39;group-name&#39;</span><span class=p>])</span><span class=o>-&gt;</span><span class=na>group</span><span class=p>(</span><span class=k>function</span> <span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// ...
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>});</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=laravel默认的中间件组>Laravel默认的中间件组</h4><table><thead><tr><th style=text-align:left><code>web</code> 中间件组</th></tr></thead><tbody><tr><td style=text-align:left><code>Illuminate\Cookie\Middleware\EncryptCookies</code></td></tr><tr><td style=text-align:left><code>Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse</code></td></tr><tr><td style=text-align:left><code>Illuminate\Session\Middleware\StartSession</code></td></tr><tr><td style=text-align:left><code>Illuminate\View\Middleware\ShareErrorsFromSession</code></td></tr><tr><td style=text-align:left><code>Illuminate\Foundation\Http\Middleware\ValidateCsrfToken</code></td></tr><tr><td style=text-align:left><code>Illuminate\Routing\Middleware\SubstituteBindings</code></td></tr></tbody></table><table><thead><tr><th style=text-align:left><code>api</code> 中间件组</th></tr></thead><tbody><tr><td style=text-align:left><code>Illuminate\Routing\Middleware\SubstituteBindings</code></td></tr></tbody></table><p>如果向这些组附加或前置中间件，可以在应用程序的 <code>bootstrap/app.php</code> 文件中使用 <code>web</code> 和 <code>api</code> 方法。<code>web</code> 和 <code>api</code> 方法是向组添加中间件的便捷替代方法，相当于 <code>appendToGroup</code> 方法。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>App\Http\Middleware\EnsureTokenIsValid</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>App\Http\Middleware\EnsureUserIsSubscribed</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=o>-&gt;</span><span class=na>withMiddleware</span><span class=p>(</span><span class=k>function</span> <span class=p>(</span><span class=nx>Middleware</span> <span class=nv>$middleware</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nv>$middleware</span><span class=o>-&gt;</span><span class=na>web</span><span class=p>(</span><span class=nx>append</span><span class=o>:</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>        <span class=nx>EnsureUserIsSubscribed</span><span class=o>::</span><span class=na>class</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=p>]);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl>    <span class=nv>$middleware</span><span class=o>-&gt;</span><span class=na>api</span><span class=p>(</span><span class=nx>prepend</span><span class=o>:</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>        <span class=nx>EnsureTokenIsValid</span><span class=o>::</span><span class=na>class</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=p>]);</span>
+</span></span><span class=line><span class=cl><span class=p>})</span>
+</span></span></code></pre></td></tr></table></div></div><p>也可以将Laravel的默认中间件条目之一替换为自定义中间件：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>App\Http\Middleware\StartCustomSession</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Session\Middleware\StartSession</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nv>$middleware</span><span class=o>-&gt;</span><span class=na>web</span><span class=p>(</span><span class=nx>replace</span><span class=o>:</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>    <span class=nx>StartSession</span><span class=o>::</span><span class=na>class</span> <span class=o>=&gt;</span> <span class=nx>StartCustomSession</span><span class=o>::</span><span class=na>class</span><span class=p>,</span>
+</span></span><span class=line><span class=cl><span class=p>]);</span>
+</span></span></code></pre></td></tr></table></div></div><p>也可以完全删除中间件：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$middleware</span><span class=o>-&gt;</span><span class=na>web</span><span class=p>(</span><span class=nx>remove</span><span class=o>:</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>    <span class=nx>StartSession</span><span class=o>::</span><span class=na>class</span><span class=p>,</span>
+</span></span><span class=line><span class=cl><span class=p>]);</span>
+</span></span></code></pre></td></tr></table></div></div><h5 id=手动管理laravel的默认中间件组>手动管理Laravel的默认中间件组</h5><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=o>-&gt;</span><span class=na>withMiddleware</span><span class=p>(</span><span class=k>function</span> <span class=p>(</span><span class=nx>Middleware</span> <span class=nv>$middleware</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nv>$middleware</span><span class=o>-&gt;</span><span class=na>group</span><span class=p>(</span><span class=s1>&#39;web&#39;</span><span class=p>,</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>        <span class=nx>\Illuminate\Cookie\Middleware\EncryptCookies</span><span class=o>::</span><span class=na>class</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=nx>\Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse</span><span class=o>::</span><span class=na>class</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=nx>\Illuminate\Session\Middleware\StartSession</span><span class=o>::</span><span class=na>class</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=nx>\Illuminate\View\Middleware\ShareErrorsFromSession</span><span class=o>::</span><span class=na>class</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=nx>\Illuminate\Foundation\Http\Middleware\ValidateCsrfToken</span><span class=o>::</span><span class=na>class</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=nx>\Illuminate\Routing\Middleware\SubstituteBindings</span><span class=o>::</span><span class=na>class</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=c1>// \Illuminate\Session\Middleware\AuthenticateSession::class,
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=p>]);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl>    <span class=nv>$middleware</span><span class=o>-&gt;</span><span class=na>group</span><span class=p>(</span><span class=s1>&#39;api&#39;</span><span class=p>,</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>        <span class=c1>// \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
+</span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=c1>// &#39;throttle:api&#39;,
+</span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=nx>\Illuminate\Routing\Middleware\SubstituteBindings</span><span class=o>::</span><span class=na>class</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=p>]);</span>
+</span></span><span class=line><span class=cl><span class=p>})</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=中间件别名>中间件别名</h3><p>可以在应用程序的 <code>bootstrap/app.php</code> 文件中为中间件分配别名。</p><p>中间件别名允许您为给定的中间件类定义一个简短的别名，这对于具有较长类名的中间件特别有用</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>App\Http\Middleware\EnsureUserIsSubscribed</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=o>-&gt;</span><span class=na>withMiddleware</span><span class=p>(</span><span class=k>function</span> <span class=p>(</span><span class=nx>Middleware</span> <span class=nv>$middleware</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nv>$middleware</span><span class=o>-&gt;</span><span class=na>alias</span><span class=p>([</span>
+</span></span><span class=line><span class=cl>        <span class=s1>&#39;subscribed&#39;</span> <span class=o>=&gt;</span> <span class=nx>EnsureUserIsSubscribed</span><span class=o>::</span><span class=na>class</span>
+</span></span><span class=line><span class=cl>    <span class=p>]);</span>
+</span></span><span class=line><span class=cl><span class=p>})</span>
+</span></span></code></pre></td></tr></table></div></div><p>一旦在应用程序的 <code>bootstrap/app.php</code> 文件中定义了中间件别名，就可以在将中间件分配给路由时使用这个别名</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>get</span><span class=p>(</span><span class=s1>&#39;/profile&#39;</span><span class=p>,</span> <span class=k>function</span> <span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// ...
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>})</span><span class=o>-&gt;</span><span class=na>middleware</span><span class=p>(</span><span class=s1>&#39;subscribed&#39;</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=laravel-内置中间件默认使用的别名>Laravel 内置中间件默认使用的别名</h4><table><thead><tr><th style=text-align:left>Alias</th><th style=text-align:left>Middleware</th></tr></thead><tbody><tr><td style=text-align:left><code>auth</code></td><td style=text-align:left><code>Illuminate\Auth\Middleware\Authenticate</code></td></tr><tr><td style=text-align:left><code>auth.basic</code></td><td style=text-align:left><code>Illuminate\Auth\Middleware\AuthenticateWithBasicAuth</code></td></tr><tr><td style=text-align:left><code>auth.session</code></td><td style=text-align:left><code>Illuminate\Session\Middleware\AuthenticateSession</code></td></tr><tr><td style=text-align:left><code>cache.headers</code></td><td style=text-align:left><code>Illuminate\Http\Middleware\SetCacheHeaders</code></td></tr><tr><td style=text-align:left><code>can</code></td><td style=text-align:left><code>Illuminate\Auth\Middleware\Authorize</code></td></tr><tr><td style=text-align:left><code>guest</code></td><td style=text-align:left><code>Illuminate\Auth\Middleware\RedirectIfAuthenticated</code></td></tr><tr><td style=text-align:left><code>password.confirm</code></td><td style=text-align:left><code>Illuminate\Auth\Middleware\RequirePassword</code></td></tr><tr><td style=text-align:left><code>precognitive</code></td><td style=text-align:left><code>Illuminate\Foundation\Http\Middleware\HandlePrecognitiveRequests</code></td></tr><tr><td style=text-align:left><code>signed</code></td><td style=text-align:left><code>Illuminate\Routing\Middleware\ValidateSignature</code></td></tr><tr><td style=text-align:left><code>subscribed</code></td><td style=text-align:left><code>\Spark\Http\Middleware\VerifyBillableIsSubscribed</code></td></tr><tr><td style=text-align:left><code>throttle</code></td><td style=text-align:left><code>Illuminate\Routing\Middleware\ThrottleRequests</code> or <code>Illuminate\Routing\Middleware\ThrottleRequestsWithRedis</code> <code>Illuminate\Routing\Middleware\ThrottleRequests</code> 或 <code>Illuminate\Routing\Middleware\ThrottleRequestsWithRedis</code></td></tr><tr><td style=text-align:left><code>verified</code></td><td style=text-align:left><code>Illuminate\Auth\Middleware\EnsureEmailIsVerified</code></td></tr></tbody></table><h3 id=中间件优先级>中间件优先级</h3><p>以使用应用程序 <code>bootstrap/app.php</code> 文件中的方法 <code>priority</code> 指定中间件优先级</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=o>-&gt;</span><span class=na>withMiddleware</span><span class=p>(</span><span class=k>function</span> <span class=p>(</span><span class=nx>Middleware</span> <span class=nv>$middleware</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nv>$middleware</span><span class=o>-&gt;</span><span class=na>priority</span><span class=p>([</span>
+</span></span><span class=line><span class=cl>        <span class=nx>\Illuminate\Foundation\Http\Middleware\HandlePrecognitiveRequests</span><span class=o>::</span><span class=na>class</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=nx>\Illuminate\Cookie\Middleware\EncryptCookies</span><span class=o>::</span><span class=na>class</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=nx>\Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse</span><span class=o>::</span><span class=na>class</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=nx>\Illuminate\Session\Middleware\StartSession</span><span class=o>::</span><span class=na>class</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=nx>\Illuminate\View\Middleware\ShareErrorsFromSession</span><span class=o>::</span><span class=na>class</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=nx>\Illuminate\Foundation\Http\Middleware\ValidateCsrfToken</span><span class=o>::</span><span class=na>class</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=nx>\Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful</span><span class=o>::</span><span class=na>class</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=nx>\Illuminate\Routing\Middleware\ThrottleRequests</span><span class=o>::</span><span class=na>class</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=nx>\Illuminate\Routing\Middleware\ThrottleRequestsWithRedis</span><span class=o>::</span><span class=na>class</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=nx>\Illuminate\Routing\Middleware\SubstituteBindings</span><span class=o>::</span><span class=na>class</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=nx>\Illuminate\Contracts\Auth\Middleware\AuthenticatesRequests</span><span class=o>::</span><span class=na>class</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=nx>\Illuminate\Auth\Middleware\Authorize</span><span class=o>::</span><span class=na>class</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=p>]);</span>
+</span></span><span class=line><span class=cl><span class=p>})</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=中间件参数>中间件参数</h2><p>中间件还可以接收其他参数</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=o>&lt;?</span><span class=nx>php</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=k>namespace</span> <span class=nx>App\Http\Middleware</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Closure</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Http\Request</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Symfony\Component\HttpFoundation\Response</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>EnsureUserHasRole</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=sd>/**
+</span></span></span><span class=line><span class=cl><span class=sd>     * Handle an incoming request.
+</span></span></span><span class=line><span class=cl><span class=sd>     *
+</span></span></span><span class=line><span class=cl><span class=sd>     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
+</span></span></span><span class=line><span class=cl><span class=sd>     */</span>
+</span></span><span class=line><span class=cl>    <span class=k>public</span> <span class=k>function</span> <span class=nf>handle</span><span class=p>(</span><span class=nx>Request</span> <span class=nv>$request</span><span class=p>,</span> <span class=nx>Closure</span> <span class=nv>$next</span><span class=p>,</span> <span class=nx>string</span> <span class=nv>$role</span><span class=p>)</span><span class=o>:</span> <span class=nx>Response</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=o>!</span> <span class=nv>$request</span><span class=o>-&gt;</span><span class=na>user</span><span class=p>()</span><span class=o>-&gt;</span><span class=na>hasRole</span><span class=p>(</span><span class=nv>$role</span><span class=p>))</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=c1>// Redirect...
+</span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=p>}</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=nv>$next</span><span class=p>(</span><span class=nv>$request</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>在定义路由时，可以通过将中间件名称和参数以<code>:</code>分隔来指定中间件参数：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>put</span><span class=p>(</span><span class=s1>&#39;/post/{id}&#39;</span><span class=p>,</span> <span class=k>function</span> <span class=p>(</span><span class=nx>string</span> <span class=nv>$id</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// ...
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>})</span><span class=o>-&gt;</span><span class=na>middleware</span><span class=p>(</span><span class=s1>&#39;role:editor&#39;</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><p>多个参数可以用逗号进行分隔：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>put</span><span class=p>(</span><span class=s1>&#39;/post/{id}&#39;</span><span class=p>,</span> <span class=k>function</span> <span class=p>(</span><span class=nx>string</span> <span class=nv>$id</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// ...
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>})</span><span class=o>-&gt;</span><span class=na>middleware</span><span class=p>(</span><span class=s1>&#39;role:editor,publisher&#39;</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=终止中间件>终止中间件</h2><p>有时候，中间件可能需要在HTTP响应已发送到浏览器后进行一些工作。如果在中间件上定义了 <code>terminate</code> 方法，并且 Web 服务器使用 FastCGI，那么 <code>terminate</code> 方法将会在响应发送到浏览器后自动被调用</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=o>&lt;?</span><span class=nx>php</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=k>namespace</span> <span class=nx>Illuminate\Session\Middleware</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Closure</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Http\Request</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Symfony\Component\HttpFoundation\Response</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>TerminatingMiddleware</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=sd>/**
+</span></span></span><span class=line><span class=cl><span class=sd>     * Handle an incoming request.
+</span></span></span><span class=line><span class=cl><span class=sd>     *
+</span></span></span><span class=line><span class=cl><span class=sd>     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
+</span></span></span><span class=line><span class=cl><span class=sd>     */</span>
+</span></span><span class=line><span class=cl>    <span class=k>public</span> <span class=k>function</span> <span class=nf>handle</span><span class=p>(</span><span class=nx>Request</span> <span class=nv>$request</span><span class=p>,</span> <span class=nx>Closure</span> <span class=nv>$next</span><span class=p>)</span><span class=o>:</span> <span class=nx>Response</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=nv>$next</span><span class=p>(</span><span class=nv>$request</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl>    <span class=sd>/**
+</span></span></span><span class=line><span class=cl><span class=sd>     * Handle tasks after the response has been sent to the browser.
+</span></span></span><span class=line><span class=cl><span class=sd>     */</span>
+</span></span><span class=line><span class=cl>    <span class=k>public</span> <span class=k>function</span> <span class=nf>terminate</span><span class=p>(</span><span class=nx>Request</span> <span class=nv>$request</span><span class=p>,</span> <span class=nx>Response</span> <span class=nv>$response</span><span class=p>)</span><span class=o>:</span> <span class=nx>void</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=c1>// ...
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p><code>terminate</code> 方法应接收请求和响应两个参数。一旦定义了一个终止中间件，需要将其添加到路由列表或全局中间件中，即在应用程序的 <code>bootstrap/app.php</code> 文件中。</p><p>在调用中间件的 <code>terminate</code> 方法时，Laravel 将会从服务容器中解析一个新的中间件实例。</p><p>如果需要在调用 <code>handle</code> 和 <code>terminate</code> 方法时使用同一个中间件实例，可以使用容器的 <code>singleton</code> 方法将中间件注册为单例。</p><p>通常情况下，这需要在 <code>AppServiceProvider</code> 的 <code>register</code> 方法中完成。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>App\Http\Middleware\TerminatingMiddleware</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=sd>/**
+</span></span></span><span class=line><span class=cl><span class=sd> * Register any application services.
+</span></span></span><span class=line><span class=cl><span class=sd> */</span>
+</span></span><span class=line><span class=cl><span class=k>public</span> <span class=k>function</span> <span class=nf>register</span><span class=p>()</span><span class=o>:</span> <span class=nx>void</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>app</span><span class=o>-&gt;</span><span class=na>singleton</span><span class=p>(</span><span class=nx>TerminatingMiddleware</span><span class=o>::</span><span class=na>class</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>更新于 2024年06月15日</span></div></div><div class=post-info-line><div class=post-info-md><span><a class=link-to-markdown href=/2024/06/laravel11%E4%B8%AD%E9%97%B4%E4%BB%B6/index.md target=_blank>阅读原始文档</a></span></div><div class=post-info-share><span><a href=javascript:void(0); title="分享到 Twitter" data-sharer=twitter data-url=https://Joker-desire.github.io/2024/06/laravel11%E4%B8%AD%E9%97%B4%E4%BB%B6/ data-title="Laravel 11.x 中间件" data-hashtags=PHP,Laravel><i class="fab fa-twitter fa-fw" aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 Facebook" data-sharer=facebook data-url=https://Joker-desire.github.io/2024/06/laravel11%E4%B8%AD%E9%97%B4%E4%BB%B6/ data-hashtag=PHP><i class="fab fa-facebook-square fa-fw" aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 Hacker News" data-sharer=hackernews data-url=https://Joker-desire.github.io/2024/06/laravel11%E4%B8%AD%E9%97%B4%E4%BB%B6/ data-title="Laravel 11.x 中间件"><i class="fab fa-hacker-news fa-fw" aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 Line" data-sharer=line data-url=https://Joker-desire.github.io/2024/06/laravel11%E4%B8%AD%E9%97%B4%E4%BB%B6/ data-title="Laravel 11.x 中间件"><i data-svg-src=https://cdn.jsdelivr.net/npm/simple-icons@7.0.0/icons/line.svg aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 微博" data-sharer=weibo data-url=https://Joker-desire.github.io/2024/06/laravel11%E4%B8%AD%E9%97%B4%E4%BB%B6/ data-title="Laravel 11.x 中间件"><i class="fab fa-weibo fa-fw" aria-hidden=true></i></a></span></div></div></div><div class=post-info-more><section class=post-tags><i class="fas fa-tags fa-fw" aria-hidden=true></i>&nbsp;<a href=/tags/php/>PHP</a>,&nbsp;<a href=/tags/laravel/>Laravel</a></section><section><span><a href=javascript:void(0); onclick=window.history.back()>返回</a></span>&nbsp;|&nbsp;<span><a href=/>主页</a></span></section></div><div class=post-nav><a href=/2024/06/laravel11%E8%B7%AF%E7%94%B1/ class=prev rel=prev title="Laravel 11.x 路由"><i class="fas fa-angle-left fa-fw" aria-hidden=true></i>Laravel 11.x 路由</a>
+<a href=/2024/06/laravel11csrf%E4%BF%9D%E6%8A%A4/ class=next rel=next title="Laravel 11.x CSRF保护">Laravel 11.x CSRF保护<i class="fas fa-angle-right fa-fw" aria-hidden=true></i></a></div></div><div id=comments><div id=giscus class=comment></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://giscus.app>Giscus</a>.</noscript></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line itemscope itemtype=http://schema.org/CreativeWork><i class="far fa-copyright fa-fw" aria-hidden=true></i><span itemprop=copyrightYear>2022 - 2024</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=/ target=_blank>Joker desire</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div></div></footer></div><div id=fixed-buttons><a href=# id=back-to-top class=fixed-button title=回到顶部><i class="fas fa-arrow-up fa-fw" aria-hidden=true></i>
+</a><a href=# id=view-comments class=fixed-button title=查看评论><i class="fas fa-comment fa-fw" aria-hidden=true></i></a></div><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/lightgallery@2.4.0/css/lightgallery-bundle.min.css><script type=text/javascript src=https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/algoliasearch@4.13.1/dist/algoliasearch-lite.umd.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lazysizes@5.3.1/lazysizes.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lightgallery@2.4.0/lightgallery.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lightgallery@2.4.0/plugins/thumbnail/lg-thumbnail.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lightgallery@2.4.0/plugins/zoom/lg-zoom.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js></script><script type=text/javascript>window.config={code:{copyTitle:"复制到剪贴板",maxShownLines:50},comment:{giscus:{category:"Announcements",categoryId:"DIC_kwDOHfPihs4CPp7X",darkTheme:"dark",emitMetadata:"0",inputPosition:"top",lang:"zh-CN",lazyLoading:!1,lightTheme:"light",mapping:"pathname",reactionsEnabled:"1",repo:"Joker-desire/store-comments",repoId:"R_kgDOHfPihg"}},lightgallery:!0,search:{algoliaAppID:"R6OIVCXBNU",algoliaIndex:"Joker-desire",algoliaSearchKey:"07e68b90760663e43882d4a48e00e932",highlightTag:"em",maxResultLength:10,noResultsFound:"没有找到结果",snippetLength:30,type:"algolia"}}</script><script type=text/javascript src=/js/theme.min.js></script></body></html>
