@@ -1,0 +1,491 @@
+<!doctype html><html lang=zh-cn><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><title>Laravel 11.x 错误处理 - Joker-desire's Blog</title><meta name=Description content="为什么要努力？ 因为我喜欢的东西都很贵，我想去的地方都很远，我爱的人超完美。"><meta property="og:url" content="https://Joker-desire.github.io/2024/06/laravel11%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86/">
+<meta property="og:site_name" content="Joker-desire's Blog"><meta property="og:title" content="Laravel 11.x 错误处理"><meta property="og:description" content="原文 介绍 当启动一个新的 Laravel 项目时，错误和异常处理已经配置好了； 然而，在任何时候，都可以在应用程序的 bootstrap/app.php 文件中使用 withExceptions 方法来管理异常的报告和渲染方式"><meta property="og:locale" content="zh_cn"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2024-06-17T16:23:39+08:00"><meta property="article:modified_time" content="2024-06-17T16:23:39+08:00"><meta property="article:tag" content="PHP"><meta property="article:tag" content="Laravel"><meta property="og:image" content="https://Joker-desire.github.io/logo.png"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://Joker-desire.github.io/logo.png"><meta name=twitter:title content="Laravel 11.x 错误处理"><meta name=twitter:description content="原文 介绍 当启动一个新的 Laravel 项目时，错误和异常处理已经配置好了； 然而，在任何时候，都可以在应用程序的 bootstrap/app.php 文件中使用 withExceptions 方法来管理异常的报告和渲染方式"><meta name=application-name content="Joker-desire"><meta name=apple-mobile-web-app-title content="Joker-desire"><meta name=theme-color content="#ffffff"><meta name=msapplication-TileColor content="#da532c"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://Joker-desire.github.io/2024/06/laravel11%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86/><link rel=prev href=https://Joker-desire.github.io/2024/06/laravel11%E4%BC%9A%E8%AF%9D/><link rel=next href=https://Joker-desire.github.io/2024/06/laravel11%E6%97%A5%E5%BF%97/><link rel=stylesheet href=/css/style.min.css><link rel=preload href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css></noscript><link rel=preload href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css></noscript><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"Laravel 11.x 错误处理","inLanguage":"zh-cn","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/Joker-desire.github.io\/2024\/06\/laravel11%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86\/"},"genre":"posts","keywords":"PHP, Laravel","wordcount":3065,"url":"https:\/\/Joker-desire.github.io\/2024\/06\/laravel11%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86\/","datePublished":"2024-06-17T16:23:39+08:00","dateModified":"2024-06-17T16:23:39+08:00","publisher":{"@type":"Organization","name":""},"author":{"@type":"Person","name":"Joker-desire"},"description":""}</script></head><body data-header-desktop=fixed data-header-mobile=auto><script type=text/javascript>(window.localStorage&&localStorage.getItem("theme")?localStorage.getItem("theme")==="dark":"auto"==="auto"?window.matchMedia("(prefers-color-scheme: dark)").matches:"auto"==="dark")&&document.body.setAttribute("theme","dark")</script><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title="Joker-desire's Blog"><span class=header-title-pre><i class='far fa-kiss-wink-heart fa-fw' aria-hidden=true></i></span>welcome</a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts title=所有文章>所有文章 </a><a class=menu-item href=/categories title=分类>分类 </a><a class=menu-item href=/tags title=标签>标签 </a><a class=menu-item href=/about title=关于>关于 </a><a class=menu-item href=https://github.com/Joker-desire title=GitHub rel="noopener noreffer" target=_blank><i class='fab fa-github fa-fw' aria-hidden=true></i> </a><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop>
+<input type=text placeholder=搜索文章标题或内容... id=search-input-desktop>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-desktop title=搜索><i class="fas fa-search fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-desktop title=清空><i class="fas fa-times-circle fa-fw" aria-hidden=true></i>
+</a><span class="search-button search-loading" id=search-loading-desktop><i class="fas fa-spinner fa-fw fa-spin" aria-hidden=true></i>
+</span></span><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题><i class="fas fa-adjust fa-fw" aria-hidden=true></i></a></div></div></div></header><header class=mobile id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title="Joker-desire's Blog"><span class=header-title-pre><i class='far fa-kiss-wink-heart fa-fw' aria-hidden=true></i></span>welcome</a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><div class=search-wrapper><div class="search mobile" id=search-mobile><input type=text placeholder=搜索文章标题或内容... id=search-input-mobile>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-mobile title=搜索><i class="fas fa-search fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-mobile title=清空><i class="fas fa-times-circle fa-fw" aria-hidden=true></i>
+</a><span class="search-button search-loading" id=search-loading-mobile><i class="fas fa-spinner fa-fw fa-spin" aria-hidden=true></i></span></div><a href=javascript:void(0); class=search-cancel id=search-cancel-mobile>取消</a></div><a class=menu-item href=/posts title=所有文章>所有文章</a><a class=menu-item href=/categories title=分类>分类</a><a class=menu-item href=/tags title=标签>标签</a><a class=menu-item href=/about title=关于>关于</a><a class=menu-item href=https://github.com/Joker-desire title=GitHub rel="noopener noreffer" target=_blank><i class='fab fa-github fa-fw' aria-hidden=true></i></a><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题>
+<i class="fas fa-adjust fa-fw" aria-hidden=true></i></a></div></div></header><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div><main class=main><div class=container><div class=toc id=toc-auto><h2 class=toc-title>目录</h2><div class=toc-content id=toc-content-auto></div></div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Laravel 11.x 错误处理</h1><div class=post-meta><div class=post-meta-line><span class=post-author><a href=/ title=Author rel=author class=author><i class="fas fa-user-circle fa-fw" aria-hidden=true></i>Joker-desire</a></span>&nbsp;<span class=post-category>收录于 <a href=/categories/php/><i class="far fa-folder fa-fw" aria-hidden=true></i>PHP</a>&nbsp;<a href=/categories/laravel/><i class="far fa-folder fa-fw" aria-hidden=true></i>Laravel</a></span></div><div class=post-meta-line><i class="far fa-calendar-alt fa-fw" aria-hidden=true></i>&nbsp;<time datetime=2024年06月17日>2024年06月17日</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden=true></i>&nbsp;约 3065 字&nbsp;
+<i class="far fa-clock fa-fw" aria-hidden=true></i>&nbsp;预计阅读 7 分钟&nbsp;</div></div><div class="details toc" id=toc-static data-kept><div class="details-summary toc-title"><span>目录</span>
+<span><i class="details-icon fas fa-angle-right" aria-hidden=true></i></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><ul><li><a href=#介绍>介绍</a></li><li><a href=#配置>配置</a></li><li><a href=#处理异常>处理异常</a><ul><li><a href=#报告异常>报告异常</a><ul><li><a href=#全局日志上下文>全局日志上下文</a></li><li><a href=#异常日志上下文>异常日志上下文</a></li><li><a href=#report帮手><code>report</code>帮手</a></li><li><a href=#删除重复报告的异常>删除重复报告的异常</a></li></ul></li><li><a href=#异常日志级别>异常日志级别</a></li><li><a href=#按类型忽略异常>按类型忽略异常</a></li><li><a href=#渲染异常>渲染异常</a><ul><li><a href=#将异常呈现为json>将异常呈现为JSON</a></li><li><a href=#自定义异常响应>自定义异常响应</a></li></ul></li><li><a href=#可报告和可渲染的异常>可报告和可渲染的异常</a></li></ul></li><li><a href=#限制报告的异常>限制报告的异常</a></li><li><a href=#http异常>HTTP异常</a><ul><li><a href=#自定义http错误页面>自定义HTTP错误页面</a><ul><li><a href=#回退http错误页>回退HTTP错误页</a></li></ul></li></ul></li></ul></li></ul></nav></div></div><div class=content id=content><hr><p><a href=https://laravel.com/docs/11.x/errors target=_blank rel="noopener noreffer">原文</a></p><hr><h2 id=介绍>介绍</h2><p>当启动一个新的 Laravel 项目时，错误和异常处理已经配置好了；</p><p>然而，在任何时候，都可以在应用程序的 <code>bootstrap/app.php</code> 文件中使用 <code>withExceptions</code> 方法来管理异常的报告和渲染方式。</p><p>传递给 <code>withExceptions</code> 闭包的 <code>$exceptions</code> 对象是 <code>Illuminate\Foundation\Configuration\Exceptions</code> 的一个实例，它负责管理应用程序中的异常处理。</p><h2 id=配置>配置</h2><p><code>config/app.php</code> 配置文件中的 <code>debug</code> 选项决定了实际向用户显示多少错误信息。</p><p>默认情况下，此选项设置为遵循存储在 <code>.env</code> 文件中的 <code>APP_DEBUG</code> 环境变量的值。</p><h2 id=处理异常>处理异常</h2><h3 id=报告异常>报告异常</h3><p>可以在应用程序 <code>bootstrap/app.php</code> 中使用 <code>report</code> 异常方法来注册一个闭包，当需要报告给定类型的异常时，应执行该闭包。Laravel 将通过检查闭包的类型提示来确定闭包报告的异常类型：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=o>-&gt;</span><span class=na>withExceptions</span><span class=p>(</span><span class=k>function</span> <span class=p>(</span><span class=nx>Exceptions</span> <span class=nv>$exceptions</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nv>$exceptions</span><span class=o>-&gt;</span><span class=na>report</span><span class=p>(</span><span class=k>function</span> <span class=p>(</span><span class=nx>InvalidOrderException</span> <span class=nv>$e</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=c1>// ...
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=p>});</span>
+</span></span><span class=line><span class=cl><span class=p>})</span>
+</span></span></code></pre></td></tr></table></div></div><p>当使用 <code>report</code> 方法注册自定义异常报告回调时，Laravel 仍然会使用应用程序的默认日志配置记录该异常。</p><p>如果希望阻止异常传播到默认的日志，则可以在定义报告回调时使用 <code>stop</code> 方法，或者从回调中返回 <code>false</code>：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=o>-&gt;</span><span class=na>withExceptions</span><span class=p>(</span><span class=k>function</span> <span class=p>(</span><span class=nx>Exceptions</span> <span class=nv>$exceptions</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nv>$exceptions</span><span class=o>-&gt;</span><span class=na>report</span><span class=p>(</span><span class=k>function</span> <span class=p>(</span><span class=nx>InvalidOrderException</span> <span class=nv>$e</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=c1>// ...
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=p>})</span><span class=o>-&gt;</span><span class=na>stop</span><span class=p>();</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl>    <span class=nv>$exceptions</span><span class=o>-&gt;</span><span class=na>report</span><span class=p>(</span><span class=k>function</span> <span class=p>(</span><span class=nx>InvalidOrderException</span> <span class=nv>$e</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=k>false</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>});</span>
+</span></span><span class=line><span class=cl><span class=p>})</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=全局日志上下文>全局日志上下文</h4><p>如果可用，Laravel 会自动将当前用户的 ID 作为上下文数据添加到每个异常的日志消息中。</p><p>可以在应用程序的 <code>bootstrap/app.php</code> 文件中使用 <code>context</code> 异常方法定义全局上下文数据。</p><p>这些信息将被包含在应用程序写入的每条异常日志消息中：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=o>-&gt;</span><span class=na>withExceptions</span><span class=p>(</span><span class=k>function</span> <span class=p>(</span><span class=nx>Exceptions</span> <span class=nv>$exceptions</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nv>$exceptions</span><span class=o>-&gt;</span><span class=na>context</span><span class=p>(</span><span class=nx>fn</span> <span class=p>()</span> <span class=o>=&gt;</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>        <span class=s1>&#39;foo&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;bar&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=p>]);</span>
+</span></span><span class=line><span class=cl><span class=p>})</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=异常日志上下文>异常日志上下文</h4><p>虽然在每条日志消息中添加上下文信息是有用的，但有时特定的异常可能需要包含在日志中的独特上下文。</p><p>通过在应用程序的某个异常上定义一个 <code>context</code> 方法，可以指定任何与该异常相关的数据，该数据将被添加到该异常的日志条目中：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=o>&lt;?</span><span class=nx>php</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=k>namespace</span> <span class=nx>App\Exceptions</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Exception</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>InvalidOrderException</span> <span class=k>extends</span> <span class=nx>Exception</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// ...
+</span></span></span><span class=line><span class=cl><span class=c1></span> 
+</span></span><span class=line><span class=cl>    <span class=sd>/**
+</span></span></span><span class=line><span class=cl><span class=sd>     * Get the exception&#39;s context information.
+</span></span></span><span class=line><span class=cl><span class=sd>     *
+</span></span></span><span class=line><span class=cl><span class=sd>     * @return array&lt;string, mixed&gt;
+</span></span></span><span class=line><span class=cl><span class=sd>     */</span>
+</span></span><span class=line><span class=cl>    <span class=k>public</span> <span class=k>function</span> <span class=nf>context</span><span class=p>()</span><span class=o>:</span> <span class=k>array</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=p>[</span><span class=s1>&#39;order_id&#39;</span> <span class=o>=&gt;</span> <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>orderId</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=report帮手><code>report</code>帮手</h4><p>有时可能需要报告一个异常，但继续处理当前请求。</p><p><code>report</code> 辅助函数允许快速报告一个异常，而不向用户呈现错误页面：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>public</span> <span class=k>function</span> <span class=nf>isValid</span><span class=p>(</span><span class=nx>string</span> <span class=nv>$value</span><span class=p>)</span><span class=o>:</span> <span class=nx>bool</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>try</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=c1>// Validate the value...
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=p>}</span> <span class=k>catch</span> <span class=p>(</span><span class=nx>Throwable</span> <span class=nv>$e</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nx>report</span><span class=p>(</span><span class=nv>$e</span><span class=p>);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=k>false</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=删除重复报告的异常>删除重复报告的异常</h4><p>如果在整个应用程序中使用<code>report</code>函数，则有时可能会多次报告相同的异常，从而在日志中创建重复条目。</p><p>如果要确保某个异常实例仅被报告一次，则可以在应用程序的 <code>bootstrap/app.php</code> 文件中调用 <code>dontReportDuplicates</code> 异常方法：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=o>-&gt;</span><span class=na>withExceptions</span><span class=p>(</span><span class=k>function</span> <span class=p>(</span><span class=nx>Exceptions</span> <span class=nv>$exceptions</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nv>$exceptions</span><span class=o>-&gt;</span><span class=na>dontReportDuplicates</span><span class=p>();</span>
+</span></span><span class=line><span class=cl><span class=p>})</span>
+</span></span></code></pre></td></tr></table></div></div><p>现在，当 <code>report</code> 辅助函数被调用同一个异常实例时，只有第一次调用会被报告：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$original</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>RuntimeException</span><span class=p>(</span><span class=s1>&#39;Whoops!&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nx>report</span><span class=p>(</span><span class=nv>$original</span><span class=p>);</span> <span class=c1>// reported
+</span></span></span><span class=line><span class=cl><span class=c1></span> 
+</span></span><span class=line><span class=cl><span class=k>try</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>throw</span> <span class=nv>$original</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span> <span class=k>catch</span> <span class=p>(</span><span class=nx>Throwable</span> <span class=nv>$caught</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>report</span><span class=p>(</span><span class=nv>$caught</span><span class=p>);</span> <span class=c1>// ignored
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>}</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nx>report</span><span class=p>(</span><span class=nv>$original</span><span class=p>);</span> <span class=c1>// ignored
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=nx>report</span><span class=p>(</span><span class=nv>$caught</span><span class=p>);</span> <span class=c1>// ignored
+</span></span></span></code></pre></td></tr></table></div></div><h3 id=异常日志级别>异常日志级别</h3><p>可以在应用程序 <code>bootstrap/app.php</code> 文件中使用 <code>level</code> exception 方法。</p><p>此方法接收异常类型作为其第一个参数，并将日志级别作为其第二个参数：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>PDOException</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Psr\Log\LogLevel</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=o>-&gt;</span><span class=na>withExceptions</span><span class=p>(</span><span class=k>function</span> <span class=p>(</span><span class=nx>Exceptions</span> <span class=nv>$exceptions</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nv>$exceptions</span><span class=o>-&gt;</span><span class=na>level</span><span class=p>(</span><span class=nx>PDOException</span><span class=o>::</span><span class=na>class</span><span class=p>,</span> <span class=nx>LogLevel</span><span class=o>::</span><span class=na>CRITICAL</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>})</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=按类型忽略异常>按类型忽略异常</h3><p>可以在应用程序 <code>bootstrap/app.php</code> 文件中使用 <code>dontReport</code> exception 方法进行忽略某些异常。</p><p>提供给此方法的任何类都不会被报告，但是可能仍具有自定义渲染逻辑：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>App\Exceptions\InvalidOrderException</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=o>-&gt;</span><span class=na>withExceptions</span><span class=p>(</span><span class=k>function</span> <span class=p>(</span><span class=nx>Exceptions</span> <span class=nv>$exceptions</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nv>$exceptions</span><span class=o>-&gt;</span><span class=na>dontReport</span><span class=p>([</span>
+</span></span><span class=line><span class=cl>        <span class=nx>InvalidOrderException</span><span class=o>::</span><span class=na>class</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=p>]);</span>
+</span></span><span class=line><span class=cl><span class=p>})</span>
+</span></span></code></pre></td></tr></table></div></div><p>在内部，Laravel 已经忽略了某些类型的错误，如由 404 HTTP 错误或无效 CSRF 令牌生成的 419 HTTP 响应所导致的异常。</p><p>如果想指示 Laravel 停止忽略某种类型的异常，可以在应用程序的 <code>bootstrap/app.php</code> 文件中使用 <code>stopIgnoring</code> 异常方法：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>Symfony\Component\HttpKernel\Exception\HttpException</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=o>-&gt;</span><span class=na>withExceptions</span><span class=p>(</span><span class=k>function</span> <span class=p>(</span><span class=nx>Exceptions</span> <span class=nv>$exceptions</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nv>$exceptions</span><span class=o>-&gt;</span><span class=na>stopIgnoring</span><span class=p>(</span><span class=nx>HttpException</span><span class=o>::</span><span class=na>class</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>})</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=渲染异常>渲染异常</h3><p>默认情况下，Laravel 的异常处理器会将异常转换为 HTTP 响应。</p><p>但是，可以自由为特定类型的异常注册自定义渲染闭包。</p><p>可以通过在应用程序的 <code>bootstrap/app.php</code> 文件中使用 <code>render</code> 异常方法来实现这一点。</p><p>传递给 <code>render</code> 方法的闭包应该返回一个 <code>Illuminate\Http\Response</code> 实例，这个实例可以通过 <code>response</code> 辅助函数生成。</p><p>Laravel 会通过检查闭包的类型提示来确定该闭包渲染的异常类型：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>App\Exceptions\InvalidOrderException</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Http\Request</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=o>-&gt;</span><span class=na>withExceptions</span><span class=p>(</span><span class=k>function</span> <span class=p>(</span><span class=nx>Exceptions</span> <span class=nv>$exceptions</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nv>$exceptions</span><span class=o>-&gt;</span><span class=na>render</span><span class=p>(</span><span class=k>function</span> <span class=p>(</span><span class=nx>InvalidOrderException</span> <span class=nv>$e</span><span class=p>,</span> <span class=nx>Request</span> <span class=nv>$request</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=nx>response</span><span class=p>()</span><span class=o>-&gt;</span><span class=na>view</span><span class=p>(</span><span class=s1>&#39;errors.invalid-order&#39;</span><span class=p>,</span> <span class=p>[],</span> <span class=mi>500</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=p>});</span>
+</span></span><span class=line><span class=cl><span class=p>})</span>
+</span></span></code></pre></td></tr></table></div></div><p>也可以使用 <code>render</code> 方法来覆盖内置的 Laravel 或 Symfony 异常（例如 <code>NotFoundHttpException</code>）的渲染行为。</p><p>如果传递给 <code>render</code> 方法的闭包没有返回值，Laravel 将使用默认的异常渲染：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Http\Request</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Symfony\Component\HttpKernel\Exception\NotFoundHttpException</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=o>-&gt;</span><span class=na>withExceptions</span><span class=p>(</span><span class=k>function</span> <span class=p>(</span><span class=nx>Exceptions</span> <span class=nv>$exceptions</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nv>$exceptions</span><span class=o>-&gt;</span><span class=na>render</span><span class=p>(</span><span class=k>function</span> <span class=p>(</span><span class=nx>NotFoundHttpException</span> <span class=nv>$e</span><span class=p>,</span> <span class=nx>Request</span> <span class=nv>$request</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=nv>$request</span><span class=o>-&gt;</span><span class=na>is</span><span class=p>(</span><span class=s1>&#39;api/*&#39;</span><span class=p>))</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=k>return</span> <span class=nx>response</span><span class=p>()</span><span class=o>-&gt;</span><span class=na>json</span><span class=p>([</span>
+</span></span><span class=line><span class=cl>                <span class=s1>&#39;message&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;Record not found.&#39;</span>
+</span></span><span class=line><span class=cl>            <span class=p>],</span> <span class=mi>404</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=p>});</span>
+</span></span><span class=line><span class=cl><span class=p>})</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=将异常呈现为json>将异常呈现为JSON</h4><p>在渲染异常时，Laravel 会根据请求的 <code>Accept</code> 头自动确定是将异常渲染为 HTML 还是 JSON 响应。</p><p>如果自定义 Laravel 如何确定是渲染 HTML 还是 JSON 异常响应，可以使用 <code>shouldRenderJsonWhen</code> 方法：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Http\Request</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Throwable</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=o>-&gt;</span><span class=na>withExceptions</span><span class=p>(</span><span class=k>function</span> <span class=p>(</span><span class=nx>Exceptions</span> <span class=nv>$exceptions</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nv>$exceptions</span><span class=o>-&gt;</span><span class=na>shouldRenderJsonWhen</span><span class=p>(</span><span class=k>function</span> <span class=p>(</span><span class=nx>Request</span> <span class=nv>$request</span><span class=p>,</span> <span class=nx>Throwable</span> <span class=nv>$e</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=nv>$request</span><span class=o>-&gt;</span><span class=na>is</span><span class=p>(</span><span class=s1>&#39;admin/*&#39;</span><span class=p>))</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=k>return</span> <span class=k>true</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=nv>$request</span><span class=o>-&gt;</span><span class=na>expectsJson</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>    <span class=p>});</span>
+</span></span><span class=line><span class=cl><span class=p>})</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=自定义异常响应>自定义异常响应</h4><p>极少情况下，可能需要自定义 Laravel 异常处理器渲染的整个 HTTP 响应。</p><p>为此，可以使用 <code>respond</code> 方法注册一个响应自定义闭包：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>Symfony\Component\HttpFoundation\Response</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=o>-&gt;</span><span class=na>withExceptions</span><span class=p>(</span><span class=k>function</span> <span class=p>(</span><span class=nx>Exceptions</span> <span class=nv>$exceptions</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nv>$exceptions</span><span class=o>-&gt;</span><span class=na>respond</span><span class=p>(</span><span class=k>function</span> <span class=p>(</span><span class=nx>Response</span> <span class=nv>$response</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=nv>$response</span><span class=o>-&gt;</span><span class=na>getStatusCode</span><span class=p>()</span> <span class=o>===</span> <span class=mi>419</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=k>return</span> <span class=nx>back</span><span class=p>()</span><span class=o>-&gt;</span><span class=na>with</span><span class=p>([</span>
+</span></span><span class=line><span class=cl>                <span class=s1>&#39;message&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;The page expired, please try again.&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>            <span class=p>]);</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=nv>$response</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>});</span>
+</span></span><span class=line><span class=cl><span class=p>})</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=可报告和可渲染的异常>可报告和可渲染的异常</h3><p>与其在应用程序的 <code>bootstrap/app.php</code> 文件中定义自定义报告和渲染行为，不如直接在应用程序的异常类上定义 <code>report</code> 和 <code>render</code> 方法。当这些方法存在时，框架会自动调用它们：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=o>&lt;?</span><span class=nx>php</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=k>namespace</span> <span class=nx>App\Exceptions</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Exception</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Http\Request</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Http\Response</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>InvalidOrderException</span> <span class=k>extends</span> <span class=nx>Exception</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=sd>/**
+</span></span></span><span class=line><span class=cl><span class=sd>     * Report the exception.
+</span></span></span><span class=line><span class=cl><span class=sd>     */</span>
+</span></span><span class=line><span class=cl>    <span class=k>public</span> <span class=k>function</span> <span class=nf>report</span><span class=p>()</span><span class=o>:</span> <span class=nx>void</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=c1>// ...
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=p>}</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl>    <span class=sd>/**
+</span></span></span><span class=line><span class=cl><span class=sd>     * Render the exception into an HTTP response.
+</span></span></span><span class=line><span class=cl><span class=sd>     */</span>
+</span></span><span class=line><span class=cl>    <span class=k>public</span> <span class=k>function</span> <span class=nf>render</span><span class=p>(</span><span class=nx>Request</span> <span class=nv>$request</span><span class=p>)</span><span class=o>:</span> <span class=nx>Response</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=nx>response</span><span class=p>(</span><span class=cm>/* ... */</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>如果异常继承自已具有渲染功能的异常（如内置的 Laravel 或 Symfony 异常），可以在异常的 <code>render</code> 方法中返回 <code>false</code> 以渲染该异常的默认 HTTP 响应：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=sd>/**
+</span></span></span><span class=line><span class=cl><span class=sd> * Render the exception into an HTTP response.
+</span></span></span><span class=line><span class=cl><span class=sd> */</span>
+</span></span><span class=line><span class=cl><span class=k>public</span> <span class=k>function</span> <span class=nf>render</span><span class=p>(</span><span class=nx>Request</span> <span class=nv>$request</span><span class=p>)</span><span class=o>:</span> <span class=nx>Response</span><span class=o>|</span><span class=nx>bool</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=sd>/** Determine if the exception needs custom rendering */</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=nx>response</span><span class=p>(</span><span class=cm>/* ... */</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=k>false</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>如果异常包含仅在某些条件满足时才需要的自定义报告逻辑，那么可能需要指示 Laravel 有时使用默认的异常处理配置来报告该异常。</p><p>为此，可以在异常的 <code>report</code> 方法中返回 <code>false</code>：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=sd>/**
+</span></span></span><span class=line><span class=cl><span class=sd> * Report the exception.
+</span></span></span><span class=line><span class=cl><span class=sd> */</span>
+</span></span><span class=line><span class=cl><span class=k>public</span> <span class=k>function</span> <span class=nf>report</span><span class=p>()</span><span class=o>:</span> <span class=nx>bool</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=sd>/** Determine if the exception needs custom reporting */</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl>        <span class=c1>// ...
+</span></span></span><span class=line><span class=cl><span class=c1></span> 
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=k>true</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=k>false</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=限制报告的异常>限制报告的异常</h2><p>如果应用程序报告的异常数量非常多，则可能需要限制实际记录或发送到应用程序的外部错误跟踪服务的异常数量。</p><p>要对异常进行随机抽样率，可以在应用程序的 <code>bootstrap/app.php</code> 文件中使用 <code>throttle</code> 异常方法。</p><p><code>throttle</code> 方法接收一个应返回 <code>Lottery</code> 实例的闭包：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Support\Lottery</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Throwable</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=o>-&gt;</span><span class=na>withExceptions</span><span class=p>(</span><span class=k>function</span> <span class=p>(</span><span class=nx>Exceptions</span> <span class=nv>$exceptions</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nv>$exceptions</span><span class=o>-&gt;</span><span class=na>throttle</span><span class=p>(</span><span class=k>function</span> <span class=p>(</span><span class=nx>Throwable</span> <span class=nv>$e</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=nx>Lottery</span><span class=o>::</span><span class=na>odds</span><span class=p>(</span><span class=mi>1</span><span class=p>,</span> <span class=mi>1000</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=p>});</span>
+</span></span><span class=line><span class=cl><span class=p>})</span>
+</span></span></code></pre></td></tr></table></div></div><p>还可以根据异常类型有条件地进行采样。如果只想采样特定异常类的实例，可以仅为该类返回一个 <code>Lottery</code> 实例：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>App\Exceptions\ApiMonitoringException</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Support\Lottery</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Throwable</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=o>-&gt;</span><span class=na>withExceptions</span><span class=p>(</span><span class=k>function</span> <span class=p>(</span><span class=nx>Exceptions</span> <span class=nv>$exceptions</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nv>$exceptions</span><span class=o>-&gt;</span><span class=na>throttle</span><span class=p>(</span><span class=k>function</span> <span class=p>(</span><span class=nx>Throwable</span> <span class=nv>$e</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=nv>$e</span> <span class=nx>instanceof</span> <span class=nx>ApiMonitoringException</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=k>return</span> <span class=nx>Lottery</span><span class=o>::</span><span class=na>odds</span><span class=p>(</span><span class=mi>1</span><span class=p>,</span> <span class=mi>1000</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=p>});</span>
+</span></span><span class=line><span class=cl><span class=p>})</span>
+</span></span></code></pre></td></tr></table></div></div><p>也可以通过返回一个 <code>Limit</code> 实例而不是 <code>Lottery</code> 实例来对记录的异常或发送到外部错误跟踪服务的异常进行速率限制。</p><p>这在想要防止异常突然激增而淹没日志时非常有用，例如，当应用程序使用的第三方服务宕机时：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Broadcasting\BroadcastException</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Cache\RateLimiting\Limit</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Throwable</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=o>-&gt;</span><span class=na>withExceptions</span><span class=p>(</span><span class=k>function</span> <span class=p>(</span><span class=nx>Exceptions</span> <span class=nv>$exceptions</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nv>$exceptions</span><span class=o>-&gt;</span><span class=na>throttle</span><span class=p>(</span><span class=k>function</span> <span class=p>(</span><span class=nx>Throwable</span> <span class=nv>$e</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=nv>$e</span> <span class=nx>instanceof</span> <span class=nx>BroadcastException</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=k>return</span> <span class=nx>Limit</span><span class=o>::</span><span class=na>perMinute</span><span class=p>(</span><span class=mi>300</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=p>});</span>
+</span></span><span class=line><span class=cl><span class=p>})</span>
+</span></span></code></pre></td></tr></table></div></div><p>默认情况下，限流会使用异常的类名作为限流键。可以通过在 <code>Limit</code> 上使用 <code>by</code> 方法指定自己的键来定制这一行为：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Broadcasting\BroadcastException</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Cache\RateLimiting\Limit</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Throwable</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=o>-&gt;</span><span class=na>withExceptions</span><span class=p>(</span><span class=k>function</span> <span class=p>(</span><span class=nx>Exceptions</span> <span class=nv>$exceptions</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nv>$exceptions</span><span class=o>-&gt;</span><span class=na>throttle</span><span class=p>(</span><span class=k>function</span> <span class=p>(</span><span class=nx>Throwable</span> <span class=nv>$e</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=nv>$e</span> <span class=nx>instanceof</span> <span class=nx>BroadcastException</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=k>return</span> <span class=nx>Limit</span><span class=o>::</span><span class=na>perMinute</span><span class=p>(</span><span class=mi>300</span><span class=p>)</span><span class=o>-&gt;</span><span class=na>by</span><span class=p>(</span><span class=nv>$e</span><span class=o>-&gt;</span><span class=na>getMessage</span><span class=p>());</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=p>});</span>
+</span></span><span class=line><span class=cl><span class=p>})</span>
+</span></span></code></pre></td></tr></table></div></div><p>当然，可以为不同的异常返回 <code>Lottery</code> 和 <code>Limit</code> 实例的组合：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>App\Exceptions\ApiMonitoringException</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Broadcasting\BroadcastException</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Cache\RateLimiting\Limit</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Support\Lottery</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Throwable</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=o>-&gt;</span><span class=na>withExceptions</span><span class=p>(</span><span class=k>function</span> <span class=p>(</span><span class=nx>Exceptions</span> <span class=nv>$exceptions</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nv>$exceptions</span><span class=o>-&gt;</span><span class=na>throttle</span><span class=p>(</span><span class=k>function</span> <span class=p>(</span><span class=nx>Throwable</span> <span class=nv>$e</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=nx>match</span> <span class=p>(</span><span class=k>true</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=nv>$e</span> <span class=nx>instanceof</span> <span class=nx>BroadcastException</span> <span class=o>=&gt;</span> <span class=nx>Limit</span><span class=o>::</span><span class=na>perMinute</span><span class=p>(</span><span class=mi>300</span><span class=p>),</span>
+</span></span><span class=line><span class=cl>            <span class=nv>$e</span> <span class=nx>instanceof</span> <span class=nx>ApiMonitoringException</span> <span class=o>=&gt;</span> <span class=nx>Lottery</span><span class=o>::</span><span class=na>odds</span><span class=p>(</span><span class=mi>1</span><span class=p>,</span> <span class=mi>1000</span><span class=p>),</span>
+</span></span><span class=line><span class=cl>            <span class=k>default</span> <span class=o>=&gt;</span> <span class=nx>Limit</span><span class=o>::</span><span class=na>none</span><span class=p>(),</span>
+</span></span><span class=line><span class=cl>        <span class=p>};</span>
+</span></span><span class=line><span class=cl>    <span class=p>});</span>
+</span></span><span class=line><span class=cl><span class=p>})</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=http异常>HTTP异常</h2><p>有些异常描述了服务器的 HTTP 错误码。</p><p>例如，这可能是一个“页面未找到”错误（404）、“未授权错误”（401）或甚至是开发人员生成的 500 错误。为了在应用程序的任何地方生成这样的响应，可以使用 <code>abort</code> 辅助函数：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>abort</span><span class=p>(</span><span class=mi>404</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=自定义http错误页面>自定义HTTP错误页面</h3><p>Laravel 使得为各种 HTTP 状态码显示自定义错误页面变得很容易。</p><p>例如，要自定义 404 HTTP 状态码的错误页面，可以创建一个 <code>resources/views/errors/404.blade.php</code> 视图模板。</p><p>该视图将为应用程序生成的所有 404 错误进行渲染。</p><p>此目录内的视图应命名为与其对应的 HTTP 状态码一致。</p><p>由 <code>abort</code> 函数引发的 <code>Symfony\Component\HttpKernel\Exception\HttpException</code> 实例将作为 <code>$exception</code> 变量传递给视图：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>&lt;h2&gt;{{ $exception-&gt;getMessage() }}&lt;/h2&gt;
+</span></span></code></pre></td></tr></table></div></div><p>可以使用 <code>vendor:publish</code> Artisan 命令发布 Laravel 的默认错误页面模板。</p><p>模板发布后，可以根据你的喜好自定义它们：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>php artisan vendor:publish --tag<span class=o>=</span>laravel-errors
+</span></span></code></pre></td></tr></table></div></div><h4 id=回退http错误页>回退HTTP错误页</h4><p>还可以为一系列 HTTP 状态码定义一个“后备”错误页面。</p><p>如果没有对应特定 HTTP 状态码的页面发生，这个页面将被渲染。</p><p>为此，在应用程序的 <code>resources/views/errors</code> 目录下定义一个 <code>4xx.blade.php</code> 模板和一个 <code>5xx.blade.php</code> 模板。</p><p>在定义后备错误页面时，这些后备页面不会影响 404、500 和 503 的错误响应，因为 Laravel 为这些状态码提供了内部专用页面。</p><p>要自定义这些状态码的渲染页面，应该分别为每个状态码定义一个自定义错误页面。</p></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>更新于 2024年06月17日</span></div></div><div class=post-info-line><div class=post-info-md><span><a class=link-to-markdown href=/2024/06/laravel11%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86/index.md target=_blank>阅读原始文档</a></span></div><div class=post-info-share><span><a href=javascript:void(0); title="分享到 Twitter" data-sharer=twitter data-url=https://Joker-desire.github.io/2024/06/laravel11%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86/ data-title="Laravel 11.x 错误处理" data-hashtags=PHP,Laravel><i class="fab fa-twitter fa-fw" aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 Facebook" data-sharer=facebook data-url=https://Joker-desire.github.io/2024/06/laravel11%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86/ data-hashtag=PHP><i class="fab fa-facebook-square fa-fw" aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 Hacker News" data-sharer=hackernews data-url=https://Joker-desire.github.io/2024/06/laravel11%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86/ data-title="Laravel 11.x 错误处理"><i class="fab fa-hacker-news fa-fw" aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 Line" data-sharer=line data-url=https://Joker-desire.github.io/2024/06/laravel11%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86/ data-title="Laravel 11.x 错误处理"><i data-svg-src=https://cdn.jsdelivr.net/npm/simple-icons@7.0.0/icons/line.svg aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 微博" data-sharer=weibo data-url=https://Joker-desire.github.io/2024/06/laravel11%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86/ data-title="Laravel 11.x 错误处理"><i class="fab fa-weibo fa-fw" aria-hidden=true></i></a></span></div></div></div><div class=post-info-more><section class=post-tags><i class="fas fa-tags fa-fw" aria-hidden=true></i>&nbsp;<a href=/tags/php/>PHP</a>,&nbsp;<a href=/tags/laravel/>Laravel</a></section><section><span><a href=javascript:void(0); onclick=window.history.back()>返回</a></span>&nbsp;|&nbsp;<span><a href=/>主页</a></span></section></div><div class=post-nav><a href=/2024/06/laravel11%E4%BC%9A%E8%AF%9D/ class=prev rel=prev title="Laravle 11.x 会话"><i class="fas fa-angle-left fa-fw" aria-hidden=true></i>Laravle 11.x 会话</a>
+<a href=/2024/06/laravel11%E6%97%A5%E5%BF%97/ class=next rel=next title="Laravel 11.x 日志">Laravel 11.x 日志<i class="fas fa-angle-right fa-fw" aria-hidden=true></i></a></div></div><div id=comments><div id=giscus class=comment></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://giscus.app>Giscus</a>.</noscript></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line itemscope itemtype=http://schema.org/CreativeWork><i class="far fa-copyright fa-fw" aria-hidden=true></i><span itemprop=copyrightYear>2022 - 2024</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=/ target=_blank>Joker desire</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div></div></footer></div><div id=fixed-buttons><a href=# id=back-to-top class=fixed-button title=回到顶部><i class="fas fa-arrow-up fa-fw" aria-hidden=true></i>
+</a><a href=# id=view-comments class=fixed-button title=查看评论><i class="fas fa-comment fa-fw" aria-hidden=true></i></a></div><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/lightgallery@2.4.0/css/lightgallery-bundle.min.css><script type=text/javascript src=https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/algoliasearch@4.13.1/dist/algoliasearch-lite.umd.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lazysizes@5.3.1/lazysizes.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lightgallery@2.4.0/lightgallery.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lightgallery@2.4.0/plugins/thumbnail/lg-thumbnail.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lightgallery@2.4.0/plugins/zoom/lg-zoom.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js></script><script type=text/javascript>window.config={code:{copyTitle:"复制到剪贴板",maxShownLines:50},comment:{giscus:{category:"Announcements",categoryId:"DIC_kwDOHfPihs4CPp7X",darkTheme:"dark",emitMetadata:"0",inputPosition:"top",lang:"zh-CN",lazyLoading:!1,lightTheme:"light",mapping:"pathname",reactionsEnabled:"1",repo:"Joker-desire/store-comments",repoId:"R_kgDOHfPihg"}},lightgallery:!0,search:{algoliaAppID:"R6OIVCXBNU",algoliaIndex:"Joker-desire",algoliaSearchKey:"07e68b90760663e43882d4a48e00e932",highlightTag:"em",maxResultLength:10,noResultsFound:"没有找到结果",snippetLength:30,type:"algolia"}}</script><script type=text/javascript src=/js/theme.min.js></script></body></html>
