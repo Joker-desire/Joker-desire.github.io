@@ -1,0 +1,1474 @@
+<!doctype html><html lang=zh-cn><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><title>Laravel 11.x 验证 - Joker-desire's Blog</title><meta name=Description content="为什么要努力？ 因为我喜欢的东西都很贵，我想去的地方都很远，我爱的人超完美。"><meta property="og:url" content="https://Joker-desire.github.io/2024/06/laravel11%E9%AA%8C%E8%AF%81/">
+<meta property="og:site_name" content="Joker-desire's Blog"><meta property="og:title" content="Laravel 11.x 验证"><meta property="og:description" content="原文 介绍 Laravel提供了多种不同的方法来验证应用程序的传入数据。最常用的方法是在所有传入的HTTP请求上使用validate方法。 验证快"><meta property="og:locale" content="zh_cn"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2024-06-17T09:50:11+08:00"><meta property="article:modified_time" content="2024-06-17T09:50:11+08:00"><meta property="article:tag" content="PHP"><meta property="article:tag" content="Laravel"><meta property="og:image" content="https://Joker-desire.github.io/logo.png"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://Joker-desire.github.io/logo.png"><meta name=twitter:title content="Laravel 11.x 验证"><meta name=twitter:description content="原文 介绍 Laravel提供了多种不同的方法来验证应用程序的传入数据。最常用的方法是在所有传入的HTTP请求上使用validate方法。 验证快"><meta name=application-name content="Joker-desire"><meta name=apple-mobile-web-app-title content="Joker-desire"><meta name=theme-color content="#ffffff"><meta name=msapplication-TileColor content="#da532c"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://Joker-desire.github.io/2024/06/laravel11%E9%AA%8C%E8%AF%81/><link rel=prev href=https://Joker-desire.github.io/2024/06/laravel11%E4%BC%9A%E8%AF%9D/><link rel=next href=https://Joker-desire.github.io/2024/06/laravel11%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86/><link rel=stylesheet href=/css/style.min.css><link rel=preload href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css></noscript><link rel=preload href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css></noscript><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"Laravel 11.x 验证","inLanguage":"zh-cn","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/Joker-desire.github.io\/2024\/06\/laravel11%E9%AA%8C%E8%AF%81\/"},"genre":"posts","keywords":"PHP, Laravel","wordcount":8842,"url":"https:\/\/Joker-desire.github.io\/2024\/06\/laravel11%E9%AA%8C%E8%AF%81\/","datePublished":"2024-06-17T09:50:11+08:00","dateModified":"2024-06-17T09:50:11+08:00","publisher":{"@type":"Organization","name":""},"author":{"@type":"Person","name":"Joker-desire"},"description":""}</script></head><body data-header-desktop=fixed data-header-mobile=auto><script type=text/javascript>(window.localStorage&&localStorage.getItem("theme")?localStorage.getItem("theme")==="dark":"auto"==="auto"?window.matchMedia("(prefers-color-scheme: dark)").matches:"auto"==="dark")&&document.body.setAttribute("theme","dark")</script><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title="Joker-desire's Blog"><span class=header-title-pre><i class='far fa-kiss-wink-heart fa-fw' aria-hidden=true></i></span>welcome</a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts title=所有文章>所有文章 </a><a class=menu-item href=/categories title=分类>分类 </a><a class=menu-item href=/tags title=标签>标签 </a><a class=menu-item href=/about title=关于>关于 </a><a class=menu-item href=https://github.com/Joker-desire title=GitHub rel="noopener noreffer" target=_blank><i class='fab fa-github fa-fw' aria-hidden=true></i> </a><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop>
+<input type=text placeholder=搜索文章标题或内容... id=search-input-desktop>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-desktop title=搜索><i class="fas fa-search fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-desktop title=清空><i class="fas fa-times-circle fa-fw" aria-hidden=true></i>
+</a><span class="search-button search-loading" id=search-loading-desktop><i class="fas fa-spinner fa-fw fa-spin" aria-hidden=true></i>
+</span></span><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题><i class="fas fa-adjust fa-fw" aria-hidden=true></i></a></div></div></div></header><header class=mobile id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title="Joker-desire's Blog"><span class=header-title-pre><i class='far fa-kiss-wink-heart fa-fw' aria-hidden=true></i></span>welcome</a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><div class=search-wrapper><div class="search mobile" id=search-mobile><input type=text placeholder=搜索文章标题或内容... id=search-input-mobile>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-mobile title=搜索><i class="fas fa-search fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-mobile title=清空><i class="fas fa-times-circle fa-fw" aria-hidden=true></i>
+</a><span class="search-button search-loading" id=search-loading-mobile><i class="fas fa-spinner fa-fw fa-spin" aria-hidden=true></i></span></div><a href=javascript:void(0); class=search-cancel id=search-cancel-mobile>取消</a></div><a class=menu-item href=/posts title=所有文章>所有文章</a><a class=menu-item href=/categories title=分类>分类</a><a class=menu-item href=/tags title=标签>标签</a><a class=menu-item href=/about title=关于>关于</a><a class=menu-item href=https://github.com/Joker-desire title=GitHub rel="noopener noreffer" target=_blank><i class='fab fa-github fa-fw' aria-hidden=true></i></a><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题>
+<i class="fas fa-adjust fa-fw" aria-hidden=true></i></a></div></div></header><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div><main class=main><div class=container><div class=toc id=toc-auto><h2 class=toc-title>目录</h2><div class=toc-content id=toc-content-auto></div></div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Laravel 11.x 验证</h1><div class=post-meta><div class=post-meta-line><span class=post-author><a href=/ title=Author rel=author class=author><i class="fas fa-user-circle fa-fw" aria-hidden=true></i>Joker-desire</a></span>&nbsp;<span class=post-category>收录于 <a href=/categories/php/><i class="far fa-folder fa-fw" aria-hidden=true></i>PHP</a>&nbsp;<a href=/categories/laravel/><i class="far fa-folder fa-fw" aria-hidden=true></i>Laravel</a></span></div><div class=post-meta-line><i class="far fa-calendar-alt fa-fw" aria-hidden=true></i>&nbsp;<time datetime=2024年06月17日>2024年06月17日</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden=true></i>&nbsp;约 8842 字&nbsp;
+<i class="far fa-clock fa-fw" aria-hidden=true></i>&nbsp;预计阅读 18 分钟&nbsp;</div></div><div class="details toc" id=toc-static data-kept><div class="details-summary toc-title"><span>目录</span>
+<span><i class="details-icon fas fa-angle-right" aria-hidden=true></i></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><ul><li><a href=#介绍>介绍</a></li><li><a href=#验证快速入门>验证快速入门</a><ul><li><a href=#定义路由>定义路由</a></li><li><a href=#创建控制器>创建控制器</a></li><li><a href=#编写验证逻辑>编写验证逻辑</a><ul><li><a href=#首次验证失败时停止>首次验证失败时停止</a></li><li><a href=#关于嵌套属性的说明>关于嵌套属性的说明</a></li></ul></li><li><a href=#显示验证错误>显示验证错误</a><ul><li><a href=#自定义错误消息>自定义错误消息</a></li><li><a href=#xhr请求和验证>XHR请求和验证</a></li><li><a href=#error指令>@error指令</a></li></ul></li><li><a href=#重新填充表单>重新填充表单</a></li><li><a href=#可选字段的说明>可选字段的说明</a></li><li><a href=#验证错误响应格式>验证错误响应格式</a></li></ul></li><li><a href=#表单请求验证>表单请求验证</a><ul><li><a href=#创建表单请求>创建表单请求</a><ul><li><a href=#执行其他验证>执行其他验证</a></li><li><a href=#在首次验证失败时停止>在首次验证失败时停止</a></li><li><a href=#自定义重定向位置>自定义重定向位置</a></li></ul></li><li><a href=#授权表单请求>授权表单请求</a></li><li><a href=#自定义错误消息-1>自定义错误消息</a><ul><li><a href=#自定义验证属性>自定义验证属性</a></li></ul></li><li><a href=#准备用于验证的输入>准备用于验证的输入</a></li></ul></li><li><a href=#手动创建验证程序>手动创建验证程序</a><ul><li><ul><li><a href=#首次验证失败时停止-1>首次验证失败时停止</a></li></ul></li><li><a href=#自动重定向>自动重定向</a></li><li><a href=#命名错误包>命名错误包</a></li><li><a href=#自定义错误消息-2>自定义错误消息</a><ul><li><a href=#为给定属性指定自定义消息>为给定属性指定自定义消息</a></li><li><a href=#指定自定义属性值>指定自定义属性值</a></li></ul></li><li><a href=#执行其他验证-1>执行其他验证</a></li></ul></li><li><a href=#使用经过验证的输入>使用经过验证的输入</a></li><li><a href=#使用错误消息>使用错误消息</a><ul><li><ul><li><a href=#检索字段的首次错误消息>检索字段的首次错误消息</a></li><li><a href=#检索字段的所有错误消息>检索字段的所有错误消息</a></li><li><a href=#检索所有字段的所有错误消息>检索所有字段的所有错误消息</a></li><li><a href=#确定字段是否存在消息>确定字段是否存在消息</a></li></ul></li><li><a href=#在语言文件中指定自定义消息>在语言文件中指定自定义消息</a><ul><li><a href=#特定属性的自定义消息>特定属性的自定义消息</a></li></ul></li><li><a href=#在语言文件中指定属性>在语言文件中指定属性</a></li><li><a href=#在语言文件中指定值>在语言文件中指定值</a></li></ul></li><li><a href=#可用的验证规则>可用的验证规则</a></li><li><a href=#有条件的添加规则>有条件的添加规则</a><ul><li><ul><li><a href=#当字段具有特定值时跳过验证>当字段具有特定值时跳过验证</a></li><li><a href=#存在时验证>存在时验证</a></li><li><a href=#复杂条件验证>复杂条件验证</a></li><li><a href=#复杂条件数据验证>复杂条件数据验证</a></li></ul></li></ul></li><li><a href=#验证数组>验证数组</a><ul><li><a href=#验证嵌套数据输入>验证嵌套数据输入</a></li><li><a href=#访问嵌套数组数据>访问嵌套数组数据</a></li><li><a href=#错误消息索引和位置>错误消息索引和位置</a></li></ul></li><li><a href=#验证文件>验证文件</a></li><li><a href=#验证密码>验证密码</a><ul><li><a href=#定义默认密码规则>定义默认密码规则</a></li></ul></li><li><a href=#自定义验证规则>自定义验证规则</a><ul><li><a href=#使用规则对象>使用规则对象</a><ul><li><a href=#翻译验证消息>翻译验证消息</a></li><li><a href=#访问其他数据>访问其他数据</a></li></ul></li><li><a href=#使用闭包>使用闭包</a></li><li><a href=#隐式规则>隐式规则</a></li></ul></li></ul></li></ul></nav></div></div><div class=content id=content><hr><p><a href=https://laravel.com/docs/11.x/validation target=_blank rel="noopener noreffer">原文</a></p><hr><h2 id=介绍>介绍</h2><p>Laravel提供了多种不同的方法来验证应用程序的传入数据。最常用的方法是在所有传入的HTTP请求上使用<code>validate</code>方法。</p><h2 id=验证快速入门>验证快速入门</h2><h3 id=定义路由>定义路由</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>App\Http\Controllers\PostController</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>get</span><span class=p>(</span><span class=s1>&#39;/post/create&#39;</span><span class=p>,</span> <span class=p>[</span><span class=nx>PostController</span><span class=o>::</span><span class=na>class</span><span class=p>,</span> <span class=s1>&#39;create&#39;</span><span class=p>]);</span>
+</span></span><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>post</span><span class=p>(</span><span class=s1>&#39;/post&#39;</span><span class=p>,</span> <span class=p>[</span><span class=nx>PostController</span><span class=o>::</span><span class=na>class</span><span class=p>,</span> <span class=s1>&#39;store&#39;</span><span class=p>]);</span>
+</span></span></code></pre></td></tr></table></div></div><p><code>GET</code> 路由将显示一个表单，供用户创建新的博客文章，而 <code>POST</code> 路由将新博客文章存储在数据库中。</p><h3 id=创建控制器>创建控制器</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=o>&lt;?</span><span class=nx>php</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=k>namespace</span> <span class=nx>App\Http\Controllers</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Http\RedirectResponse</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Http\Request</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\View\View</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>PostController</span> <span class=k>extends</span> <span class=nx>Controller</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=sd>/**
+</span></span></span><span class=line><span class=cl><span class=sd>     * Show the form to create a new blog post.
+</span></span></span><span class=line><span class=cl><span class=sd>     */</span>
+</span></span><span class=line><span class=cl>    <span class=k>public</span> <span class=k>function</span> <span class=nf>create</span><span class=p>()</span><span class=o>:</span> <span class=nx>View</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=nx>view</span><span class=p>(</span><span class=s1>&#39;post.create&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl>    <span class=sd>/**
+</span></span></span><span class=line><span class=cl><span class=sd>     * Store a new blog post.
+</span></span></span><span class=line><span class=cl><span class=sd>     */</span>
+</span></span><span class=line><span class=cl>    <span class=k>public</span> <span class=k>function</span> <span class=nf>store</span><span class=p>(</span><span class=nx>Request</span> <span class=nv>$request</span><span class=p>)</span><span class=o>:</span> <span class=nx>RedirectResponse</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=c1>// Validate and store the blog post...
+</span></span></span><span class=line><span class=cl><span class=c1></span> 
+</span></span><span class=line><span class=cl>        <span class=nv>$post</span> <span class=o>=</span> <span class=sd>/** ... */</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=nx>to_route</span><span class=p>(</span><span class=s1>&#39;post.show&#39;</span><span class=p>,</span> <span class=p>[</span><span class=s1>&#39;post&#39;</span> <span class=o>=&gt;</span> <span class=nv>$post</span><span class=o>-&gt;</span><span class=na>id</span><span class=p>]);</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=编写验证逻辑>编写验证逻辑</h3><p>使用 <code>Illuminate\Http\Request</code> 对象提供 <code>validate</code> 的方法。</p><p>如果验证规则通过，代码将继续正常执行;但是，如果验证失败，将引发异常 <code>Illuminate\Validation\ValidationException</code> ，并且将自动将正确的错误响应发送回用户。</p><p>如果在传统 HTTP 请求期间验证失败，将生成对上一个 URL 的重定向响应。</p><p>如果传入请求是 XHR 请求，则将返回包含验证错误消息的 JSON 响应。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=sd>/**
+</span></span></span><span class=line><span class=cl><span class=sd> * Store a new blog post.
+</span></span></span><span class=line><span class=cl><span class=sd> */</span>
+</span></span><span class=line><span class=cl><span class=k>public</span> <span class=k>function</span> <span class=nf>store</span><span class=p>(</span><span class=nx>Request</span> <span class=nv>$request</span><span class=p>)</span><span class=o>:</span> <span class=nx>RedirectResponse</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nv>$validated</span> <span class=o>=</span> <span class=nv>$request</span><span class=o>-&gt;</span><span class=na>validate</span><span class=p>([</span>
+</span></span><span class=line><span class=cl>        <span class=s1>&#39;title&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;required|unique:posts|max:255&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s1>&#39;body&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;required&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=p>]);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl>    <span class=c1>// The blog post is valid...
+</span></span></span><span class=line><span class=cl><span class=c1></span> 
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nx>redirect</span><span class=p>(</span><span class=s1>&#39;/posts&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>也可以将验证规则指定为规则数组，而不是单个 <code>|</code> 分隔字符串：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$validatedData</span> <span class=o>=</span> <span class=nv>$request</span><span class=o>-&gt;</span><span class=na>validate</span><span class=p>([</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;title&#39;</span> <span class=o>=&gt;</span> <span class=p>[</span><span class=s1>&#39;required&#39;</span><span class=p>,</span> <span class=s1>&#39;unique:posts&#39;</span><span class=p>,</span> <span class=s1>&#39;max:255&#39;</span><span class=p>],</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;body&#39;</span> <span class=o>=&gt;</span> <span class=p>[</span><span class=s1>&#39;required&#39;</span><span class=p>],</span>
+</span></span><span class=line><span class=cl><span class=p>]);</span>
+</span></span></code></pre></td></tr></table></div></div><p>此外，还可以使用该 <code>validateWithBag</code> 方法验证请求并将任何错误消息存储在命名的错误包中：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$validatedData</span> <span class=o>=</span> <span class=nv>$request</span><span class=o>-&gt;</span><span class=na>validateWithBag</span><span class=p>(</span><span class=s1>&#39;post&#39;</span><span class=p>,</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;title&#39;</span> <span class=o>=&gt;</span> <span class=p>[</span><span class=s1>&#39;required&#39;</span><span class=p>,</span> <span class=s1>&#39;unique:posts&#39;</span><span class=p>,</span> <span class=s1>&#39;max:255&#39;</span><span class=p>],</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;body&#39;</span> <span class=o>=&gt;</span> <span class=p>[</span><span class=s1>&#39;required&#39;</span><span class=p>],</span>
+</span></span><span class=line><span class=cl><span class=p>]);</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=首次验证失败时停止>首次验证失败时停止</h4><blockquote><p><code>bail</code>规则在第一次验证失败后停止对属性运行验证其余规则</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$request</span><span class=o>-&gt;</span><span class=na>validate</span><span class=p>([</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;title&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;bail|required|unique:posts|max:255&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;body&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;required&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl><span class=p>]);</span>
+</span></span></code></pre></td></tr></table></div></div><p>在上面示例中，如果属性<code>unique</code>上的规则失败，则不会进行后续的<code>max</code>规则检查了。</p><h4 id=关于嵌套属性的说明>关于嵌套属性的说明</h4><p>如果传入的HTTP请求包含嵌套字段数据，则可以使用<code>.</code>语法在验证规则中指定这些字段：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$request</span><span class=o>-&gt;</span><span class=na>validate</span><span class=p>([</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;title&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;required|unique:posts|max:255&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;author.name&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;required&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;author.description&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;required&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl><span class=p>]);</span>
+</span></span></code></pre></td></tr></table></div></div><p>如果字段名称包含文字句号，则可以通过使用反斜杠转义来明确防止<code>.</code>语法异常：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$request</span><span class=o>-&gt;</span><span class=na>validate</span><span class=p>([</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;title&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;required|unique:posts|max:255&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;v1\.0&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;required&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl><span class=p>]);</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=显示验证错误>显示验证错误</h3><p>一个 <code>$errors</code> 变量通过 <code>Illuminate\View\Middleware\ShareErrorsFromSession</code> 中间件共享给应用程序的所有视图，该中间件由 <code>web</code> 中间件组提供。</p><p>当应用此中间件时，一个 <code>$errors</code> 变量将始终在视图中可用，允许假设 <code>$errors</code> 变量总是定义的并且可以安全地使用。</p><p><code>$errors</code> 变量将是 <code>Illuminate\Support\MessageBag</code> 的一个实例。</p><p>在上面示例中，当验证失败时，用户将被重定向到控制器<code>create</code>的方法，从而允许在视图中显示错误消息：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=o>&lt;!--</span> <span class=o>/</span><span class=nx>resources</span><span class=o>/</span><span class=nx>views</span><span class=o>/</span><span class=nx>post</span><span class=o>/</span><span class=nx>create</span><span class=o>.</span><span class=nx>blade</span><span class=o>.</span><span class=nx>php</span> <span class=o>--&gt;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=o>&lt;</span><span class=nx>h1</span><span class=o>&gt;</span><span class=nx>Create</span> <span class=nx>Post</span><span class=o>&lt;/</span><span class=nx>h1</span><span class=o>&gt;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=o>@</span><span class=k>if</span> <span class=p>(</span><span class=nv>$errors</span><span class=o>-&gt;</span><span class=na>any</span><span class=p>())</span>
+</span></span><span class=line><span class=cl>    <span class=o>&lt;</span><span class=nx>div</span> <span class=nx>class</span><span class=o>=</span><span class=s2>&#34;alert alert-danger&#34;</span><span class=o>&gt;</span>
+</span></span><span class=line><span class=cl>        <span class=o>&lt;</span><span class=nx>ul</span><span class=o>&gt;</span>
+</span></span><span class=line><span class=cl>            <span class=o>@</span><span class=k>foreach</span> <span class=p>(</span><span class=nv>$errors</span><span class=o>-&gt;</span><span class=na>all</span><span class=p>()</span> <span class=k>as</span> <span class=nv>$error</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>                <span class=o>&lt;</span><span class=nx>li</span><span class=o>&gt;</span><span class=p>{{</span> <span class=nv>$error</span> <span class=p>}}</span><span class=o>&lt;/</span><span class=nx>li</span><span class=o>&gt;</span>
+</span></span><span class=line><span class=cl>            <span class=o>@</span><span class=k>endforeach</span>
+</span></span><span class=line><span class=cl>        <span class=o>&lt;/</span><span class=nx>ul</span><span class=o>&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=o>&lt;/</span><span class=nx>div</span><span class=o>&gt;</span>
+</span></span><span class=line><span class=cl><span class=o>@</span><span class=k>endif</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=o>&lt;!--</span> <span class=nx>Create</span> <span class=nx>Post</span> <span class=nx>Form</span> <span class=o>--&gt;</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=自定义错误消息>自定义错误消息</h4><p>Laravel 的内置验证规则每个规则都有一个错误消息，该错误消息位于应用程序 <code>lang/en/validation.php</code> 的文件中。</p><p>如果应用程序没有 <code>lang</code> 目录，则可以指示 Laravel 使用 <code>lang:publish</code> Artisan 命令创建它。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>php artisan lang:publish
+</span></span></code></pre></td></tr></table></div></div><h4 id=xhr请求和验证>XHR请求和验证</h4><p>在 XHR 请求期间使用该 <code>validate</code> 方法时，Laravel 不会生成重定向响应。</p><p>相反，Laravel 会生成包含所有验证错误的 JSON 响应。</p><p>此 JSON 响应将使用 422 HTTP 状态代码发送。</p><h4 id=error指令>@error指令</h4><p>可以使用 <code>@error</code> Blade 指令快速确定给定属性是否存在验证错误消息。</p><p>在 <code>@error</code> 指令中，可以回显 <code>$message</code> 变量以显示错误消息：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>&lt;!-- /resources/views/post/create.blade.php --&gt;
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl>&lt;label for=&#34;title&#34;&gt;Post Title&lt;/label&gt;
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl>&lt;input id=&#34;title&#34;
+</span></span><span class=line><span class=cl>    type=&#34;text&#34;
+</span></span><span class=line><span class=cl>    name=&#34;title&#34;
+</span></span><span class=line><span class=cl>    class=&#34;@error(&#39;title&#39;) is-invalid @enderror&#34;&gt;
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl>@error(&#39;title&#39;)
+</span></span><span class=line><span class=cl>    &lt;div class=&#34;alert alert-danger&#34;&gt;{{ $message }}&lt;/div&gt;
+</span></span><span class=line><span class=cl>@enderror
+</span></span></code></pre></td></tr></table></div></div><p>如果使用命名的错误包，可以将错误包的名称作为第二个参数传递给 <code>@error</code> 指令：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>&lt;input ... class=&#34;@error(&#39;title&#39;, &#39;post&#39;) is-invalid @enderror&#34;&gt;
+</span></span></code></pre></td></tr></table></div></div><h3 id=重新填充表单>重新填充表单</h3><p>当 Laravel 由于验证错误而生成重定向响应时，框架会自动将请求的所有输入刷新到会话中。</p><p>这样做是为了在下一个请求期间方便地访问输入，并重新填充用户尝试提交的表单。</p><p>若要从上一个请求中检索刷新输入，可以在 <code>Illuminate\Http\Request</code> 实例上调用 <code>old</code> 方法。</p><p>该 <code>old</code> 方法将从会话中提取先前刷新的输入数据：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$title</span> <span class=o>=</span> <span class=nv>$request</span><span class=o>-&gt;</span><span class=na>old</span><span class=p>(</span><span class=s1>&#39;title&#39;</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><p>Laravel 还提供了一个全局 <code>old</code> 。如果要在 Blade 模板中显示旧输入，则使用 <code>old</code> 帮助程序重新填充表单会更方便。</p><p>如果给定字段不存在旧输入， <code>null</code> 则将返回：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>&lt;input type=&#34;text&#34; name=&#34;title&#34; value=&#34;{{ old(&#39;title&#39;) }}&#34;&gt;
+</span></span></code></pre></td></tr></table></div></div><h3 id=可选字段的说明>可选字段的说明</h3><p>默认情况下，Laravel将 <code>TrimStrings</code> and <code>ConvertEmptyStringsToNull</code> 中间件包含在应用程序的全局中间件中。</p><p>因此，如果不希望验证器将空值视为无效值，通常需要将“可选的”请求字段标记为可空。比如：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$request</span><span class=o>-&gt;</span><span class=na>validate</span><span class=p>([</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;title&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;required|unique:posts|max:255&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;body&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;required&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;publish_at&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;nullable|date&#39;</span><span class=p>,</span> <span class=c1>// 可以是有效的日期也可以是null
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>]);</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=验证错误响应格式>验证错误响应格式</h3><p>当应用程序抛出一个 <code>Illuminate\Validation\ValidationException</code> 异常并且传入的 HTTP 请求期望得到一个 JSON 响应时，Laravel 会自动进行格式化错误信息并返回一个 422 Unprocessable Entity（无法处理的实体）HTTP 响应。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-json data-lang=json><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&#34;message&#34;</span><span class=p>:</span> <span class=s2>&#34;The team name must be a string. (and 4 more errors)&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&#34;errors&#34;</span><span class=p>:</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nt>&#34;team_name&#34;</span><span class=p>:</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>            <span class=s2>&#34;The team name must be a string.&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>            <span class=s2>&#34;The team name must be at least 1 characters.&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=p>],</span>
+</span></span><span class=line><span class=cl>        <span class=nt>&#34;authorization.role&#34;</span><span class=p>:</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>            <span class=s2>&#34;The selected authorization.role is invalid.&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=p>],</span>
+</span></span><span class=line><span class=cl>        <span class=nt>&#34;users.0.email&#34;</span><span class=p>:</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>            <span class=s2>&#34;The users.0.email field is required.&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=p>],</span>
+</span></span><span class=line><span class=cl>        <span class=nt>&#34;users.2.email&#34;</span><span class=p>:</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>            <span class=s2>&#34;The users.2.email must be a valid email address.&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=p>]</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=表单请求验证>表单请求验证</h2><h3 id=创建表单请求>创建表单请求</h3><p>对于更复杂的验证方法，需要创建一个表单请求。表单请求时封装其自己的验证和授权逻辑的自定义请求类。</p><p>可以使用<code>make:request</code>命令进行创建：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>php artisan make:request StorePostRequest
+</span></span></code></pre></td></tr></table></div></div><p>生成的表单请求列防止在目录<code>app/Http/Requests</code>中。包含两个方法：<code>authorize</code>和<code>rules</code></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=o>&lt;?</span><span class=nx>php</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>namespace</span> <span class=nx>App\Http\Requests</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Foundation\Http\FormRequest</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>StorePostRequest</span> <span class=k>extends</span> <span class=nx>FormRequest</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=sd>/**
+</span></span></span><span class=line><span class=cl><span class=sd>     * Determine if the user is authorized to make this request.
+</span></span></span><span class=line><span class=cl><span class=sd>     */</span>
+</span></span><span class=line><span class=cl>    <span class=k>public</span> <span class=k>function</span> <span class=nf>authorize</span><span class=p>()</span><span class=o>:</span> <span class=nx>bool</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=k>false</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=sd>/**
+</span></span></span><span class=line><span class=cl><span class=sd>     * Get the validation rules that apply to the request.
+</span></span></span><span class=line><span class=cl><span class=sd>     *
+</span></span></span><span class=line><span class=cl><span class=sd>     * @return array&lt;string, \Illuminate\Contracts\Validation\ValidationRule|array&lt;mixed&gt;|string&gt;
+</span></span></span><span class=line><span class=cl><span class=sd>     */</span>
+</span></span><span class=line><span class=cl>    <span class=k>public</span> <span class=k>function</span> <span class=nf>rules</span><span class=p>()</span><span class=o>:</span> <span class=k>array</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>            <span class=s1>&#39;title&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;required|unique:posts|max:255&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>            <span class=s1>&#39;body&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;required&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=p>];</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>验证规则，只需对控制器方法中的请求进行类型提示即可：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=sd>/**
+</span></span></span><span class=line><span class=cl><span class=sd> * Store a new blog post.
+</span></span></span><span class=line><span class=cl><span class=sd> */</span>
+</span></span><span class=line><span class=cl><span class=k>public</span> <span class=k>function</span> <span class=nf>store</span><span class=p>(</span><span class=nx>StorePostRequest</span> <span class=nv>$request</span><span class=p>)</span><span class=o>:</span> <span class=nx>RedirectResponse</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// The incoming request is valid...
+</span></span></span><span class=line><span class=cl><span class=c1></span> 
+</span></span><span class=line><span class=cl>    <span class=c1>// Retrieve the validated input data...
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=nv>$validated</span> <span class=o>=</span> <span class=nv>$request</span><span class=o>-&gt;</span><span class=na>validated</span><span class=p>();</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl>    <span class=c1>// Retrieve a portion of the validated input data...
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=nv>$validated</span> <span class=o>=</span> <span class=nv>$request</span><span class=o>-&gt;</span><span class=na>safe</span><span class=p>()</span><span class=o>-&gt;</span><span class=na>only</span><span class=p>([</span><span class=s1>&#39;name&#39;</span><span class=p>,</span> <span class=s1>&#39;email&#39;</span><span class=p>]);</span>
+</span></span><span class=line><span class=cl>    <span class=nv>$validated</span> <span class=o>=</span> <span class=nv>$request</span><span class=o>-&gt;</span><span class=na>safe</span><span class=p>()</span><span class=o>-&gt;</span><span class=na>except</span><span class=p>([</span><span class=s1>&#39;name&#39;</span><span class=p>,</span> <span class=s1>&#39;email&#39;</span><span class=p>]);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl>    <span class=c1>// Store the blog post...
+</span></span></span><span class=line><span class=cl><span class=c1></span> 
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nx>redirect</span><span class=p>(</span><span class=s1>&#39;/posts&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=执行其他验证>执行其他验证</h4><blockquote><p>可以使用<code>after</code>方法在初始化验证完成后执行其他验证。</p><p>该 <code>after</code> 方法应返回一个可调用对象或闭包数组，这些数组将在验证完成后调用。</p><p>给定的可调用对象将收到一个 <code>Illuminate\Validation\Validator</code> 实例，允许引发其他错误消息。</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Validation\Validator</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=sd>/**
+</span></span></span><span class=line><span class=cl><span class=sd> * Get the &#34;after&#34; validation callables for the request.
+</span></span></span><span class=line><span class=cl><span class=sd> */</span>
+</span></span><span class=line><span class=cl><span class=k>public</span> <span class=k>function</span> <span class=nf>after</span><span class=p>()</span><span class=o>:</span> <span class=k>array</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>        <span class=k>function</span> <span class=p>(</span><span class=nx>Validator</span> <span class=nv>$validator</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=k>if</span> <span class=p>(</span><span class=nv>$this</span><span class=o>-&gt;</span><span class=na>somethingElseIsInvalid</span><span class=p>())</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>                <span class=nv>$validator</span><span class=o>-&gt;</span><span class=na>errors</span><span class=p>()</span><span class=o>-&gt;</span><span class=na>add</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>                    <span class=s1>&#39;field&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                    <span class=s1>&#39;Something is wrong with this field!&#39;</span>
+</span></span><span class=line><span class=cl>                <span class=p>);</span>
+</span></span><span class=line><span class=cl>            <span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=p>];</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><blockquote><p><code>after</code> 方法返回的数组也可能包含可调用的类。</p><p>这些类 <code>__invoke</code> 的方法将接收一个 <code>Illuminate\Validation\Validator</code> 实例。</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>App\Validation\ValidateShippingTime</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>App\Validation\ValidateUserStatus</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Validation\Validator</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=sd>/**
+</span></span></span><span class=line><span class=cl><span class=sd> * Get the &#34;after&#34; validation callables for the request.
+</span></span></span><span class=line><span class=cl><span class=sd> */</span>
+</span></span><span class=line><span class=cl><span class=k>public</span> <span class=k>function</span> <span class=nf>after</span><span class=p>()</span><span class=o>:</span> <span class=k>array</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>        <span class=k>new</span> <span class=nx>ValidateUserStatus</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=k>new</span> <span class=nx>ValidateShippingTime</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=k>function</span> <span class=p>(</span><span class=nx>Validator</span> <span class=nv>$validator</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=c1>//
+</span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=p>];</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=在首次验证失败时停止>在首次验证失败时停止</h4><p>通过将 <code>stopOnFirstFailure</code> 属性添加到请求类中，可以通知验证程序，一旦发生单个验证失败，它就应该停止验证所有属性：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=sd>/**
+</span></span></span><span class=line><span class=cl><span class=sd> * Indicates if the validator should stop on the first rule failure.
+</span></span></span><span class=line><span class=cl><span class=sd> *
+</span></span></span><span class=line><span class=cl><span class=sd> * @var bool
+</span></span></span><span class=line><span class=cl><span class=sd> */</span>
+</span></span><span class=line><span class=cl><span class=k>protected</span> <span class=nv>$stopOnFirstFailure</span> <span class=o>=</span> <span class=k>true</span><span class=p>;</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=自定义重定向位置>自定义重定向位置</h4><p>通过<code>$redirect</code>属性，可以自定义重定向位置：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=sd>/**
+</span></span></span><span class=line><span class=cl><span class=sd> * The URI that users should be redirected to if validation fails.
+</span></span></span><span class=line><span class=cl><span class=sd> *
+</span></span></span><span class=line><span class=cl><span class=sd> * @var string
+</span></span></span><span class=line><span class=cl><span class=sd> */</span>
+</span></span><span class=line><span class=cl><span class=k>protected</span> <span class=nv>$redirect</span> <span class=o>=</span> <span class=s1>&#39;/dashboard&#39;</span><span class=p>;</span>
+</span></span></code></pre></td></tr></table></div></div><p>如果要将用户重定向到命名路由，可以改为定义<code>$redirectRoute</code>属性：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=sd>/**
+</span></span></span><span class=line><span class=cl><span class=sd> * The route that users should be redirected to if validation fails.
+</span></span></span><span class=line><span class=cl><span class=sd> *
+</span></span></span><span class=line><span class=cl><span class=sd> * @var string
+</span></span></span><span class=line><span class=cl><span class=sd> */</span>
+</span></span><span class=line><span class=cl><span class=k>protected</span> <span class=nv>$redirectRoute</span> <span class=o>=</span> <span class=s1>&#39;dashboard&#39;</span><span class=p>;</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=授权表单请求>授权表单请求</h3><p>表单请求类还包含一个<code>authorize</code>方法。在此方法中，可以确定经过身份验证的用户是否有权限更新给定的资源。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>App\Models\Comment</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=sd>/**
+</span></span></span><span class=line><span class=cl><span class=sd> * Determine if the user is authorized to make this request.
+</span></span></span><span class=line><span class=cl><span class=sd> */</span>
+</span></span><span class=line><span class=cl><span class=k>public</span> <span class=k>function</span> <span class=nf>authorize</span><span class=p>()</span><span class=o>:</span> <span class=nx>bool</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nv>$comment</span> <span class=o>=</span> <span class=nx>Comment</span><span class=o>::</span><span class=na>find</span><span class=p>(</span><span class=nv>$this</span><span class=o>-&gt;</span><span class=na>route</span><span class=p>(</span><span class=s1>&#39;comment&#39;</span><span class=p>));</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nv>$comment</span> <span class=o>&amp;&amp;</span> <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>user</span><span class=p>()</span><span class=o>-&gt;</span><span class=na>can</span><span class=p>(</span><span class=s1>&#39;update&#39;</span><span class=p>,</span> <span class=nv>$comment</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>由于所有表单请求都扩展自基本的 Laravel 请求类，我们可以使用 <code>user</code> 方法来访问当前已认证的用户。</p><p>另外，请注意上面示例中对 <code>route</code> 方法的调用。这个方法允许你访问被调用路由上定义的 URI 参数，例如下面示例中的 <code>{comment}</code> 参数：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>Route</span><span class=o>::</span><span class=na>post</span><span class=p>(</span><span class=s1>&#39;/comment/{comment}&#39;</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><p>因此，如果应用程序利用了路由模型绑定，通过将解析后的模型作为请求的一个属性来访问，可以使代码更加简洁：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>return</span> <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>user</span><span class=p>()</span><span class=o>-&gt;</span><span class=na>can</span><span class=p>(</span><span class=s1>&#39;update&#39;</span><span class=p>,</span> <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>comment</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><p>如果 <code>authorize</code> 该方法返回 <code>false</code> ，则将自动返回具有 403 状态代码的 HTTP 响应，并且不会执行控制器方法。</p><p>如果计划在应用程序的另一部分处理请求的授权逻辑，则可以完全删除该 <code>authorize</code> 方法，或者直接返回 <code>true</code> ：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=sd>/**
+</span></span></span><span class=line><span class=cl><span class=sd> * Determine if the user is authorized to make this request.
+</span></span></span><span class=line><span class=cl><span class=sd> */</span>
+</span></span><span class=line><span class=cl><span class=k>public</span> <span class=k>function</span> <span class=nf>authorize</span><span class=p>()</span><span class=o>:</span> <span class=nx>bool</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=k>true</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=自定义错误消息-1>自定义错误消息</h3><p>可以通过重写<code>message</code>方法来自定义表单请求使用的错误消息。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=sd>/**
+</span></span></span><span class=line><span class=cl><span class=sd> * Get the error messages for the defined validation rules.
+</span></span></span><span class=line><span class=cl><span class=sd> *
+</span></span></span><span class=line><span class=cl><span class=sd> * @return array&lt;string, string&gt;
+</span></span></span><span class=line><span class=cl><span class=sd> */</span>
+</span></span><span class=line><span class=cl><span class=k>public</span> <span class=k>function</span> <span class=nf>messages</span><span class=p>()</span><span class=o>:</span> <span class=k>array</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>        <span class=s1>&#39;title.required&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;A title is required&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s1>&#39;body.required&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;A message is required&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=p>];</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=自定义验证属性>自定义验证属性</h4><p>Laravel 的许多内置验证规则错误消息都包含占 <code>:attribute</code> 位符。</p><p>如果希望将验证消息的 <code>:attribute</code> 占位符替换为自定义属性名称，则可以通过重写 <code>attributes</code> 方法指定自定义名称。</p><p>此方法应返回属性/名称对的数组：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=sd>/**
+</span></span></span><span class=line><span class=cl><span class=sd> * Get custom attributes for validator errors.
+</span></span></span><span class=line><span class=cl><span class=sd> *
+</span></span></span><span class=line><span class=cl><span class=sd> * @return array&lt;string, string&gt;
+</span></span></span><span class=line><span class=cl><span class=sd> */</span>
+</span></span><span class=line><span class=cl><span class=k>public</span> <span class=k>function</span> <span class=nf>attributes</span><span class=p>()</span><span class=o>:</span> <span class=k>array</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>        <span class=s1>&#39;email&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;email address&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=p>];</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=准备用于验证的输入>准备用于验证的输入</h3><p>如果需要在应用验证规则之前准备或清理请求中的任何数据，可以使用以下 <code>prepareForValidation</code> 方法：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Support\Str</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=sd>/**
+</span></span></span><span class=line><span class=cl><span class=sd> * Prepare the data for validation.
+</span></span></span><span class=line><span class=cl><span class=sd> */</span>
+</span></span><span class=line><span class=cl><span class=k>protected</span> <span class=k>function</span> <span class=nf>prepareForValidation</span><span class=p>()</span><span class=o>:</span> <span class=nx>void</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>merge</span><span class=p>([</span>
+</span></span><span class=line><span class=cl>        <span class=s1>&#39;slug&#39;</span> <span class=o>=&gt;</span> <span class=nx>Str</span><span class=o>::</span><span class=na>slug</span><span class=p>(</span><span class=nv>$this</span><span class=o>-&gt;</span><span class=na>slug</span><span class=p>),</span>
+</span></span><span class=line><span class=cl>    <span class=p>]);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>同样，如果需要在验证完成后规范化任何请求数据，可以使用以下 <code>passedValidation</code> 方法：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=sd>/**
+</span></span></span><span class=line><span class=cl><span class=sd> * Handle a passed validation attempt.
+</span></span></span><span class=line><span class=cl><span class=sd> */</span>
+</span></span><span class=line><span class=cl><span class=k>protected</span> <span class=k>function</span> <span class=nf>passedValidation</span><span class=p>()</span><span class=o>:</span> <span class=nx>void</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>replace</span><span class=p>([</span><span class=s1>&#39;name&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;Taylor&#39;</span><span class=p>]);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=手动创建验证程序>手动创建验证程序</h2><p>如果不想再请求上使用<code>validate</code>方法，则可以使用<code>Validator</code> Facade 手动创建验证器实例。使用<code>make</code>方法生成一个新的验证器实例。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=o>&lt;?</span><span class=nx>php</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=k>namespace</span> <span class=nx>App\Http\Controllers</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Http\RedirectResponse</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Http\Request</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Support\Facades\Validator</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>PostController</span> <span class=k>extends</span> <span class=nx>Controller</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=sd>/**
+</span></span></span><span class=line><span class=cl><span class=sd>     * Store a new blog post.
+</span></span></span><span class=line><span class=cl><span class=sd>     */</span>
+</span></span><span class=line><span class=cl>    <span class=k>public</span> <span class=k>function</span> <span class=nf>store</span><span class=p>(</span><span class=nx>Request</span> <span class=nv>$request</span><span class=p>)</span><span class=o>:</span> <span class=nx>RedirectResponse</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nv>$validator</span> <span class=o>=</span> <span class=nx>Validator</span><span class=o>::</span><span class=na>make</span><span class=p>(</span><span class=nv>$request</span><span class=o>-&gt;</span><span class=na>all</span><span class=p>(),</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>            <span class=s1>&#39;title&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;required|unique:posts|max:255&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>            <span class=s1>&#39;body&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;required&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=p>]);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=nv>$validator</span><span class=o>-&gt;</span><span class=na>fails</span><span class=p>())</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=k>return</span> <span class=nx>redirect</span><span class=p>(</span><span class=s1>&#39;post/create&#39;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>                        <span class=o>-&gt;</span><span class=na>withErrors</span><span class=p>(</span><span class=nv>$validator</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>                        <span class=o>-&gt;</span><span class=na>withInput</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl>        <span class=c1>// Retrieve the validated input...
+</span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=nv>$validated</span> <span class=o>=</span> <span class=nv>$validator</span><span class=o>-&gt;</span><span class=na>validated</span><span class=p>();</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl>        <span class=c1>// Retrieve a portion of the validated input...
+</span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=nv>$validated</span> <span class=o>=</span> <span class=nv>$validator</span><span class=o>-&gt;</span><span class=na>safe</span><span class=p>()</span><span class=o>-&gt;</span><span class=na>only</span><span class=p>([</span><span class=s1>&#39;name&#39;</span><span class=p>,</span> <span class=s1>&#39;email&#39;</span><span class=p>]);</span>
+</span></span><span class=line><span class=cl>        <span class=nv>$validated</span> <span class=o>=</span> <span class=nv>$validator</span><span class=o>-&gt;</span><span class=na>safe</span><span class=p>()</span><span class=o>-&gt;</span><span class=na>except</span><span class=p>([</span><span class=s1>&#39;name&#39;</span><span class=p>,</span> <span class=s1>&#39;email&#39;</span><span class=p>]);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl>        <span class=c1>// Store the blog post...
+</span></span></span><span class=line><span class=cl><span class=c1></span> 
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=nx>redirect</span><span class=p>(</span><span class=s1>&#39;/posts&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>传递给<code>make</code>方法的第一个参数是正在验证的数据。第二个参数是应该应用于数据的验证规则数组。</p><p>确定请求验证是否失败后，可以使用该<code>withErrors</code>方法将错误消息刷新到会话。</p><p>使用此方法时，<code>$errors</code>变量将在重定向后自动与视图共享，从而显示给用户。</p><p><code>withErrors</code>方法接受验证器、<code>MessageBag</code>或者PHP <code>array</code></p><h4 id=首次验证失败时停止-1>首次验证失败时停止</h4><p><code>stopOnFirstFailure</code> 方法将通知验证器，一旦发生单个验证失败，它就应该停止验证所有属性：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>if</span> <span class=p>(</span><span class=nv>$validator</span><span class=o>-&gt;</span><span class=na>stopOnFirstFailure</span><span class=p>()</span><span class=o>-&gt;</span><span class=na>fails</span><span class=p>())</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// ...
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=自动重定向>自动重定向</h3><p>手动创建验证器实例，仍需要利用HTTP请求<code>validate</code>方法提供的自动重定向，则可以在现有验证器实例上调用该<code>validate</code>方法。</p><p>如果验证失败，用户将自动被重定向，如果是XHR请求，则将返回JSON响应：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>Validator</span><span class=o>::</span><span class=na>make</span><span class=p>(</span><span class=nv>$request</span><span class=o>-&gt;</span><span class=na>all</span><span class=p>(),</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;title&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;required|unique:posts|max:255&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;body&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;required&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl><span class=p>])</span><span class=o>-&gt;</span><span class=na>validate</span><span class=p>();</span>
+</span></span></code></pre></td></tr></table></div></div><p>如果验证失败，可以使用该 <code>validateWithBag</code> 方法将错误消息存储在命名的错误包中：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>Validator</span><span class=o>::</span><span class=na>make</span><span class=p>(</span><span class=nv>$request</span><span class=o>-&gt;</span><span class=na>all</span><span class=p>(),</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;title&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;required|unique:posts|max:255&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;body&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;required&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl><span class=p>])</span><span class=o>-&gt;</span><span class=na>validateWithBag</span><span class=p>(</span><span class=s1>&#39;post&#39;</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=命名错误包>命名错误包</h3><p>如果单个页面上有多个表单，则可能希望命名 <code>MessageBag</code> 包含验证错误的名称，以便检索特定表单的错误消息。</p><p>为此，请将名称作为第二个参数传递给 <code>withErrors</code> ：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>return</span> <span class=nx>redirect</span><span class=p>(</span><span class=s1>&#39;register&#39;</span><span class=p>)</span><span class=o>-&gt;</span><span class=na>withErrors</span><span class=p>(</span><span class=nv>$validator</span><span class=p>,</span> <span class=s1>&#39;login&#39;</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><p>然后，可以从 <code>$errors</code> 变量访问命名 <code>MessageBag</code> 实例：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>{{ $errors-&gt;login-&gt;first(&#39;email&#39;) }}
+</span></span></code></pre></td></tr></table></div></div><h3 id=自定义错误消息-2>自定义错误消息</h3><p>可以将自定义消息作为第三个参数传递给<code>Validator::make</code>方法，用来自定义错误消息</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$validator</span> <span class=o>=</span> <span class=nx>Validator</span><span class=o>::</span><span class=na>make</span><span class=p>(</span><span class=nv>$input</span><span class=p>,</span> <span class=nv>$rules</span><span class=p>,</span> <span class=nv>$messages</span> <span class=o>=</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;required&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;The :attribute field is required.&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl><span class=p>]);</span>
+</span></span></code></pre></td></tr></table></div></div><p>在此示例中， <code>:attribute</code> 占位符将替换为正在验证的字段的实际名称。</p><p>还可以在验证消息中使用其他占位符。例如：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$messages</span> <span class=o>=</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;same&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;The :attribute and :other must match.&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;size&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;The :attribute must be exactly :size.&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;between&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;The :attribute value :input is not between :min - :max.&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;in&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;The :attribute must be one of the following types: :values&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl><span class=p>];</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=为给定属性指定自定义消息>为给定属性指定自定义消息</h4><p>仅为特定属性指定自定义错误消息。可以使用<code>.</code>表示法：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$messages</span> <span class=o>=</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;email.required&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;We need to know your email address!&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl><span class=p>];</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=指定自定义属性值>指定自定义属性值</h4><p>Laravel 的许多内置错误消息都包含一个 <code>:attribute</code> 占位符，该占位符将替换为正在验证的字段或属性的名称。</p><p>若要自定义用于替换特定字段的这些占位符的值，可以将自定义属性数组作为第四个参数传递给 <code>Validator::make</code> 该方法：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$validator</span> <span class=o>=</span> <span class=nx>Validator</span><span class=o>::</span><span class=na>make</span><span class=p>(</span><span class=nv>$input</span><span class=p>,</span> <span class=nv>$rules</span><span class=p>,</span> <span class=nv>$messages</span><span class=p>,</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;email&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;email address&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl><span class=p>]);</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=执行其他验证-1>执行其他验证</h3><p>在初始验证完成后执行其他验证。可以使用验证器<code>after</code>方法完成该操作。</p><p>该方法接受一个闭包或者一个可调用对象数组，这些可调用对象将在验证完成后调用。</p><p>给定的可调用对象将收到一个 <code>Illuminate\Validation\Validator</code> 实例，允许引发其他错误消息：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Support\Facades\Validator</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nv>$validator</span> <span class=o>=</span> <span class=nx>Validator</span><span class=o>::</span><span class=na>make</span><span class=p>(</span><span class=cm>/* ... */</span><span class=p>);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nv>$validator</span><span class=o>-&gt;</span><span class=na>after</span><span class=p>(</span><span class=k>function</span> <span class=p>(</span><span class=nv>$validator</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=nv>$this</span><span class=o>-&gt;</span><span class=na>somethingElseIsInvalid</span><span class=p>())</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nv>$validator</span><span class=o>-&gt;</span><span class=na>errors</span><span class=p>()</span><span class=o>-&gt;</span><span class=na>add</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>            <span class=s1>&#39;field&#39;</span><span class=p>,</span> <span class=s1>&#39;Something is wrong with this field!&#39;</span>
+</span></span><span class=line><span class=cl>        <span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=k>if</span> <span class=p>(</span><span class=nv>$validator</span><span class=o>-&gt;</span><span class=na>fails</span><span class=p>())</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// ...
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>该<code>after</code>方法还接受可调用对象数组，如果验证后逻辑封装在可调用类中，这将特别方便，这些类将通过其<code>__invoke</code>方法接收实例<code>Illuminate\Validation\Validator</code>：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>App\Validation\ValidateShippingTime</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>App\Validation\ValidateUserStatus</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nv>$validator</span><span class=o>-&gt;</span><span class=na>after</span><span class=p>([</span>
+</span></span><span class=line><span class=cl>    <span class=k>new</span> <span class=nx>ValidateUserStatus</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=k>new</span> <span class=nx>ValidateShippingTime</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=k>function</span> <span class=p>(</span><span class=nv>$validator</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=c1>// ...
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=p>},</span>
+</span></span><span class=line><span class=cl><span class=p>]);</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=使用经过验证的输入>使用经过验证的输入</h2><p>在表单请求或验证程序实例上调用该 <code>validated</code> 方法。返回已验证的数据数组：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$validated</span> <span class=o>=</span> <span class=nv>$request</span><span class=o>-&gt;</span><span class=na>validated</span><span class=p>();</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nv>$validated</span> <span class=o>=</span> <span class=nv>$validator</span><span class=o>-&gt;</span><span class=na>validated</span><span class=p>();</span>
+</span></span></code></pre></td></tr></table></div></div><p>还可以在表单请求或验证程序实例上调用该 <code>safe</code> 方法。</p><p>此方法返回的 <code>Illuminate\Support\ValidatedInput</code> 实例。</p><p>此对象公开 <code>only</code> 、 <code>except</code> 和 <code>all</code> 方法，用于检索已验证数据的子集或已验证数据的整个数组：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$validated</span> <span class=o>=</span> <span class=nv>$request</span><span class=o>-&gt;</span><span class=na>safe</span><span class=p>()</span><span class=o>-&gt;</span><span class=na>only</span><span class=p>([</span><span class=s1>&#39;name&#39;</span><span class=p>,</span> <span class=s1>&#39;email&#39;</span><span class=p>]);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nv>$validated</span> <span class=o>=</span> <span class=nv>$request</span><span class=o>-&gt;</span><span class=na>safe</span><span class=p>()</span><span class=o>-&gt;</span><span class=na>except</span><span class=p>([</span><span class=s1>&#39;name&#39;</span><span class=p>,</span> <span class=s1>&#39;email&#39;</span><span class=p>]);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nv>$validated</span> <span class=o>=</span> <span class=nv>$request</span><span class=o>-&gt;</span><span class=na>safe</span><span class=p>()</span><span class=o>-&gt;</span><span class=na>all</span><span class=p>();</span>
+</span></span></code></pre></td></tr></table></div></div><p><code>Illuminate\Support\ValidatedInput</code> 实例可以像数组一样进行迭代和访问：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=c1>// Validated data may be iterated...
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=k>foreach</span> <span class=p>(</span><span class=nv>$request</span><span class=o>-&gt;</span><span class=na>safe</span><span class=p>()</span> <span class=k>as</span> <span class=nv>$key</span> <span class=o>=&gt;</span> <span class=nv>$value</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// ...
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>}</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=c1>// Validated data may be accessed as an array...
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=nv>$validated</span> <span class=o>=</span> <span class=nv>$request</span><span class=o>-&gt;</span><span class=na>safe</span><span class=p>();</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nv>$email</span> <span class=o>=</span> <span class=nv>$validated</span><span class=p>[</span><span class=s1>&#39;email&#39;</span><span class=p>];</span>
+</span></span></code></pre></td></tr></table></div></div><p>如果要向验证的数据添加其他字段，可以调用以下 <code>merge</code> 方法：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$validated</span> <span class=o>=</span> <span class=nv>$request</span><span class=o>-&gt;</span><span class=na>safe</span><span class=p>()</span><span class=o>-&gt;</span><span class=na>merge</span><span class=p>([</span><span class=s1>&#39;name&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;Taylor Otwell&#39;</span><span class=p>]);</span>
+</span></span></code></pre></td></tr></table></div></div><p>如果要将已验证的数据作为集合实例进行检索，可以调用以下 <code>collect</code> 方法：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$collection</span> <span class=o>=</span> <span class=nv>$request</span><span class=o>-&gt;</span><span class=na>safe</span><span class=p>()</span><span class=o>-&gt;</span><span class=na>collect</span><span class=p>();</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=使用错误消息>使用错误消息</h2><p>在实例<code>Validator</code>上调用该<code>errors</code>方法后，将收到一个<code>Illuminate\Support\MessageBag</code>实例，该实例具有多种处理错误消息的便携方法。</p><p>自动提供给所有视图的<code>$errors</code>变量也是该<code>MessageBag</code>类的实例。</p><h4 id=检索字段的首次错误消息>检索字段的首次错误消息</h4><blockquote><p><code>first</code>方法可以检索给定字段的第一条错误消息</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$errors</span> <span class=o>=</span> <span class=nv>$validator</span><span class=o>-&gt;</span><span class=na>errors</span><span class=p>();</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=k>echo</span> <span class=nv>$errors</span><span class=o>-&gt;</span><span class=na>first</span><span class=p>(</span><span class=s1>&#39;email&#39;</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=检索字段的所有错误消息>检索字段的所有错误消息</h4><blockquote><p><code>get</code>方法可以检索给定字段的所有消息的数组</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>foreach</span> <span class=p>(</span><span class=nv>$errors</span><span class=o>-&gt;</span><span class=na>get</span><span class=p>(</span><span class=s1>&#39;email&#39;</span><span class=p>)</span> <span class=k>as</span> <span class=nv>$message</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// ...
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>如果要验证数组表单字段，则可以使用以下 <code>*</code> 字符检索每个数组元素的所有消息：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>foreach</span> <span class=p>(</span><span class=nv>$errors</span><span class=o>-&gt;</span><span class=na>get</span><span class=p>(</span><span class=s1>&#39;attachments.*&#39;</span><span class=p>)</span> <span class=k>as</span> <span class=nv>$message</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// ...
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=检索所有字段的所有错误消息>检索所有字段的所有错误消息</h4><blockquote><p><code>all</code>方法可以检索所有字段的所有消息的数组</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>foreach</span> <span class=p>(</span><span class=nv>$errors</span><span class=o>-&gt;</span><span class=na>all</span><span class=p>()</span> <span class=k>as</span> <span class=nv>$message</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// ...
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=确定字段是否存在消息>确定字段是否存在消息</h4><blockquote><p><code>has</code>方法用于确定给定字段是否存在任何错误消息</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>if</span> <span class=p>(</span><span class=nv>$errors</span><span class=o>-&gt;</span><span class=na>has</span><span class=p>(</span><span class=s1>&#39;email&#39;</span><span class=p>))</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// ...
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=在语言文件中指定自定义消息>在语言文件中指定自定义消息</h3><p>Laravel 的内置验证规则每个规则都有一个错误消息，该错误消息位于应用程序 <code>lang/en/validation.php</code> 的文件中。</p><p>如果应用程序没有 <code>lang</code> 目录，可以使用 <code>lang:publish</code> Artisan 命令创建它。</p><p>在<code>lang/en/validation.php</code> 文件中，可以根据应用程序的需要调整这些消息。</p><p>此外，也可以将此文件复制到其他语言目录，以翻译应用程序语言的消息。</p><h4 id=特定属性的自定义消息>特定属性的自定义消息</h4><p>可以在应用程序的验证语言文件中自定义用于指定属性和规则组合的错误消息。为此，请将消息自定义项添加到应用程序 <code>lang/xx/validation.php</code> 语言文件的 <code>custom</code> 数组中：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=s1>&#39;custom&#39;</span> <span class=o>=&gt;</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;email&#39;</span> <span class=o>=&gt;</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>        <span class=s1>&#39;required&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;We need to know your email address!&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s1>&#39;max&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;Your email address is too long!&#39;</span>
+</span></span><span class=line><span class=cl>    <span class=p>],</span>
+</span></span><span class=line><span class=cl><span class=p>],</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=在语言文件中指定属性>在语言文件中指定属性</h3><p>Laravel 的许多内置错误消息都包含一个 <code>:attribute</code> 占位符，该占位符将替换为正在验证的字段或属性的名称。</p><p>如果要将验证消息 <code>:attribute</code> 的部分替换为自定义值，可以在 <code>lang/xx/validation.php</code> 语言文件的 <code>attributes</code> 数组中指定自定义属性名称：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=s1>&#39;attributes&#39;</span> <span class=o>=&gt;</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;email&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;email address&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl><span class=p>],</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=在语言文件中指定值>在语言文件中指定值</h3><p>Laravel 一些内置的验证规则错误消息包含一个 <code>:value</code> 占位符，该占位符会被请求属性的当前值替换。</p><p>然而，有时可能需要将验证消息中的 <code>:value</code> 部分替换为自定义的值表示。</p><p>例如，考虑如下规则，该规则规定如果 <code>payment_type</code> 的值为 <code>cc</code>，则要求提供信用卡号码：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>Validator</span><span class=o>::</span><span class=na>make</span><span class=p>(</span><span class=nv>$request</span><span class=o>-&gt;</span><span class=na>all</span><span class=p>(),</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;credit_card_number&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;required_if:payment_type,cc&#39;</span>
+</span></span><span class=line><span class=cl><span class=p>]);</span>
+</span></span></code></pre></td></tr></table></div></div><p>如果此验证规则失败，它将生成以下错误消息：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-tex data-lang=tex><span class=line><span class=cl>The credit card number field is required when payment type is cc.
+</span></span></code></pre></td></tr></table></div></div><p>可以在 <code>lang/xx/validation.php</code> 语言文件中定义一个 <code>values</code> 数组，以更用户友好的值表示方式，来替换显示 <code>cc</code> 作为支付类型值的情况：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=s1>&#39;values&#39;</span> <span class=o>=&gt;</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;payment_type&#39;</span> <span class=o>=&gt;</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>        <span class=s1>&#39;cc&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;credit card&#39;</span>
+</span></span><span class=line><span class=cl>    <span class=p>],</span>
+</span></span><span class=line><span class=cl><span class=p>],</span>
+</span></span></code></pre></td></tr></table></div></div><p>定义此值后，验证规则将生成如下错误消息：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>The</span> <span class=nx>credit</span> <span class=nx>card</span> <span class=nx>number</span> <span class=nx>field</span> <span class=nx>is</span> <span class=nx>required</span> <span class=nx>when</span> <span class=nx>payment</span> <span class=nx>type</span> <span class=nx>is</span> <span class=nx>credit</span> <span class=nx>card</span><span class=o>.</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=可用的验证规则>可用的验证规则</h2><p>详细见：<a href=https://laravel.com/docs/11.x/validation#available-validation-rules target=_blank rel="noopener noreffer">可用的验证规则</a></p><h2 id=有条件的添加规则>有条件的添加规则</h2><h4 id=当字段具有特定值时跳过验证>当字段具有特定值时跳过验证</h4><p>有时可能希望在另一个字段具有特定值的情况下不验证某个字段。</p><p>可以使用 <code>exclude_if</code> 验证规则来实现这一点。</p><p>在这个例子中，如果 <code>has_appointment</code> 字段的值为 <code>false</code>，则 <code>appointment_date</code> 和 <code>doctor_name</code> 字段将不会被验证：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Support\Facades\Validator</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nv>$validator</span> <span class=o>=</span> <span class=nx>Validator</span><span class=o>::</span><span class=na>make</span><span class=p>(</span><span class=nv>$data</span><span class=p>,</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;has_appointment&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;required|boolean&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;appointment_date&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;exclude_if:has_appointment,false|required|date&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;doctor_name&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;exclude_if:has_appointment,false|required|string&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl><span class=p>]);</span>
+</span></span></code></pre></td></tr></table></div></div><p>或者，可以使用 <code>exclude_unless</code> 规则，不验证某个字段，除非另一个字段具有特定值：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$validator</span> <span class=o>=</span> <span class=nx>Validator</span><span class=o>::</span><span class=na>make</span><span class=p>(</span><span class=nv>$data</span><span class=p>,</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;has_appointment&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;required|boolean&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;appointment_date&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;exclude_unless:has_appointment,true|required|date&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;doctor_name&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;exclude_unless:has_appointment,true|required|string&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl><span class=p>]);</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=存在时验证>存在时验证</h4><p>在某些情况下，可能希望只有在某个字段存在于被验证的数据中时才对其进行验证检查。</p><p>要快速实现这一点，可以在规则列表中添加 <code>sometimes</code> 规则：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$v</span> <span class=o>=</span> <span class=nx>Validator</span><span class=o>::</span><span class=na>make</span><span class=p>(</span><span class=nv>$data</span><span class=p>,</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;email&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;sometimes|required|email&#39;</span><span class=p>,</span> <span class=c1>// 仅当 email 该字段存在于 $data 数组中时，才会对其进行验证。
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>]);</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=复杂条件验证>复杂条件验证</h4><p>例如：可能希望仅在另一个字段的值大于等于100时才需要给定字段。或者，仅当存在另一个字段时，才需要两个字段才具有给定值。</p><p>首先，使用静态规则创建一个<code>Validator</code>实例：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Support\Facades\Validator</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nv>$validator</span> <span class=o>=</span> <span class=nx>Validator</span><span class=o>::</span><span class=na>make</span><span class=p>(</span><span class=nv>$request</span><span class=o>-&gt;</span><span class=na>all</span><span class=p>(),</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;email&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;required|email&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;games&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;required|numeric&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl><span class=p>]);</span>
+</span></span></code></pre></td></tr></table></div></div><p>然后，可以可以在<code>Validator</code>实例上使用<code>sometimes</code>方法</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Support\Fluent</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nv>$validator</span><span class=o>-&gt;</span><span class=na>sometimes</span><span class=p>(</span><span class=s1>&#39;reason&#39;</span><span class=p>,</span> <span class=s1>&#39;required|max:500&#39;</span><span class=p>,</span> <span class=k>function</span> <span class=p>(</span><span class=nx>Fluent</span> <span class=nv>$input</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nv>$input</span><span class=o>-&gt;</span><span class=na>games</span> <span class=o>&gt;=</span> <span class=mi>100</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span></code></pre></td></tr></table></div></div><p>传递给<code>sometimes</code>方法的第一个参数是有条件验证的字段的名称。第二个参数是要添加的规则列表。如果第三个参数传递的闭包返回<code>true</code>，则将添加规则。</p><p>同样的一次也可以为多个字段添加条件验证：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$validator</span><span class=o>-&gt;</span><span class=na>sometimes</span><span class=p>([</span><span class=s1>&#39;reason&#39;</span><span class=p>,</span> <span class=s1>&#39;cost&#39;</span><span class=p>],</span> <span class=s1>&#39;required&#39;</span><span class=p>,</span> <span class=k>function</span> <span class=p>(</span><span class=nx>Fluent</span> <span class=nv>$input</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nv>$input</span><span class=o>-&gt;</span><span class=na>games</span> <span class=o>&gt;=</span> <span class=mi>100</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=复杂条件数据验证>复杂条件数据验证</h4><p>有时可能希望根据同意嵌套数组中的另一个字段来验证一个字段，而不知道该字段的索引。这种情况下，可以允许闭包接收第二个参数，该参数将是正在验证的数据中的当前单个项：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$input</span> <span class=o>=</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;channels&#39;</span> <span class=o>=&gt;</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>        <span class=p>[</span>
+</span></span><span class=line><span class=cl>            <span class=s1>&#39;type&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;email&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>            <span class=s1>&#39;address&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;abigail@example.com&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=p>],</span>
+</span></span><span class=line><span class=cl>        <span class=p>[</span>
+</span></span><span class=line><span class=cl>            <span class=s1>&#39;type&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;url&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>            <span class=s1>&#39;address&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;https://example.com&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=p>],</span>
+</span></span><span class=line><span class=cl>    <span class=p>],</span>
+</span></span><span class=line><span class=cl><span class=p>];</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nv>$validator</span><span class=o>-&gt;</span><span class=na>sometimes</span><span class=p>(</span><span class=s1>&#39;channels.*.address&#39;</span><span class=p>,</span> <span class=s1>&#39;email&#39;</span><span class=p>,</span> <span class=k>function</span> <span class=p>(</span><span class=nx>Fluent</span> <span class=nv>$input</span><span class=p>,</span> <span class=nx>Fluent</span> <span class=nv>$item</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nv>$item</span><span class=o>-&gt;</span><span class=na>type</span> <span class=o>===</span> <span class=s1>&#39;email&#39;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nv>$validator</span><span class=o>-&gt;</span><span class=na>sometimes</span><span class=p>(</span><span class=s1>&#39;channels.*.address&#39;</span><span class=p>,</span> <span class=s1>&#39;url&#39;</span><span class=p>,</span> <span class=k>function</span> <span class=p>(</span><span class=nx>Fluent</span> <span class=nv>$input</span><span class=p>,</span> <span class=nx>Fluent</span> <span class=nv>$item</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nv>$item</span><span class=o>-&gt;</span><span class=na>type</span> <span class=o>!==</span> <span class=s1>&#39;email&#39;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span></code></pre></td></tr></table></div></div><p>与传递给闭包的<code>$input</code>参数一样，当属性数据为数据时，<code>$item</code>参数是<code>Illuminate\Support\Fluent</code>的实例；否则，它是一个字符串。</p><h2 id=验证数组>验证数组</h2><p><code>array</code>规则接收允许的数组键列表。如果数组中存在任何其他键，则验证将失败：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Support\Facades\Validator</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nv>$input</span> <span class=o>=</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;user&#39;</span> <span class=o>=&gt;</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>        <span class=s1>&#39;name&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;Taylor Otwell&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s1>&#39;username&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;taylorotwell&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s1>&#39;admin&#39;</span> <span class=o>=&gt;</span> <span class=k>true</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=p>],</span>
+</span></span><span class=line><span class=cl><span class=p>];</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nx>Validator</span><span class=o>::</span><span class=na>make</span><span class=p>(</span><span class=nv>$input</span><span class=p>,</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;user&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;array:name,username&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl><span class=p>]);</span>
+</span></span></code></pre></td></tr></table></div></div><p>通常情况下，应该始终允许存在于数组中的数组键。否则，验证器的<code>validate</code>和<code>validated</code>方法将返回所有已验证的数据，包括数组及其所有键，即使这些键未由其他嵌套数据验证规则验证。</p><h3 id=验证嵌套数据输入>验证嵌套数据输入</h3><p>使用点表示法来验证数组中的属性：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Support\Facades\Validator</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nv>$validator</span> <span class=o>=</span> <span class=nx>Validator</span><span class=o>::</span><span class=na>make</span><span class=p>(</span><span class=nv>$request</span><span class=o>-&gt;</span><span class=na>all</span><span class=p>(),</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;photos.profile&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;required|image&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl><span class=p>]);</span>
+</span></span></code></pre></td></tr></table></div></div><p>还可以验证数组的每个元素：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$validator</span> <span class=o>=</span> <span class=nx>Validator</span><span class=o>::</span><span class=na>make</span><span class=p>(</span><span class=nv>$request</span><span class=o>-&gt;</span><span class=na>all</span><span class=p>(),</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;person.*.email&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;email|unique:users&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;person.*.first_name&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;required_with:person.*.last_name&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl><span class=p>]);</span>
+</span></span></code></pre></td></tr></table></div></div><p>同样在自定义验证消息文件中，也可以使用<code>*</code>字符，从而为基于数组的字段使用单个验证消息变的轻而易举：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=s1>&#39;custom&#39;</span> <span class=o>=&gt;</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;person.*.email&#39;</span> <span class=o>=&gt;</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>        <span class=s1>&#39;unique&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;Each person must have a unique email address&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=p>]</span>
+</span></span><span class=line><span class=cl><span class=p>],</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=访问嵌套数组数据>访问嵌套数组数据</h3><p>有时，在位属性分配验证规则时，可能需要访问给定嵌套数组元素的值，可以使用<code>Rule::forEach</code>方法完成此操作。</p><p><code>forEach</code>方法接受一个闭包，该闭包将在验证中为<code>array</code>属性的每次迭代调用，并将接收该属性的值和显式的、完全扩展的属性名称。闭包应返回一个规则数组以分配给数组元素：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>App\Rules\HasPermission</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Support\Facades\Validator</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Validation\Rule</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nv>$validator</span> <span class=o>=</span> <span class=nx>Validator</span><span class=o>::</span><span class=na>make</span><span class=p>(</span><span class=nv>$request</span><span class=o>-&gt;</span><span class=na>all</span><span class=p>(),</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;companies.*.id&#39;</span> <span class=o>=&gt;</span> <span class=nx>Rule</span><span class=o>::</span><span class=na>forEach</span><span class=p>(</span><span class=k>function</span> <span class=p>(</span><span class=nx>string</span><span class=o>|</span><span class=k>null</span> <span class=nv>$value</span><span class=p>,</span> <span class=nx>string</span> <span class=nv>$attribute</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>            <span class=nx>Rule</span><span class=o>::</span><span class=na>exists</span><span class=p>(</span><span class=nx>Company</span><span class=o>::</span><span class=na>class</span><span class=p>,</span> <span class=s1>&#39;id&#39;</span><span class=p>),</span>
+</span></span><span class=line><span class=cl>            <span class=k>new</span> <span class=nx>HasPermission</span><span class=p>(</span><span class=s1>&#39;manage-company&#39;</span><span class=p>,</span> <span class=nv>$value</span><span class=p>),</span>
+</span></span><span class=line><span class=cl>        <span class=p>];</span>
+</span></span><span class=line><span class=cl>    <span class=p>}),</span>
+</span></span><span class=line><span class=cl><span class=p>]);</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=错误消息索引和位置>错误消息索引和位置</h3><p>验证数组时，显示错误消息中引用验证失败的特定项目的索引或位置，可以在自定义验证消息中包含<code>:index</code>（从<code>0</code>开始）和<code>:position</code>（从1开始）占位符：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Support\Facades\Validator</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nv>$input</span> <span class=o>=</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;photos&#39;</span> <span class=o>=&gt;</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>        <span class=p>[</span>
+</span></span><span class=line><span class=cl>            <span class=s1>&#39;name&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;BeachVacation.jpg&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>            <span class=s1>&#39;description&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;A photo of my beach vacation!&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=p>],</span>
+</span></span><span class=line><span class=cl>        <span class=p>[</span>
+</span></span><span class=line><span class=cl>            <span class=s1>&#39;name&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;GrandCanyon.jpg&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>            <span class=s1>&#39;description&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=p>],</span>
+</span></span><span class=line><span class=cl>    <span class=p>],</span>
+</span></span><span class=line><span class=cl><span class=p>];</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nx>Validator</span><span class=o>::</span><span class=na>validate</span><span class=p>(</span><span class=nv>$input</span><span class=p>,</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;photos.*.description&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;required&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl><span class=p>],</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;photos.*.description.required&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;Please describe photo #:position.&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl><span class=p>]);</span>
+</span></span></code></pre></td></tr></table></div></div><p>如果有需要，可以通过<code>second-index</code>、<code>second-position</code>、<code>third-index</code>、<code>third-position</code>等方式引用嵌套更深的索引和位置：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=s1>&#39;photos.*.attributes.*.string&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;Invalid attribute for photo #:second-position.&#39;</span><span class=p>,</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=验证文件>验证文件</h2><p>Laravel提供了一个<code>File</code>验证规则构建器：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Support\Facades\Validator</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Validation\Rules\File</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nx>Validator</span><span class=o>::</span><span class=na>validate</span><span class=p>(</span><span class=nv>$input</span><span class=p>,</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;attachment&#39;</span> <span class=o>=&gt;</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>        <span class=s1>&#39;required&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=nx>File</span><span class=o>::</span><span class=na>types</span><span class=p>([</span><span class=s1>&#39;mp3&#39;</span><span class=p>,</span> <span class=s1>&#39;wav&#39;</span><span class=p>])</span>
+</span></span><span class=line><span class=cl>            <span class=o>-&gt;</span><span class=na>min</span><span class=p>(</span><span class=mi>1024</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>            <span class=o>-&gt;</span><span class=na>max</span><span class=p>(</span><span class=mi>12</span> <span class=o>*</span> <span class=mi>1024</span><span class=p>),</span>
+</span></span><span class=line><span class=cl>    <span class=p>],</span>
+</span></span><span class=line><span class=cl><span class=p>]);</span>
+</span></span></code></pre></td></tr></table></div></div><p>也可以直接使用<code>File</code>规则的<code>image</code>构造函数方法来指定上传的文件应为图像</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Support\Facades\Validator</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Validation\Rule</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Validation\Rules\File</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nx>Validator</span><span class=o>::</span><span class=na>validate</span><span class=p>(</span><span class=nv>$input</span><span class=p>,</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;photo&#39;</span> <span class=o>=&gt;</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>        <span class=s1>&#39;required&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=nx>File</span><span class=o>::</span><span class=na>image</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>            <span class=o>-&gt;</span><span class=na>min</span><span class=p>(</span><span class=mi>1024</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>            <span class=o>-&gt;</span><span class=na>max</span><span class=p>(</span><span class=mi>12</span> <span class=o>*</span> <span class=mi>1024</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>            <span class=o>-&gt;</span><span class=na>dimensions</span><span class=p>(</span><span class=nx>Rule</span><span class=o>::</span><span class=na>dimensions</span><span class=p>()</span><span class=o>-&gt;</span><span class=na>maxWidth</span><span class=p>(</span><span class=mi>1000</span><span class=p>)</span><span class=o>-&gt;</span><span class=na>maxHeight</span><span class=p>(</span><span class=mi>500</span><span class=p>)),</span>
+</span></span><span class=line><span class=cl>    <span class=p>],</span>
+</span></span><span class=line><span class=cl><span class=p>]);</span>
+</span></span></code></pre></td></tr></table></div></div><p>File文件大小支持指定为字符串，后缀表示文件大小的单位。仅支持<code>kb</code>、<code>mb</code>、<code>gb</code>和<code>tb</code>后缀：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>File</span><span class=o>::</span><span class=na>image</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>    <span class=o>-&gt;</span><span class=na>min</span><span class=p>(</span><span class=s1>&#39;1kb&#39;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=o>-&gt;</span><span class=na>max</span><span class=p>(</span><span class=s1>&#39;10mb&#39;</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=验证密码>验证密码</h2><p>为了确保密码具有足够的复杂程度，可以使用<code>Password</code>规则对象：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Support\Facades\Validator</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Validation\Rules\Password</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nv>$validator</span> <span class=o>=</span> <span class=nx>Validator</span><span class=o>::</span><span class=na>make</span><span class=p>(</span><span class=nv>$request</span><span class=o>-&gt;</span><span class=na>all</span><span class=p>(),</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;password&#39;</span> <span class=o>=&gt;</span> <span class=p>[</span><span class=s1>&#39;required&#39;</span><span class=p>,</span> <span class=s1>&#39;confirmed&#39;</span><span class=p>,</span> <span class=nx>Password</span><span class=o>::</span><span class=na>min</span><span class=p>(</span><span class=mi>8</span><span class=p>)],</span>
+</span></span><span class=line><span class=cl><span class=p>]);</span>
+</span></span></code></pre></td></tr></table></div></div><p><code>Password</code>规则对象允许自定义应用程序的密码复杂性要求，例如指定密码至少需要一个字母、数字、符号或混合大小写的字符：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=c1>// 需要至少 8 个字符...
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=nx>Password</span><span class=o>::</span><span class=na>min</span><span class=p>(</span><span class=mi>8</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// 需要至少一个字母...
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=nx>Password</span><span class=o>::</span><span class=na>min</span><span class=p>(</span><span class=mi>8</span><span class=p>)</span><span class=o>-&gt;</span><span class=na>letters</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// 需要至少一个大写字母和一个小写字母...
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=nx>Password</span><span class=o>::</span><span class=na>min</span><span class=p>(</span><span class=mi>8</span><span class=p>)</span><span class=o>-&gt;</span><span class=na>mixedCase</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// 需要至少一个数字...
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=nx>Password</span><span class=o>::</span><span class=na>min</span><span class=p>(</span><span class=mi>8</span><span class=p>)</span><span class=o>-&gt;</span><span class=na>numbers</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// 需要至少一个符号...
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=nx>Password</span><span class=o>::</span><span class=na>min</span><span class=p>(</span><span class=mi>8</span><span class=p>)</span><span class=o>-&gt;</span><span class=na>symbols</span><span class=p>()</span>
+</span></span></code></pre></td></tr></table></div></div><p>还可以使用<code>uncompromised</code>方法确保密码未在公共密码数据泄露中泄露：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>Password</span><span class=o>::</span><span class=na>min</span><span class=p>(</span><span class=mi>8</span><span class=p>)</span><span class=o>-&gt;</span><span class=na>uncompromised</span><span class=p>()</span>
+</span></span></code></pre></td></tr></table></div></div><p>使用 uncompromised 方法的第一个参数自定义此阈值：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=c1>// 确保密码在同一次数据泄露中出现的次数少于3次...
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=nx>Password</span><span class=o>::</span><span class=na>min</span><span class=p>(</span><span class=mi>8</span><span class=p>)</span><span class=o>-&gt;</span><span class=na>uncompromised</span><span class=p>(</span><span class=mi>3</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><p>支持链接的写法：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>Password</span><span class=o>::</span><span class=na>min</span><span class=p>(</span><span class=mi>8</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=o>-&gt;</span><span class=na>letters</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>    <span class=o>-&gt;</span><span class=na>mixedCase</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>    <span class=o>-&gt;</span><span class=na>numbers</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>    <span class=o>-&gt;</span><span class=na>symbols</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>    <span class=o>-&gt;</span><span class=na>uncompromised</span><span class=p>()</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=定义默认密码规则>定义默认密码规则</h3><p>使用<code>Password::defaults</code>方法轻松指定默认密码验证规则，改规则接受闭包。为<code>defaults</code>方法提供的闭包应返回Password规则的默认配置。通常，应在应用程序的某个服务提供商的<code>boot</code>方法中调用<code>defaults</code>规则：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Validation\Rules\Password</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=sd>/**
+</span></span></span><span class=line><span class=cl><span class=sd> * Bootstrap any application services.
+</span></span></span><span class=line><span class=cl><span class=sd> */</span>
+</span></span><span class=line><span class=cl><span class=k>public</span> <span class=k>function</span> <span class=nf>boot</span><span class=p>()</span><span class=o>:</span> <span class=nx>void</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>Password</span><span class=o>::</span><span class=na>defaults</span><span class=p>(</span><span class=k>function</span> <span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nv>$rule</span> <span class=o>=</span> <span class=nx>Password</span><span class=o>::</span><span class=na>min</span><span class=p>(</span><span class=mi>8</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>app</span><span class=o>-&gt;</span><span class=na>isProduction</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>                    <span class=o>?</span> <span class=nv>$rule</span><span class=o>-&gt;</span><span class=na>mixedCase</span><span class=p>()</span><span class=o>-&gt;</span><span class=na>uncompromised</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>                    <span class=o>:</span> <span class=nv>$rule</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>});</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>如果将default规则应用于正在验证的特定密码时，可以调用不带参数的<code>defaults</code>方法：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=s1>&#39;password&#39;</span> <span class=o>=&gt;</span> <span class=p>[</span><span class=s1>&#39;required&#39;</span><span class=p>,</span> <span class=nx>Password</span><span class=o>::</span><span class=na>defaults</span><span class=p>()],</span>
+</span></span></code></pre></td></tr></table></div></div><p>也可以使用<code>rules</code>方法完成将其他验证规则附加到默认密码验证规则中：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>App\Rules\ZxcvbnRule</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nx>Password</span><span class=o>::</span><span class=na>defaults</span><span class=p>(</span><span class=k>function</span> <span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nv>$rule</span> <span class=o>=</span> <span class=nx>Password</span><span class=o>::</span><span class=na>min</span><span class=p>(</span><span class=mi>8</span><span class=p>)</span><span class=o>-&gt;</span><span class=na>rules</span><span class=p>([</span><span class=k>new</span> <span class=nx>ZxcvbnRule</span><span class=p>]);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// ...
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>});</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=自定义验证规则>自定义验证规则</h2><h3 id=使用规则对象>使用规则对象</h3><p>1、创建规则</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>php artisan make:rule Uppercase
+</span></span></code></pre></td></tr></table></div></div><p>2、定义其行为</p><p>规则对象包含一个方法：<code>validate</code>。此方法接收属性名称、其值和应在失败时调用的回调，并显示验证错误消息。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=o>&lt;?</span><span class=nx>php</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>namespace</span> <span class=nx>App\Rules</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Closure</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Contracts\Validation\ValidationRule</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>Uppercase</span> <span class=k>implements</span> <span class=nx>ValidationRule</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=sd>/**
+</span></span></span><span class=line><span class=cl><span class=sd>     * Run the validation rule.
+</span></span></span><span class=line><span class=cl><span class=sd>     */</span>
+</span></span><span class=line><span class=cl>    <span class=k>public</span> <span class=k>function</span> <span class=nf>validate</span><span class=p>(</span><span class=nx>string</span> <span class=nv>$attribute</span><span class=p>,</span> <span class=nx>mixed</span> <span class=nv>$value</span><span class=p>,</span> <span class=nx>Closure</span> <span class=nv>$fail</span><span class=p>)</span><span class=o>:</span> <span class=nx>void</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=nx>strtoupper</span><span class=p>(</span><span class=nv>$value</span><span class=p>)</span> <span class=o>!==</span> <span class=nv>$value</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=nv>$fail</span><span class=p>(</span><span class=s1>&#39;The :attribute must be uppercase.&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>3、通过将rule对象的实例与其他验证规则一起传递给验证器，将其附加到验证器：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>App\Rules\Uppercase</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nv>$request</span><span class=o>-&gt;</span><span class=na>validate</span><span class=p>([</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;name&#39;</span> <span class=o>=&gt;</span> <span class=p>[</span><span class=s1>&#39;required&#39;</span><span class=p>,</span> <span class=s1>&#39;string&#39;</span><span class=p>,</span> <span class=k>new</span> <span class=nx>Uppercase</span><span class=p>],</span>
+</span></span><span class=line><span class=cl><span class=p>]);</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=翻译验证消息>翻译验证消息</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>if</span> <span class=p>(</span><span class=nx>strtoupper</span><span class=p>(</span><span class=nv>$value</span><span class=p>)</span> <span class=o>!==</span> <span class=nv>$value</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nv>$fail</span><span class=p>(</span><span class=s1>&#39;validation.uppercase&#39;</span><span class=p>)</span><span class=o>-&gt;</span><span class=na>translate</span><span class=p>();</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>也可以提供占位符替换和首选语言作为<code>translate</code>方法的第一个和第二个参数：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$fail</span><span class=p>(</span><span class=s1>&#39;validation.location&#39;</span><span class=p>)</span><span class=o>-&gt;</span><span class=na>translate</span><span class=p>([</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;value&#39;</span> <span class=o>=&gt;</span> <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>value</span><span class=p>,</span>
+</span></span><span class=line><span class=cl><span class=p>],</span> <span class=s1>&#39;fr&#39;</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=访问其他数据>访问其他数据</h4><p>如果定义的自定义验证规则类需要访问所有其他正在验证的数据，则可以实现<code>Illuminate\Contracts\Validation\DataAwareRule</code>接口：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=o>&lt;?</span><span class=nx>php</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>namespace</span> <span class=nx>App\Rules</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Contracts\Validation\DataAwareRule</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Contracts\Validation\ValidationRule</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>Uppercase</span> <span class=k>implements</span> <span class=nx>DataAwareRule</span><span class=p>,</span> <span class=nx>ValidationRule</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=sd>/**
+</span></span></span><span class=line><span class=cl><span class=sd>     * All of the data under validation.
+</span></span></span><span class=line><span class=cl><span class=sd>     *
+</span></span></span><span class=line><span class=cl><span class=sd>     * @var array&lt;string, mixed&gt;
+</span></span></span><span class=line><span class=cl><span class=sd>     */</span>
+</span></span><span class=line><span class=cl>    <span class=k>protected</span> <span class=nv>$data</span> <span class=o>=</span> <span class=p>[];</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// ...
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl>    <span class=sd>/**
+</span></span></span><span class=line><span class=cl><span class=sd>     * Set the data under validation.
+</span></span></span><span class=line><span class=cl><span class=sd>     *
+</span></span></span><span class=line><span class=cl><span class=sd>     * @param  array&lt;string, mixed&gt;  $data
+</span></span></span><span class=line><span class=cl><span class=sd>     */</span>
+</span></span><span class=line><span class=cl>    <span class=k>public</span> <span class=k>function</span> <span class=nf>setData</span><span class=p>(</span><span class=k>array</span> <span class=nv>$data</span><span class=p>)</span><span class=o>:</span> <span class=k>static</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>data</span> <span class=o>=</span> <span class=nv>$data</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=nv>$this</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>如果验证规则需要访问执行验证者实例，则可以实现<code>ValidatorAwareRule</code>接口：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=o>&lt;?</span><span class=nx>php</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>namespace</span> <span class=nx>App\Rules</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Contracts\Validation\ValidationRule</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Contracts\Validation\ValidatorAwareRule</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Validation\Validator</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>Uppercase</span> <span class=k>implements</span> <span class=nx>ValidationRule</span><span class=p>,</span> <span class=nx>ValidatorAwareRule</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=sd>/**
+</span></span></span><span class=line><span class=cl><span class=sd>     * The validator instance.
+</span></span></span><span class=line><span class=cl><span class=sd>     *
+</span></span></span><span class=line><span class=cl><span class=sd>     * @var \Illuminate\Validation\Validator
+</span></span></span><span class=line><span class=cl><span class=sd>     */</span>
+</span></span><span class=line><span class=cl>    <span class=k>protected</span> <span class=nv>$validator</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// ...
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl>    <span class=sd>/**
+</span></span></span><span class=line><span class=cl><span class=sd>     * Set the current validator.
+</span></span></span><span class=line><span class=cl><span class=sd>     */</span>
+</span></span><span class=line><span class=cl>    <span class=k>public</span> <span class=k>function</span> <span class=nf>setValidator</span><span class=p>(</span><span class=nx>Validator</span> <span class=nv>$validator</span><span class=p>)</span><span class=o>:</span> <span class=k>static</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>validator</span> <span class=o>=</span> <span class=nv>$validator</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=nv>$this</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=使用闭包>使用闭包</h3><p>如果在整个应用程序中只需要一次自定义的功能，则可以使用闭包而不是rule对象。
+闭包接收属性的名称、属性的值以及验证失败时应调用的<code>$fail</code>回调：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Support\Facades\Validator</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Closure</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nv>$validator</span> <span class=o>=</span> <span class=nx>Validator</span><span class=o>::</span><span class=na>make</span><span class=p>(</span><span class=nv>$request</span><span class=o>-&gt;</span><span class=na>all</span><span class=p>(),</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;title&#39;</span> <span class=o>=&gt;</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>        <span class=s1>&#39;required&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s1>&#39;max:255&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=k>function</span> <span class=p>(</span><span class=nx>string</span> <span class=nv>$attribute</span><span class=p>,</span> <span class=nx>mixed</span> <span class=nv>$value</span><span class=p>,</span> <span class=nx>Closure</span> <span class=nv>$fail</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=k>if</span> <span class=p>(</span><span class=nv>$value</span> <span class=o>===</span> <span class=s1>&#39;foo&#39;</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>                <span class=nv>$fail</span><span class=p>(</span><span class=s2>&#34;The </span><span class=si>{</span><span class=nv>$attribute</span><span class=si>}</span><span class=s2> is invalid.&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>            <span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=p>},</span>
+</span></span><span class=line><span class=cl>    <span class=p>],</span>
+</span></span><span class=line><span class=cl><span class=p>]);</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=隐式规则>隐式规则</h3><p>默认情况下，当正在验证的属性不存在或包含空字符串时，不会运行常规验证规则（包括自定义规则）。</p><p>例如，<code>unique</code>规则不会正对空字符串运行：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Support\Facades\Validator</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nv>$rules</span> <span class=o>=</span> <span class=p>[</span><span class=s1>&#39;name&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;unique:users,name&#39;</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nv>$input</span> <span class=o>=</span> <span class=p>[</span><span class=s1>&#39;name&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;&#39;</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nx>Validator</span><span class=o>::</span><span class=na>make</span><span class=p>(</span><span class=nv>$input</span><span class=p>,</span> <span class=nv>$rules</span><span class=p>)</span><span class=o>-&gt;</span><span class=na>passes</span><span class=p>();</span> <span class=c1>// true
+</span></span></span></code></pre></td></tr></table></div></div><p>要使自定义规则即使在属性为空时也运行，改规则必须暗示该属性是必需的。要快速生成新的隐式规则对象，可以使用带有<code>--implicit</code>选项的<code>make:rule</code> Artisan命令：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>php</span> <span class=nx>artisan</span> <span class=nx>make</span><span class=o>:</span><span class=nx>rule</span> <span class=nx>Uppercase</span> <span class=o>--</span><span class=nx>implicit</span>
+</span></span></code></pre></td></tr></table></div></div></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>更新于 2024年06月17日</span></div></div><div class=post-info-line><div class=post-info-md><span><a class=link-to-markdown href=/2024/06/laravel11%E9%AA%8C%E8%AF%81/index.md target=_blank>阅读原始文档</a></span></div><div class=post-info-share><span><a href=javascript:void(0); title="分享到 Twitter" data-sharer=twitter data-url=https://Joker-desire.github.io/2024/06/laravel11%E9%AA%8C%E8%AF%81/ data-title="Laravel 11.x 验证" data-hashtags=PHP,Laravel><i class="fab fa-twitter fa-fw" aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 Facebook" data-sharer=facebook data-url=https://Joker-desire.github.io/2024/06/laravel11%E9%AA%8C%E8%AF%81/ data-hashtag=PHP><i class="fab fa-facebook-square fa-fw" aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 Hacker News" data-sharer=hackernews data-url=https://Joker-desire.github.io/2024/06/laravel11%E9%AA%8C%E8%AF%81/ data-title="Laravel 11.x 验证"><i class="fab fa-hacker-news fa-fw" aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 Line" data-sharer=line data-url=https://Joker-desire.github.io/2024/06/laravel11%E9%AA%8C%E8%AF%81/ data-title="Laravel 11.x 验证"><i data-svg-src=https://cdn.jsdelivr.net/npm/simple-icons@7.0.0/icons/line.svg aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 微博" data-sharer=weibo data-url=https://Joker-desire.github.io/2024/06/laravel11%E9%AA%8C%E8%AF%81/ data-title="Laravel 11.x 验证"><i class="fab fa-weibo fa-fw" aria-hidden=true></i></a></span></div></div></div><div class=post-info-more><section class=post-tags><i class="fas fa-tags fa-fw" aria-hidden=true></i>&nbsp;<a href=/tags/php/>PHP</a>,&nbsp;<a href=/tags/laravel/>Laravel</a></section><section><span><a href=javascript:void(0); onclick=window.history.back()>返回</a></span>&nbsp;|&nbsp;<span><a href=/>主页</a></span></section></div><div class=post-nav><a href=/2024/06/laravel11%E4%BC%9A%E8%AF%9D/ class=prev rel=prev title="Laravle 11.x 会话"><i class="fas fa-angle-left fa-fw" aria-hidden=true></i>Laravle 11.x 会话</a>
+<a href=/2024/06/laravel11%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86/ class=next rel=next title="Laravel 11.x 错误处理">Laravel 11.x 错误处理<i class="fas fa-angle-right fa-fw" aria-hidden=true></i></a></div></div><div id=comments><div id=giscus class=comment></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://giscus.app>Giscus</a>.</noscript></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line itemscope itemtype=http://schema.org/CreativeWork><i class="far fa-copyright fa-fw" aria-hidden=true></i><span itemprop=copyrightYear>2022 - 2024</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=/ target=_blank>Joker desire</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div></div></footer></div><div id=fixed-buttons><a href=# id=back-to-top class=fixed-button title=回到顶部><i class="fas fa-arrow-up fa-fw" aria-hidden=true></i>
+</a><a href=# id=view-comments class=fixed-button title=查看评论><i class="fas fa-comment fa-fw" aria-hidden=true></i></a></div><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/lightgallery@2.4.0/css/lightgallery-bundle.min.css><script type=text/javascript src=https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/algoliasearch@4.13.1/dist/algoliasearch-lite.umd.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lazysizes@5.3.1/lazysizes.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lightgallery@2.4.0/lightgallery.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lightgallery@2.4.0/plugins/thumbnail/lg-thumbnail.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lightgallery@2.4.0/plugins/zoom/lg-zoom.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js></script><script type=text/javascript>window.config={code:{copyTitle:"复制到剪贴板",maxShownLines:50},comment:{giscus:{category:"Announcements",categoryId:"DIC_kwDOHfPihs4CPp7X",darkTheme:"dark",emitMetadata:"0",inputPosition:"top",lang:"zh-CN",lazyLoading:!1,lightTheme:"light",mapping:"pathname",reactionsEnabled:"1",repo:"Joker-desire/store-comments",repoId:"R_kgDOHfPihg"}},lightgallery:!0,search:{algoliaAppID:"R6OIVCXBNU",algoliaIndex:"Joker-desire",algoliaSearchKey:"07e68b90760663e43882d4a48e00e932",highlightTag:"em",maxResultLength:10,noResultsFound:"没有找到结果",snippetLength:30,type:"algolia"}}</script><script type=text/javascript src=/js/theme.min.js></script></body></html>
