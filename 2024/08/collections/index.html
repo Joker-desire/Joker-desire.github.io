@@ -1,0 +1,1416 @@
+<!doctype html><html lang=zh-cn><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><title>Laravel 11.x Collections - Joker-desire's Blog</title><meta name=Description content="为什么要努力？ 因为我喜欢的东西都很贵，我想去的地方都很远，我爱的人超完美。"><meta property="og:url" content="https://Joker-desire.github.io/2024/08/collections/">
+<meta property="og:site_name" content="Joker-desire's Blog"><meta property="og:title" content="Laravel 11.x Collections"><meta property="og:description" content="原文 介绍 Illuminate\Support\Collection类为处理数据数组提供了一个流畅、方便的包装。 例如，以下代码将使用colle"><meta property="og:locale" content="zh_cn"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2024-08-29T15:45:43+08:00"><meta property="article:modified_time" content="2024-08-29T15:45:43+08:00"><meta property="article:tag" content="PHP"><meta property="article:tag" content="Laravel"><meta property="og:image" content="https://Joker-desire.github.io/logo.png"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://Joker-desire.github.io/logo.png"><meta name=twitter:title content="Laravel 11.x Collections"><meta name=twitter:description content="原文 介绍 Illuminate\Support\Collection类为处理数据数组提供了一个流畅、方便的包装。 例如，以下代码将使用colle"><meta name=application-name content="Joker-desire"><meta name=apple-mobile-web-app-title content="Joker-desire"><meta name=theme-color content="#ffffff"><meta name=msapplication-TileColor content="#da532c"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://Joker-desire.github.io/2024/08/collections/><link rel=prev href=https://Joker-desire.github.io/2024/08/cache/><link rel=stylesheet href=/css/style.min.css><link rel=preload href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css></noscript><link rel=preload href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css></noscript><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"Laravel 11.x Collections","inLanguage":"zh-cn","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/Joker-desire.github.io\/2024\/08\/collections\/"},"genre":"posts","keywords":"PHP, Laravel","wordcount":6266,"url":"https:\/\/Joker-desire.github.io\/2024\/08\/collections\/","datePublished":"2024-08-29T15:45:43+08:00","dateModified":"2024-08-29T15:45:43+08:00","publisher":{"@type":"Organization","name":""},"author":{"@type":"Person","name":"Joker-desire"},"description":""}</script></head><body data-header-desktop=fixed data-header-mobile=auto><script type=text/javascript>(window.localStorage&&localStorage.getItem("theme")?localStorage.getItem("theme")==="dark":"auto"==="auto"?window.matchMedia("(prefers-color-scheme: dark)").matches:"auto"==="dark")&&document.body.setAttribute("theme","dark")</script><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title="Joker-desire's Blog"><span class=header-title-pre><i class='far fa-kiss-wink-heart fa-fw' aria-hidden=true></i></span>welcome</a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts title=所有文章>所有文章 </a><a class=menu-item href=/categories title=分类>分类 </a><a class=menu-item href=/tags title=标签>标签 </a><a class=menu-item href=/about title=关于>关于 </a><a class=menu-item href=https://github.com/Joker-desire title=GitHub rel="noopener noreffer" target=_blank><i class='fab fa-github fa-fw' aria-hidden=true></i> </a><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop>
+<input type=text placeholder=搜索文章标题或内容... id=search-input-desktop>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-desktop title=搜索><i class="fas fa-search fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-desktop title=清空><i class="fas fa-times-circle fa-fw" aria-hidden=true></i>
+</a><span class="search-button search-loading" id=search-loading-desktop><i class="fas fa-spinner fa-fw fa-spin" aria-hidden=true></i>
+</span></span><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题><i class="fas fa-adjust fa-fw" aria-hidden=true></i></a></div></div></div></header><header class=mobile id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title="Joker-desire's Blog"><span class=header-title-pre><i class='far fa-kiss-wink-heart fa-fw' aria-hidden=true></i></span>welcome</a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><div class=search-wrapper><div class="search mobile" id=search-mobile><input type=text placeholder=搜索文章标题或内容... id=search-input-mobile>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-mobile title=搜索><i class="fas fa-search fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-mobile title=清空><i class="fas fa-times-circle fa-fw" aria-hidden=true></i>
+</a><span class="search-button search-loading" id=search-loading-mobile><i class="fas fa-spinner fa-fw fa-spin" aria-hidden=true></i></span></div><a href=javascript:void(0); class=search-cancel id=search-cancel-mobile>取消</a></div><a class=menu-item href=/posts title=所有文章>所有文章</a><a class=menu-item href=/categories title=分类>分类</a><a class=menu-item href=/tags title=标签>标签</a><a class=menu-item href=/about title=关于>关于</a><a class=menu-item href=https://github.com/Joker-desire title=GitHub rel="noopener noreffer" target=_blank><i class='fab fa-github fa-fw' aria-hidden=true></i></a><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题>
+<i class="fas fa-adjust fa-fw" aria-hidden=true></i></a></div></div></header><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div><main class=main><div class=container><div class=toc id=toc-auto><h2 class=toc-title>目录</h2><div class=toc-content id=toc-content-auto></div></div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Laravel 11.x Collections</h1><div class=post-meta><div class=post-meta-line><span class=post-author><a href=/ title=Author rel=author class=author><i class="fas fa-user-circle fa-fw" aria-hidden=true></i>Joker-desire</a></span>&nbsp;<span class=post-category>收录于 <a href=/categories/php/><i class="far fa-folder fa-fw" aria-hidden=true></i>PHP</a>&nbsp;<a href=/categories/laravel/><i class="far fa-folder fa-fw" aria-hidden=true></i>Laravel</a></span></div><div class=post-meta-line><i class="far fa-calendar-alt fa-fw" aria-hidden=true></i>&nbsp;<time datetime=2024年08月29日>2024年08月29日</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden=true></i>&nbsp;约 6266 字&nbsp;
+<i class="far fa-clock fa-fw" aria-hidden=true></i>&nbsp;预计阅读 13 分钟&nbsp;</div></div><div class="details toc" id=toc-static data-kept><div class="details-summary toc-title"><span>目录</span>
+<span><i class="details-icon fas fa-angle-right" aria-hidden=true></i></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><ul><li><a href=#介绍>介绍</a><ul><li><a href=#创建集合>创建集合</a></li><li><a href=#扩展集合>扩展集合</a><ul><li><a href=#macro-参数>Macro 参数</a></li></ul></li></ul></li><li><a href=#可用方法>可用方法</a></li><li><a href=#高阶消息higher-order-messages>高阶消息（higher order messages）</a></li><li><a href=#lazy集合>Lazy集合</a><ul><li><a href=#介绍-1>介绍</a></li><li><a href=#创建惰性集合>创建惰性集合</a></li><li><a href=#可枚举合约>可枚举合约</a></li><li><a href=#惰性集合方法>惰性集合方法</a><ul><li><a href=#takeuntiltimeout>takeUntilTimeout()</a></li><li><a href=#tapeach>tapEach()</a></li><li><a href=#throttle>throttle()</a></li><li><a href=#remember>remember()</a></li></ul></li></ul></li></ul></li></ul></nav></div></div><div class=content id=content><hr><p><a href=https://laravel.com/docs/11.x/collections target=_blank rel="noopener noreffer">原文</a></p><hr><h2 id=介绍>介绍</h2><p><code>Illuminate\Support\Collection</code>类为处理数据数组提供了一个流畅、方便的包装。
+例如，以下代码将使用<code>collect</code>辅助函数从数组创建一个新的集合实例，对每个元素运行<code>strtoupper</code>函数，然后移除所有空元素：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$collection</span> <span class=o>=</span> <span class=nx>collect</span><span class=p>([</span><span class=s1>&#39;taylor&#39;</span><span class=p>,</span> <span class=s1>&#39;abigail&#39;</span><span class=p>,</span> <span class=k>null</span><span class=p>])</span><span class=o>-&gt;</span><span class=na>map</span><span class=p>(</span><span class=k>function</span> <span class=p>(</span><span class=o>?</span><span class=nx>string</span> <span class=nv>$name</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nx>strtoupper</span><span class=p>(</span><span class=nv>$name</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>})</span><span class=o>-&gt;</span><span class=na>reject</span><span class=p>(</span><span class=k>function</span> <span class=p>(</span><span class=nx>string</span> <span class=nv>$name</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=k>empty</span><span class=p>(</span><span class=nv>$name</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span></code></pre></td></tr></table></div></div><p>如上所见，<code>Collection</code>类允许你链式调用其方法，以对底层数组进行流畅的映射和简化。一般来说，集合是不可变的，这意味着每个<code>Collection</code>方法都会返回一个全新的<code>Collection</code>实例。</p><h3 id=创建集合>创建集合</h3><p><code>collect</code>辅助函数为给定数组返回一个新的<code>Illuminate\Support\Collection</code>实例。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$collection</span> <span class=o>=</span> <span class=nx>collect</span><span class=p>([</span><span class=mi>1</span><span class=p>,</span> <span class=mi>2</span><span class=p>,</span> <span class=mi>3</span><span class=p>]);</span>
+</span></span></code></pre></td></tr></table></div></div><p><em><strong>ps: Eloquent 查询的结果始终作为 Collection 实例返回。</strong></em></p><h3 id=扩展集合>扩展集合</h3><p>集合是 &lsquo;可宏化的&rsquo;，这允许你在运行时为 Collection 类添加其他方法。Illuminate\Support\Collection 类的 <code>macro</code> 方法接受一个闭包，该闭包将在你的宏被调用时执行。宏闭包可以通过 <code>$this</code> 访问集合的其他方法，就像它是真正的集合类方法一样。例如，以下代码为 Collection 类添加了一个 <code>toUpper</code> 方法：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Support\Collection</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Support\Str</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nx>Collection</span><span class=o>::</span><span class=na>macro</span><span class=p>(</span><span class=s1>&#39;toUpper&#39;</span><span class=p>,</span> <span class=k>function</span> <span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>map</span><span class=p>(</span><span class=k>function</span> <span class=p>(</span><span class=nx>string</span> <span class=nv>$value</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=nx>Str</span><span class=o>::</span><span class=na>upper</span><span class=p>(</span><span class=nv>$value</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=p>});</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nv>$collection</span> <span class=o>=</span> <span class=nx>collect</span><span class=p>([</span><span class=s1>&#39;first&#39;</span><span class=p>,</span> <span class=s1>&#39;second&#39;</span><span class=p>]);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nv>$upper</span> <span class=o>=</span> <span class=nv>$collection</span><span class=o>-&gt;</span><span class=na>toUpper</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// [&#39;FIRST&#39;, &#39;SECOND&#39;]
+</span></span></span></code></pre></td></tr></table></div></div><p>通常，应该在服务提供商的 <code>boot</code> 方法中声明集合宏。</p><h4 id=macro-参数>Macro 参数</h4><p>可以定义接受其他参数的宏：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Support\Collection</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Support\Facades\Lang</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nx>Collection</span><span class=o>::</span><span class=na>macro</span><span class=p>(</span><span class=s1>&#39;toLocale&#39;</span><span class=p>,</span> <span class=k>function</span> <span class=p>(</span><span class=nx>string</span> <span class=nv>$locale</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>map</span><span class=p>(</span><span class=k>function</span> <span class=p>(</span><span class=nx>string</span> <span class=nv>$value</span><span class=p>)</span> <span class=k>use</span> <span class=p>(</span><span class=nv>$locale</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=nx>Lang</span><span class=o>::</span><span class=na>get</span><span class=p>(</span><span class=nv>$value</span><span class=p>,</span> <span class=p>[],</span> <span class=nv>$locale</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=p>});</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nv>$collection</span> <span class=o>=</span> <span class=nx>collect</span><span class=p>([</span><span class=s1>&#39;first&#39;</span><span class=p>,</span> <span class=s1>&#39;second&#39;</span><span class=p>]);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nv>$translated</span> <span class=o>=</span> <span class=nv>$collection</span><span class=o>-&gt;</span><span class=na>toLocale</span><span class=p>(</span><span class=s1>&#39;es&#39;</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=可用方法>可用方法</h2><table><tr><th>方法</th><th>说明</th></tr><tr><td>after()</td><td><p>返回给定项之后的项。如果给定项未找到或者它是最后一项，则返回 <code>null</code></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$collection</span> <span class=o>=</span> <span class=nx>collect</span><span class=p>([</span><span class=mi>1</span><span class=p>,</span> <span class=mi>2</span><span class=p>,</span> <span class=mi>3</span><span class=p>,</span> <span class=mi>4</span><span class=p>,</span> <span class=mi>5</span><span class=p>]);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nv>$collection</span><span class=o>-&gt;</span><span class=na>after</span><span class=p>(</span><span class=mi>3</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// 4
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl><span class=nv>$collection</span><span class=o>-&gt;</span><span class=na>after</span><span class=p>(</span><span class=mi>5</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// null
+</span></span></span></code></pre></td></tr></table></div></div><p>此方法使用&rsquo;宽松&rsquo;比较来搜索给定项，这意味着包含整数值的字符串将被视为与相同值的整数相等。要使用&rsquo;严格&rsquo;比较，你可以向方法提供 <code>strict</code> 参数：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>collect</span><span class=p>([</span><span class=mi>2</span><span class=p>,</span> <span class=mi>4</span><span class=p>,</span> <span class=mi>6</span><span class=p>,</span> <span class=mi>8</span><span class=p>])</span><span class=o>-&gt;</span><span class=na>after</span><span class=p>(</span><span class=s1>&#39;4&#39;</span><span class=p>,</span> <span class=nx>strict</span><span class=o>:</span> <span class=k>true</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// null
+</span></span></span></code></pre></td></tr></table></div></div><p>或者，你可以提供自己的闭包来搜索通过给定真值测试的第一个项：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>collect</span><span class=p>([</span><span class=mi>2</span><span class=p>,</span> <span class=mi>4</span><span class=p>,</span> <span class=mi>6</span><span class=p>,</span> <span class=mi>8</span><span class=p>])</span><span class=o>-&gt;</span><span class=na>after</span><span class=p>(</span><span class=k>function</span> <span class=p>(</span><span class=nx>int</span> <span class=nv>$item</span><span class=p>,</span> <span class=nx>int</span> <span class=nv>$key</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nv>$item</span> <span class=o>&gt;</span> <span class=mi>5</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// 8
+</span></span></span></code></pre></td></tr></table></div></div></td></tr><tr><td>all()</td><td><p>返回集合表示的基础数组</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>collect</span><span class=p>([</span><span class=mi>1</span><span class=p>,</span> <span class=mi>2</span><span class=p>,</span> <span class=mi>3</span><span class=p>])</span><span class=o>-&gt;</span><span class=na>all</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// [1, 2, 3]
+</span></span></span></code></pre></td></tr></table></div></div></td></tr><tr><td>average()</td><td><p>avg方法的别名</p></tr><tr><td>avg()</td><td><p>返回给定键的平均值</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$average</span> <span class=o>=</span> <span class=nx>collect</span><span class=p>([</span>
+</span></span><span class=line><span class=cl>    <span class=p>[</span><span class=s1>&#39;foo&#39;</span> <span class=o>=&gt;</span> <span class=mi>10</span><span class=p>],</span>
+</span></span><span class=line><span class=cl>    <span class=p>[</span><span class=s1>&#39;foo&#39;</span> <span class=o>=&gt;</span> <span class=mi>10</span><span class=p>],</span>
+</span></span><span class=line><span class=cl>    <span class=p>[</span><span class=s1>&#39;foo&#39;</span> <span class=o>=&gt;</span> <span class=mi>20</span><span class=p>],</span>
+</span></span><span class=line><span class=cl>    <span class=p>[</span><span class=s1>&#39;foo&#39;</span> <span class=o>=&gt;</span> <span class=mi>40</span><span class=p>]</span>
+</span></span><span class=line><span class=cl><span class=p>])</span><span class=o>-&gt;</span><span class=na>avg</span><span class=p>(</span><span class=s1>&#39;foo&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// 20
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl><span class=nv>$average</span> <span class=o>=</span> <span class=nx>collect</span><span class=p>([</span><span class=mi>1</span><span class=p>,</span> <span class=mi>1</span><span class=p>,</span> <span class=mi>2</span><span class=p>,</span> <span class=mi>4</span><span class=p>])</span><span class=o>-&gt;</span><span class=na>avg</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// 2
+</span></span></span></code></pre></td></tr></table></div></div></td></tr><tr><td>before()</td><td><p>返回给定项目之前的项目。如果未找到给定的项货位第一项，则返回<code>null</code></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$collection</span> <span class=o>=</span> <span class=nx>collect</span><span class=p>([</span><span class=mi>1</span><span class=p>,</span> <span class=mi>2</span><span class=p>,</span> <span class=mi>3</span><span class=p>,</span> <span class=mi>4</span><span class=p>,</span> <span class=mi>5</span><span class=p>]);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nv>$collection</span><span class=o>-&gt;</span><span class=na>before</span><span class=p>(</span><span class=mi>3</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// 2
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl><span class=nv>$collection</span><span class=o>-&gt;</span><span class=na>before</span><span class=p>(</span><span class=mi>1</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// null
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl><span class=nx>collect</span><span class=p>([</span><span class=mi>2</span><span class=p>,</span> <span class=mi>4</span><span class=p>,</span> <span class=mi>6</span><span class=p>,</span> <span class=mi>8</span><span class=p>])</span><span class=o>-&gt;</span><span class=na>before</span><span class=p>(</span><span class=s1>&#39;4&#39;</span><span class=p>,</span> <span class=nx>strict</span><span class=o>:</span> <span class=k>true</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// null
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl><span class=nx>collect</span><span class=p>([</span><span class=mi>2</span><span class=p>,</span> <span class=mi>4</span><span class=p>,</span> <span class=mi>6</span><span class=p>,</span> <span class=mi>8</span><span class=p>])</span><span class=o>-&gt;</span><span class=na>before</span><span class=p>(</span><span class=k>function</span> <span class=p>(</span><span class=nx>int</span> <span class=nv>$item</span><span class=p>,</span> <span class=nx>int</span> <span class=nv>$key</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nv>$item</span> <span class=o>&gt;</span> <span class=mi>5</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// 4
+</span></span></span></code></pre></td></tr></table></div></div></td></tr><tr><td>chunk()</td><td><p>将集合分解为多个给定大小的较小集合</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$collection</span> <span class=o>=</span> <span class=nx>collect</span><span class=p>([</span><span class=mi>1</span><span class=p>,</span> <span class=mi>2</span><span class=p>,</span> <span class=mi>3</span><span class=p>,</span> <span class=mi>4</span><span class=p>,</span> <span class=mi>5</span><span class=p>,</span> <span class=mi>6</span><span class=p>,</span> <span class=mi>7</span><span class=p>]);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nv>$chunks</span> <span class=o>=</span> <span class=nv>$collection</span><span class=o>-&gt;</span><span class=na>chunk</span><span class=p>(</span><span class=mi>4</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nv>$chunks</span><span class=o>-&gt;</span><span class=na>all</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// [[1, 2, 3, 4], [5, 6, 7]]
+</span></span></span></code></pre></td></tr></table></div></div></td></tr><tr><td>chunkWhile()</td><td><p>基于给定回调的评估将集合分解为多个较小的集合。传递给闭包的 <code>$chunk</code> 变量可以用于检查前一个元素</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$collection</span> <span class=o>=</span> <span class=nx>collect</span><span class=p>(</span><span class=nx>str_split</span><span class=p>(</span><span class=s1>&#39;AABBCCCD&#39;</span><span class=p>));</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nv>$chunks</span> <span class=o>=</span> <span class=nv>$collection</span><span class=o>-&gt;</span><span class=na>chunkWhile</span><span class=p>(</span><span class=k>function</span> <span class=p>(</span><span class=nx>string</span> <span class=nv>$value</span><span class=p>,</span> <span class=nx>int</span> <span class=nv>$key</span><span class=p>,</span> <span class=nx>Collection</span> <span class=nv>$chunk</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nv>$value</span> <span class=o>===</span> <span class=nv>$chunk</span><span class=o>-&gt;</span><span class=na>last</span><span class=p>();</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nv>$chunks</span><span class=o>-&gt;</span><span class=na>all</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// [[&#39;A&#39;, &#39;A&#39;], [&#39;B&#39;, &#39;B&#39;], [&#39;C&#39;, &#39;C&#39;, &#39;C&#39;], [&#39;D&#39;]]
+</span></span></span></code></pre></td></tr></table></div></div></td></tr><tr><td>collapse()</td><td><p>将数组的集合折叠成一个单一的、扁平的集合</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$collection</span> <span class=o>=</span> <span class=nx>collect</span><span class=p>([</span>
+</span></span><span class=line><span class=cl>    <span class=p>[</span><span class=mi>1</span><span class=p>,</span> <span class=mi>2</span><span class=p>,</span> <span class=mi>3</span><span class=p>],</span>
+</span></span><span class=line><span class=cl>    <span class=p>[</span><span class=mi>4</span><span class=p>,</span> <span class=mi>5</span><span class=p>,</span> <span class=mi>6</span><span class=p>],</span>
+</span></span><span class=line><span class=cl>    <span class=p>[</span><span class=mi>7</span><span class=p>,</span> <span class=mi>8</span><span class=p>,</span> <span class=mi>9</span><span class=p>],</span>
+</span></span><span class=line><span class=cl><span class=p>]);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nv>$collapsed</span> <span class=o>=</span> <span class=nv>$collection</span><span class=o>-&gt;</span><span class=na>collapse</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nv>$collapsed</span><span class=o>-&gt;</span><span class=na>all</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// [1, 2, 3, 4, 5, 6, 7, 8, 9]
+</span></span></span></code></pre></td></tr></table></div></div></td></tr><tr><td>collect()</td><td><p>返回一个新的 <code>Collection</code> 实例，其中包含当前在集合中的项目</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$collectionA</span> <span class=o>=</span> <span class=nx>collect</span><span class=p>([</span><span class=mi>1</span><span class=p>,</span> <span class=mi>2</span><span class=p>,</span> <span class=mi>3</span><span class=p>]);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nv>$collectionB</span> <span class=o>=</span> <span class=nv>$collectionA</span><span class=o>-&gt;</span><span class=na>collect</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nv>$collectionB</span><span class=o>-&gt;</span><span class=na>all</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// [1, 2, 3]
+</span></span></span></code></pre></td></tr></table></div></div><p><code>collect</code>方法主要用于将惰性集合转化为标准<code>Collection</code>实例：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$lazyCollection</span> <span class=o>=</span> <span class=nx>LazyCollection</span><span class=o>::</span><span class=na>make</span><span class=p>(</span><span class=k>function</span> <span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>yield</span> <span class=mi>1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=k>yield</span> <span class=mi>2</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=k>yield</span> <span class=mi>3</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nv>$collection</span> <span class=o>=</span> <span class=nv>$lazyCollection</span><span class=o>-&gt;</span><span class=na>collect</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nv>$collection</span><span class=o>::</span><span class=na>class</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// &#39;Illuminate\Support\Collection&#39;
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl><span class=nv>$collection</span><span class=o>-&gt;</span><span class=na>all</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// [1, 2, 3]
+</span></span></span></code></pre></td></tr></table></div></div><p><em><strong>ps：当你有一个 <code>Enumerable</code> 实例并且需要一个非惰性集合实例时，<code>collect</code> 方法特别有用。由于 <code>collect()</code> 是 <code>Enumerable</code> 合约的一部分，因此您可以安全地使用它来获取 <code>Collection</code> 实例。</strong></em></p></td></tr><tr><td>combine()</td><td><p>将集合的值作为键与另一个数组或集合值组合在一起</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$collection</span> <span class=o>=</span> <span class=nx>collect</span><span class=p>([</span><span class=s1>&#39;name&#39;</span><span class=p>,</span> <span class=s1>&#39;age&#39;</span><span class=p>]);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nv>$combined</span> <span class=o>=</span> <span class=nv>$collection</span><span class=o>-&gt;</span><span class=na>combine</span><span class=p>([</span><span class=s1>&#39;George&#39;</span><span class=p>,</span> <span class=mi>29</span><span class=p>]);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nv>$combined</span><span class=o>-&gt;</span><span class=na>all</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// [&#39;name&#39; =&gt; &#39;George&#39;, &#39;age&#39; =&gt; 29]
+</span></span></span></code></pre></td></tr></table></div></div></td></tr><tr><td>concat()</td><td><p>将给定数组或集合的值附加到另一个集合的末尾</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$collection</span> <span class=o>=</span> <span class=nx>collect</span><span class=p>([</span><span class=s1>&#39;John Doe&#39;</span><span class=p>]);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nv>$concatenated</span> <span class=o>=</span> <span class=nv>$collection</span><span class=o>-&gt;</span><span class=na>concat</span><span class=p>([</span><span class=s1>&#39;Jane Doe&#39;</span><span class=p>])</span><span class=o>-&gt;</span><span class=na>concat</span><span class=p>([</span><span class=s1>&#39;name&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;Johnny Doe&#39;</span><span class=p>]);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nv>$concatenated</span><span class=o>-&gt;</span><span class=na>all</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// [&#39;John Doe&#39;, &#39;Jane Doe&#39;, &#39;Johnny Doe&#39;]
+</span></span></span></code></pre></td></tr></table></div></div></td></tr><tr><td>contains()</td><td><p>确定集合中是否包含给定的项目。可以将一个闭包传递给<code>contains</code>方法，以确定集合中是否存在与给定真值测试匹配的元素</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$collection</span> <span class=o>=</span> <span class=nx>collect</span><span class=p>([</span><span class=mi>1</span><span class=p>,</span> <span class=mi>2</span><span class=p>,</span> <span class=mi>3</span><span class=p>,</span> <span class=mi>4</span><span class=p>,</span> <span class=mi>5</span><span class=p>]);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nv>$collection</span><span class=o>-&gt;</span><span class=na>contains</span><span class=p>(</span><span class=k>function</span> <span class=p>(</span><span class=nx>int</span> <span class=nv>$value</span><span class=p>,</span> <span class=nx>int</span> <span class=nv>$key</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nv>$value</span> <span class=o>&gt;</span> <span class=mi>5</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// false
+</span></span></span></code></pre></td></tr></table></div></div><p>可以将字符串传递给 contains 方法，以确定集合是否包含给定的 item 值：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$collection</span> <span class=o>=</span> <span class=nx>collect</span><span class=p>([</span><span class=s1>&#39;name&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;Desk&#39;</span><span class=p>,</span> <span class=s1>&#39;price&#39;</span> <span class=o>=&gt;</span> <span class=mi>100</span><span class=p>]);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nv>$collection</span><span class=o>-&gt;</span><span class=na>contains</span><span class=p>(</span><span class=s1>&#39;Desk&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// true
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl><span class=nv>$collection</span><span class=o>-&gt;</span><span class=na>contains</span><span class=p>(</span><span class=s1>&#39;New York&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// false
+</span></span></span></code></pre></td></tr></table></div></div><p>也可以将一个键/值对传递给 contains 方法，该方法将确定给定的对是否存在于集合中：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$collection</span> <span class=o>=</span> <span class=nx>collect</span><span class=p>([</span>
+</span></span><span class=line><span class=cl>    <span class=p>[</span><span class=s1>&#39;product&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;Desk&#39;</span><span class=p>,</span> <span class=s1>&#39;price&#39;</span> <span class=o>=&gt;</span> <span class=mi>200</span><span class=p>],</span>
+</span></span><span class=line><span class=cl>    <span class=p>[</span><span class=s1>&#39;product&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;Chair&#39;</span><span class=p>,</span> <span class=s1>&#39;price&#39;</span> <span class=o>=&gt;</span> <span class=mi>100</span><span class=p>],</span>
+</span></span><span class=line><span class=cl><span class=p>]);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nv>$collection</span><span class=o>-&gt;</span><span class=na>contains</span><span class=p>(</span><span class=s1>&#39;product&#39;</span><span class=p>,</span> <span class=s1>&#39;Bookcase&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// false
+</span></span></span></code></pre></td></tr></table></div></div><p><code>contains</code> 方法在检查项值时使用&rsquo;宽松&rsquo;比较，这意味着包含整数值的字符串将被视为与相同值的整数相等。使用 <code>containsStrict</code> 方法可以使用&rsquo;严格&rsquo;比较进行筛选。</p></td></tr><tr><td>containsOneItem()</td><td>确定集合是否包含单个项目<div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>collect</span><span class=p>([])</span><span class=o>-&gt;</span><span class=na>containsOneItem</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// false
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl><span class=nx>collect</span><span class=p>([</span><span class=s1>&#39;1&#39;</span><span class=p>])</span><span class=o>-&gt;</span><span class=na>containsOneItem</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// true
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl><span class=nx>collect</span><span class=p>([</span><span class=s1>&#39;1&#39;</span><span class=p>,</span> <span class=s1>&#39;2&#39;</span><span class=p>])</span><span class=o>-&gt;</span><span class=na>containsOneItem</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// false
+</span></span></span></code></pre></td></tr></table></div></div></td></tr><tr><td>containsStrict()</td><td><p>此方法与 <code>contains</code> 方法具有相同的签名；然而，所有值都使用&rsquo;严格&rsquo;比较进行比较。</p></td></tr><tr><td>count()</td><td><p>返回集合中的项目总数</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$collection</span> <span class=o>=</span> <span class=nx>collect</span><span class=p>([</span><span class=mi>1</span><span class=p>,</span> <span class=mi>2</span><span class=p>,</span> <span class=mi>3</span><span class=p>,</span> <span class=mi>4</span><span class=p>]);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nv>$collection</span><span class=o>-&gt;</span><span class=na>count</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// 4
+</span></span></span></code></pre></td></tr></table></div></div></td></tr><tr><td>countBy()</td><td><p>计算集合中值的出现次数</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$collection</span> <span class=o>=</span> <span class=nx>collect</span><span class=p>([</span><span class=mi>1</span><span class=p>,</span> <span class=mi>2</span><span class=p>,</span> <span class=mi>2</span><span class=p>,</span> <span class=mi>2</span><span class=p>,</span> <span class=mi>3</span><span class=p>]);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nv>$counted</span> <span class=o>=</span> <span class=nv>$collection</span><span class=o>-&gt;</span><span class=na>countBy</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nv>$counted</span><span class=o>-&gt;</span><span class=na>all</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// [1 =&gt; 1, 2 =&gt; 3, 3 =&gt; 1]
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl><span class=c1>// 将一个闭包传递给countBy方法，以按自定义值对所有项目进行计数
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=nv>$collection</span> <span class=o>=</span> <span class=nx>collect</span><span class=p>([</span><span class=s1>&#39;alice@gmail.com&#39;</span><span class=p>,</span> <span class=s1>&#39;bob@yahoo.com&#39;</span><span class=p>,</span> <span class=s1>&#39;carlos@gmail.com&#39;</span><span class=p>]);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nv>$counted</span> <span class=o>=</span> <span class=nv>$collection</span><span class=o>-&gt;</span><span class=na>countBy</span><span class=p>(</span><span class=k>function</span> <span class=p>(</span><span class=nx>string</span> <span class=nv>$email</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nx>substr</span><span class=p>(</span><span class=nx>strrchr</span><span class=p>(</span><span class=nv>$email</span><span class=p>,</span> <span class=s2>&#34;@&#34;</span><span class=p>),</span> <span class=mi>1</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nv>$counted</span><span class=o>-&gt;</span><span class=na>all</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// [&#39;gmail.com&#39; =&gt; 2, &#39;yahoo.com&#39; =&gt; 1]
+</span></span></span></code></pre></td></tr></table></div></div></td></tr><tr><td>crossJoin()</td><td><p>在给定数组或集合之间交叉连接集合的值，返回具有所有可能排列的笛卡尔积&lt;</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$collection</span> <span class=o>=</span> <span class=nx>collect</span><span class=p>([</span><span class=mi>1</span><span class=p>,</span> <span class=mi>2</span><span class=p>]);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nv>$matrix</span> <span class=o>=</span> <span class=nv>$collection</span><span class=o>-&gt;</span><span class=na>crossJoin</span><span class=p>([</span><span class=s1>&#39;a&#39;</span><span class=p>,</span> <span class=s1>&#39;b&#39;</span><span class=p>]);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nv>$matrix</span><span class=o>-&gt;</span><span class=na>all</span><span class=p>();</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=cm>/*
+</span></span></span><span class=line><span class=cl><span class=cm>    [
+</span></span></span><span class=line><span class=cl><span class=cm>        [1, &#39;a&#39;],
+</span></span></span><span class=line><span class=cl><span class=cm>        [1, &#39;b&#39;],
+</span></span></span><span class=line><span class=cl><span class=cm>        [2, &#39;a&#39;],
+</span></span></span><span class=line><span class=cl><span class=cm>        [2, &#39;b&#39;],
+</span></span></span><span class=line><span class=cl><span class=cm>    ]
+</span></span></span><span class=line><span class=cl><span class=cm>*/</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nv>$collection</span> <span class=o>=</span> <span class=nx>collect</span><span class=p>([</span><span class=mi>1</span><span class=p>,</span> <span class=mi>2</span><span class=p>]);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nv>$matrix</span> <span class=o>=</span> <span class=nv>$collection</span><span class=o>-&gt;</span><span class=na>crossJoin</span><span class=p>([</span><span class=s1>&#39;a&#39;</span><span class=p>,</span> <span class=s1>&#39;b&#39;</span><span class=p>],</span> <span class=p>[</span><span class=s1>&#39;I&#39;</span><span class=p>,</span> <span class=s1>&#39;II&#39;</span><span class=p>]);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nv>$matrix</span><span class=o>-&gt;</span><span class=na>all</span><span class=p>();</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=cm>/*
+</span></span></span><span class=line><span class=cl><span class=cm>    [
+</span></span></span><span class=line><span class=cl><span class=cm>        [1, &#39;a&#39;, &#39;I&#39;],
+</span></span></span><span class=line><span class=cl><span class=cm>        [1, &#39;a&#39;, &#39;II&#39;],
+</span></span></span><span class=line><span class=cl><span class=cm>        [1, &#39;b&#39;, &#39;I&#39;],
+</span></span></span><span class=line><span class=cl><span class=cm>        [1, &#39;b&#39;, &#39;II&#39;],
+</span></span></span><span class=line><span class=cl><span class=cm>        [2, &#39;a&#39;, &#39;I&#39;],
+</span></span></span><span class=line><span class=cl><span class=cm>        [2, &#39;a&#39;, &#39;II&#39;],
+</span></span></span><span class=line><span class=cl><span class=cm>        [2, &#39;b&#39;, &#39;I&#39;],
+</span></span></span><span class=line><span class=cl><span class=cm>        [2, &#39;b&#39;, &#39;II&#39;],
+</span></span></span><span class=line><span class=cl><span class=cm>    ]
+</span></span></span><span class=line><span class=cl><span class=cm>*/</span>
+</span></span></code></pre></td></tr></table></div></div></td></tr><tr><td>dd()</td><td><p>输出集合的项并结束脚本的执行</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$collection</span> <span class=o>=</span> <span class=nx>collect</span><span class=p>([</span><span class=s1>&#39;John Doe&#39;</span><span class=p>,</span> <span class=s1>&#39;Jane Doe&#39;</span><span class=p>]);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nv>$collection</span><span class=o>-&gt;</span><span class=na>dd</span><span class=p>();</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=cm>/*
+</span></span></span><span class=line><span class=cl><span class=cm>    Collection {
+</span></span></span><span class=line><span class=cl><span class=cm>        #items: array:2 [
+</span></span></span><span class=line><span class=cl><span class=cm>            0 =&gt; &#34;John Doe&#34;
+</span></span></span><span class=line><span class=cl><span class=cm>            1 =&gt; &#34;Jane Doe&#34;
+</span></span></span><span class=line><span class=cl><span class=cm>        ]
+</span></span></span><span class=line><span class=cl><span class=cm>    }
+</span></span></span><span class=line><span class=cl><span class=cm>*/</span>
+</span></span></code></pre></td></tr></table></div></div></td></tr><tr><td>diff()</td><td><p>根据集合的值将集合与另一个集合或普通的数组进行比较。此方法将返回原始集合中不存在于给定集合中的值</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$collection</span> <span class=o>=</span> <span class=nx>collect</span><span class=p>([</span><span class=mi>1</span><span class=p>,</span> <span class=mi>2</span><span class=p>,</span> <span class=mi>3</span><span class=p>,</span> <span class=mi>4</span><span class=p>,</span> <span class=mi>5</span><span class=p>]);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nv>$diff</span> <span class=o>=</span> <span class=nv>$collection</span><span class=o>-&gt;</span><span class=na>diff</span><span class=p>([</span><span class=mi>2</span><span class=p>,</span> <span class=mi>4</span><span class=p>,</span> <span class=mi>6</span><span class=p>,</span> <span class=mi>8</span><span class=p>]);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nv>$diff</span><span class=o>-&gt;</span><span class=na>all</span><span class=p>();</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=c1>// [1, 3, 5]
+</span></span></span></code></pre></td></tr></table></div></div></td></tr><tr><td>diffAssoc()</td><td><p>根据集合的键和值将集合与另一个集合或者数组进行比较。此方法将返回原始集合中不存在与给定集合中的键值对</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$collection</span> <span class=o>=</span> <span class=nx>collect</span><span class=p>([</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;color&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;orange&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;type&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;fruit&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;remain&#39;</span> <span class=o>=&gt;</span> <span class=mi>6</span><span class=p>,</span>
+</span></span><span class=line><span class=cl><span class=p>]);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nv>$diff</span> <span class=o>=</span> <span class=nv>$collection</span><span class=o>-&gt;</span><span class=na>diffAssoc</span><span class=p>([</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;color&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;yellow&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;type&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;fruit&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;remain&#39;</span> <span class=o>=&gt;</span> <span class=mi>3</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;used&#39;</span> <span class=o>=&gt;</span> <span class=mi>6</span><span class=p>,</span>
+</span></span><span class=line><span class=cl><span class=p>]);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nv>$diff</span><span class=o>-&gt;</span><span class=na>all</span><span class=p>();</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=c1>// [&#39;color&#39; =&gt; &#39;orange&#39;, &#39;remain&#39; =&gt; 6]
+</span></span></span></code></pre></td></tr></table></div></div></td></tr><tr><td>diffAssocUsing()</td><td><p>与<code>diffAssoc</code>不同，<code>diffAssocUsing</code>接受用户提供的回调函数来进行索引比较。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$collection</span> <span class=o>=</span> <span class=nx>collect</span><span class=p>([</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;color&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;orange&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;type&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;fruit&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;remain&#39;</span> <span class=o>=&gt;</span> <span class=mi>6</span><span class=p>,</span>
+</span></span><span class=line><span class=cl><span class=p>]);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nv>$diff</span> <span class=o>=</span> <span class=nv>$collection</span><span class=o>-&gt;</span><span class=na>diffAssocUsing</span><span class=p>([</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;Color&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;yellow&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;Type&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;fruit&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;Remain&#39;</span> <span class=o>=&gt;</span> <span class=mi>3</span><span class=p>,</span>
+</span></span><span class=line><span class=cl><span class=p>],</span> <span class=s1>&#39;strnatcasecmp&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nv>$diff</span><span class=o>-&gt;</span><span class=na>all</span><span class=p>();</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=c1>// [&#39;color&#39; =&gt; &#39;orange&#39;, &#39;remain&#39; =&gt; 6]
+</span></span></span></code></pre></td></tr></table></div></div><p>回调必须是返回小于、等于或大于零的整数的比较函数。</p></td></tr><tr><td>diffKeys()</td><td><p>根据集合的键将集合与另一个集合或数组进行比较。此方法将返回原始集合中不存在于给定集合中的键值对：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$collection</span> <span class=o>=</span> <span class=nx>collect</span><span class=p>([</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;one&#39;</span> <span class=o>=&gt;</span> <span class=mi>10</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;two&#39;</span> <span class=o>=&gt;</span> <span class=mi>20</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;three&#39;</span> <span class=o>=&gt;</span> <span class=mi>30</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;four&#39;</span> <span class=o>=&gt;</span> <span class=mi>40</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;five&#39;</span> <span class=o>=&gt;</span> <span class=mi>50</span><span class=p>,</span>
+</span></span><span class=line><span class=cl><span class=p>]);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nv>$diff</span> <span class=o>=</span> <span class=nv>$collection</span><span class=o>-&gt;</span><span class=na>diffKeys</span><span class=p>([</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;two&#39;</span> <span class=o>=&gt;</span> <span class=mi>2</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;four&#39;</span> <span class=o>=&gt;</span> <span class=mi>4</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;six&#39;</span> <span class=o>=&gt;</span> <span class=mi>6</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;eight&#39;</span> <span class=o>=&gt;</span> <span class=mi>8</span><span class=p>,</span>
+</span></span><span class=line><span class=cl><span class=p>]);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nv>$diff</span><span class=o>-&gt;</span><span class=na>all</span><span class=p>();</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=c1>// [&#39;one&#39; =&gt; 10, &#39;three&#39; =&gt; 30, &#39;five&#39; =&gt; 50]
+</span></span></span></code></pre></td></tr></table></div></div></td></tr><tr><td>doesntContain()</td><td><p>确定集合是否不包含给定的项目。</p><p>可以将闭包传递给<code>doesntContain</code>方法，以确定集合中是否不存在与给定真值测试匹配的元素：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$collection</span> <span class=o>=</span> <span class=nx>collect</span><span class=p>([</span><span class=mi>1</span><span class=p>,</span> <span class=mi>2</span><span class=p>,</span> <span class=mi>3</span><span class=p>,</span> <span class=mi>4</span><span class=p>,</span> <span class=mi>5</span><span class=p>]);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nv>$collection</span><span class=o>-&gt;</span><span class=na>doesntContain</span><span class=p>(</span><span class=k>function</span> <span class=p>(</span><span class=nx>int</span> <span class=nv>$value</span><span class=p>,</span> <span class=nx>int</span> <span class=nv>$key</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nv>$value</span> <span class=o>&lt;</span> <span class=mi>5</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=c1>// false
+</span></span></span></code></pre></td></tr></table></div></div><p>也可以将字符串传递给<code>doesntContain</code>方法来确定集合是否不包含给定的项目值：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$collection</span> <span class=o>=</span> <span class=nx>collect</span><span class=p>([</span><span class=s1>&#39;name&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;Desk&#39;</span><span class=p>,</span> <span class=s1>&#39;price&#39;</span> <span class=o>=&gt;</span> <span class=mi>100</span><span class=p>]);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nv>$collection</span><span class=o>-&gt;</span><span class=na>doesntContain</span><span class=p>(</span><span class=s1>&#39;Table&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=c1>// true
+</span></span></span><span class=line><span class=cl><span class=c1></span> 
+</span></span><span class=line><span class=cl><span class=nv>$collection</span><span class=o>-&gt;</span><span class=na>doesntContain</span><span class=p>(</span><span class=s1>&#39;Desk&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=c1>// false
+</span></span></span></code></pre></td></tr></table></div></div><p>还可以将键值对传递给<code>doesntContain</code>方法，该方法将确定给定的对是否在集合中不存在：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$collection</span> <span class=o>=</span> <span class=nx>collect</span><span class=p>([</span>
+</span></span><span class=line><span class=cl>    <span class=p>[</span><span class=s1>&#39;product&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;Desk&#39;</span><span class=p>,</span> <span class=s1>&#39;price&#39;</span> <span class=o>=&gt;</span> <span class=mi>200</span><span class=p>],</span>
+</span></span><span class=line><span class=cl>    <span class=p>[</span><span class=s1>&#39;product&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;Chair&#39;</span><span class=p>,</span> <span class=s1>&#39;price&#39;</span> <span class=o>=&gt;</span> <span class=mi>100</span><span class=p>],</span>
+</span></span><span class=line><span class=cl><span class=p>]);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nv>$collection</span><span class=o>-&gt;</span><span class=na>doesntContain</span><span class=p>(</span><span class=s1>&#39;product&#39;</span><span class=p>,</span> <span class=s1>&#39;Bookcase&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=c1>// true
+</span></span></span></code></pre></td></tr></table></div></div><p><code>doesntContain</code>方法在检查项目值时使用“松散”比较，这意味着具有整数值的字符串将被视为等于相同值的整数。</p></td></tr><tr><td>dot()</td><td><p>将多维集合展平为使用“点”表示法表示深度的单级集合：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$collection</span> <span class=o>=</span> <span class=nx>collect</span><span class=p>([</span><span class=s1>&#39;products&#39;</span> <span class=o>=&gt;</span> <span class=p>[</span><span class=s1>&#39;desk&#39;</span> <span class=o>=&gt;</span> <span class=p>[</span><span class=s1>&#39;price&#39;</span> <span class=o>=&gt;</span> <span class=mi>100</span><span class=p>]]]);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nv>$flattened</span> <span class=o>=</span> <span class=nv>$collection</span><span class=o>-&gt;</span><span class=na>dot</span><span class=p>();</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nv>$flattened</span><span class=o>-&gt;</span><span class=na>all</span><span class=p>();</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=c1>// [&#39;products.desk.price&#39; =&gt; 100]
+</span></span></span></code></pre></td></tr></table></div></div></td></tr><tr><td>dump()</td><td><p>输出集合的项：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$collection</span> <span class=o>=</span> <span class=nx>collect</span><span class=p>([</span><span class=s1>&#39;John Doe&#39;</span><span class=p>,</span> <span class=s1>&#39;Jane Doe&#39;</span><span class=p>]);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nv>$collection</span><span class=o>-&gt;</span><span class=na>dump</span><span class=p>();</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=cm>/*
+</span></span></span><span class=line><span class=cl><span class=cm>    Collection {
+</span></span></span><span class=line><span class=cl><span class=cm>        #items: array:2 [
+</span></span></span><span class=line><span class=cl><span class=cm>            0 =&gt; &#34;John Doe&#34;
+</span></span></span><span class=line><span class=cl><span class=cm>            1 =&gt; &#34;Jane Doe&#34;
+</span></span></span><span class=line><span class=cl><span class=cm>        ]
+</span></span></span><span class=line><span class=cl><span class=cm>    }
+</span></span></span><span class=line><span class=cl><span class=cm>*/</span>
+</span></span></code></pre></td></tr></table></div></div></td></tr><tr><td>duplicates()</td><td><p>从集合中检索并返回重复值：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$collection</span> <span class=o>=</span> <span class=nx>collect</span><span class=p>([</span><span class=s1>&#39;a&#39;</span><span class=p>,</span> <span class=s1>&#39;b&#39;</span><span class=p>,</span> <span class=s1>&#39;a&#39;</span><span class=p>,</span> <span class=s1>&#39;c&#39;</span><span class=p>,</span> <span class=s1>&#39;b&#39;</span><span class=p>]);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nv>$collection</span><span class=o>-&gt;</span><span class=na>duplicates</span><span class=p>();</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=c1>// [2 =&gt; &#39;a&#39;, 4 =&gt; &#39;b&#39;]
+</span></span></span></code></pre></td></tr></table></div></div><p>如果集合包含数组或对象，可以传递要检查重复值的属性的键：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$employees</span> <span class=o>=</span> <span class=nx>collect</span><span class=p>([</span>
+</span></span><span class=line><span class=cl>    <span class=p>[</span><span class=s1>&#39;email&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;abigail@example.com&#39;</span><span class=p>,</span> <span class=s1>&#39;position&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;Developer&#39;</span><span class=p>],</span>
+</span></span><span class=line><span class=cl>    <span class=p>[</span><span class=s1>&#39;email&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;james@example.com&#39;</span><span class=p>,</span> <span class=s1>&#39;position&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;Designer&#39;</span><span class=p>],</span>
+</span></span><span class=line><span class=cl>    <span class=p>[</span><span class=s1>&#39;email&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;victoria@example.com&#39;</span><span class=p>,</span> <span class=s1>&#39;position&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;Developer&#39;</span><span class=p>],</span>
+</span></span><span class=line><span class=cl><span class=p>]);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nv>$employees</span><span class=o>-&gt;</span><span class=na>duplicates</span><span class=p>(</span><span class=s1>&#39;position&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=c1>// [2 =&gt; &#39;Developer&#39;]
+</span></span></span></code></pre></td></tr></table></div></div></td></tr><tr><td>duplicatesStrict()</td><td><p>该方法与<code>duplicates</code>方法具有相同的签名；但是，所有值都是使用“严格”比较进行比较的。</p></td></tr><tr><td>each()</td><td><p>迭代集合中的项目并将每个项目传递给闭包：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$collection</span> <span class=o>=</span> <span class=nx>collect</span><span class=p>([</span><span class=mi>1</span><span class=p>,</span> <span class=mi>2</span><span class=p>,</span> <span class=mi>3</span><span class=p>,</span> <span class=mi>4</span><span class=p>]);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nv>$collection</span><span class=o>-&gt;</span><span class=na>each</span><span class=p>(</span><span class=k>function</span> <span class=p>(</span><span class=nx>int</span> <span class=nv>$item</span><span class=p>,</span> <span class=nx>int</span> <span class=nv>$key</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// ...
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>});</span>
+</span></span></code></pre></td></tr></table></div></div><p>如果要停止迭代，则可以返回<code>false</code>：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$collection</span><span class=o>-&gt;</span><span class=na>each</span><span class=p>(</span><span class=k>function</span> <span class=p>(</span><span class=nx>int</span> <span class=nv>$item</span><span class=p>,</span> <span class=nx>int</span> <span class=nv>$key</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=cm>/* condition */</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=k>false</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span></code></pre></td></tr></table></div></div></td></tr><tr><td>eachSpread()</td><td><p>迭代集合的项目，将每个嵌套项目值传递到给定的回调中：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$collection</span> <span class=o>=</span> <span class=nx>collect</span><span class=p>([[</span><span class=s1>&#39;John Doe&#39;</span><span class=p>,</span> <span class=mi>35</span><span class=p>],</span> <span class=p>[</span><span class=s1>&#39;Jane Doe&#39;</span><span class=p>,</span> <span class=mi>33</span><span class=p>]]);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nv>$collection</span><span class=o>-&gt;</span><span class=na>eachSpread</span><span class=p>(</span><span class=k>function</span> <span class=p>(</span><span class=nx>string</span> <span class=nv>$name</span><span class=p>,</span> <span class=nx>int</span> <span class=nv>$age</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// ...
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>});</span>
+</span></span></code></pre></td></tr></table></div></div><p>可以通过从回调返回<code>false</code>来停止迭代项目：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$collection</span><span class=o>-&gt;</span><span class=na>eachSpread</span><span class=p>(</span><span class=k>function</span> <span class=p>(</span><span class=nx>string</span> <span class=nv>$name</span><span class=p>,</span> <span class=nx>int</span> <span class=nv>$age</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=k>false</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span></code></pre></td></tr></table></div></div></td></tr><tr><td>ensure()</td><td><p>用于验证集合的所有元素是否属于给定类型或类型列表。否则，将抛出<code>UnexpectedValueException</code>：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>return</span> <span class=nv>$collection</span><span class=o>-&gt;</span><span class=na>ensure</span><span class=p>(</span><span class=nx>User</span><span class=o>::</span><span class=na>class</span><span class=p>);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=k>return</span> <span class=nv>$collection</span><span class=o>-&gt;</span><span class=na>ensure</span><span class=p>([</span><span class=nx>User</span><span class=o>::</span><span class=na>class</span><span class=p>,</span> <span class=nx>Customer</span><span class=o>::</span><span class=na>class</span><span class=p>]);</span>
+</span></span></code></pre></td></tr></table></div></div><p>还可以指定基本类型，例如string 、 int 、 float 、 bool和array ：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>return</span> <span class=nv>$collection</span><span class=o>-&gt;</span><span class=na>ensure</span><span class=p>(</span><span class=s1>&#39;int&#39;</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div></td></tr><tr><td>every()</td><td><p>用于验证集合的所有元素是否通过给定的真值测试：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>collect</span><span class=p>([</span><span class=mi>1</span><span class=p>,</span> <span class=mi>2</span><span class=p>,</span> <span class=mi>3</span><span class=p>,</span> <span class=mi>4</span><span class=p>])</span><span class=o>-&gt;</span><span class=na>every</span><span class=p>(</span><span class=k>function</span> <span class=p>(</span><span class=nx>int</span> <span class=nv>$value</span><span class=p>,</span> <span class=nx>int</span> <span class=nv>$key</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nv>$value</span> <span class=o>&gt;</span> <span class=mi>2</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=c1>// false
+</span></span></span></code></pre></td></tr></table></div></div><p>如果集合为空，则every方法将返回 true：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$collection</span> <span class=o>=</span> <span class=nx>collect</span><span class=p>([]);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nv>$collection</span><span class=o>-&gt;</span><span class=na>every</span><span class=p>(</span><span class=k>function</span> <span class=p>(</span><span class=nx>int</span> <span class=nv>$value</span><span class=p>,</span> <span class=nx>int</span> <span class=nv>$key</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nv>$value</span> <span class=o>&gt;</span> <span class=mi>2</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=c1>// true
+</span></span></span></code></pre></td></tr></table></div></div></td></tr><tr><td>except()</td><td><p>返回集合中除具有指定键的项目之外的所有项目：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$collection</span> <span class=o>=</span> <span class=nx>collect</span><span class=p>([</span><span class=s1>&#39;product_id&#39;</span> <span class=o>=&gt;</span> <span class=mi>1</span><span class=p>,</span> <span class=s1>&#39;price&#39;</span> <span class=o>=&gt;</span> <span class=mi>100</span><span class=p>,</span> <span class=s1>&#39;discount&#39;</span> <span class=o>=&gt;</span> <span class=k>false</span><span class=p>]);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nv>$filtered</span> <span class=o>=</span> <span class=nv>$collection</span><span class=o>-&gt;</span><span class=na>except</span><span class=p>([</span><span class=s1>&#39;price&#39;</span><span class=p>,</span> <span class=s1>&#39;discount&#39;</span><span class=p>]);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nv>$filtered</span><span class=o>-&gt;</span><span class=na>all</span><span class=p>();</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=c1>// [&#39;product_id&#39; =&gt; 1]
+</span></span></span></code></pre></td></tr></table></div></div></td></tr><tr><td>filter()</td><td><p>使用给定的回调过滤集合，仅保留那些通过给定真值测试的项目：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$collection</span> <span class=o>=</span> <span class=nx>collect</span><span class=p>([</span><span class=mi>1</span><span class=p>,</span> <span class=mi>2</span><span class=p>,</span> <span class=mi>3</span><span class=p>,</span> <span class=mi>4</span><span class=p>]);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nv>$filtered</span> <span class=o>=</span> <span class=nv>$collection</span><span class=o>-&gt;</span><span class=na>filter</span><span class=p>(</span><span class=k>function</span> <span class=p>(</span><span class=nx>int</span> <span class=nv>$value</span><span class=p>,</span> <span class=nx>int</span> <span class=nv>$key</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nv>$value</span> <span class=o>&gt;</span> <span class=mi>2</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nv>$filtered</span><span class=o>-&gt;</span><span class=na>all</span><span class=p>();</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=c1>// [3, 4]
+</span></span></span></code></pre></td></tr></table></div></div><p>如果未提供回调，则集合中所有等于false条目都将被删除：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$collection</span> <span class=o>=</span> <span class=nx>collect</span><span class=p>([</span><span class=mi>1</span><span class=p>,</span> <span class=mi>2</span><span class=p>,</span> <span class=mi>3</span><span class=p>,</span> <span class=k>null</span><span class=p>,</span> <span class=k>false</span><span class=p>,</span> <span class=s1>&#39;&#39;</span><span class=p>,</span> <span class=mi>0</span><span class=p>,</span> <span class=p>[]]);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nv>$collection</span><span class=o>-&gt;</span><span class=na>filter</span><span class=p>()</span><span class=o>-&gt;</span><span class=na>all</span><span class=p>();</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=c1>// [1, 2, 3]
+</span></span></span></code></pre></td></tr></table></div></div></td></tr><tr><td>first()</td><td><p>返回集合中通过给定真值测试的第一个元素：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>collect</span><span class=p>([</span><span class=mi>1</span><span class=p>,</span> <span class=mi>2</span><span class=p>,</span> <span class=mi>3</span><span class=p>,</span> <span class=mi>4</span><span class=p>])</span><span class=o>-&gt;</span><span class=na>first</span><span class=p>(</span><span class=k>function</span> <span class=p>(</span><span class=nx>int</span> <span class=nv>$value</span><span class=p>,</span> <span class=nx>int</span> <span class=nv>$key</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nv>$value</span> <span class=o>&gt;</span> <span class=mi>2</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=c1>// 3
+</span></span></span></code></pre></td></tr></table></div></div><p>还可以调用不带参数的first方法来获取集合中的第一个元素。如果集合为空，则返回null ：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>collect</span><span class=p>([</span><span class=mi>1</span><span class=p>,</span> <span class=mi>2</span><span class=p>,</span> <span class=mi>3</span><span class=p>,</span> <span class=mi>4</span><span class=p>])</span><span class=o>-&gt;</span><span class=na>first</span><span class=p>();</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=c1>// 1
+</span></span></span></code></pre></td></tr></table></div></div></td></tr><tr><td>firstOrFail()</td><td><p>与first方法相同；然而，如果没有找到结果， Illuminate\Support\ItemNotFoundException 将抛出异常：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>collect</span><span class=p>([</span><span class=mi>1</span><span class=p>,</span> <span class=mi>2</span><span class=p>,</span> <span class=mi>3</span><span class=p>,</span> <span class=mi>4</span><span class=p>])</span><span class=o>-&gt;</span><span class=na>firstOrFail</span><span class=p>(</span><span class=k>function</span> <span class=p>(</span><span class=nx>int</span> <span class=nv>$value</span><span class=p>,</span> <span class=nx>int</span> <span class=nv>$key</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nv>$value</span> <span class=o>&gt;</span> <span class=mi>5</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=c1>// Throws ItemNotFoundException...
+</span></span></span></code></pre></td></tr></table></div></div><p>还可以调用不带参数的<code>firstOrFail</code>方法来获取集合中的第一个元素。如果集合为空，则 <code>Illuminate\Support\ItemNotFoundException</code> 将抛出异常：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>collect</span><span class=p>([])</span><span class=o>-&gt;</span><span class=na>firstOrFail</span><span class=p>();</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=c1>// Throws ItemNotFoundException...
+</span></span></span></code></pre></td></tr></table></div></div></td></tr><tr><td>firstWhere()</td><td><p>返回具有给定键/值对的集合中的第一个元素：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$collection</span> <span class=o>=</span> <span class=nx>collect</span><span class=p>([</span>
+</span></span><span class=line><span class=cl>    <span class=p>[</span><span class=s1>&#39;name&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;Regena&#39;</span><span class=p>,</span> <span class=s1>&#39;age&#39;</span> <span class=o>=&gt;</span> <span class=k>null</span><span class=p>],</span>
+</span></span><span class=line><span class=cl>    <span class=p>[</span><span class=s1>&#39;name&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;Linda&#39;</span><span class=p>,</span> <span class=s1>&#39;age&#39;</span> <span class=o>=&gt;</span> <span class=mi>14</span><span class=p>],</span>
+</span></span><span class=line><span class=cl>    <span class=p>[</span><span class=s1>&#39;name&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;Diego&#39;</span><span class=p>,</span> <span class=s1>&#39;age&#39;</span> <span class=o>=&gt;</span> <span class=mi>23</span><span class=p>],</span>
+</span></span><span class=line><span class=cl>    <span class=p>[</span><span class=s1>&#39;name&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;Linda&#39;</span><span class=p>,</span> <span class=s1>&#39;age&#39;</span> <span class=o>=&gt;</span> <span class=mi>84</span><span class=p>],</span>
+</span></span><span class=line><span class=cl><span class=p>]);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nv>$collection</span><span class=o>-&gt;</span><span class=na>firstWhere</span><span class=p>(</span><span class=s1>&#39;name&#39;</span><span class=p>,</span> <span class=s1>&#39;Linda&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=c1>// [&#39;name&#39; =&gt; &#39;Linda&#39;, &#39;age&#39; =&gt; 14]
+</span></span></span></code></pre></td></tr></table></div></div><p>还可以使用比较运算符调用firstWhere方法：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$collection</span><span class=o>-&gt;</span><span class=na>firstWhere</span><span class=p>(</span><span class=s1>&#39;age&#39;</span><span class=p>,</span> <span class=s1>&#39;&gt;=&#39;</span><span class=p>,</span> <span class=mi>18</span><span class=p>);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=c1>// [&#39;name&#39; =&gt; &#39;Diego&#39;, &#39;age&#39; =&gt; 23]
+</span></span></span></code></pre></td></tr></table></div></div><p>与<code>where</code>方法一样，可以将一个参数传递给<code>firstWhere</code>方法。在这种情况下， <code>firstWhere</code>方法将返回给定项键值为“truthy”的第一个项：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$collection</span><span class=o>-&gt;</span><span class=na>firstWhere</span><span class=p>(</span><span class=s1>&#39;age&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=c1>// [&#39;name&#39; =&gt; &#39;Linda&#39;, &#39;age&#39; =&gt; 14]
+</span></span></span></code></pre></td></tr></table></div></div></td></tr><tr><td>flatMap()</td><td><p>迭代集合并将每个值传递给给定的闭包。闭包可以自由地修改项目并返回它，从而形成修改项目的新集合。然后，将数组展平一级：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$collection</span> <span class=o>=</span> <span class=nx>collect</span><span class=p>([</span>
+</span></span><span class=line><span class=cl>    <span class=p>[</span><span class=s1>&#39;name&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;Sally&#39;</span><span class=p>],</span>
+</span></span><span class=line><span class=cl>    <span class=p>[</span><span class=s1>&#39;school&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;Arkansas&#39;</span><span class=p>],</span>
+</span></span><span class=line><span class=cl>    <span class=p>[</span><span class=s1>&#39;age&#39;</span> <span class=o>=&gt;</span> <span class=mi>28</span><span class=p>]</span>
+</span></span><span class=line><span class=cl><span class=p>]);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nv>$flattened</span> <span class=o>=</span> <span class=nv>$collection</span><span class=o>-&gt;</span><span class=na>flatMap</span><span class=p>(</span><span class=k>function</span> <span class=p>(</span><span class=k>array</span> <span class=nv>$values</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nx>array_map</span><span class=p>(</span><span class=s1>&#39;strtoupper&#39;</span><span class=p>,</span> <span class=nv>$values</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nv>$flattened</span><span class=o>-&gt;</span><span class=na>all</span><span class=p>();</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=c1>// [&#39;name&#39; =&gt; &#39;SALLY&#39;, &#39;school&#39; =&gt; &#39;ARKANSAS&#39;, &#39;age&#39; =&gt; &#39;28&#39;];
+</span></span></span></code></pre></td></tr></table></div></div></td></tr><tr><td>flatten()</td><td><p>将多维集合展平为单维：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$collection</span> <span class=o>=</span> <span class=nx>collect</span><span class=p>([</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;name&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;taylor&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;languages&#39;</span> <span class=o>=&gt;</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>        <span class=s1>&#39;php&#39;</span><span class=p>,</span> <span class=s1>&#39;javascript&#39;</span>
+</span></span><span class=line><span class=cl>    <span class=p>]</span>
+</span></span><span class=line><span class=cl><span class=p>]);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nv>$flattened</span> <span class=o>=</span> <span class=nv>$collection</span><span class=o>-&gt;</span><span class=na>flatten</span><span class=p>();</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nv>$flattened</span><span class=o>-&gt;</span><span class=na>all</span><span class=p>();</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=c1>// [&#39;taylor&#39;, &#39;php&#39;, &#39;javascript&#39;];
+</span></span></span></code></pre></td></tr></table></div></div><p>可以向<code>flatten</code>方法传递一个“深度”参数：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$collection</span> <span class=o>=</span> <span class=nx>collect</span><span class=p>([</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;Apple&#39;</span> <span class=o>=&gt;</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>        <span class=p>[</span>
+</span></span><span class=line><span class=cl>            <span class=s1>&#39;name&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;iPhone 6S&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>            <span class=s1>&#39;brand&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;Apple&#39;</span>
+</span></span><span class=line><span class=cl>        <span class=p>],</span>
+</span></span><span class=line><span class=cl>    <span class=p>],</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;Samsung&#39;</span> <span class=o>=&gt;</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>        <span class=p>[</span>
+</span></span><span class=line><span class=cl>            <span class=s1>&#39;name&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;Galaxy S7&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>            <span class=s1>&#39;brand&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;Samsung&#39;</span>
+</span></span><span class=line><span class=cl>        <span class=p>],</span>
+</span></span><span class=line><span class=cl>    <span class=p>],</span>
+</span></span><span class=line><span class=cl><span class=p>]);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nv>$products</span> <span class=o>=</span> <span class=nv>$collection</span><span class=o>-&gt;</span><span class=na>flatten</span><span class=p>(</span><span class=mi>1</span><span class=p>);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nv>$products</span><span class=o>-&gt;</span><span class=na>values</span><span class=p>()</span><span class=o>-&gt;</span><span class=na>all</span><span class=p>();</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=cm>/*
+</span></span></span><span class=line><span class=cl><span class=cm>    [
+</span></span></span><span class=line><span class=cl><span class=cm>        [&#39;name&#39; =&gt; &#39;iPhone 6S&#39;, &#39;brand&#39; =&gt; &#39;Apple&#39;],
+</span></span></span><span class=line><span class=cl><span class=cm>        [&#39;name&#39; =&gt; &#39;Galaxy S7&#39;, &#39;brand&#39; =&gt; &#39;Samsung&#39;],
+</span></span></span><span class=line><span class=cl><span class=cm>    ]
+</span></span></span><span class=line><span class=cl><span class=cm>*/</span>
+</span></span></code></pre></td></tr></table></div></div></td></tr><tr><td>flip()</td><td><p>将集合的键与其对应的值交换：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$collection</span> <span class=o>=</span> <span class=nx>collect</span><span class=p>([</span><span class=s1>&#39;name&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;taylor&#39;</span><span class=p>,</span> <span class=s1>&#39;framework&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;laravel&#39;</span><span class=p>]);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nv>$flipped</span> <span class=o>=</span> <span class=nv>$collection</span><span class=o>-&gt;</span><span class=na>flip</span><span class=p>();</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nv>$flipped</span><span class=o>-&gt;</span><span class=na>all</span><span class=p>();</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=c1>// [&#39;taylor&#39; =&gt; &#39;name&#39;, &#39;laravel&#39; =&gt; &#39;framework&#39;]
+</span></span></span></code></pre></td></tr></table></div></div></td></tr><tr><td>forget()</td><td><p>通过其键从集合中删除项目：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$collection</span> <span class=o>=</span> <span class=nx>collect</span><span class=p>([</span><span class=s1>&#39;name&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;taylor&#39;</span><span class=p>,</span> <span class=s1>&#39;framework&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;laravel&#39;</span><span class=p>]);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=c1>// Forget a single key...
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=nv>$collection</span><span class=o>-&gt;</span><span class=na>forget</span><span class=p>(</span><span class=s1>&#39;name&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=c1>// [&#39;framework&#39; =&gt; &#39;laravel&#39;]
+</span></span></span><span class=line><span class=cl><span class=c1></span> 
+</span></span><span class=line><span class=cl><span class=c1>// Forget multiple keys...
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=nv>$collection</span><span class=o>-&gt;</span><span class=na>forget</span><span class=p>([</span><span class=s1>&#39;name&#39;</span><span class=p>,</span> <span class=s1>&#39;framework&#39;</span><span class=p>]);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=c1>// []
+</span></span></span></code></pre></td></tr></table></div></div><p><em><strong>ps: 与大多数其他集合方法不同， forget不会返回新的修改后的集合；它修改它所调用的集合。</strong></em></p></td></tr><tr><td>forPage()</td><td><p>返回一个新集合，其中包含将出现在给定页码上的项目。该方法接受页码作为其第一个参数，并接受每页显示的项目数作为其第二个参数：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$collection</span> <span class=o>=</span> <span class=nx>collect</span><span class=p>([</span><span class=mi>1</span><span class=p>,</span> <span class=mi>2</span><span class=p>,</span> <span class=mi>3</span><span class=p>,</span> <span class=mi>4</span><span class=p>,</span> <span class=mi>5</span><span class=p>,</span> <span class=mi>6</span><span class=p>,</span> <span class=mi>7</span><span class=p>,</span> <span class=mi>8</span><span class=p>,</span> <span class=mi>9</span><span class=p>]);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nv>$chunk</span> <span class=o>=</span> <span class=nv>$collection</span><span class=o>-&gt;</span><span class=na>forPage</span><span class=p>(</span><span class=mi>2</span><span class=p>,</span> <span class=mi>3</span><span class=p>);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nv>$chunk</span><span class=o>-&gt;</span><span class=na>all</span><span class=p>();</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=c1>// [4, 5, 6]
+</span></span></span></code></pre></td></tr></table></div></div></td></tr><tr><td>get()</td><td><p>返回给定键处的项目。如果键不存在，则返回null ：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$collection</span> <span class=o>=</span> <span class=nx>collect</span><span class=p>([</span><span class=s1>&#39;name&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;taylor&#39;</span><span class=p>,</span> <span class=s1>&#39;framework&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;laravel&#39;</span><span class=p>]);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nv>$value</span> <span class=o>=</span> <span class=nv>$collection</span><span class=o>-&gt;</span><span class=na>get</span><span class=p>(</span><span class=s1>&#39;name&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=c1>// taylor
+</span></span></span></code></pre></td></tr></table></div></div><p>可以选择传递默认值作为第二个参数：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$collection</span> <span class=o>=</span> <span class=nx>collect</span><span class=p>([</span><span class=s1>&#39;name&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;taylor&#39;</span><span class=p>,</span> <span class=s1>&#39;framework&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;laravel&#39;</span><span class=p>]);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nv>$value</span> <span class=o>=</span> <span class=nv>$collection</span><span class=o>-&gt;</span><span class=na>get</span><span class=p>(</span><span class=s1>&#39;age&#39;</span><span class=p>,</span> <span class=mi>34</span><span class=p>);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=c1>// 34
+</span></span></span></code></pre></td></tr></table></div></div><p>甚至可以传递回调作为该方法的默认值。如果指定的key不存在，则返回回调结果：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$collection</span><span class=o>-&gt;</span><span class=na>get</span><span class=p>(</span><span class=s1>&#39;email&#39;</span><span class=p>,</span> <span class=k>function</span> <span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=s1>&#39;taylor@example.com&#39;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=c1>// taylor@example.com
+</span></span></span></code></pre></td></tr></table></div></div></td></tr><tr><td>groupBy()</td><td><p>按给定键对集合的项目进行分组：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$collection</span> <span class=o>=</span> <span class=nx>collect</span><span class=p>([</span>
+</span></span><span class=line><span class=cl>    <span class=p>[</span><span class=s1>&#39;account_id&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;account-x10&#39;</span><span class=p>,</span> <span class=s1>&#39;product&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;Chair&#39;</span><span class=p>],</span>
+</span></span><span class=line><span class=cl>    <span class=p>[</span><span class=s1>&#39;account_id&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;account-x10&#39;</span><span class=p>,</span> <span class=s1>&#39;product&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;Bookcase&#39;</span><span class=p>],</span>
+</span></span><span class=line><span class=cl>    <span class=p>[</span><span class=s1>&#39;account_id&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;account-x11&#39;</span><span class=p>,</span> <span class=s1>&#39;product&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;Desk&#39;</span><span class=p>],</span>
+</span></span><span class=line><span class=cl><span class=p>]);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nv>$grouped</span> <span class=o>=</span> <span class=nv>$collection</span><span class=o>-&gt;</span><span class=na>groupBy</span><span class=p>(</span><span class=s1>&#39;account_id&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nv>$grouped</span><span class=o>-&gt;</span><span class=na>all</span><span class=p>();</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=cm>/*
+</span></span></span><span class=line><span class=cl><span class=cm>    [
+</span></span></span><span class=line><span class=cl><span class=cm>        &#39;account-x10&#39; =&gt; [
+</span></span></span><span class=line><span class=cl><span class=cm>            [&#39;account_id&#39; =&gt; &#39;account-x10&#39;, &#39;product&#39; =&gt; &#39;Chair&#39;],
+</span></span></span><span class=line><span class=cl><span class=cm>            [&#39;account_id&#39; =&gt; &#39;account-x10&#39;, &#39;product&#39; =&gt; &#39;Bookcase&#39;],
+</span></span></span><span class=line><span class=cl><span class=cm>        ],
+</span></span></span><span class=line><span class=cl><span class=cm>        &#39;account-x11&#39; =&gt; [
+</span></span></span><span class=line><span class=cl><span class=cm>            [&#39;account_id&#39; =&gt; &#39;account-x11&#39;, &#39;product&#39; =&gt; &#39;Desk&#39;],
+</span></span></span><span class=line><span class=cl><span class=cm>        ],
+</span></span></span><span class=line><span class=cl><span class=cm>    ]
+</span></span></span><span class=line><span class=cl><span class=cm>*/</span>
+</span></span></code></pre></td></tr></table></div></div><p>可以传递回调，而不是传递字符串key 。回调应返回您希望作为组键的值：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$grouped</span> <span class=o>=</span> <span class=nv>$collection</span><span class=o>-&gt;</span><span class=na>groupBy</span><span class=p>(</span><span class=k>function</span> <span class=p>(</span><span class=k>array</span> <span class=nv>$item</span><span class=p>,</span> <span class=nx>int</span> <span class=nv>$key</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nx>substr</span><span class=p>(</span><span class=nv>$item</span><span class=p>[</span><span class=s1>&#39;account_id&#39;</span><span class=p>],</span> <span class=o>-</span><span class=mi>3</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nv>$grouped</span><span class=o>-&gt;</span><span class=na>all</span><span class=p>();</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=cm>/*
+</span></span></span><span class=line><span class=cl><span class=cm>    [
+</span></span></span><span class=line><span class=cl><span class=cm>        &#39;x10&#39; =&gt; [
+</span></span></span><span class=line><span class=cl><span class=cm>            [&#39;account_id&#39; =&gt; &#39;account-x10&#39;, &#39;product&#39; =&gt; &#39;Chair&#39;],
+</span></span></span><span class=line><span class=cl><span class=cm>            [&#39;account_id&#39; =&gt; &#39;account-x10&#39;, &#39;product&#39; =&gt; &#39;Bookcase&#39;],
+</span></span></span><span class=line><span class=cl><span class=cm>        ],
+</span></span></span><span class=line><span class=cl><span class=cm>        &#39;x11&#39; =&gt; [
+</span></span></span><span class=line><span class=cl><span class=cm>            [&#39;account_id&#39; =&gt; &#39;account-x11&#39;, &#39;product&#39; =&gt; &#39;Desk&#39;],
+</span></span></span><span class=line><span class=cl><span class=cm>        ],
+</span></span></span><span class=line><span class=cl><span class=cm>    ]
+</span></span></span><span class=line><span class=cl><span class=cm>*/</span>
+</span></span></code></pre></td></tr></table></div></div><p>多个分组标准可以作为数组传递。每个数组元素将应用于多维数组中的相应级别：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$data</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>Collection</span><span class=p>([</span>
+</span></span><span class=line><span class=cl>    <span class=mi>10</span> <span class=o>=&gt;</span> <span class=p>[</span><span class=s1>&#39;user&#39;</span> <span class=o>=&gt;</span> <span class=mi>1</span><span class=p>,</span> <span class=s1>&#39;skill&#39;</span> <span class=o>=&gt;</span> <span class=mi>1</span><span class=p>,</span> <span class=s1>&#39;roles&#39;</span> <span class=o>=&gt;</span> <span class=p>[</span><span class=s1>&#39;Role_1&#39;</span><span class=p>,</span> <span class=s1>&#39;Role_3&#39;</span><span class=p>]],</span>
+</span></span><span class=line><span class=cl>    <span class=mi>20</span> <span class=o>=&gt;</span> <span class=p>[</span><span class=s1>&#39;user&#39;</span> <span class=o>=&gt;</span> <span class=mi>2</span><span class=p>,</span> <span class=s1>&#39;skill&#39;</span> <span class=o>=&gt;</span> <span class=mi>1</span><span class=p>,</span> <span class=s1>&#39;roles&#39;</span> <span class=o>=&gt;</span> <span class=p>[</span><span class=s1>&#39;Role_1&#39;</span><span class=p>,</span> <span class=s1>&#39;Role_2&#39;</span><span class=p>]],</span>
+</span></span><span class=line><span class=cl>    <span class=mi>30</span> <span class=o>=&gt;</span> <span class=p>[</span><span class=s1>&#39;user&#39;</span> <span class=o>=&gt;</span> <span class=mi>3</span><span class=p>,</span> <span class=s1>&#39;skill&#39;</span> <span class=o>=&gt;</span> <span class=mi>2</span><span class=p>,</span> <span class=s1>&#39;roles&#39;</span> <span class=o>=&gt;</span> <span class=p>[</span><span class=s1>&#39;Role_1&#39;</span><span class=p>]],</span>
+</span></span><span class=line><span class=cl>    <span class=mi>40</span> <span class=o>=&gt;</span> <span class=p>[</span><span class=s1>&#39;user&#39;</span> <span class=o>=&gt;</span> <span class=mi>4</span><span class=p>,</span> <span class=s1>&#39;skill&#39;</span> <span class=o>=&gt;</span> <span class=mi>2</span><span class=p>,</span> <span class=s1>&#39;roles&#39;</span> <span class=o>=&gt;</span> <span class=p>[</span><span class=s1>&#39;Role_2&#39;</span><span class=p>]],</span>
+</span></span><span class=line><span class=cl><span class=p>]);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nv>$result</span> <span class=o>=</span> <span class=nv>$data</span><span class=o>-&gt;</span><span class=na>groupBy</span><span class=p>([</span><span class=s1>&#39;skill&#39;</span><span class=p>,</span> <span class=k>function</span> <span class=p>(</span><span class=k>array</span> <span class=nv>$item</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nv>$item</span><span class=p>[</span><span class=s1>&#39;roles&#39;</span><span class=p>];</span>
+</span></span><span class=line><span class=cl><span class=p>}],</span> <span class=nx>preserveKeys</span><span class=o>:</span> <span class=k>true</span><span class=p>);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=cm>/*
+</span></span></span><span class=line><span class=cl><span class=cm>[
+</span></span></span><span class=line><span class=cl><span class=cm>    1 =&gt; [
+</span></span></span><span class=line><span class=cl><span class=cm>        &#39;Role_1&#39; =&gt; [
+</span></span></span><span class=line><span class=cl><span class=cm>            10 =&gt; [&#39;user&#39; =&gt; 1, &#39;skill&#39; =&gt; 1, &#39;roles&#39; =&gt; [&#39;Role_1&#39;, &#39;Role_3&#39;]],
+</span></span></span><span class=line><span class=cl><span class=cm>            20 =&gt; [&#39;user&#39; =&gt; 2, &#39;skill&#39; =&gt; 1, &#39;roles&#39; =&gt; [&#39;Role_1&#39;, &#39;Role_2&#39;]],
+</span></span></span><span class=line><span class=cl><span class=cm>        ],
+</span></span></span><span class=line><span class=cl><span class=cm>        &#39;Role_2&#39; =&gt; [
+</span></span></span><span class=line><span class=cl><span class=cm>            20 =&gt; [&#39;user&#39; =&gt; 2, &#39;skill&#39; =&gt; 1, &#39;roles&#39; =&gt; [&#39;Role_1&#39;, &#39;Role_2&#39;]],
+</span></span></span><span class=line><span class=cl><span class=cm>        ],
+</span></span></span><span class=line><span class=cl><span class=cm>        &#39;Role_3&#39; =&gt; [
+</span></span></span><span class=line><span class=cl><span class=cm>            10 =&gt; [&#39;user&#39; =&gt; 1, &#39;skill&#39; =&gt; 1, &#39;roles&#39; =&gt; [&#39;Role_1&#39;, &#39;Role_3&#39;]],
+</span></span></span><span class=line><span class=cl><span class=cm>        ],
+</span></span></span><span class=line><span class=cl><span class=cm>    ],
+</span></span></span><span class=line><span class=cl><span class=cm>    2 =&gt; [
+</span></span></span><span class=line><span class=cl><span class=cm>        &#39;Role_1&#39; =&gt; [
+</span></span></span><span class=line><span class=cl><span class=cm>            30 =&gt; [&#39;user&#39; =&gt; 3, &#39;skill&#39; =&gt; 2, &#39;roles&#39; =&gt; [&#39;Role_1&#39;]],
+</span></span></span><span class=line><span class=cl><span class=cm>        ],
+</span></span></span><span class=line><span class=cl><span class=cm>        &#39;Role_2&#39; =&gt; [
+</span></span></span><span class=line><span class=cl><span class=cm>            40 =&gt; [&#39;user&#39; =&gt; 4, &#39;skill&#39; =&gt; 2, &#39;roles&#39; =&gt; [&#39;Role_2&#39;]],
+</span></span></span><span class=line><span class=cl><span class=cm>        ],
+</span></span></span><span class=line><span class=cl><span class=cm>    ],
+</span></span></span><span class=line><span class=cl><span class=cm>];
+</span></span></span><span class=line><span class=cl><span class=cm>*/</span>
+</span></span></code></pre></td></tr></table></div></div></td></tr><tr><td>...</td><td><p><a href=https://laravel.com/docs/11.x/collections#available-methods target=_blank rel="noopener noreffer">详细见</a></p></td></tr></table><h2 id=高阶消息higher-order-messages>高阶消息（higher order messages）</h2><p>集合还支持&rsquo;高级消息（higher order messages）&rsquo;，这些是用于对集合执行常见操作的快捷方式。提供高级消息的集合方法有：average, avg, contains, each, every, filter, first, flatMap, groupBy, keyBy, map, max, min, partition, reject, skipUntil, skipWhile, some, sortBy, sortByDesc, sum, takeUntil, takeWhile, 和 unique。</p><p>每个高级消息都可以作为集合实例上的动态属性进行访问。例如，让我们使用 <code>each</code> 高级消息来对集合中的每个对象调用一个方法：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>App\Models\User</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nv>$users</span> <span class=o>=</span> <span class=nx>User</span><span class=o>::</span><span class=na>where</span><span class=p>(</span><span class=s1>&#39;votes&#39;</span><span class=p>,</span> <span class=s1>&#39;&gt;&#39;</span><span class=p>,</span> <span class=mi>500</span><span class=p>)</span><span class=o>-&gt;</span><span class=na>get</span><span class=p>();</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nv>$users</span><span class=o>-&gt;</span><span class=na>each</span><span class=o>-&gt;</span><span class=na>markAsVip</span><span class=p>();</span>
+</span></span></code></pre></td></tr></table></div></div><p>同样，我们可以使用高阶消息sum来收集用户集合的“投票”总数：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$users</span> <span class=o>=</span> <span class=nx>User</span><span class=o>::</span><span class=na>where</span><span class=p>(</span><span class=s1>&#39;group&#39;</span><span class=p>,</span> <span class=s1>&#39;Development&#39;</span><span class=p>)</span><span class=o>-&gt;</span><span class=na>get</span><span class=p>();</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=k>return</span> <span class=nv>$users</span><span class=o>-&gt;</span><span class=na>sum</span><span class=o>-&gt;</span><span class=na>votes</span><span class=p>;</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=lazy集合>Lazy集合</h2><h3 id=介绍-1>介绍</h3><p>为了补充已经很强大的<code>Collection</code>类， <code>LazyCollection</code>类利用 PHP 的生成器来允许处理非常大的数据集，同时保持较低的内存使用率。</p><p>例如，假设您的应用程序需要处理一个多 GB 的日志文件，同时利用 Laravel 的收集方法来解析日志。惰性集合可以用于在给定时间仅将文件的一小部分保留在内存中，而不是立即将整个文件读入内存：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>App\Models\LogEntry</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Support\LazyCollection</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nx>LazyCollection</span><span class=o>::</span><span class=na>make</span><span class=p>(</span><span class=k>function</span> <span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nv>$handle</span> <span class=o>=</span> <span class=nx>fopen</span><span class=p>(</span><span class=s1>&#39;log.txt&#39;</span><span class=p>,</span> <span class=s1>&#39;r&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl>    <span class=k>while</span> <span class=p>((</span><span class=nv>$line</span> <span class=o>=</span> <span class=nx>fgets</span><span class=p>(</span><span class=nv>$handle</span><span class=p>))</span> <span class=o>!==</span> <span class=k>false</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>yield</span> <span class=nv>$line</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>})</span><span class=o>-&gt;</span><span class=na>chunk</span><span class=p>(</span><span class=mi>4</span><span class=p>)</span><span class=o>-&gt;</span><span class=na>map</span><span class=p>(</span><span class=k>function</span> <span class=p>(</span><span class=k>array</span> <span class=nv>$lines</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nx>LogEntry</span><span class=o>::</span><span class=na>fromLines</span><span class=p>(</span><span class=nv>$lines</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>})</span><span class=o>-&gt;</span><span class=na>each</span><span class=p>(</span><span class=k>function</span> <span class=p>(</span><span class=nx>LogEntry</span> <span class=nv>$logEntry</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// Process the log entry...
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>});</span>
+</span></span></code></pre></td></tr></table></div></div><p>或者，假设您需要迭代 10,000 个 Eloquent 模型。当使用传统的 Laravel 集合时，所有 10,000 个 Eloquent 模型必须同时加载到内存中：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>App\Models\User</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nv>$users</span> <span class=o>=</span> <span class=nx>User</span><span class=o>::</span><span class=na>all</span><span class=p>()</span><span class=o>-&gt;</span><span class=na>filter</span><span class=p>(</span><span class=k>function</span> <span class=p>(</span><span class=nx>User</span> <span class=nv>$user</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nv>$user</span><span class=o>-&gt;</span><span class=na>id</span> <span class=o>&gt;</span> <span class=mi>500</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span></code></pre></td></tr></table></div></div><p>但是，查询构建器的<code>cursor</code>方法返回一个<code>LazyCollection</code>实例。这允许您仍然只对数据库运行一个查询，而且一次只将一个 Eloquent 模型加载到内存中。在此示例中，直到我们实际单独迭代每个用户时才会执行<code>filter</code>回调，从而大幅减少内存使用量：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>App\Models\User</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nv>$users</span> <span class=o>=</span> <span class=nx>User</span><span class=o>::</span><span class=na>cursor</span><span class=p>()</span><span class=o>-&gt;</span><span class=na>filter</span><span class=p>(</span><span class=k>function</span> <span class=p>(</span><span class=nx>User</span> <span class=nv>$user</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nv>$user</span><span class=o>-&gt;</span><span class=na>id</span> <span class=o>&gt;</span> <span class=mi>500</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=k>foreach</span> <span class=p>(</span><span class=nv>$users</span> <span class=k>as</span> <span class=nv>$user</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>echo</span> <span class=nv>$user</span><span class=o>-&gt;</span><span class=na>id</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=创建惰性集合>创建惰性集合</h3><p>要创建惰性集合实例，应该将 PHP 生成器函数传递给集合的make方法：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Support\LazyCollection</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nx>LazyCollection</span><span class=o>::</span><span class=na>make</span><span class=p>(</span><span class=k>function</span> <span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nv>$handle</span> <span class=o>=</span> <span class=nx>fopen</span><span class=p>(</span><span class=s1>&#39;log.txt&#39;</span><span class=p>,</span> <span class=s1>&#39;r&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl>    <span class=k>while</span> <span class=p>((</span><span class=nv>$line</span> <span class=o>=</span> <span class=nx>fgets</span><span class=p>(</span><span class=nv>$handle</span><span class=p>))</span> <span class=o>!==</span> <span class=k>false</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>yield</span> <span class=nv>$line</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=可枚举合约>可枚举合约</h3><p>几乎<code>Collection</code>类上可用的所有方法也可在<code>LazyCollection</code>类上使用。这两个类都实现了<code>Illuminate\Support\Enumerable</code>契约，它定义了以下方法：
+<a href=https://laravel.com/docs/11.x/collections#the-enumerable-contract target=_blank rel="noopener noreffer">详细见链接🔗</a></p><h3 id=惰性集合方法>惰性集合方法</h3><p>除了<code>Enumerable</code>合约中定义的方法之外， <code>LazyCollection</code>类还包含以下方法：</p><h4 id=takeuntiltimeout>takeUntilTimeout()</h4><p>返回一个新的惰性集合，它将枚举指定时间之前的值。之后，集合将停止枚举：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$lazyCollection</span> <span class=o>=</span> <span class=nx>LazyCollection</span><span class=o>::</span><span class=na>times</span><span class=p>(</span><span class=nx>INF</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=o>-&gt;</span><span class=na>takeUntilTimeout</span><span class=p>(</span><span class=nx>now</span><span class=p>()</span><span class=o>-&gt;</span><span class=na>addMinute</span><span class=p>());</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nv>$lazyCollection</span><span class=o>-&gt;</span><span class=na>each</span><span class=p>(</span><span class=k>function</span> <span class=p>(</span><span class=nx>int</span> <span class=nv>$number</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>dump</span><span class=p>(</span><span class=nv>$number</span><span class=p>);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl>    <span class=nx>sleep</span><span class=p>(</span><span class=mi>1</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=c1>// 1
+</span></span></span><span class=line><span class=cl><span class=c1>// 2
+</span></span></span><span class=line><span class=cl><span class=c1>// ...
+</span></span></span><span class=line><span class=cl><span class=c1>// 58
+</span></span></span><span class=line><span class=cl><span class=c1>// 59
+</span></span></span></code></pre></td></tr></table></div></div><h4 id=tapeach>tapEach()</h4><p>虽然<code>each</code>方法立即为集合中的每个项目调用给定的回调，但<code>tapEach</code>方法仅在项目被逐一从列表中拉出时调用给定的回调：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=c1>// Nothing has been dumped so far...
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=nv>$lazyCollection</span> <span class=o>=</span> <span class=nx>LazyCollection</span><span class=o>::</span><span class=na>times</span><span class=p>(</span><span class=nx>INF</span><span class=p>)</span><span class=o>-&gt;</span><span class=na>tapEach</span><span class=p>(</span><span class=k>function</span> <span class=p>(</span><span class=nx>int</span> <span class=nv>$value</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>dump</span><span class=p>(</span><span class=nv>$value</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=c1>// Three items are dumped...
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=nv>$array</span> <span class=o>=</span> <span class=nv>$lazyCollection</span><span class=o>-&gt;</span><span class=na>take</span><span class=p>(</span><span class=mi>3</span><span class=p>)</span><span class=o>-&gt;</span><span class=na>all</span><span class=p>();</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=c1>// 1
+</span></span></span><span class=line><span class=cl><span class=c1>// 2
+</span></span></span><span class=line><span class=cl><span class=c1>// 3
+</span></span></span></code></pre></td></tr></table></div></div><h4 id=throttle>throttle()</h4><p>将限制惰性集合，以便在指定的秒数后返回每个值。此方法对于可能与限制传入请求速率的外部 API 交互的情况特别有用：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>App\Models\User</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nx>User</span><span class=o>::</span><span class=na>where</span><span class=p>(</span><span class=s1>&#39;vip&#39;</span><span class=p>,</span> <span class=k>true</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=o>-&gt;</span><span class=na>cursor</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>    <span class=o>-&gt;</span><span class=na>throttle</span><span class=p>(</span><span class=nx>seconds</span><span class=o>:</span> <span class=mi>1</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=o>-&gt;</span><span class=na>each</span><span class=p>(</span><span class=k>function</span> <span class=p>(</span><span class=nx>User</span> <span class=nv>$user</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=c1>// Call external API...
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=p>});</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=remember>remember()</h4><p>返回一个新的惰性集合，它将记住已枚举的任何值，并且不会在后续集合枚举中再次检索它们：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=c1>// No query has been executed yet...
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=nv>$users</span> <span class=o>=</span> <span class=nx>User</span><span class=o>::</span><span class=na>cursor</span><span class=p>()</span><span class=o>-&gt;</span><span class=na>remember</span><span class=p>();</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=c1>// The query is executed...
+</span></span></span><span class=line><span class=cl><span class=c1>// The first 5 users are hydrated from the database...
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=nv>$users</span><span class=o>-&gt;</span><span class=na>take</span><span class=p>(</span><span class=mi>5</span><span class=p>)</span><span class=o>-&gt;</span><span class=na>all</span><span class=p>();</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=c1>// First 5 users come from the collection&#39;s cache...
+</span></span></span><span class=line><span class=cl><span class=c1>// The rest are hydrated from the database...
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=nv>$users</span><span class=o>-&gt;</span><span class=na>take</span><span class=p>(</span><span class=mi>20</span><span class=p>)</span><span class=o>-&gt;</span><span class=na>all</span><span class=p>();</span>
+</span></span></code></pre></td></tr></table></div></div></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>更新于 2024年08月29日</span></div></div><div class=post-info-line><div class=post-info-md><span><a class=link-to-markdown href=/2024/08/collections/index.md target=_blank>阅读原始文档</a></span></div><div class=post-info-share><span><a href=javascript:void(0); title="分享到 Twitter" data-sharer=twitter data-url=https://Joker-desire.github.io/2024/08/collections/ data-title="Laravel 11.x Collections" data-hashtags=PHP,Laravel><i class="fab fa-twitter fa-fw" aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 Facebook" data-sharer=facebook data-url=https://Joker-desire.github.io/2024/08/collections/ data-hashtag=PHP><i class="fab fa-facebook-square fa-fw" aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 Hacker News" data-sharer=hackernews data-url=https://Joker-desire.github.io/2024/08/collections/ data-title="Laravel 11.x Collections"><i class="fab fa-hacker-news fa-fw" aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 Line" data-sharer=line data-url=https://Joker-desire.github.io/2024/08/collections/ data-title="Laravel 11.x Collections"><i data-svg-src=https://cdn.jsdelivr.net/npm/simple-icons@7.0.0/icons/line.svg aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 微博" data-sharer=weibo data-url=https://Joker-desire.github.io/2024/08/collections/ data-title="Laravel 11.x Collections"><i class="fab fa-weibo fa-fw" aria-hidden=true></i></a></span></div></div></div><div class=post-info-more><section class=post-tags><i class="fas fa-tags fa-fw" aria-hidden=true></i>&nbsp;<a href=/tags/php/>PHP</a>,&nbsp;<a href=/tags/laravel/>Laravel</a></section><section><span><a href=javascript:void(0); onclick=window.history.back()>返回</a></span>&nbsp;|&nbsp;<span><a href=/>主页</a></span></section></div><div class=post-nav><a href=/2024/08/cache/ class=prev rel=prev title="Laravel 11.x 缓存"><i class="fas fa-angle-left fa-fw" aria-hidden=true></i>Laravel 11.x 缓存</a></div></div><div id=comments><div id=giscus class=comment></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://giscus.app>Giscus</a>.</noscript></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line itemscope itemtype=http://schema.org/CreativeWork><i class="far fa-copyright fa-fw" aria-hidden=true></i><span itemprop=copyrightYear>2022 - 2024</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=/ target=_blank>Joker desire</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div></div></footer></div><div id=fixed-buttons><a href=# id=back-to-top class=fixed-button title=回到顶部><i class="fas fa-arrow-up fa-fw" aria-hidden=true></i>
+</a><a href=# id=view-comments class=fixed-button title=查看评论><i class="fas fa-comment fa-fw" aria-hidden=true></i></a></div><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/lightgallery@2.4.0/css/lightgallery-bundle.min.css><script type=text/javascript src=https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/algoliasearch@4.13.1/dist/algoliasearch-lite.umd.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lazysizes@5.3.1/lazysizes.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lightgallery@2.4.0/lightgallery.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lightgallery@2.4.0/plugins/thumbnail/lg-thumbnail.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lightgallery@2.4.0/plugins/zoom/lg-zoom.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js></script><script type=text/javascript>window.config={code:{copyTitle:"复制到剪贴板",maxShownLines:50},comment:{giscus:{category:"Announcements",categoryId:"DIC_kwDOHfPihs4CPp7X",darkTheme:"dark",emitMetadata:"0",inputPosition:"top",lang:"zh-CN",lazyLoading:!1,lightTheme:"light",mapping:"pathname",reactionsEnabled:"1",repo:"Joker-desire/store-comments",repoId:"R_kgDOHfPihg"}},lightgallery:!0,search:{algoliaAppID:"R6OIVCXBNU",algoliaIndex:"Joker-desire",algoliaSearchKey:"07e68b90760663e43882d4a48e00e932",highlightTag:"em",maxResultLength:10,noResultsFound:"没有找到结果",snippetLength:30,type:"algolia"}}</script><script type=text/javascript src=/js/theme.min.js></script></body></html>
