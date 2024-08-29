@@ -1,0 +1,400 @@
+<!doctype html><html lang=zh-cn><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><title>Laravel 11.x 缓存 - Joker-desire's Blog</title><meta name=Description content="为什么要努力？ 因为我喜欢的东西都很贵，我想去的地方都很远，我爱的人超完美。"><meta property="og:url" content="https://Joker-desire.github.io/2024/08/laravel11%E7%BC%93%E5%AD%98/">
+<meta property="og:site_name" content="Joker-desire's Blog"><meta property="og:title" content="Laravel 11.x 缓存"><meta property="og:description" content="原文 介绍 Laravel 为各种缓存后端提供了一个富有表现力的统一API，可以利用它们极快的数据检索并加快Web应用程序。 配置 缓存配置文件位于config/"><meta property="og:locale" content="zh_cn"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2024-08-29T13:50:21+08:00"><meta property="article:modified_time" content="2024-08-29T13:50:21+08:00"><meta property="article:tag" content="PHP"><meta property="article:tag" content="Laravel"><meta property="og:image" content="https://Joker-desire.github.io/logo.png"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://Joker-desire.github.io/logo.png"><meta name=twitter:title content="Laravel 11.x 缓存"><meta name=twitter:description content="原文 介绍 Laravel 为各种缓存后端提供了一个富有表现力的统一API，可以利用它们极快的数据检索并加快Web应用程序。 配置 缓存配置文件位于config/"><meta name=application-name content="Joker-desire"><meta name=apple-mobile-web-app-title content="Joker-desire"><meta name=theme-color content="#ffffff"><meta name=msapplication-TileColor content="#da532c"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://Joker-desire.github.io/2024/08/laravel11%E7%BC%93%E5%AD%98/><link rel=prev href=https://Joker-desire.github.io/2024/06/aop/><link rel=stylesheet href=/css/style.min.css><link rel=preload href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css></noscript><link rel=preload href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css></noscript><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"Laravel 11.x 缓存","inLanguage":"zh-cn","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/Joker-desire.github.io\/2024\/08\/laravel11%E7%BC%93%E5%AD%98\/"},"genre":"posts","keywords":"PHP, Laravel","wordcount":3897,"url":"https:\/\/Joker-desire.github.io\/2024\/08\/laravel11%E7%BC%93%E5%AD%98\/","datePublished":"2024-08-29T13:50:21+08:00","dateModified":"2024-08-29T13:50:21+08:00","publisher":{"@type":"Organization","name":""},"author":{"@type":"Person","name":"Joker-desire"},"description":""}</script></head><body data-header-desktop=fixed data-header-mobile=auto><script type=text/javascript>(window.localStorage&&localStorage.getItem("theme")?localStorage.getItem("theme")==="dark":"auto"==="auto"?window.matchMedia("(prefers-color-scheme: dark)").matches:"auto"==="dark")&&document.body.setAttribute("theme","dark")</script><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title="Joker-desire's Blog"><span class=header-title-pre><i class='far fa-kiss-wink-heart fa-fw' aria-hidden=true></i></span>welcome</a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts title=所有文章>所有文章 </a><a class=menu-item href=/categories title=分类>分类 </a><a class=menu-item href=/tags title=标签>标签 </a><a class=menu-item href=/about title=关于>关于 </a><a class=menu-item href=https://github.com/Joker-desire title=GitHub rel="noopener noreffer" target=_blank><i class='fab fa-github fa-fw' aria-hidden=true></i> </a><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop>
+<input type=text placeholder=搜索文章标题或内容... id=search-input-desktop>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-desktop title=搜索><i class="fas fa-search fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-desktop title=清空><i class="fas fa-times-circle fa-fw" aria-hidden=true></i>
+</a><span class="search-button search-loading" id=search-loading-desktop><i class="fas fa-spinner fa-fw fa-spin" aria-hidden=true></i>
+</span></span><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题><i class="fas fa-adjust fa-fw" aria-hidden=true></i></a></div></div></div></header><header class=mobile id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title="Joker-desire's Blog"><span class=header-title-pre><i class='far fa-kiss-wink-heart fa-fw' aria-hidden=true></i></span>welcome</a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><div class=search-wrapper><div class="search mobile" id=search-mobile><input type=text placeholder=搜索文章标题或内容... id=search-input-mobile>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-mobile title=搜索><i class="fas fa-search fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-mobile title=清空><i class="fas fa-times-circle fa-fw" aria-hidden=true></i>
+</a><span class="search-button search-loading" id=search-loading-mobile><i class="fas fa-spinner fa-fw fa-spin" aria-hidden=true></i></span></div><a href=javascript:void(0); class=search-cancel id=search-cancel-mobile>取消</a></div><a class=menu-item href=/posts title=所有文章>所有文章</a><a class=menu-item href=/categories title=分类>分类</a><a class=menu-item href=/tags title=标签>标签</a><a class=menu-item href=/about title=关于>关于</a><a class=menu-item href=https://github.com/Joker-desire title=GitHub rel="noopener noreffer" target=_blank><i class='fab fa-github fa-fw' aria-hidden=true></i></a><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题>
+<i class="fas fa-adjust fa-fw" aria-hidden=true></i></a></div></div></header><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div><main class=main><div class=container><div class=toc id=toc-auto><h2 class=toc-title>目录</h2><div class=toc-content id=toc-content-auto></div></div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Laravel 11.x 缓存</h1><div class=post-meta><div class=post-meta-line><span class=post-author><a href=/ title=Author rel=author class=author><i class="fas fa-user-circle fa-fw" aria-hidden=true></i>Joker-desire</a></span>&nbsp;<span class=post-category>收录于 <a href=/categories/php/><i class="far fa-folder fa-fw" aria-hidden=true></i>PHP</a>&nbsp;<a href=/categories/laravel/><i class="far fa-folder fa-fw" aria-hidden=true></i>Laravel</a></span></div><div class=post-meta-line><i class="far fa-calendar-alt fa-fw" aria-hidden=true></i>&nbsp;<time datetime=2024年08月29日>2024年08月29日</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden=true></i>&nbsp;约 3897 字&nbsp;
+<i class="far fa-clock fa-fw" aria-hidden=true></i>&nbsp;预计阅读 8 分钟&nbsp;</div></div><div class="details toc" id=toc-static data-kept><div class="details-summary toc-title"><span>目录</span>
+<span><i class="details-icon fas fa-angle-right" aria-hidden=true></i></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><ul><li><a href=#介绍>介绍</a></li><li><a href=#配置>配置</a><ul><li><a href=#驱动程序先决条件>驱动程序先决条件</a><ul><li><a href=#database>Database</a></li><li><a href=#memcached>Memcached</a></li><li><a href=#redis>Redis</a></li><li><a href=#dynamodb>DynamoDB</a></li></ul></li></ul></li><li><a href=#缓存使用情况>缓存使用情况</a><ul><li><a href=#获取-cache-实例>获取 Cache 实例</a><ul><li><a href=#访问多个缓存储存>访问多个缓存储存</a></li></ul></li><li><a href=#从缓存中检索项目>从缓存中检索项目</a><ul><li><a href=#key是否存在>key是否存在</a></li><li><a href=#递增递减值>递增/递减值</a></li><li><a href=#检索和存储>检索和存储</a></li><li><a href=#检索和删除>检索和删除</a></li></ul></li><li><a href=#在缓存中存储项目>在缓存中存储项目</a><ul><li><a href=#不存在才存储>不存在才存储</a></li><li><a href=#永久存储key>永久存储key</a></li></ul></li><li><a href=#从缓存中删除项目>从缓存中删除项目</a></li><li><a href=#缓存帮助程序>缓存帮助程序</a></li></ul></li><li><a href=#原子锁>原子锁</a><ul><li><a href=#管理锁>管理锁</a></li><li><a href=#跨进程管理锁>跨进程管理锁</a></li></ul></li><li><a href=#添加自定义缓存程序>添加自定义缓存程序</a><ul><li><a href=#编写驱动程序>编写驱动程序</a></li><li><a href=#注册驱动程序>注册驱动程序</a></li></ul></li><li><a href=#事件>事件</a></li></ul></li></ul></nav></div></div><div class=content id=content><hr><p><a href=https://laravel.com/docs/11.x/cache target=_blank rel="noopener noreffer">原文</a></p><hr><h2 id=介绍>介绍</h2><p>Laravel 为各种缓存后端提供了一个富有表现力的统一API，可以利用它们极快的数据检索并加快Web应用程序。</p><h2 id=配置>配置</h2><p>缓存配置文件位于<code>config/cache.php</code>。在此文件中，可以指定整个应用程序默认使用的缓存存储。</p><p>Laravel支持开箱即用的<code>Memcached</code>、<code>Redis</code>、<code>DynamoDB</code>和关系数据库等流行的缓存后端。</p><p>此外还提供基于文件的缓存驱动程序，而<code>array</code>和<code>”null“</code>缓存驱动程序为自动化测试提供了方便的缓存后端。</p><p>缓存文件还包含了其他各种选项。默认情况下，Laravel配置为使用<code>database</code>缓存驱动程序，该驱动程序将序列化的缓存对象存储在应用程序的数据库中。</p><h3 id=驱动程序先决条件>驱动程序先决条件</h3><h4 id=database>Database</h4><p>使用<code>database</code>高速缓存驱动程序时，需要一个数据库表来包含高速缓存数据。</p><p>通常，默认包含在<code>0001_01_01_000001_create_cache_table.php</code>数据库迁移中；</p><p>也可以使用<code>make:cache-table</code>Artisan命令来创建：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>php artisan make:cache-table
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>php artisan migrate
+</span></span></code></pre></td></tr></table></div></div><h4 id=memcached>Memcached</h4><p>使用Memcached驱动程序需要安装<a href=https://pecl.php.net/package/memcached target=_blank rel="noopener noreffer">Memcached PECL 软件包</a>。</p><p>可以在<code>config/cache.php</code>配置文件中列出所有Memcached服务器。此文件已包含一个<code>memcached.servers</code>条目：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=s1>&#39;memcached&#39;</span> <span class=o>=&gt;</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// ...
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;servers&#39;</span> <span class=o>=&gt;</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>        <span class=p>[</span>
+</span></span><span class=line><span class=cl>            <span class=s1>&#39;host&#39;</span> <span class=o>=&gt;</span> <span class=nx>env</span><span class=p>(</span><span class=s1>&#39;MEMCACHED_HOST&#39;</span><span class=p>,</span> <span class=s1>&#39;127.0.0.1&#39;</span><span class=p>),</span>
+</span></span><span class=line><span class=cl>            <span class=s1>&#39;port&#39;</span> <span class=o>=&gt;</span> <span class=nx>env</span><span class=p>(</span><span class=s1>&#39;MEMCACHED_PORT&#39;</span><span class=p>,</span> <span class=mi>11211</span><span class=p>),</span>
+</span></span><span class=line><span class=cl>            <span class=s1>&#39;weight&#39;</span> <span class=o>=&gt;</span> <span class=mi>100</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=p>],</span>
+</span></span><span class=line><span class=cl>    <span class=p>],</span>
+</span></span><span class=line><span class=cl><span class=p>],</span>
+</span></span></code></pre></td></tr></table></div></div><p>如果需要，也可以将<code>host</code>选项设置为UNIX套接字路径。如果执行此操作，则<code>port</code>则应该设置为<code>0</code>：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=s1>&#39;memcached&#39;</span> <span class=o>=&gt;</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// ...
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;servers&#39;</span> <span class=o>=&gt;</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>        <span class=p>[</span>
+</span></span><span class=line><span class=cl>            <span class=s1>&#39;host&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;/var/run/memcached/memcached.sock&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>            <span class=s1>&#39;port&#39;</span> <span class=o>=&gt;</span> <span class=mi>0</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>            <span class=s1>&#39;weight&#39;</span> <span class=o>=&gt;</span> <span class=mi>100</span>
+</span></span><span class=line><span class=cl>        <span class=p>],</span>
+</span></span><span class=line><span class=cl>    <span class=p>],</span>
+</span></span><span class=line><span class=cl><span class=p>],</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=redis>Redis</h4><p>使用Redis缓存时，需要通过PECL安装PhpRedis PHP扩展或者通过Composer安装<code>predis/predis</code>包（~2.0）</p><h4 id=dynamodb>DynamoDB</h4><p>在使用DynamoDB缓存之前，必须创建一个DynamoDB表来存储所有缓存的数据。</p><p>通过，表应该命名为<code>cache</code>。但是，根据缓存配置文件中<code>stores.dynamodb.table</code>值来命名极客，还可以通过<code>DYNAMODB_CACHE_TABLE</code>环境变量设置表名。</p><p>此表还应具有一个字符串分区键，其名称与应用程序的缓存配置文件中的<code>stores.dynamodb.attributes.key</code>配置项的值相对应。默认情况下，分区键应命名为key。</p><p>接下来，需要安装AWS开发工具包，以便Laravel应用程序与DynamoDB通信：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>composer require aws/aws-sdk-php
+</span></span></code></pre></td></tr></table></div></div><p>此外，应确保为DynamoDB缓存存储配置选择提供值。通常，这些选项应在应用程序的<code>.env</code>配置文件中定义：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=s1>&#39;dynamodb&#39;</span> <span class=o>=&gt;</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;driver&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;dynamodb&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;key&#39;</span> <span class=o>=&gt;</span> <span class=nx>env</span><span class=p>(</span><span class=s1>&#39;AWS_ACCESS_KEY_ID&#39;</span><span class=p>),</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;secret&#39;</span> <span class=o>=&gt;</span> <span class=nx>env</span><span class=p>(</span><span class=s1>&#39;AWS_SECRET_ACCESS_KEY&#39;</span><span class=p>),</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;region&#39;</span> <span class=o>=&gt;</span> <span class=nx>env</span><span class=p>(</span><span class=s1>&#39;AWS_DEFAULT_REGION&#39;</span><span class=p>,</span> <span class=s1>&#39;us-east-1&#39;</span><span class=p>),</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;table&#39;</span> <span class=o>=&gt;</span> <span class=nx>env</span><span class=p>(</span><span class=s1>&#39;DYNAMODB_CACHE_TABLE&#39;</span><span class=p>,</span> <span class=s1>&#39;cache&#39;</span><span class=p>),</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;endpoint&#39;</span> <span class=o>=&gt;</span> <span class=nx>env</span><span class=p>(</span><span class=s1>&#39;DYNAMODB_ENDPOINT&#39;</span><span class=p>),</span>
+</span></span><span class=line><span class=cl><span class=p>],</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=缓存使用情况>缓存使用情况</h2><h3 id=获取-cache-实例>获取 Cache 实例</h3><p>要获取缓存存储实例，可以使用<code>Cache</code>Facade，它提供了对Laravel缓存合约的底层实现的方便、简洁的访问：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=o>&lt;?</span><span class=nx>php</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>namespace</span> <span class=nx>App\Http\Controllers</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Support\Facades\Cache</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>UserController</span> <span class=k>extends</span> <span class=nx>Controller</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=sd>/**
+</span></span></span><span class=line><span class=cl><span class=sd>     * Show a list of all users of the application.
+</span></span></span><span class=line><span class=cl><span class=sd>     */</span>
+</span></span><span class=line><span class=cl>    <span class=k>public</span> <span class=k>function</span> <span class=nf>index</span><span class=p>()</span><span class=o>:</span> <span class=k>array</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nv>$value</span> <span class=o>=</span> <span class=nx>Cache</span><span class=o>::</span><span class=na>get</span><span class=p>(</span><span class=s1>&#39;key&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>            <span class=c1>// ...
+</span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=p>];</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=访问多个缓存储存>访问多个缓存储存</h4><p>可以通过<code>store</code>方法访问各种缓存存储。传递给<code>store</code>方法的key应该对应于缓存配置文件中<code>stores</code>配置数组中列出的其中之一：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$value</span> <span class=o>=</span> <span class=nx>Cache</span><span class=o>::</span><span class=na>store</span><span class=p>(</span><span class=s1>&#39;file&#39;</span><span class=p>)</span><span class=o>-&gt;</span><span class=na>get</span><span class=p>(</span><span class=s1>&#39;foo&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nx>Cache</span><span class=o>::</span><span class=na>store</span><span class=p>(</span><span class=s1>&#39;redis&#39;</span><span class=p>)</span><span class=o>-&gt;</span><span class=na>put</span><span class=p>(</span><span class=s1>&#39;bar&#39;</span><span class=p>,</span> <span class=s1>&#39;baz&#39;</span><span class=p>,</span> <span class=mi>600</span><span class=p>);</span> <span class=c1>// 10 Minutes
+</span></span></span></code></pre></td></tr></table></div></div><h3 id=从缓存中检索项目>从缓存中检索项目</h3><p><code>get</code>方法用于从缓存中检索项目。如果缓存中不存在该项目，则返回<code>null</code>。也可以传递第二个参数，指定默认值：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$value</span> <span class=o>=</span> <span class=nx>Cache</span><span class=o>::</span><span class=na>get</span><span class=p>(</span><span class=s1>&#39;key&#39;</span><span class=p>,</span> <span class=k>function</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nx>DB</span><span class=o>::</span><span class=na>table</span><span class=p>(</span><span class=cm>/*...*/</span><span class=p>)</span><span class=o>-&gt;</span><span class=na>get</span><span class=p>();</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=key是否存在>key是否存在</h4><p><code>has</code>方法可用于确定缓存中是否存在key。如果存在但值为null,则也返回<code>false</code>:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>if</span> <span class=p>(</span><span class=nx>Cache</span><span class=o>::</span><span class=na>has</span><span class=p>(</span><span class=s1>&#39;key&#39;</span><span class=p>))</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// ...
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=递增递减值>递增/递减值</h4><p><code>increment</code>和<code>decrement</code>方法可用于调整缓存中整数项的值。都可指定第二个参数，指定增加或减少项目值的数量：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=c1>// 不存在则使用默认值
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=nx>Cache</span><span class=o>::</span><span class=na>add</span><span class=p>(</span><span class=s1>&#39;key&#39;</span><span class=p>,</span> <span class=mi>0</span><span class=p>,</span> <span class=nx>now</span><span class=p>()</span><span class=o>-&gt;</span><span class=na>addHours</span><span class=p>(</span><span class=mi>4</span><span class=p>));</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// 递增/递减
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=nx>Cache</span><span class=o>::</span><span class=na>increment</span><span class=p>(</span><span class=s1>&#39;key&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=nx>Cache</span><span class=o>::</span><span class=na>increment</span><span class=p>(</span><span class=s1>&#39;key&#39;</span><span class=p>,</span> <span class=nv>$amount</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=nx>Cache</span><span class=o>::</span><span class=na>decrement</span><span class=p>(</span><span class=s1>&#39;key&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=nx>Cache</span><span class=o>::</span><span class=na>decrement</span><span class=p>(</span><span class=s1>&#39;key&#39;</span><span class=p>,</span> <span class=nv>$amount</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=检索和存储>检索和存储</h4><p>有时希望检索key时，如果不存在，则也存储一个默认的值。可以使用<code>Cache::remember</code>方法来处理：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$value</span> <span class=o>=</span> <span class=nx>Cache</span><span class=o>::</span><span class=na>remember</span><span class=p>(</span><span class=s1>&#39;users&#39;</span><span class=p>,</span> <span class=nv>$seconds</span><span class=p>,</span> <span class=k>function</span> <span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nx>DB</span><span class=o>::</span><span class=na>table</span><span class=p>(</span><span class=s1>&#39;users&#39;</span><span class=p>)</span><span class=o>-&gt;</span><span class=na>get</span><span class=p>();</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span></code></pre></td></tr></table></div></div><p>如果缓存中不存在该key，则将执行传递给<code>remember</code>方法的闭包，其结果将放置在缓存中。</p><p>也可以使用<code>rememberForever</code>方法从缓存中检索项目，或者如果它不存在，则永久存储：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$value</span> <span class=o>=</span> <span class=nx>Cache</span><span class=o>::</span><span class=na>rememberForever</span><span class=p>(</span><span class=s1>&#39;users&#39;</span><span class=p>,</span> <span class=k>function</span> <span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nx>DB</span><span class=o>::</span><span class=na>table</span><span class=p>(</span><span class=s1>&#39;users&#39;</span><span class=p>)</span><span class=o>-&gt;</span><span class=na>get</span><span class=p>();</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=检索和删除>检索和删除</h4><p>如果需要从缓存中检索key，然后删除该key，则可以使用<code>pull</code>方法。与<code>get</code>方法一样，如果缓存不存在该key，则返回<code>null</code>：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$value</span> <span class=o>=</span> <span class=nx>Cache</span><span class=o>::</span><span class=na>pull</span><span class=p>(</span><span class=s1>&#39;key&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nv>$value</span> <span class=o>=</span> <span class=nx>Cache</span><span class=o>::</span><span class=na>pull</span><span class=p>(</span><span class=s1>&#39;key&#39;</span><span class=p>,</span> <span class=s1>&#39;default&#39;</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=在缓存中存储项目>在缓存中存储项目</h3><p><code>put</code>方法用来存储缓存中的key：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>Cache</span><span class=o>::</span><span class=na>put</span><span class=p>(</span><span class=s1>&#39;key&#39;</span><span class=p>,</span> <span class=s1>&#39;value&#39;</span><span class=p>,</span> <span class=nv>$seconds</span> <span class=o>=</span> <span class=mi>10</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><p>如果存储时间没有传递，则该key将被无期限存储：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>Cache</span><span class=o>::</span><span class=na>put</span><span class=p>(</span><span class=s1>&#39;key&#39;</span><span class=p>,</span> <span class=s1>&#39;value&#39;</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><p>也可以传递一个<code>DateTime</code>实例，该实例表示key的过期时间：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>Cache</span><span class=o>::</span><span class=na>put</span><span class=p>(</span><span class=s1>&#39;key&#39;</span><span class=p>,</span> <span class=s1>&#39;value&#39;</span><span class=p>,</span> <span class=nx>now</span><span class=p>()</span><span class=o>-&gt;</span><span class=na>addMinutes</span><span class=p>(</span><span class=mi>10</span><span class=p>));</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=不存在才存储>不存在才存储</h4><p><code>add</code>方法只会在缓存存储中不存在key时才将其添加到缓存中。如果key实际添加到缓存中，该方法将返回<code>true</code>。否则，该方法将返回<code>false</code>。<code>add</code>方法是一个原子操作：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>Cache</span><span class=o>::</span><span class=na>add</span><span class=p>(</span><span class=s1>&#39;key&#39;</span><span class=p>,</span> <span class=s1>&#39;value&#39;</span><span class=p>,</span> <span class=nv>$seconds</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=永久存储key>永久存储key</h4><p><code>forever</code>方法可用于将key永久存储在缓存中。由于这些key不会过期，因此必须使用<code>forget</code>方法从缓存中手动删除：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>Cache</span><span class=o>::</span><span class=na>forever</span><span class=p>(</span><span class=s1>&#39;key&#39;</span><span class=p>,</span> <span class=s1>&#39;value&#39;</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><p><em><strong>ps: 当使用的是Memcached驱动时，当缓存达到其大小限制时，可能会删除永久存储的key</strong></em></p><h3 id=从缓存中删除项目>从缓存中删除项目</h3><p><code>forget</code>方法从缓存中删除key：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>Cache</span><span class=o>::</span><span class=na>forget</span><span class=p>(</span><span class=s1>&#39;key&#39;</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><p>还可以通过提供零或者负数的过期秒数来删除key：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>Cache</span><span class=o>::</span><span class=na>put</span><span class=p>(</span><span class=s1>&#39;key&#39;</span><span class=p>,</span> <span class=s1>&#39;value&#39;</span><span class=p>,</span> <span class=mi>0</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nx>Cache</span><span class=o>::</span><span class=na>put</span><span class=p>(</span><span class=s1>&#39;key&#39;</span><span class=p>,</span> <span class=s1>&#39;value&#39;</span><span class=p>,</span> <span class=o>-</span><span class=mi>5</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><p>也可以使用<code>flush</code>方法清楚整个缓存：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>Cache</span><span class=o>::</span><span class=na>flush</span><span class=p>();</span>
+</span></span></code></pre></td></tr></table></div></div><p><em><strong>ps: flush会从缓存中删除所有的key，谨慎使用</strong></em></p><h3 id=缓存帮助程序>缓存帮助程序</h3><p>除了使用<code>Cache</code>门面外，还可以使用全局<code>cache</code>功能通过缓存来检索和存储数据。</p><p>当使用单个字符串参数调用<code>cache</code>函数时，它将返回给定键的值：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$value</span> <span class=o>=</span> <span class=nx>cache</span><span class=p>(</span><span class=s1>&#39;key&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nx>cache</span><span class=p>([</span><span class=s1>&#39;key&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;value&#39;</span><span class=p>],</span> <span class=nv>$seconds</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nx>cache</span><span class=p>([</span><span class=s1>&#39;key&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;value&#39;</span><span class=p>],</span> <span class=nx>now</span><span class=p>()</span><span class=o>-&gt;</span><span class=na>addMinutes</span><span class=p>(</span><span class=mi>10</span><span class=p>));</span>
+</span></span></code></pre></td></tr></table></div></div><p>当调用不带任何参数时，则会返回<code>Illuminate\Contracts\Cache\Factory</code>实现的实例，允许调用其他缓存方法：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>cache</span><span class=p>()</span><span class=o>-&gt;</span><span class=na>remember</span><span class=p>(</span><span class=s1>&#39;users&#39;</span><span class=p>,</span> <span class=nv>$seconds</span><span class=p>,</span> <span class=k>function</span> <span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nx>DB</span><span class=o>::</span><span class=na>table</span><span class=p>(</span><span class=s1>&#39;users&#39;</span><span class=p>)</span><span class=o>-&gt;</span><span class=na>get</span><span class=p>();</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=原子锁>原子锁</h2><h3 id=管理锁>管理锁</h3><p>原子锁允许操作分布式锁，而无需担心争用条件。可以使用<code>Cache::lock</code>方法创建和管理锁：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Support\Facades\Cache</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nv>$lock</span> <span class=o>=</span> <span class=nx>Cache</span><span class=o>::</span><span class=na>lock</span><span class=p>(</span><span class=s1>&#39;foo&#39;</span><span class=p>,</span> <span class=mi>10</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>if</span> <span class=p>(</span><span class=nv>$lock</span><span class=o>-&gt;</span><span class=na>get</span><span class=p>())</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// 获得锁
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl>    <span class=nv>$lock</span><span class=o>-&gt;</span><span class=na>release</span><span class=p>();</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p><code>get</code>方法也接受一个闭包。执行closure后，Laravel会自动释放锁：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>Cache</span><span class=o>::</span><span class=na>lock</span><span class=p>(</span><span class=s1>&#39;foo&#39;</span><span class=p>,</span> <span class=mi>10</span><span class=p>)</span><span class=o>-&gt;</span><span class=na>get</span><span class=p>(</span><span class=k>function</span> <span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// 获取锁，处理完毕后自动释放
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>});</span>
+</span></span></code></pre></td></tr></table></div></div><p>如果在请求锁时锁不可用，则可以指定等待秒数。如果在指定的时限内无法获取锁，则抛出异常<code>Illuminate\Contracts\Cache\LockTimeoutException</code>：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Contracts\Cache\LockTimeoutException</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nv>$lock</span> <span class=o>=</span> <span class=nx>Cache</span><span class=o>::</span><span class=na>lock</span><span class=p>(</span><span class=s1>&#39;foo&#39;</span><span class=p>,</span> <span class=mi>10</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>try</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nv>$lock</span><span class=o>-&gt;</span><span class=na>block</span><span class=p>(</span><span class=mi>5</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// 最多等待 5 秒后获取锁定...
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>}</span> <span class=k>catch</span> <span class=p>(</span><span class=nx>LockTimeoutException</span> <span class=nv>$e</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// 无法获取锁...
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>}</span> <span class=k>finally</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nv>$lock</span><span class=o>-&gt;</span><span class=na>release</span><span class=p>();</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>也可以通过将闭包传递给<code>block</code>方法来简化。当将闭包传递给此方法时，Laravel将尝试在指定的秒数内获取锁，并在执行闭包后自动释放锁：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>Cache</span><span class=o>::</span><span class=na>lock</span><span class=p>(</span><span class=s1>&#39;foo&#39;</span><span class=p>,</span> <span class=mi>10</span><span class=p>)</span><span class=o>-&gt;</span><span class=na>block</span><span class=p>(</span><span class=mi>5</span><span class=p>,</span> <span class=k>function</span> <span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// 最多等待 5 秒后获取锁定...
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>});</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=跨进程管理锁>跨进程管理锁</h3><p>有时，希望在一个进程中获取锁，并在另一个进程中释放它。例如，在Web请求期间获取一个锁，并希望在该请求触发的排队作业结束的时候释放该锁。在这种情况下，应该蒋所的范围所有者令牌传递给排队的作业，以便作业可以使用给定的令牌重新实例化锁。</p><p>在下面的示例中，如果成功获取了锁，将分派排队的作业。此外，将通过锁的<code>owner</code>方法将锁的owner token 传递给排队的作业：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$podcast</span> <span class=o>=</span> <span class=nx>Podcast</span><span class=o>::</span><span class=na>find</span><span class=p>(</span><span class=nv>$id</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nv>$lock</span> <span class=o>=</span> <span class=nx>Cache</span><span class=o>::</span><span class=na>lock</span><span class=p>(</span><span class=s1>&#39;processing&#39;</span><span class=p>,</span> <span class=mi>120</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>if</span> <span class=p>(</span><span class=nv>$lock</span><span class=o>-&gt;</span><span class=na>get</span><span class=p>())</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>ProcessPodcast</span><span class=o>::</span><span class=na>dispatch</span><span class=p>(</span><span class=nv>$podcast</span><span class=p>,</span> <span class=nv>$lock</span><span class=o>-&gt;</span><span class=na>owner</span><span class=p>());</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>在应用程序的<code>ProcessPodcast</code>作业中，可以使用owner令牌恢复和释放锁：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>Cache</span><span class=o>::</span><span class=na>restoreLock</span><span class=p>(</span><span class=s1>&#39;processing&#39;</span><span class=p>,</span> <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>owner</span><span class=p>)</span><span class=o>-&gt;</span><span class=na>release</span><span class=p>();</span>
+</span></span></code></pre></td></tr></table></div></div><p>如果想在不考虑当前持有者的情况下释放锁，可以使用<code>forceRelease</code>方法。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>Cache</span><span class=o>::</span><span class=na>lock</span><span class=p>(</span><span class=s1>&#39;processing&#39;</span><span class=p>)</span><span class=o>-&gt;</span><span class=na>forceRelease</span><span class=p>();</span>
+</span></span></code></pre></td></tr></table></div></div><p>这个方法通常用于一些特殊场景，比如迫不得已需要立即释放一个锁，无论当前锁的持有者是谁。请谨慎使用 forceRelease 方法，因为它会绕过所有的持有者检查，可能会导致数据一致性问题或其他意外情况。</p><h2 id=添加自定义缓存程序>添加自定义缓存程序</h2><h3 id=编写驱动程序>编写驱动程序</h3><p>要创建自定义缓存驱动程序，首先需要先实现<code>Illuminate\Contracts\Cache\Store</code> Contract：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=o>&lt;?</span><span class=nx>php</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>namespace</span> <span class=nx>App\Extensions</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Contracts\Cache\Store</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>MongoStore</span> <span class=k>implements</span> <span class=nx>Store</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>public</span> <span class=k>function</span> <span class=nf>get</span><span class=p>(</span><span class=nv>$key</span><span class=p>)</span> <span class=p>{}</span>
+</span></span><span class=line><span class=cl>    <span class=k>public</span> <span class=k>function</span> <span class=nf>many</span><span class=p>(</span><span class=k>array</span> <span class=nv>$keys</span><span class=p>)</span> <span class=p>{}</span>
+</span></span><span class=line><span class=cl>    <span class=k>public</span> <span class=k>function</span> <span class=nf>put</span><span class=p>(</span><span class=nv>$key</span><span class=p>,</span> <span class=nv>$value</span><span class=p>,</span> <span class=nv>$seconds</span><span class=p>)</span> <span class=p>{}</span>
+</span></span><span class=line><span class=cl>    <span class=k>public</span> <span class=k>function</span> <span class=nf>putMany</span><span class=p>(</span><span class=k>array</span> <span class=nv>$values</span><span class=p>,</span> <span class=nv>$seconds</span><span class=p>)</span> <span class=p>{}</span>
+</span></span><span class=line><span class=cl>    <span class=k>public</span> <span class=k>function</span> <span class=nf>increment</span><span class=p>(</span><span class=nv>$key</span><span class=p>,</span> <span class=nv>$value</span> <span class=o>=</span> <span class=mi>1</span><span class=p>)</span> <span class=p>{}</span>
+</span></span><span class=line><span class=cl>    <span class=k>public</span> <span class=k>function</span> <span class=nf>decrement</span><span class=p>(</span><span class=nv>$key</span><span class=p>,</span> <span class=nv>$value</span> <span class=o>=</span> <span class=mi>1</span><span class=p>)</span> <span class=p>{}</span>
+</span></span><span class=line><span class=cl>    <span class=k>public</span> <span class=k>function</span> <span class=nf>forever</span><span class=p>(</span><span class=nv>$key</span><span class=p>,</span> <span class=nv>$value</span><span class=p>)</span> <span class=p>{}</span>
+</span></span><span class=line><span class=cl>    <span class=k>public</span> <span class=k>function</span> <span class=nf>forget</span><span class=p>(</span><span class=nv>$key</span><span class=p>)</span> <span class=p>{}</span>
+</span></span><span class=line><span class=cl>    <span class=k>public</span> <span class=k>function</span> <span class=nf>flush</span><span class=p>()</span> <span class=p>{}</span>
+</span></span><span class=line><span class=cl>    <span class=k>public</span> <span class=k>function</span> <span class=nf>getPrefix</span><span class=p>()</span> <span class=p>{}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>一旦实现完成，就可以通过调用<code>cache</code>Facade的<code>extend</code>方法来完成自定义驱动程序注册：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>Cache</span><span class=o>::</span><span class=na>extend</span><span class=p>(</span><span class=s1>&#39;mongo&#39;</span><span class=p>,</span> <span class=k>function</span> <span class=p>(</span><span class=nx>Application</span> <span class=nv>$app</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nx>Cache</span><span class=o>::</span><span class=na>repository</span><span class=p>(</span><span class=k>new</span> <span class=nx>MongoStore</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=注册驱动程序>注册驱动程序</h3><p>在<code>cache</code>Facade的<code>extend</code>上使用<code>extend</code>进行注册自定义缓存驱动。</p><p>因为其他服务提供者可能会在它们的<code>boot</code>方法中尝试读取缓存值，所以我们将会在一个<code>booting</code>回调中注册我们的自定义驱动。通过使用<code>booting</code>回调，我们可以确保自定义驱动在应用程序的服务提供者的<code>boot</code>方法被调用之前注册，但在所有服务提供者的<code>register</code>方法被调用之后。我们将在应用程序的<code>App\Providers\AppServiceProvider</code>类的<code>register</code>方法中注册我们的<code>booting</code>回调：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=o>&lt;?</span><span class=nx>php</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>namespace</span> <span class=nx>App\Providers</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>App\Extensions\MongoStore</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Contracts\Foundation\Application</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Support\Facades\Cache</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Support\ServiceProvider</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>AppServiceProvider</span> <span class=k>extends</span> <span class=nx>ServiceProvider</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=sd>/**
+</span></span></span><span class=line><span class=cl><span class=sd>     * Register any application services.
+</span></span></span><span class=line><span class=cl><span class=sd>     */</span>
+</span></span><span class=line><span class=cl>    <span class=k>public</span> <span class=k>function</span> <span class=nf>register</span><span class=p>()</span><span class=o>:</span> <span class=nx>void</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>app</span><span class=o>-&gt;</span><span class=na>booting</span><span class=p>(</span><span class=k>function</span> <span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>             <span class=nx>Cache</span><span class=o>::</span><span class=na>extend</span><span class=p>(</span><span class=s1>&#39;mongo&#39;</span><span class=p>,</span> <span class=k>function</span> <span class=p>(</span><span class=nx>Application</span> <span class=nv>$app</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>                 <span class=k>return</span> <span class=nx>Cache</span><span class=o>::</span><span class=na>repository</span><span class=p>(</span><span class=k>new</span> <span class=nx>MongoStore</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>             <span class=p>});</span>
+</span></span><span class=line><span class=cl>         <span class=p>});</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=sd>/**
+</span></span></span><span class=line><span class=cl><span class=sd>     * Bootstrap any application services.
+</span></span></span><span class=line><span class=cl><span class=sd>     */</span>
+</span></span><span class=line><span class=cl>    <span class=k>public</span> <span class=k>function</span> <span class=nf>boot</span><span class=p>()</span><span class=o>:</span> <span class=nx>void</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=c1>// ...
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>传递给 <code>extend</code> 方法的第一个参数是驱动的名称。这将对应于 <code>config/cache.php</code> 配置文件中的 <code>driver</code> 选项。第二个参数是一个闭包，该闭包应该返回一个 <code>Illuminate\Cache\Repository</code> 实例。这个闭包将会接收一个 <code>$app</code> 参数，这是服务容器的一个实例。</p><p>一旦你的扩展注册完成，更新应用程序的 <code>config/cache.php</code> 配置文件中的 <code>CACHE_STORE</code> 环境变量或默认选项为你的扩展名称。</p><h2 id=事件>事件</h2><p>要在每个缓存操作上执行代码，可以监听缓存调度的各种事件：</p><table><thead><tr><th>Event Name</th><th>事件名称</th></tr></thead><tbody><tr><td>Illuminate\Cache\Events\CacheHit</td><td>缓存命中</td></tr><tr><td>Illuminate\Cache\Events\CacheMissed</td><td>缓存未命中</td></tr><tr><td>Illuminate\Cache\Events\KeyForgotten</td><td>键被忘记</td></tr><tr><td>Illuminate\Cache\Events\KeyWritten</td><td>键已写入</td></tr></tbody></table><p>为了提高性能，你可以通过在应用程序的 <code>config/cache.php</code> 配置文件中将某个缓存存储的 <code>events</code> 配置选项设置为 <code>false</code> 来禁用缓存事件。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=s1>&#39;database&#39;</span> <span class=o>=&gt;</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;driver&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;database&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// ...
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=s1>&#39;events&#39;</span> <span class=o>=&gt;</span> <span class=k>false</span><span class=p>,</span>
+</span></span><span class=line><span class=cl><span class=p>],</span>
+</span></span></code></pre></td></tr></table></div></div></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>更新于 2024年08月29日</span></div></div><div class=post-info-line><div class=post-info-md><span><a class=link-to-markdown href=/2024/08/laravel11%E7%BC%93%E5%AD%98/index.md target=_blank>阅读原始文档</a></span></div><div class=post-info-share><span><a href=javascript:void(0); title="分享到 Twitter" data-sharer=twitter data-url=https://Joker-desire.github.io/2024/08/laravel11%E7%BC%93%E5%AD%98/ data-title="Laravel 11.x 缓存" data-hashtags=PHP,Laravel><i class="fab fa-twitter fa-fw" aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 Facebook" data-sharer=facebook data-url=https://Joker-desire.github.io/2024/08/laravel11%E7%BC%93%E5%AD%98/ data-hashtag=PHP><i class="fab fa-facebook-square fa-fw" aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 Hacker News" data-sharer=hackernews data-url=https://Joker-desire.github.io/2024/08/laravel11%E7%BC%93%E5%AD%98/ data-title="Laravel 11.x 缓存"><i class="fab fa-hacker-news fa-fw" aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 Line" data-sharer=line data-url=https://Joker-desire.github.io/2024/08/laravel11%E7%BC%93%E5%AD%98/ data-title="Laravel 11.x 缓存"><i data-svg-src=https://cdn.jsdelivr.net/npm/simple-icons@7.0.0/icons/line.svg aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 微博" data-sharer=weibo data-url=https://Joker-desire.github.io/2024/08/laravel11%E7%BC%93%E5%AD%98/ data-title="Laravel 11.x 缓存"><i class="fab fa-weibo fa-fw" aria-hidden=true></i></a></span></div></div></div><div class=post-info-more><section class=post-tags><i class="fas fa-tags fa-fw" aria-hidden=true></i>&nbsp;<a href=/tags/php/>PHP</a>,&nbsp;<a href=/tags/laravel/>Laravel</a></section><section><span><a href=javascript:void(0); onclick=window.history.back()>返回</a></span>&nbsp;|&nbsp;<span><a href=/>主页</a></span></section></div><div class=post-nav><a href=/2024/06/aop/ class=prev rel=prev title="Hyperf AOP"><i class="fas fa-angle-left fa-fw" aria-hidden=true></i>Hyperf AOP</a></div></div><div id=comments><div id=giscus class=comment></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://giscus.app>Giscus</a>.</noscript></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line itemscope itemtype=http://schema.org/CreativeWork><i class="far fa-copyright fa-fw" aria-hidden=true></i><span itemprop=copyrightYear>2022 - 2024</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=/ target=_blank>Joker desire</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div></div></footer></div><div id=fixed-buttons><a href=# id=back-to-top class=fixed-button title=回到顶部><i class="fas fa-arrow-up fa-fw" aria-hidden=true></i>
+</a><a href=# id=view-comments class=fixed-button title=查看评论><i class="fas fa-comment fa-fw" aria-hidden=true></i></a></div><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/lightgallery@2.4.0/css/lightgallery-bundle.min.css><script type=text/javascript src=https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/algoliasearch@4.13.1/dist/algoliasearch-lite.umd.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lazysizes@5.3.1/lazysizes.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lightgallery@2.4.0/lightgallery.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lightgallery@2.4.0/plugins/thumbnail/lg-thumbnail.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lightgallery@2.4.0/plugins/zoom/lg-zoom.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js></script><script type=text/javascript>window.config={code:{copyTitle:"复制到剪贴板",maxShownLines:50},comment:{giscus:{category:"Announcements",categoryId:"DIC_kwDOHfPihs4CPp7X",darkTheme:"dark",emitMetadata:"0",inputPosition:"top",lang:"zh-CN",lazyLoading:!1,lightTheme:"light",mapping:"pathname",reactionsEnabled:"1",repo:"Joker-desire/store-comments",repoId:"R_kgDOHfPihg"}},lightgallery:!0,search:{algoliaAppID:"R6OIVCXBNU",algoliaIndex:"Joker-desire",algoliaSearchKey:"07e68b90760663e43882d4a48e00e932",highlightTag:"em",maxResultLength:10,noResultsFound:"没有找到结果",snippetLength:30,type:"algolia"}}</script><script type=text/javascript src=/js/theme.min.js></script></body></html>
