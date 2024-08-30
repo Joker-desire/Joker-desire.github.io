@@ -1,0 +1,358 @@
+<!doctype html><html lang=zh-cn><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><title>Laravel 11.x Context - Joker-desire's Blog</title><meta name=Description content="为什么要努力？ 因为我喜欢的东西都很贵，我想去的地方都很远，我爱的人超完美。"><meta property="og:url" content="https://Joker-desire.github.io/2024/08/context/">
+<meta property="og:site_name" content="Joker-desire's Blog"><meta property="og:title" content="Laravel 11.x Context"><meta property="og:description" content="原文 介绍 Laravel 的’上下文’功能使你能够在应用程序内捕获、检索和共享信息，这些信息可以贯穿于请求、作业和命令的执行过程中。"><meta property="og:locale" content="zh_cn"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2024-08-30T09:54:05+08:00"><meta property="article:modified_time" content="2024-08-30T09:54:05+08:00"><meta property="article:tag" content="PHP"><meta property="article:tag" content="Laravel"><meta property="og:image" content="https://Joker-desire.github.io/logo.png"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://Joker-desire.github.io/logo.png"><meta name=twitter:title content="Laravel 11.x Context"><meta name=twitter:description content="原文 介绍 Laravel 的’上下文’功能使你能够在应用程序内捕获、检索和共享信息，这些信息可以贯穿于请求、作业和命令的执行过程中。"><meta name=application-name content="Joker-desire"><meta name=apple-mobile-web-app-title content="Joker-desire"><meta name=theme-color content="#ffffff"><meta name=msapplication-TileColor content="#da532c"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://Joker-desire.github.io/2024/08/context/><link rel=prev href=https://Joker-desire.github.io/2024/08/collections/><link rel=stylesheet href=/css/style.min.css><link rel=preload href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css></noscript><link rel=preload href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css></noscript><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"Laravel 11.x Context","inLanguage":"zh-cn","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/Joker-desire.github.io\/2024\/08\/context\/"},"genre":"posts","keywords":"PHP, Laravel","wordcount":2385,"url":"https:\/\/Joker-desire.github.io\/2024\/08\/context\/","datePublished":"2024-08-30T09:54:05+08:00","dateModified":"2024-08-30T09:54:05+08:00","publisher":{"@type":"Organization","name":""},"author":{"@type":"Person","name":"Joker-desire"},"description":""}</script></head><body data-header-desktop=fixed data-header-mobile=auto><script type=text/javascript>(window.localStorage&&localStorage.getItem("theme")?localStorage.getItem("theme")==="dark":"auto"==="auto"?window.matchMedia("(prefers-color-scheme: dark)").matches:"auto"==="dark")&&document.body.setAttribute("theme","dark")</script><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title="Joker-desire's Blog"><span class=header-title-pre><i class='far fa-kiss-wink-heart fa-fw' aria-hidden=true></i></span>welcome</a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts title=所有文章>所有文章 </a><a class=menu-item href=/categories title=分类>分类 </a><a class=menu-item href=/tags title=标签>标签 </a><a class=menu-item href=/about title=关于>关于 </a><a class=menu-item href=https://github.com/Joker-desire title=GitHub rel="noopener noreffer" target=_blank><i class='fab fa-github fa-fw' aria-hidden=true></i> </a><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop>
+<input type=text placeholder=搜索文章标题或内容... id=search-input-desktop>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-desktop title=搜索><i class="fas fa-search fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-desktop title=清空><i class="fas fa-times-circle fa-fw" aria-hidden=true></i>
+</a><span class="search-button search-loading" id=search-loading-desktop><i class="fas fa-spinner fa-fw fa-spin" aria-hidden=true></i>
+</span></span><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题><i class="fas fa-adjust fa-fw" aria-hidden=true></i></a></div></div></div></header><header class=mobile id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title="Joker-desire's Blog"><span class=header-title-pre><i class='far fa-kiss-wink-heart fa-fw' aria-hidden=true></i></span>welcome</a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><div class=search-wrapper><div class="search mobile" id=search-mobile><input type=text placeholder=搜索文章标题或内容... id=search-input-mobile>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-mobile title=搜索><i class="fas fa-search fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-mobile title=清空><i class="fas fa-times-circle fa-fw" aria-hidden=true></i>
+</a><span class="search-button search-loading" id=search-loading-mobile><i class="fas fa-spinner fa-fw fa-spin" aria-hidden=true></i></span></div><a href=javascript:void(0); class=search-cancel id=search-cancel-mobile>取消</a></div><a class=menu-item href=/posts title=所有文章>所有文章</a><a class=menu-item href=/categories title=分类>分类</a><a class=menu-item href=/tags title=标签>标签</a><a class=menu-item href=/about title=关于>关于</a><a class=menu-item href=https://github.com/Joker-desire title=GitHub rel="noopener noreffer" target=_blank><i class='fab fa-github fa-fw' aria-hidden=true></i></a><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题>
+<i class="fas fa-adjust fa-fw" aria-hidden=true></i></a></div></div></header><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div><main class=main><div class=container><div class=toc id=toc-auto><h2 class=toc-title>目录</h2><div class=toc-content id=toc-content-auto></div></div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Laravel 11.x Context</h1><div class=post-meta><div class=post-meta-line><span class=post-author><a href=/ title=Author rel=author class=author><i class="fas fa-user-circle fa-fw" aria-hidden=true></i>Joker-desire</a></span>&nbsp;<span class=post-category>收录于 <a href=/categories/php/><i class="far fa-folder fa-fw" aria-hidden=true></i>PHP</a>&nbsp;<a href=/categories/laravel/><i class="far fa-folder fa-fw" aria-hidden=true></i>Laravel</a></span></div><div class=post-meta-line><i class="far fa-calendar-alt fa-fw" aria-hidden=true></i>&nbsp;<time datetime=2024年08月30日>2024年08月30日</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden=true></i>&nbsp;约 2385 字&nbsp;
+<i class="far fa-clock fa-fw" aria-hidden=true></i>&nbsp;预计阅读 5 分钟&nbsp;</div></div><div class="details toc" id=toc-static data-kept><div class="details-summary toc-title"><span>目录</span>
+<span><i class="details-icon fas fa-angle-right" aria-hidden=true></i></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><ul><li><a href=#介绍>介绍</a><ul><li><a href=#它是如何运作的>它是如何运作的</a></li></ul></li><li><a href=#捕捉上下文>捕捉上下文</a><ul><li><a href=#条件上下文>条件上下文</a></li><li><a href=#堆栈>堆栈</a></li></ul></li><li><a href=#检索上下文>检索上下文</a><ul><li><a href=#确定项目是否存在>确定项目是否存在</a></li></ul></li><li><a href=#删除上下文>删除上下文</a></li><li><a href=#隐藏上下文>隐藏上下文</a></li><li><a href=#events>Events</a><ul><li><a href=#释放>释放</a></li><li><a href=#注入>注入</a></li></ul></li></ul></li></ul></nav></div></div><div class=content id=content><hr><p><a href=https://laravel.com/docs/11.x/context target=_blank rel="noopener noreffer">原文</a></p><hr><h2 id=介绍>介绍</h2><p>Laravel 的&rsquo;上下文&rsquo;功能使你能够在应用程序内捕获、检索和共享信息，这些信息可以贯穿于请求、作业和命令的执行过程中。这些捕获的信息也会包含在应用程序写入的日志中，使你能够更深入地了解在日志条目写入之前发生的代码执行历史，并允许你在分布式系统中跟踪执行流程。</p><h3 id=它是如何运作的>它是如何运作的</h3><p>了解Laravel上下文功能最佳方法是使用内置日志记录功能来查看它的实际情况。</p><p>首先，使用<code>Context</code>Facade将信息添加到上下文中；例如：在中间件中将请求url和唯一traceID添加到每个请求上下文中：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=o>&lt;?</span><span class=nx>php</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=k>namespace</span> <span class=nx>App\Http\Middleware</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Closure</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Http\Request</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Support\Facades\Context</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Support\Str</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Symfony\Component\HttpFoundation\Response</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>AddContext</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=sd>/**
+</span></span></span><span class=line><span class=cl><span class=sd>     * Handle an incoming request.
+</span></span></span><span class=line><span class=cl><span class=sd>     */</span>
+</span></span><span class=line><span class=cl>    <span class=k>public</span> <span class=k>function</span> <span class=nf>handle</span><span class=p>(</span><span class=nx>Request</span> <span class=nv>$request</span><span class=p>,</span> <span class=nx>Closure</span> <span class=nv>$next</span><span class=p>)</span><span class=o>:</span> <span class=nx>Response</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nx>Context</span><span class=o>::</span><span class=na>add</span><span class=p>(</span><span class=s1>&#39;url&#39;</span><span class=p>,</span> <span class=nv>$request</span><span class=o>-&gt;</span><span class=na>url</span><span class=p>());</span>
+</span></span><span class=line><span class=cl>        <span class=nx>Context</span><span class=o>::</span><span class=na>add</span><span class=p>(</span><span class=s1>&#39;trace_id&#39;</span><span class=p>,</span> <span class=nx>Str</span><span class=o>::</span><span class=na>uuid</span><span class=p>()</span><span class=o>-&gt;</span><span class=na>toString</span><span class=p>());</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=nv>$next</span><span class=p>(</span><span class=nv>$request</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>添加到上下文中的信息会自动作为元数据附加到整个请求期间写入的任何日志条目中。将上下文作为元数据附加允许将传递给单个日志条目的信息与通过上下文共享的信息区分开来。例如，假设我们写入以下日志条目：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>Log</span><span class=o>::</span><span class=na>info</span><span class=p>(</span><span class=s1>&#39;User authenticated.&#39;</span><span class=p>,</span> <span class=p>[</span><span class=s1>&#39;auth_id&#39;</span> <span class=o>=&gt;</span> <span class=nx>Auth</span><span class=o>::</span><span class=na>id</span><span class=p>()]);</span>
+</span></span></code></pre></td></tr></table></div></div><p>写入的日志将包含传递给日志条目的 <code>auth_id</code>，但它还会包含上下文的 <code>url</code> 和 <code>trace_id</code> 作为元数据：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>User authenticated. {&#34;auth_id&#34;:27} {&#34;url&#34;:&#34;https://example.com/login&#34;,&#34;trace_id&#34;:&#34;e04e1a11-e75c-4db3-b5b5-cfef4ef56697&#34;}
+</span></span></code></pre></td></tr></table></div></div><p>添加到上下文中的信息也会提供给被派发到队列中的作业。例如，假设我们在添加一些信息到上下文后派发一个 <code>ProcessPodcast</code> 作业到队列：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=c1>// In our middleware...
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=nx>Context</span><span class=o>::</span><span class=na>add</span><span class=p>(</span><span class=s1>&#39;url&#39;</span><span class=p>,</span> <span class=nv>$request</span><span class=o>-&gt;</span><span class=na>url</span><span class=p>());</span>
+</span></span><span class=line><span class=cl><span class=nx>Context</span><span class=o>::</span><span class=na>add</span><span class=p>(</span><span class=s1>&#39;trace_id&#39;</span><span class=p>,</span> <span class=nx>Str</span><span class=o>::</span><span class=na>uuid</span><span class=p>()</span><span class=o>-&gt;</span><span class=na>toString</span><span class=p>());</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=c1>// In our controller...
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=nx>ProcessPodcast</span><span class=o>::</span><span class=na>dispatch</span><span class=p>(</span><span class=nv>$podcast</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><p>当作业被派发时，当前存储在上下文中的所有信息都会被捕获并与作业共享。这些捕获的信息在作业执行期间会重新注入到当前上下文中。因此，如果我们的作业的 <code>handle</code> 方法写入日志：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>class</span> <span class=nc>ProcessPodcast</span> <span class=k>implements</span> <span class=nx>ShouldQueue</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>use</span> <span class=nx>Queueable</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl>    <span class=c1>// ...
+</span></span></span><span class=line><span class=cl><span class=c1></span> 
+</span></span><span class=line><span class=cl>    <span class=sd>/**
+</span></span></span><span class=line><span class=cl><span class=sd>     * Execute the job.
+</span></span></span><span class=line><span class=cl><span class=sd>     */</span>
+</span></span><span class=line><span class=cl>    <span class=k>public</span> <span class=k>function</span> <span class=nf>handle</span><span class=p>()</span><span class=o>:</span> <span class=nx>void</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nx>Log</span><span class=o>::</span><span class=na>info</span><span class=p>(</span><span class=s1>&#39;Processing podcast.&#39;</span><span class=p>,</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>            <span class=s1>&#39;podcast_id&#39;</span> <span class=o>=&gt;</span> <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>podcast</span><span class=o>-&gt;</span><span class=na>id</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=p>]);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl>        <span class=c1>// ...
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>生成的日志条目将包含在最初派发作业的请求期间添加到上下文中的信息：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>Processing podcast. {&#34;podcast_id&#34;:95} {&#34;url&#34;:&#34;https://example.com/login&#34;,&#34;trace_id&#34;:&#34;e04e1a11-e75c-4db3-b5b5-cfef4ef56697&#34;}
+</span></span></code></pre></td></tr></table></div></div><h2 id=捕捉上下文>捕捉上下文</h2><p>可以使用<code>Context</code>Facade的<code>add</code>方法在当前上下文中存储信息：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Support\Facades\Context</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nx>Context</span><span class=o>::</span><span class=na>add</span><span class=p>(</span><span class=s1>&#39;key&#39;</span><span class=p>,</span> <span class=s1>&#39;value&#39;</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><p>也可以将关联数组传递给<code>add</code>方法，以便一次性添加多个项目：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>Context</span><span class=o>::</span><span class=na>add</span><span class=p>([</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;first_key&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;value&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;second_key&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;value&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl><span class=p>]);</span>
+</span></span></code></pre></td></tr></table></div></div><p><code>add</code>方法将覆盖相同键的值。如果指向在键不存在的情况下新增，则可以使用<code>addIf</code>方法：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>Context</span><span class=o>::</span><span class=na>add</span><span class=p>(</span><span class=s1>&#39;key&#39;</span><span class=p>,</span> <span class=s1>&#39;first&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nx>Context</span><span class=o>::</span><span class=na>get</span><span class=p>(</span><span class=s1>&#39;key&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=c1>// &#34;first&#34;
+</span></span></span><span class=line><span class=cl><span class=c1></span> 
+</span></span><span class=line><span class=cl><span class=nx>Context</span><span class=o>::</span><span class=na>addIf</span><span class=p>(</span><span class=s1>&#39;key&#39;</span><span class=p>,</span> <span class=s1>&#39;second&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nx>Context</span><span class=o>::</span><span class=na>get</span><span class=p>(</span><span class=s1>&#39;key&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=c1>// &#34;first&#34;
+</span></span></span></code></pre></td></tr></table></div></div><h3 id=条件上下文>条件上下文</h3><p><code>when</code>方法可用于根据给定条件将数据添加到上下文。如果给定的条件结果为<code>true</code>，则将调用提供给<code>when</code>方法的第一个闭包，而如果条件计算结果为<code>false</code>，则将调用第二个闭包：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Support\Facades\Auth</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Support\Facades\Context</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nx>Context</span><span class=o>::</span><span class=na>when</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=nx>Auth</span><span class=o>::</span><span class=na>user</span><span class=p>()</span><span class=o>-&gt;</span><span class=na>isAdmin</span><span class=p>(),</span>
+</span></span><span class=line><span class=cl>    <span class=nx>fn</span> <span class=p>(</span><span class=nv>$context</span><span class=p>)</span> <span class=o>=&gt;</span> <span class=nv>$context</span><span class=o>-&gt;</span><span class=na>add</span><span class=p>(</span><span class=s1>&#39;permissions&#39;</span><span class=p>,</span> <span class=nx>Auth</span><span class=o>::</span><span class=na>user</span><span class=p>()</span><span class=o>-&gt;</span><span class=na>permissions</span><span class=p>),</span>
+</span></span><span class=line><span class=cl>    <span class=nx>fn</span> <span class=p>(</span><span class=nv>$context</span><span class=p>)</span> <span class=o>=&gt;</span> <span class=nv>$context</span><span class=o>-&gt;</span><span class=na>add</span><span class=p>(</span><span class=s1>&#39;permissions&#39;</span><span class=p>,</span> <span class=p>[]),</span>
+</span></span><span class=line><span class=cl><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=堆栈>堆栈</h3><p>Context提供了创建“堆栈”的能力，“堆栈”是按添加顺序存储的数据列表。可以通过调用<code>push</code>方法向堆栈添加信息：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Support\Facades\Context</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nx>Context</span><span class=o>::</span><span class=na>push</span><span class=p>(</span><span class=s1>&#39;breadcrumbs&#39;</span><span class=p>,</span> <span class=s1>&#39;first_value&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nx>Context</span><span class=o>::</span><span class=na>push</span><span class=p>(</span><span class=s1>&#39;breadcrumbs&#39;</span><span class=p>,</span> <span class=s1>&#39;second_value&#39;</span><span class=p>,</span> <span class=s1>&#39;third_value&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nx>Context</span><span class=o>::</span><span class=na>get</span><span class=p>(</span><span class=s1>&#39;breadcrumbs&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=c1>// [
+</span></span></span><span class=line><span class=cl><span class=c1>//     &#39;first_value&#39;,
+</span></span></span><span class=line><span class=cl><span class=c1>//     &#39;second_value&#39;,
+</span></span></span><span class=line><span class=cl><span class=c1>//     &#39;third_value&#39;,
+</span></span></span><span class=line><span class=cl><span class=c1>// ]
+</span></span></span></code></pre></td></tr></table></div></div><p>堆栈对于捕获请求的历史信息非常有用，例如应用程序中发生的事件。例如，你可以创建一个事件监听器，在每次执行查询时将信息压入堆栈，捕获查询的 SQL 和执行的时间作为一个元组：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Support\Facades\Context</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Support\Facades\DB</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nx>DB</span><span class=o>::</span><span class=na>listen</span><span class=p>(</span><span class=k>function</span> <span class=p>(</span><span class=nv>$event</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>Context</span><span class=o>::</span><span class=na>push</span><span class=p>(</span><span class=s1>&#39;queries&#39;</span><span class=p>,</span> <span class=p>[</span><span class=nv>$event</span><span class=o>-&gt;</span><span class=na>time</span><span class=p>,</span> <span class=nv>$event</span><span class=o>-&gt;</span><span class=na>sql</span><span class=p>]);</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span></code></pre></td></tr></table></div></div><p>可以使用<code>stackContains</code>和<code>hiddenStackContains</code>方法确定某个值是否在堆栈中：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>if</span> <span class=p>(</span><span class=nx>Context</span><span class=o>::</span><span class=na>stackContains</span><span class=p>(</span><span class=s1>&#39;breadcrumbs&#39;</span><span class=p>,</span> <span class=s1>&#39;first_value&#39;</span><span class=p>))</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1>//
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>}</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=k>if</span> <span class=p>(</span><span class=nx>Context</span><span class=o>::</span><span class=na>hiddenStackContains</span><span class=p>(</span><span class=s1>&#39;secrets&#39;</span><span class=p>,</span> <span class=s1>&#39;first_value&#39;</span><span class=p>))</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1>//
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p><code>stackContains</code>和<code>hiddenStackContains</code>方法还接受闭包作为其第二个参数，从而允许对值比较操作进行更多控制：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Support\Facades\Context</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Support\Str</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=k>return</span> <span class=nx>Context</span><span class=o>::</span><span class=na>stackContains</span><span class=p>(</span><span class=s1>&#39;breadcrumbs&#39;</span><span class=p>,</span> <span class=k>function</span> <span class=p>(</span><span class=nv>$value</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nx>Str</span><span class=o>::</span><span class=na>startsWith</span><span class=p>(</span><span class=nv>$value</span><span class=p>,</span> <span class=s1>&#39;query_&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=检索上下文>检索上下文</h2><p>使用<code>Context</code>的<code>get</code>方法从上下文中检索信息：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Support\Facades\Context</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nv>$value</span> <span class=o>=</span> <span class=nx>Context</span><span class=o>::</span><span class=na>get</span><span class=p>(</span><span class=s1>&#39;key&#39;</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><p><code>only</code>方法可用于检索上下文中的信息子集：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$data</span> <span class=o>=</span> <span class=nx>Context</span><span class=o>::</span><span class=na>only</span><span class=p>([</span><span class=s1>&#39;first_key&#39;</span><span class=p>,</span> <span class=s1>&#39;second_key&#39;</span><span class=p>]);</span>
+</span></span></code></pre></td></tr></table></div></div><p><code>pull</code>方法可用于从上下文中检索信息并立即将其从上下文中删除：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$value</span> <span class=o>=</span> <span class=nx>Context</span><span class=o>::</span><span class=na>pull</span><span class=p>(</span><span class=s1>&#39;key&#39;</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><p><code>all</code>检索存储在上下文中的所有信息：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$data</span> <span class=o>=</span> <span class=nx>Context</span><span class=o>::</span><span class=na>all</span><span class=p>();</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=确定项目是否存在>确定项目是否存在</h3><p><code>has</code>方法用来确定上下文是否存在给定键：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Support\Facades\Context</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=k>if</span> <span class=p>(</span><span class=nx>Context</span><span class=o>::</span><span class=na>has</span><span class=p>(</span><span class=s1>&#39;key&#39;</span><span class=p>))</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// ...
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>无论值是什么，<code>has</code>都会返回<code>true</code>。因此，<code>null</code>值也将被视为存在</p><h2 id=删除上下文>删除上下文</h2><p><code>forget</code>方法用于从当前上下文中删除键值：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Support\Facades\Context</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nx>Context</span><span class=o>::</span><span class=na>add</span><span class=p>([</span><span class=s1>&#39;first_key&#39;</span> <span class=o>=&gt;</span> <span class=mi>1</span><span class=p>,</span> <span class=s1>&#39;second_key&#39;</span> <span class=o>=&gt;</span> <span class=mi>2</span><span class=p>]);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nx>Context</span><span class=o>::</span><span class=na>forget</span><span class=p>(</span><span class=s1>&#39;first_key&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nx>Context</span><span class=o>::</span><span class=na>all</span><span class=p>();</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=c1>// [&#39;second_key&#39; =&gt; 2]
+</span></span></span></code></pre></td></tr></table></div></div><p>也可以向<code>forget</code>方法提供一个数组，一次性删除多个键值：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>Context</span><span class=o>::</span><span class=na>forget</span><span class=p>([</span><span class=s1>&#39;first_key&#39;</span><span class=p>,</span> <span class=s1>&#39;second_key&#39;</span><span class=p>]);</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=隐藏上下文>隐藏上下文</h2><p>Context提供了存储“隐藏”数据的English。次隐藏信息不回附加到日志中，并且无法通过上面记录的数据检索方法访问。Context提供了一组不同的方法来与隐藏的上下文信息进行交互：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Support\Facades\Context</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nx>Context</span><span class=o>::</span><span class=na>addHidden</span><span class=p>(</span><span class=s1>&#39;key&#39;</span><span class=p>,</span> <span class=s1>&#39;value&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nx>Context</span><span class=o>::</span><span class=na>getHidden</span><span class=p>(</span><span class=s1>&#39;key&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=c1>// &#39;value&#39;
+</span></span></span><span class=line><span class=cl><span class=c1></span> 
+</span></span><span class=line><span class=cl><span class=nx>Context</span><span class=o>::</span><span class=na>get</span><span class=p>(</span><span class=s1>&#39;key&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=c1>// null
+</span></span></span></code></pre></td></tr></table></div></div><p>‘隐藏’方法的功能与上面文档中记录的非隐藏方法相同：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>Context</span><span class=o>::</span><span class=na>addHidden</span><span class=p>(</span><span class=cm>/* ... */</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=nx>Context</span><span class=o>::</span><span class=na>addHiddenIf</span><span class=p>(</span><span class=cm>/* ... */</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=nx>Context</span><span class=o>::</span><span class=na>pushHidden</span><span class=p>(</span><span class=cm>/* ... */</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=nx>Context</span><span class=o>::</span><span class=na>getHidden</span><span class=p>(</span><span class=cm>/* ... */</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=nx>Context</span><span class=o>::</span><span class=na>pullHidden</span><span class=p>(</span><span class=cm>/* ... */</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=nx>Context</span><span class=o>::</span><span class=na>onlyHidden</span><span class=p>(</span><span class=cm>/* ... */</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=nx>Context</span><span class=o>::</span><span class=na>allHidden</span><span class=p>(</span><span class=cm>/* ... */</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=nx>Context</span><span class=o>::</span><span class=na>hasHidden</span><span class=p>(</span><span class=cm>/* ... */</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=nx>Context</span><span class=o>::</span><span class=na>forgetHidden</span><span class=p>(</span><span class=cm>/* ... */</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=events>Events</h2><p>上下文派发了两个事件，这些事件允许你钩入上下文的注入和释放过程。</p><p>为了说明如何使用这些事件，假设在应用程序的一个中间件中，你根据传入 HTTP 请求的 Accept-Language 头设置 <code>app.locale</code> 配置值。上下文的事件允许你在请求期间捕获这个值并在队列上恢复它，从而确保在队列上发送的通知具有正确的 <code>app.locale</code> 值。我们可以使用上下文的事件和隐藏数据来实现这一点，下面的文档将对此进行说明。</p><h3 id=释放>释放</h3><p>每当一个作业被派发到队列时，上下文中的数据会被&rsquo;释放&rsquo;并与作业的有效负载一起捕获。<code>Context::dehydrating</code> 方法允许你注册一个闭包，该闭包将在释放过程中被调用。在这个闭包中，你可以对将与队列作业共享的数据进行修改。</p><p>通常，你应该在应用程序的 <code>AppServiceProvider</code> 类的 <code>boot</code> 方法中注册 <code>dehydrating</code> 回调：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Log\Context\Repository</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Support\Facades\Config</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Support\Facades\Context</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=sd>/**
+</span></span></span><span class=line><span class=cl><span class=sd> * Bootstrap any application services.
+</span></span></span><span class=line><span class=cl><span class=sd> */</span>
+</span></span><span class=line><span class=cl><span class=k>public</span> <span class=k>function</span> <span class=nf>boot</span><span class=p>()</span><span class=o>:</span> <span class=nx>void</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>Context</span><span class=o>::</span><span class=na>dehydrating</span><span class=p>(</span><span class=k>function</span> <span class=p>(</span><span class=nx>Repository</span> <span class=nv>$context</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nv>$context</span><span class=o>-&gt;</span><span class=na>addHidden</span><span class=p>(</span><span class=s1>&#39;locale&#39;</span><span class=p>,</span> <span class=nx>Config</span><span class=o>::</span><span class=na>get</span><span class=p>(</span><span class=s1>&#39;app.locale&#39;</span><span class=p>));</span>
+</span></span><span class=line><span class=cl>    <span class=p>});</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p><em><strong>ps：你不应该在 <code>dehydrating</code> 回调中使用 <code>Context</code> facade，因为那会改变当前进程的上下文。确保你只对传递给回调的仓库进行更改。</strong></em></p><h3 id=注入>注入</h3><p>每当一个队列作业开始在队列上执行时，所有与作业共享的上下文将被重新‘注入’到当前上下文中。<code>Context::hydrated</code> 方法允许你注册一个闭包，该闭包将在注入过程中被调用。</p><p>通常，你应该在应用程序的 <code>AppServiceProvider</code> 类的 <code>boot</code> 方法中注册 <code>hydrated</code> 回调：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Log\Context\Repository</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Support\Facades\Config</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>use</span> <span class=nx>Illuminate\Support\Facades\Context</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=sd>/**
+</span></span></span><span class=line><span class=cl><span class=sd> * Bootstrap any application services.
+</span></span></span><span class=line><span class=cl><span class=sd> */</span>
+</span></span><span class=line><span class=cl><span class=k>public</span> <span class=k>function</span> <span class=nf>boot</span><span class=p>()</span><span class=o>:</span> <span class=nx>void</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>Context</span><span class=o>::</span><span class=na>hydrated</span><span class=p>(</span><span class=k>function</span> <span class=p>(</span><span class=nx>Repository</span> <span class=nv>$context</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=nv>$context</span><span class=o>-&gt;</span><span class=na>hasHidden</span><span class=p>(</span><span class=s1>&#39;locale&#39;</span><span class=p>))</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=nx>Config</span><span class=o>::</span><span class=na>set</span><span class=p>(</span><span class=s1>&#39;app.locale&#39;</span><span class=p>,</span> <span class=nv>$context</span><span class=o>-&gt;</span><span class=na>getHidden</span><span class=p>(</span><span class=s1>&#39;locale&#39;</span><span class=p>));</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=p>});</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p><em><strong>ps：你不应该在 <code>hydrated</code> 回调中使用 <code>Context</code> facade，而应确保只对传递给回调的仓库进行更改。</strong></em></p></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>更新于 2024年08月30日</span></div></div><div class=post-info-line><div class=post-info-md><span><a class=link-to-markdown href=/2024/08/context/index.md target=_blank>阅读原始文档</a></span></div><div class=post-info-share><span><a href=javascript:void(0); title="分享到 Twitter" data-sharer=twitter data-url=https://Joker-desire.github.io/2024/08/context/ data-title="Laravel 11.x Context" data-hashtags=PHP,Laravel><i class="fab fa-twitter fa-fw" aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 Facebook" data-sharer=facebook data-url=https://Joker-desire.github.io/2024/08/context/ data-hashtag=PHP><i class="fab fa-facebook-square fa-fw" aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 Hacker News" data-sharer=hackernews data-url=https://Joker-desire.github.io/2024/08/context/ data-title="Laravel 11.x Context"><i class="fab fa-hacker-news fa-fw" aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 Line" data-sharer=line data-url=https://Joker-desire.github.io/2024/08/context/ data-title="Laravel 11.x Context"><i data-svg-src=https://cdn.jsdelivr.net/npm/simple-icons@7.0.0/icons/line.svg aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 微博" data-sharer=weibo data-url=https://Joker-desire.github.io/2024/08/context/ data-title="Laravel 11.x Context"><i class="fab fa-weibo fa-fw" aria-hidden=true></i></a></span></div></div></div><div class=post-info-more><section class=post-tags><i class="fas fa-tags fa-fw" aria-hidden=true></i>&nbsp;<a href=/tags/php/>PHP</a>,&nbsp;<a href=/tags/laravel/>Laravel</a></section><section><span><a href=javascript:void(0); onclick=window.history.back()>返回</a></span>&nbsp;|&nbsp;<span><a href=/>主页</a></span></section></div><div class=post-nav><a href=/2024/08/collections/ class=prev rel=prev title="Laravel 11.x Collections"><i class="fas fa-angle-left fa-fw" aria-hidden=true></i>Laravel 11.x Collections</a></div></div><div id=comments><div id=giscus class=comment></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://giscus.app>Giscus</a>.</noscript></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line itemscope itemtype=http://schema.org/CreativeWork><i class="far fa-copyright fa-fw" aria-hidden=true></i><span itemprop=copyrightYear>2022 - 2024</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=/ target=_blank>Joker desire</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div></div></footer></div><div id=fixed-buttons><a href=# id=back-to-top class=fixed-button title=回到顶部><i class="fas fa-arrow-up fa-fw" aria-hidden=true></i>
+</a><a href=# id=view-comments class=fixed-button title=查看评论><i class="fas fa-comment fa-fw" aria-hidden=true></i></a></div><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/lightgallery@2.4.0/css/lightgallery-bundle.min.css><script type=text/javascript src=https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/algoliasearch@4.13.1/dist/algoliasearch-lite.umd.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lazysizes@5.3.1/lazysizes.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lightgallery@2.4.0/lightgallery.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lightgallery@2.4.0/plugins/thumbnail/lg-thumbnail.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lightgallery@2.4.0/plugins/zoom/lg-zoom.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js></script><script type=text/javascript>window.config={code:{copyTitle:"复制到剪贴板",maxShownLines:50},comment:{giscus:{category:"Announcements",categoryId:"DIC_kwDOHfPihs4CPp7X",darkTheme:"dark",emitMetadata:"0",inputPosition:"top",lang:"zh-CN",lazyLoading:!1,lightTheme:"light",mapping:"pathname",reactionsEnabled:"1",repo:"Joker-desire/store-comments",repoId:"R_kgDOHfPihg"}},lightgallery:!0,search:{algoliaAppID:"R6OIVCXBNU",algoliaIndex:"Joker-desire",algoliaSearchKey:"07e68b90760663e43882d4a48e00e932",highlightTag:"em",maxResultLength:10,noResultsFound:"没有找到结果",snippetLength:30,type:"algolia"}}</script><script type=text/javascript src=/js/theme.min.js></script></body></html>
